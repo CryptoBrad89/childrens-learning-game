@@ -1,0 +1,1389 @@
+[
+ {
+  "file": "audio/letters/a-name-trim.mp3",
+  "text": "A",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The letter is \"A\".",
+   "stt_trim": "a",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "df9c5e629ac52ab7708fc32891cb3a5ae8010dfb952b025f0022360b41c052a5"
+ },
+ {
+  "file": "audio/letters/a-sound-trim.mp3",
+  "text": "/æ/",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The sound is \"/æ/\".",
+   "stt_trim": "ah",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "3e1f18ddf98125a78afb524ad9ad3329484f1e1ac1d504e79226167a1164b6e2"
+ },
+ {
+  "file": "audio/letters/b-name-trim.mp3",
+  "text": "B",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The letter is \"B\".",
+   "stt_trim": "B.",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "f3c2b1f8f5cf3ecfbff7c8aab6cd246c7d2394e6f182aa8410549205665c9b97"
+ },
+ {
+  "file": "audio/letters/b-sound-trim.mp3",
+  "text": "/b/",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The sound is \"/b/\".",
+   "stt_trim": "B.",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "c67b3409df80ca89e0e8508825a495a40e5a67c927b56a226be0ff051f6951fe"
+ },
+ {
+  "file": "audio/letters/c-name-trim.mp3",
+  "text": "C",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The letter is \"C\".",
+   "stt_trim": "C.",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "17b88bf854ee3a2b7d0d7419b74c58f0237586a3fbc9063f21e3cade21f0ff0f"
+ },
+ {
+  "file": "audio/letters/c-sound-trim.mp3",
+  "text": "/k/",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The sound is \"/k/\".",
+   "stt_trim": "(nothing)",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "3dfd1f17b1d5d8121f9340a36ee7817c41cd4ea1c795e07c4c5889cbfe7c0055"
+ },
+ {
+  "file": "audio/letters/d-name-trim.mp3",
+  "text": "D",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The letter is \"D\".",
+   "stt_trim": "D",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "ede2c8cf0470685a7b65e0f12ba1d574907c2c27ec1108687c11e74e8dbc35ac"
+ },
+ {
+  "file": "audio/letters/d-sound-trim.mp3",
+  "text": "/d/",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The sound is \"/d/\".",
+   "stt_trim": "D.",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "e47b113cea7a1387ce8e04797ceae2b7a4797db599c9779b66c36687ecf8d89c"
+ },
+ {
+  "file": "audio/letters/e-name-trim.mp3",
+  "text": "E",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The letter is \"E\".",
+   "stt_trim": "E",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "fb069846546401b9d74a670d0b0a7438af72093730f92047af98da95be729bb2"
+ },
+ {
+  "file": "audio/letters/e-sound-trim.mp3",
+  "text": "/ɛ/",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The sound is \"/ɛ/\".",
+   "stt_trim": "A",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "851048483290c522e34905df5cb01495d2b7c7b289638cb86fd90c3826885d30"
+ },
+ {
+  "file": "audio/letters/f-name-trim.mp3",
+  "text": "F",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The letter is \"F\".",
+   "stt_trim": "F.",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "e019823799522e72b99457f995010151acb2fc2cd161ecf18a51a3d7b5149175"
+ },
+ {
+  "file": "audio/letters/f-sound-trim.mp3",
+  "text": "/f/",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The sound is \"/f/\".",
+   "stt_trim": "You",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "38f52f4584795d3149b2afababc42fa5388997fba4435460bc2e848094c87712"
+ },
+ {
+  "file": "audio/letters/g-name-trim.mp3",
+  "text": "G",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The letter is \"G\".",
+   "stt_trim": "G.",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "e9ad4acf57c648135e6094d457a42398f4f3973619dd5e5d4d3a974a3c8f263d"
+ },
+ {
+  "file": "audio/letters/g-sound-trim.mp3",
+  "text": "/ɡ/",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The sound is \"/ɡ/\".",
+   "stt_trim": "G.",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "9b9ba3f7ee4e26ff522e063b4b7c74d07f5f13d510d98605dabed2310f0a5ab4"
+ },
+ {
+  "file": "audio/letters/h-name-trim.mp3",
+  "text": "H",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The letter is \"H\".",
+   "stt_trim": "H",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "bd22496bd6066aba4be53bbe7d8e31dbafaee45776266dd1ce126582074ea47c"
+ },
+ {
+  "file": "audio/letters/h-sound-trim.mp3",
+  "text": "/h/",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The sound is \"/h/\".",
+   "stt_trim": "Huh.",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "4052ee0ba3e3f43d4a8f1e5864a3b3f0c2fb5239c8c565258dadc4bfae09250f"
+ },
+ {
+  "file": "audio/letters/i-long-extra-trim.mp3",
+  "text": "long I /aɪ/",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The sound is \"/aɪ/\".",
+   "stt_trim": "I",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "c3ce6a5b2ca9976f32292084eb2b76e994a91833e56d6c4c9ea9fdaa3d4daf8b"
+ },
+ {
+  "file": "audio/letters/i-name-trim.mp3",
+  "text": "I",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The letter is \"I\".",
+   "stt_trim": "I",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "7547c1c2b1399a333ae91ba919e3c0ce7ad2f5ecbf4f4613de73d573062c7818"
+ },
+ {
+  "file": "audio/letters/i-sound-trim.mp3",
+  "text": "/ɪ/",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The sound is \"/ɪ/\".",
+   "stt_trim": "EH",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "3bf693cfa956c96ce252631ceba3b8619696afdca5517de207af8d0e61baaa6d"
+ },
+ {
+  "file": "audio/letters/j-name-trim.mp3",
+  "text": "J",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The letter is \"J\".",
+   "stt_trim": "J.",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "874b9b59b3d5ce57829919a11f265262ed83efdcaeab521b10250b72b6482cf8"
+ },
+ {
+  "file": "audio/letters/j-sound-trim.mp3",
+  "text": "/dʒ/",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The sound is \"/dʒ/\".",
+   "stt_trim": "Juh.",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "95b0e224e3c8e8400dc7bf2a5c6decc86a836535eca2374852684a61f9a74398"
+ },
+ {
+  "file": "audio/letters/k-name-trim.mp3",
+  "text": "K",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The letter is \"K\".",
+   "stt_trim": "K",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "a55d57f9ab5e28db088da5b7553f3474f65534228cd3bcbbdc19d58dad7fd8f1"
+ },
+ {
+  "file": "audio/letters/k-sound-trim.mp3",
+  "text": "/k/",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The sound is \"/k/\".",
+   "stt_trim": "(nothing)",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "af70f9a6050b68c4b03433b13cbcd9d9d7a65d872d25c71806a975a76add59a6"
+ },
+ {
+  "file": "audio/letters/l-name-trim.mp3",
+  "text": "L",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The letter is \"L\".",
+   "stt_trim": "L",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "fe27863d593074dff40df7a8f2e66aa8055a44240611270be1af06f4d2d216a8"
+ },
+ {
+  "file": "audio/letters/l-sound-trim.mp3",
+  "text": "/l/",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The sound is \"/l/\".",
+   "stt_trim": "Lula",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "8ded6b28ba2401530ff2db4ce0ce4c0a8a1fd5c13bc601875d6c5674f0fe6b79"
+ },
+ {
+  "file": "audio/letters/m-name-trim.mp3",
+  "text": "M",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The letter is \"M\".",
+   "stt_trim": "M",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "49a22e5950aec4cfc00fd576bbf54bc1c81999c8113ea4fc80e8fb2725fd2db5"
+ },
+ {
+  "file": "audio/letters/m-sound-trim.mp3",
+  "text": "/m/",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The sound is \"/m/\".",
+   "stt_trim": "Mmm.",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "ad0c7046c312da4eb4eef6ca74a8fbf9aec160c6dd13b72ce55a7b296734822f"
+ },
+ {
+  "file": "audio/letters/n-name-trim.mp3",
+  "text": "N",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The letter is \"N\".",
+   "stt_trim": "N",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "9067099cecb7dc4158fd2390ef86c0097726514533bfca3499b3b47a40c2dd54"
+ },
+ {
+  "file": "audio/letters/n-sound-trim.mp3",
+  "text": "/n/",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The sound is \"/n/\".",
+   "stt_trim": "hmm",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "c609c9843e1513943cf21fceb960d3b837e5132f6a36d7002504f1f63aee515b"
+ },
+ {
+  "file": "audio/letters/o-name-trim.mp3",
+  "text": "O",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The letter is \"O\".",
+   "stt_trim": "Oh!",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "e2f43830ca6b26518d412b785f513a442c7a6887fc82d2f42b238423ae15e4b3"
+ },
+ {
+  "file": "audio/letters/o-sound-trim.mp3",
+  "text": "/ɑ/",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The sound is \"/ɑ/\".",
+   "stt_trim": "ah",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "faaff863facb8b44b9d347d528a5884ef9cd3e743f56ed1d3687aaa1cbb7b4f0"
+ },
+ {
+  "file": "audio/letters/p-name-trim.mp3",
+  "text": "P",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The letter is \"P\".",
+   "stt_trim": "P.",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "ddb80f79452aaa5b20eade5f23cec17037400597428609b410ee5ebd34990c2c"
+ },
+ {
+  "file": "audio/letters/p-sound-trim.mp3",
+  "text": "/p/",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The sound is \"/p/\".",
+   "stt_trim": "You",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "55607d73754072297f755d8d0f34770e09d9ea5b8d67326d52f3001b1f919a95"
+ },
+ {
+  "file": "audio/letters/q-name-trim.mp3",
+  "text": "Q",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The letter is \"Q\".",
+   "stt_trim": "Queue!",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "f47c615d14e12ae1e3872b73bfa700d3dcde0aaa28201e2f5ca1ddcc4c9de2b2"
+ },
+ {
+  "file": "audio/letters/q-sound-trim.mp3",
+  "text": "/kw/",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The sound is \"/kw/\".",
+   "stt_trim": "Oh",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "12cfb7e68250d012bbe8f26216c31415db214e606f520cc435247ebba7f02d7a"
+ },
+ {
+  "file": "audio/letters/r-name-trim.mp3",
+  "text": "R",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The letter is \"R\".",
+   "stt_trim": "R",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "832672ccced8219ec04a88ec0c8d06311cd02970411ed9eb31a18ee07e444d07"
+ },
+ {
+  "file": "audio/letters/r-sound-trim.mp3",
+  "text": "/ɹ/",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The sound is \"/ɹ/\".",
+   "stt_trim": "er",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "3115bad2e07e2498c053ad36f625e8f2a5eb1ac9957402946a291223508e3226"
+ },
+ {
+  "file": "audio/letters/s-name-trim.mp3",
+  "text": "S",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The letter is \"S\".",
+   "stt_trim": "S.",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "705a35bcf486103bb3cb2106633ac60d9546dd9a795c7f7a109c418d5e02bd6d"
+ },
+ {
+  "file": "audio/letters/s-sound-trim.mp3",
+  "text": "/s/",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The sound is \"/s/\".",
+   "stt_trim": "(nothing)",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "2709dace6b12564680bb05187c66db14e67f39c7289e539bb0a026ef87f50ed7"
+ },
+ {
+  "file": "audio/letters/t-name-trim.mp3",
+  "text": "T",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The letter is \"T\".",
+   "stt_trim": "T.",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "c2434a5ffb72cea61d82e18e5b2465b57e7ed7d2e9a9cfeb1027b27c2eda9471"
+ },
+ {
+  "file": "audio/letters/t-sound-trim.mp3",
+  "text": "/t/",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The sound is \"/t/\".",
+   "stt_trim": "(nothing)",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "1db14e79c50f427c618e0a6d30a8ea02a4056fd2e1e5e88aa9f8c6cc52800956"
+ },
+ {
+  "file": "audio/letters/u-name-trim.mp3",
+  "text": "U",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The letter is \"U\".",
+   "stt_trim": "you",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "efa6d5c8f531656dcea4eb11951619604dfe2461519dc6fc4e474f2ca8446943"
+ },
+ {
+  "file": "audio/letters/u-sound-trim.mp3",
+  "text": "/ʌ/",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The sound is \"/ʌ/\".",
+   "stt_trim": "u",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "419ae67e4bd177dd1ea190ee2e8b20e0afea18ccac9c6413aa77c6be44982ffa"
+ },
+ {
+  "file": "audio/letters/v-name-trim.mp3",
+  "text": "V",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The letter is \"V\".",
+   "stt_trim": "V.",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "e8ed38685d43620cc8772e49001f2c0b80e94f95c29c5f8321db20702563340d"
+ },
+ {
+  "file": "audio/letters/v-sound-trim.mp3",
+  "text": "/v/",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The sound is \"/v/\".",
+   "stt_trim": "V.",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "8579b3899ddcdb5b79d5e3968c4c83f327f6eca8640b02ca0f28a0d12c955697"
+ },
+ {
+  "file": "audio/letters/w-name-trim.mp3",
+  "text": "W",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The letter is \"W\".",
+   "stt_trim": "W.",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "60b93580bc345cd06e307dc803fbf5c117145b42e277fa43e55fa9ac4bacbf1a"
+ },
+ {
+  "file": "audio/letters/w-sound-trim.mp3",
+  "text": "/w/",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The sound is \"/w/\".",
+   "stt_trim": "Wha?",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "135674d4c047a6614d9e8d164585a782898896285d7312a82151d2828a5d037a"
+ },
+ {
+  "file": "audio/letters/x-name-trim.mp3",
+  "text": "X",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The letter is \"X\".",
+   "stt_trim": "X",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "955afef1850500d657cd5169177490c011b8a5beed8f656301412bca73142c21"
+ },
+ {
+  "file": "audio/letters/x-sound-trim.mp3",
+  "text": "/ks/",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The sound is \"/ks/\".",
+   "stt_trim": "X",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "a699f2de95a96af99f81c2e1fecdc651f7211d582a365b9b0759e54dba35ce86"
+ },
+ {
+  "file": "audio/letters/y-name-trim.mp3",
+  "text": "Y",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The letter is \"Y\".",
+   "stt_trim": "Why?",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "ed385b64eb2ea0cb44f808ab6eb4e90431b8ae9284c3eb5e15897a45ceaa3390"
+ },
+ {
+  "file": "audio/letters/y-sound-trim.mp3",
+  "text": "/j/",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The sound is \"/j/\".",
+   "stt_trim": "YEH!",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "ed29baa9a85006438a70adbdf6ee27ea806fc9539ea0f9042613025b3948e63f"
+ },
+ {
+  "file": "audio/letters/z-name-trim.mp3",
+  "text": "Z",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The letter is \"Z\".",
+   "stt_trim": "Z!",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "e08fa15396a698a3ddfce6e55e46cd88ead3161824e2e3ad16450c56ee4c13d3"
+ },
+ {
+  "file": "audio/letters/z-sound-trim.mp3",
+  "text": "/z/",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "Approved trimmed excerpt of a full-sentence ElevenLabs generation",
+   "metadata": "approved/clips.json",
+   "source_text": "The sound is \"/z/\".",
+   "stt_trim": "Zzzz",
+   "note": "Approved trimmed excerpt; text is the intended excerpt, source_text is the full generation prompt."
+  },
+  "sha256": "220b469f86bfb31f159ff1906ee007cdf64458fcbcd353f0236eacbd96247822"
+ },
+ {
+  "file": "v1-letter-post/assets/lucy-cheer-1.mp3",
+  "text": "Yes!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "j83wi8IWmAWeavINmFEt",
+   "credits": 4.0,
+   "note": "Lucy/eleven_v4"
+  },
+  "sha256": "998e54c58e8da2ac528883f604605877a261a0abeed1f7cf464533049a346609"
+ },
+ {
+  "file": "v1-letter-post/assets/lucy-cheer-2.mp3",
+  "text": "You got it!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "xh2E4HVcqJdOq9w3FEpS",
+   "credits": 11.0,
+   "note": "Lucy/eleven_v4"
+  },
+  "sha256": "c5c74df750189038c29ada0af1bdc382b4b9ec90082867eb16127fa3fbdc9aa9"
+ },
+ {
+  "file": "v1-letter-post/assets/lucy-nudge-1.mp3",
+  "text": "Not quite!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "ulMRUhzsOkMcPICvZpeq",
+   "credits": 10.000000000000002,
+   "note": "Lucy/eleven_v4"
+  },
+  "sha256": "75e26b5e04c19ba72430dc67821749c951f870a110aeb19376d560c15fdd9ea4"
+ },
+ {
+  "file": "v1-letter-post/assets/lucy-word-a-apple.mp3",
+  "text": "Apple!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "lKez9dr61dYp6brR0IvP",
+   "credits": 6.000000000000001,
+   "note": "Lucy/eleven_v4"
+  },
+  "sha256": "5baf9d849879143157a86221f196e6c10fd319fb28931f846e6cffd355076245"
+ },
+ {
+  "file": "v1-letter-post/assets/lucy-word-i-insect.mp3",
+  "text": "Insect!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "bOA3hNTJRuXpEqYshQtd",
+   "credits": 7.000000000000001,
+   "note": "Lucy/eleven_v4"
+  },
+  "sha256": "badd4d98b3b765b692aea382b2ffcf00f8df1fb3f59cb25f8fe4daee10f9b5b4"
+ },
+ {
+  "file": "v1-letter-post/assets/lucy-word-m-moon.mp3",
+  "text": "Moon!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "Sn9BaYVE6lCrL1u7eVc0",
+   "credits": 5.000000000000001,
+   "note": "Lucy/eleven_v4"
+  },
+  "sha256": "62bc4ea98b4afd75ffd4a5cc7ec4bd48cd8e5dbe546d0b4778dedf78150a0c02"
+ },
+ {
+  "file": "v1-letter-post/assets/lucy-word-p-pig.mp3",
+  "text": "Pig!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "uncOBQzlyqVpMRnuJZUZ",
+   "credits": 4.0,
+   "note": "Lucy/eleven_v4"
+  },
+  "sha256": "ff2401a32aaf34590870ebca662348a63b6e714cbf4ca9691358f16dbb254e29"
+ },
+ {
+  "file": "v1-letter-post/assets/lucy-word-s-sun.mp3",
+  "text": "Sun!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "l1EfT066FzsLhIj6lRlU",
+   "credits": 4.0,
+   "note": "Lucy/eleven_v4"
+  },
+  "sha256": "b309a0807d87add2f420a7e0cd4fe8214a98f8953bffe6be9025f548d6047f8a"
+ },
+ {
+  "file": "v1-letter-post/assets/lucy-word-t-tiger.mp3",
+  "text": "Tiger!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "S6mqCzzjbzhvOTZCIAl4",
+   "credits": 6.000000000000001,
+   "note": "Lucy/eleven_v4"
+  },
+  "sha256": "2fdf6496646d574dd0cdaf2e69d3bb0f8112a6828edb84a92cf196772ad70b34"
+ },
+ {
+  "file": "v3-moonboat/assets/lucy-cheer-1.mp3",
+  "text": "Yes!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "j83wi8IWmAWeavINmFEt",
+   "credits": 4.0,
+   "note": "Lucy/eleven_v4"
+  },
+  "sha256": "998e54c58e8da2ac528883f604605877a261a0abeed1f7cf464533049a346609"
+ },
+ {
+  "file": "v3-moonboat/assets/lucy-cheer-2.mp3",
+  "text": "You got it!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "xh2E4HVcqJdOq9w3FEpS",
+   "credits": 11.0,
+   "note": "Lucy/eleven_v4"
+  },
+  "sha256": "c5c74df750189038c29ada0af1bdc382b4b9ec90082867eb16127fa3fbdc9aa9"
+ },
+ {
+  "file": "v3-moonboat/assets/lucy-nudge-1.mp3",
+  "text": "Not quite!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "ulMRUhzsOkMcPICvZpeq",
+   "credits": 10.000000000000002,
+   "note": "Lucy/eleven_v4"
+  },
+  "sha256": "75e26b5e04c19ba72430dc67821749c951f870a110aeb19376d560c15fdd9ea4"
+ },
+ {
+  "file": "v3-moonboat/assets/lucy-word-a-apple.mp3",
+  "text": "Apple!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "lKez9dr61dYp6brR0IvP",
+   "credits": 6.000000000000001,
+   "note": "Lucy/eleven_v4"
+  },
+  "sha256": "5baf9d849879143157a86221f196e6c10fd319fb28931f846e6cffd355076245"
+ },
+ {
+  "file": "v3-moonboat/assets/lucy-word-i-insect.mp3",
+  "text": "Insect!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "bOA3hNTJRuXpEqYshQtd",
+   "credits": 7.000000000000001,
+   "note": "Lucy/eleven_v4"
+  },
+  "sha256": "badd4d98b3b765b692aea382b2ffcf00f8df1fb3f59cb25f8fe4daee10f9b5b4"
+ },
+ {
+  "file": "v3-moonboat/assets/lucy-word-m-moon.mp3",
+  "text": "Moon!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "Sn9BaYVE6lCrL1u7eVc0",
+   "credits": 5.000000000000001,
+   "note": "Lucy/eleven_v4"
+  },
+  "sha256": "62bc4ea98b4afd75ffd4a5cc7ec4bd48cd8e5dbe546d0b4778dedf78150a0c02"
+ },
+ {
+  "file": "v3-moonboat/assets/lucy-word-p-pig.mp3",
+  "text": "Pig!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "uncOBQzlyqVpMRnuJZUZ",
+   "credits": 4.0,
+   "note": "Lucy/eleven_v4"
+  },
+  "sha256": "ff2401a32aaf34590870ebca662348a63b6e714cbf4ca9691358f16dbb254e29"
+ },
+ {
+  "file": "v3-moonboat/assets/lucy-word-s-sun.mp3",
+  "text": "Sun!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "l1EfT066FzsLhIj6lRlU",
+   "credits": 4.0,
+   "note": "Lucy/eleven_v4"
+  },
+  "sha256": "b309a0807d87add2f420a7e0cd4fe8214a98f8953bffe6be9025f548d6047f8a"
+ },
+ {
+  "file": "v3-moonboat/assets/lucy-word-t-tiger.mp3",
+  "text": "Tiger!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "S6mqCzzjbzhvOTZCIAl4",
+   "credits": 6.000000000000001,
+   "note": "Lucy/eleven_v4"
+  },
+  "sha256": "2fdf6496646d574dd0cdaf2e69d3bb0f8112a6828edb84a92cf196772ad70b34"
+ },
+ {
+  "file": "audio/words/word-ball.mp3",
+  "text": "Ball!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "kind": "short",
+  "status": "generated",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "hxP6owo9lyklIRIK1qLB",
+   "credits": 5.000000000000001,
+   "stt": "Ball",
+   "stt_ok": true
+  },
+  "sha256": "8744b3857df0fbdead5fa1ddb5ac254568895971b323f7a6cc415ce513be1d84"
+ },
+ {
+  "file": "audio/words/word-cat.mp3",
+  "text": "Cat!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "kind": "short",
+  "status": "generated",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "BG4PYkJm28rXDjgyEoF7",
+   "credits": 4.0,
+   "stt": "Cat!",
+   "stt_ok": true
+  },
+  "sha256": "41a8adf8e594248e918d1fc384df663da96e541424d30fb44ff25a3f5c35cc99"
+ },
+ {
+  "file": "audio/words/word-duck.mp3",
+  "text": "Duck!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "kind": "short",
+  "status": "generated",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "PWLtnlqyW9h16m5Xr0OK",
+   "credits": 5.000000000000001,
+   "stt": "Duck!",
+   "stt_ok": true
+  },
+  "sha256": "f8740a51e6762922f0d245bd6172b42f6b192b5cc3e9620d574c301598bfe903"
+ },
+ {
+  "file": "audio/words/word-egg.mp3",
+  "text": "Egg!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "kind": "short",
+  "status": "generated",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "UaleXD9yOIZiHFohlkDr",
+   "credits": 4.0,
+   "stt": "Egg!",
+   "stt_ok": true
+  },
+  "sha256": "97950924d3e9595644642b294e593afc0757374f02d73d8c7bec4494aac4ed78"
+ },
+ {
+  "file": "audio/words/word-fish.mp3",
+  "text": "Fish!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "kind": "short",
+  "status": "generated",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "eXinW4IHZ0D7ZcORxlJu",
+   "credits": 5.000000000000001,
+   "stt": "Fish!",
+   "stt_ok": true
+  },
+  "sha256": "9de6bece2e883a46e9eb8209b1fba6036724d273d4d2836f071414e8d4eb463e"
+ },
+ {
+  "file": "audio/words/word-goat.mp3",
+  "text": "Goat!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "kind": "short",
+  "status": "generated",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "Z9wZDPI1FhNH8jJWzWPz",
+   "credits": 5.000000000000001,
+   "stt": "GOAT!",
+   "stt_ok": true
+  },
+  "sha256": "4a4709c121e80f3597af181884fd62c65f601381566e95c25c6f3246ac2b440e"
+ },
+ {
+  "file": "audio/words/word-hat.mp3",
+  "text": "Hat!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "kind": "short",
+  "status": "generated",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "8VnOWC2A97mjx9cIn5md",
+   "credits": 4.0,
+   "stt": "Hat!",
+   "stt_ok": true
+  },
+  "sha256": "ab5deac6757b61f07163e4847ca818307420f1ddd54beaa453b338c53ec725bd"
+ },
+ {
+  "file": "audio/words/word-jellyfish.mp3",
+  "text": "Jellyfish!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "kind": "short",
+  "status": "generated",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "FgbnT6IJQdEqJwUMtvUC",
+   "credits": 10.000000000000002,
+   "stt": "Jellyfish!",
+   "stt_ok": true
+  },
+  "sha256": "2fd233b33f4c36a868f6f1ddbb5c654a64d6986c2506e52702423cc1e036a02b"
+ },
+ {
+  "file": "audio/words/word-kite.mp3",
+  "text": "Kite!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "kind": "short",
+  "status": "generated",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "8N32rVWEU7ZfQ9F3gILK",
+   "credits": 5.000000000000001,
+   "stt": "Kite!",
+   "stt_ok": true
+  },
+  "sha256": "23b8932dcd7f2c80fa0a2d792ac6715dd41788c4b89936c70b41eeb324c482d9"
+ },
+ {
+  "file": "audio/words/word-leaf.mp3",
+  "text": "Leaf!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "kind": "short",
+  "status": "generated",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "cPI8G9Ndak37EKkbPDAp",
+   "credits": 5.000000000000001,
+   "stt": "LEAF!",
+   "stt_ok": true
+  },
+  "sha256": "57e0ec14b77a2efe802f5b5ecea6f02302b498b8a9339e5742cc24fb98949d95"
+ },
+ {
+  "file": "audio/words/word-nest.mp3",
+  "text": "Nest!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "kind": "short",
+  "status": "generated",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "Bo6FGqXWU1uBjTutkWPS",
+   "credits": 5.000000000000001,
+   "stt": "NEST",
+   "stt_ok": true
+  },
+  "sha256": "d5ec08a5014730d0d6016605b96370714f69a87460c867836a0ccce72b566546"
+ },
+ {
+  "file": "audio/words/word-octopus.mp3",
+  "text": "Octopus!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "kind": "short",
+  "status": "generated",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "6QYNT00CvyrhZvSB4utU",
+   "credits": 8.0,
+   "stt": "Octopus!",
+   "stt_ok": true
+  },
+  "sha256": "9363de5a7139d11f1af4f179902520cef07f6e3bd39efc6a5a554c148de23c23"
+ },
+ {
+  "file": "audio/words/word-quilt.mp3",
+  "text": "Quilt!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "kind": "short",
+  "status": "generated",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "LbjNrDviQV1Quok0pflA",
+   "credits": 6.000000000000001,
+   "stt": "Quilt!",
+   "stt_ok": true
+  },
+  "sha256": "0e9189a3f9375993e036b2c301039b01737c3e21e54f48e2c27e8fd9ec146720"
+ },
+ {
+  "file": "audio/words/word-rabbit.mp3",
+  "text": "Rabbit!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "kind": "short",
+  "status": "generated",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "8p6MNOpiOIXmL106waKV",
+   "credits": 7.000000000000001,
+   "stt": "Rabbit",
+   "stt_ok": true
+  },
+  "sha256": "ba6a546a009b031c1698a871a5db23002920198c478acef1d1dabb74880070f1"
+ },
+ {
+  "file": "audio/words/word-umbrella.mp3",
+  "text": "Umbrella!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "kind": "short",
+  "status": "generated",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "5yKTyz3EhIjY0vpT93gB",
+   "credits": 9.0,
+   "stt": "Umbrella!",
+   "stt_ok": true
+  },
+  "sha256": "56bc3a8274fd691b5fea64e57fc97cf69aa6729cf7539408cc615d90391365d4"
+ },
+ {
+  "file": "audio/words/word-van.mp3",
+  "text": "Van!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "kind": "short",
+  "status": "generated",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "rQnIHmGk4TXoENAzz4WZ",
+   "credits": 4.0,
+   "stt": "VAN!",
+   "stt_ok": true
+  },
+  "sha256": "ed77a135fb1b6663b2f198fd18cf5219a4a7c40b60330529b798b839b0933318"
+ },
+ {
+  "file": "audio/words/word-web.mp3",
+  "text": "Web!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "kind": "short",
+  "status": "generated",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "DuRgIqW5MJ79wcR89rLF",
+   "credits": 4.0,
+   "stt": "Web!",
+   "stt_ok": true
+  },
+  "sha256": "419eaeb2616dcc2ad703fe413f8a93b54be0246fc1b481c8665061e53b3cbb5b"
+ },
+ {
+  "file": "audio/words/word-fox.mp3",
+  "text": "Fox!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "kind": "short",
+  "status": "generated",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "hfUhMb6SaETLcnYQGFPW",
+   "credits": 4.0,
+   "stt": "Fox.",
+   "stt_ok": true
+  },
+  "sha256": "3049ae7cf30d73bef3c567b2e857dcf07460dbd0ad0e8e11ac1410ca4a85a97d"
+ },
+ {
+  "file": "audio/words/word-yak.mp3",
+  "text": "Yak!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "kind": "short",
+  "status": "generated",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "zM4aANzgcmv0YDNjVn0v",
+   "credits": 4.0,
+   "stt": "YAT!",
+   "stt_ok": false
+  },
+  "sha256": "dc822d1465a817a7d4c6f89044687e1ff8cf6fc5176eb5d4e448025cd96e0324"
+ },
+ {
+  "file": "audio/words/word-zebra.mp3",
+  "text": "Zebra!",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "kind": "short",
+  "status": "generated",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-16",
+   "generation_id": "EE8QCXoXeSOw8dTp9g5W",
+   "credits": 6.000000000000001,
+   "stt": "Zebra!",
+   "stt_ok": true
+  },
+  "sha256": "6d963659455815fec0b92b749971711440125a2cf2095e10aa5fca632f2f827b"
+ }
+]

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#faf2df">
+  <title>Children's Learning Game · Play with Lucy</title>
+  <style>
+    @font-face{font-family:Nunito;src:url(v1-letter-post/assets/NunitoSans-Black.woff2);font-weight:900;font-display:swap}
+    @font-face{font-family:Nunito;src:url(v1-letter-post/assets/NunitoSans-Bold.woff2);font-weight:700;font-display:swap}
+    *{box-sizing:border-box}body{margin:0;padding:28px 24px;background:#faf2df;color:#253f65;font:700 20px/1.5 Nunito,system-ui,sans-serif;min-height:100svh;background-image:radial-gradient(#29466b18 1px,transparent 1px);background-size:18px 18px}
+    main{max-width:1040px;margin:3vh auto}header{display:flex;align-items:center;justify-content:center;gap:32px;margin-bottom:40px}h1{font-size:clamp(38px,6vw,70px);line-height:1.02;letter-spacing:-.04em;margin:8px 0 16px;font-weight:900}p{margin:0}.brand{font-size:13px;letter-spacing:.16em;text-transform:uppercase}.hello{position:relative;flex:none;width:clamp(100px,18vw,180px)}.hello img{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:cover;border:7px solid #fffaf0;border-radius:50%;box-shadow:0 7px 0 #253f65;transform:rotate(-5deg)}.hello:after{content:'Hello, friend!';position:absolute;bottom:-12px;left:50%;transform:translateX(-50%) rotate(-5deg);white-space:nowrap;background:#c74234;color:#fffaf0;border:3px solid #fffaf0;border-radius:20px;padding:5px 15px;font-size:16px}
+    nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}a{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;padding:30px 24px;border:3px solid #253f65;border-radius:38px 38px 24px 24px;color:#253f65;background:#b9dce6;text-decoration:none;box-shadow:0 8px 0 #253f65;transition:transform 160ms cubic-bezier(.22,1,.36,1)}a.space{background:#292940;color:#fff5dc;border-color:#555777;box-shadow:0 8px 0 #19192b}a:focus-visible{outline:4px solid #007a95;outline-offset:7px}a strong{font-size:clamp(24px,3vw,36px);line-height:1.15;font-weight:900}a>span{max-width:26ch;font-size:17px}a .go{display:flex;align-items:center;gap:18px;background:#c74234;color:#fffaf0;padding:10px 24px;border-radius:18px;font-size:20px;margin-top:8px}a.space .go{background:#eed29a;color:#292940}.scene{height:160px;width:100%;display:grid;place-items:center;position:relative}.scene svg{width:160px;height:140px;overflow:visible}.scene:before,.scene:after{content:'';position:absolute;border-radius:50%;width:32px;height:32px;background:#fffaf0;left:10%;top:12%}.scene:after{width:18px;height:18px;left:auto;right:13%;top:60%;background:#f6cf65}.space .scene:before{width:7px;height:7px;background:#eed29a;box-shadow:25px 58px 0 #eed29a,180px 0 0 #eed29a}.space .scene:after{width:45px;height:45px;background:transparent;border:2px solid #eed29a;right:8%;top:16%}footer{text-align:center;font-size:14px;margin-top:34px;color:#536078}
+    a.silk{background:#ffd2eb;color:#432045;border-color:#b41468;box-shadow:0 8px 0 #72083d}a.silk .go{background:#b41468;color:#fff5fb}a.silk .scene:after{background:#61ead7}
+    @media(hover:hover){a:hover{transform:translateY(-5px)}a:hover svg{transform:rotate(5deg)}}a:active{transform:translateY(5px)}
+    @media(prefers-reduced-motion:no-preference){header{animation:arrive 500ms both}nav a{animation:arrive 550ms 100ms both}nav a:last-child{animation-delay:220ms}.hello img{animation:hello 900ms 350ms}.scene svg{animation:toy 800ms 400ms both;transition:transform 180ms}.space .scene svg{animation-delay:550ms}@keyframes arrive{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}@keyframes hello{0%,100%{transform:rotate(-5deg)}35%{transform:rotate(5deg)}70%{transform:rotate(-8deg)}}@keyframes toy{0%{opacity:0;transform:translateY(16px) rotate(-8deg)}65%{opacity:1;transform:translateY(-5px) rotate(4deg)}100%{opacity:1;transform:translateY(0) rotate(0)}}}
+    @media(max-width:600px){body{padding:26px 20px}main{margin:0 auto}header{gap:18px;margin-bottom:30px}.brand{font-size:10px}header p:last-child{font-size:16px}h1{font-size:36px}.hello{width:100px}.hello:after{font-size:12px;padding:4px 9px}nav{grid-template-columns:1fr;gap:26px}a{display:grid;grid-template-columns:100px 1fr;padding:20px 16px;gap:7px 15px;text-align:left;align-items:center}.scene{grid-row:1/4;height:130px}.scene svg{width:100px;height:100px}.scene:before,.scene:after{display:none}a strong{font-size:25px}a>span{font-size:15px}a .go{font-size:17px;padding:7px 16px;justify-self:start;margin-top:5px}footer{font-size:12px}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}a:hover,a:active{transform:none}}
+  </style>
+</head>
+<body>
+  <main>
+    <header><div class="hello"><img src="v1-letter-post/assets/lucy-default.jpg" width="180" height="180" alt="Lucy the golden retriever"></div><div><p class="brand">Children's Learning Game</p><h1>Play with Lucy</h1><p>Pick a little sound adventure.</p></div></header>
+    <nav aria-label="Choose a game">
+      <a href="v1-letter-post/index.html">
+        <div class="scene" aria-hidden="true"><svg viewBox="0 0 180 150" fill="none"><path d="M20 32h140v99H20z" fill="#fff8e5" stroke="#253f65" stroke-width="4" stroke-linejoin="round"/><path d="m20 32 70 53 70-53M20 131l48-48m92 48-48-48" stroke="#253f65" stroke-width="4" stroke-linejoin="round"/><path d="M125 44h23v28h-23z" fill="#c74234"/><path d="m79 10 5-9m-33 16-8-6m65 4 8-8" stroke="#c74234" stroke-width="4" stroke-linecap="round"/></svg></div>
+        <strong>Lucy’s Letter Post</strong><span>Open sound mail.<br>Find its picture.</span><span class="go">Let's deliver <b aria-hidden="true">→</b></span>
+      </a>
+      <a class="space" href="v3-moonboat/index.html">
+        <div class="scene" aria-hidden="true"><svg viewBox="0 0 180 150" fill="none"><path d="M32 95c18 32 75 37 111-3-46 13-75-18-76-52-25 9-43 30-35 55Z" fill="#eed29a" stroke="#fff5dc" stroke-width="3"/><g transform="rotate(22 108 60)"><path d="M91 91V51c0-20 17-35 17-35s17 15 17 35v40Z" fill="#b9dce6" stroke="#fff5dc" stroke-width="3"/><circle cx="108" cy="54" r="9" fill="#292940" stroke="#fff5dc" stroke-width="3"/><path d="m91 74-13 21h13m34-21 13 21h-13" fill="#c78276" stroke="#fff5dc" stroke-width="3"/><path d="m101 100 7 18 7-18" stroke="#eed29a" stroke-width="5" stroke-linecap="round"/></g><path d="m29 27 3 8 8 3-8 3-3 8-3-8-8-3 8-3Z" fill="#eed29a"/></svg></div>
+        <strong>Lucy’s Moonboat</strong><span>Explore a sound.<br>Light up the sky.</span><span class="go">Let's explore <b aria-hidden="true">→</b></span>
+      </a>
+      <a class="silk" href="v4-silk-thread/index.html">
+        <div class="scene" aria-hidden="true"><svg viewBox="0 0 180 150" fill="none"><path d="M12 112C10 38 84 142 88 65S162 13 166 85" stroke="#fff5fb" stroke-width="13" stroke-linecap="round"/><path d="M12 112C10 38 84 142 88 65S162 13 166 85" stroke="#b41468" stroke-width="3" stroke-linecap="round"/><rect x="17" y="70" width="45" height="50" rx="14" fill="#61ead7" stroke="#432045" stroke-width="3" transform="rotate(-10 40 95)"/><text x="39" y="106" fill="#432045" font-size="33" font-family="Nunito, sans-serif" font-weight="900" text-anchor="middle">A</text><rect x="105" y="22" width="45" height="50" rx="14" fill="#fff5fb" stroke="#432045" stroke-width="3" transform="rotate(10 128 47)"/><text x="128" y="59" fill="#b41468" font-size="33" font-family="Nunito, sans-serif" font-weight="900" text-anchor="middle">B</text></svg></div>
+        <strong>Lucy’s Silk Thread</strong><span>Follow a sound.<br>Find a little wonder.</span><span class="go">Let's play <b aria-hidden="true">→</b></span>
+      </a>
+    </nav>
+    <footer>Little sounds. Big adventures. Take your time.</footer>
+  </main>
+</body>
+</html>

@@ -1,0 +1,1282 @@
+{
+ "meta": {
+  "voice": "Lucy FgiNpTIapnCbaD6xiqIo",
+  "model": "eleven_v4",
+  "normalization": "default (auto) — connector cannot set off",
+  "total_credits": 985,
+  "generations": 53,
+  "trim_method": "Whisper word timestamps + energy-envelope gap detection after \"is\" (-32 dB rel), end at last frame >-45 dB; pad 40 ms before, 60 ms after (150 ms for stop sounds b d g k p t); 15/30 ms fades",
+  "stt_note": "Whisper small.en; trimmed clips padded with 0.5 s silence. STT cannot judge phoneme quality; short sounds often transcribe as a letter name or nothing.",
+  "retrim_note": "K Q P U V D names re-trimmed (retrim.py): start after \"is\" via silence gap / z-frication end, 10 ms margin, 20 ms fade-in, STT-verified. No new generation; 0 credits."
+ },
+ "items": [
+  {
+   "id": "a-name",
+   "letter": "A",
+   "kind": "name",
+   "intended": "name A",
+   "text": "The letter is \"A\".",
+   "full": "audio/a-name-full.mp3",
+   "trimmed": "audio/a-name-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 18,
+   "full_duration": 2.0,
+   "stt_full": "The letter is A.",
+   "stt_trim": "a",
+   "trim_window": [
+    1.34,
+    1.94
+   ],
+   "trim_duration": 0.6,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "a-sound",
+   "letter": "A",
+   "kind": "sound",
+   "intended": "/æ/",
+   "text": "The sound is \"/æ/\".",
+   "full": "audio/a-sound-full.mp3",
+   "trimmed": "audio/a-sound-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 19,
+   "full_duration": 2.0,
+   "stt_full": "The sound is A.",
+   "stt_trim": "ah",
+   "trim_window": [
+    1.32,
+    1.92
+   ],
+   "trim_duration": 0.6,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "b-name",
+   "letter": "B",
+   "kind": "name",
+   "intended": "name B",
+   "text": "The letter is \"B\".",
+   "full": "audio/b-name-full.mp3",
+   "trimmed": "audio/b-name-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 18,
+   "full_duration": 2.08,
+   "stt_full": "The letter is B.",
+   "stt_trim": "B.",
+   "trim_window": [
+    1.44,
+    2.01
+   ],
+   "trim_duration": 0.57,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "b-sound",
+   "letter": "B",
+   "kind": "sound",
+   "intended": "/b/",
+   "text": "The sound is \"/b/\".",
+   "full": "audio/b-sound-full.mp3",
+   "trimmed": "audio/b-sound-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 19,
+   "full_duration": 1.68,
+   "stt_full": "The sound is b.",
+   "stt_trim": "B.",
+   "trim_window": [
+    1.16,
+    1.62
+   ],
+   "trim_duration": 0.46,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "c-name",
+   "letter": "C",
+   "kind": "name",
+   "intended": "name C",
+   "text": "The letter is \"C\".",
+   "full": "audio/c-name-full.mp3",
+   "trimmed": "audio/c-name-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 18,
+   "full_duration": 1.84,
+   "stt_full": "The letter is C.",
+   "stt_trim": "C.",
+   "trim_window": [
+    1.06,
+    1.68
+   ],
+   "trim_duration": 0.62,
+   "trim_retries": 1,
+   "slash_spoken": false
+  },
+  {
+   "id": "c-sound",
+   "letter": "C",
+   "kind": "sound",
+   "intended": "/k/",
+   "text": "The sound is \"/k/\".",
+   "full": "audio/c-sound-full.mp3",
+   "trimmed": "audio/c-sound-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 19,
+   "full_duration": 2.72,
+   "stt_full": "The sound is ck.",
+   "stt_trim": "(nothing)",
+   "trim_window": [
+    1.45,
+    1.73
+   ],
+   "trim_duration": 0.28,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "d-name",
+   "letter": "D",
+   "kind": "name",
+   "intended": "name D",
+   "text": "The letter is \"D\".",
+   "full": "audio/d-name-full.mp3",
+   "trimmed": "audio/d-name-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 18,
+   "full_duration": 1.68,
+   "stt_full": "The letter is D.",
+   "stt_trim": "D",
+   "trim_window": [
+    1.05,
+    1.55
+   ],
+   "trim_duration": 0.5,
+   "trim_retries": 1,
+   "slash_spoken": false,
+   "retrim": {
+    "old": {
+     "window": [
+      0.92,
+      1.55
+     ],
+     "dur": 0.63,
+     "stt": "D"
+    },
+    "method": "gap",
+    "is_word": [
+     0.48,
+     0.92
+    ],
+    "target_start": 0.92,
+    "gap_end": 1.1,
+    "nudges": 0,
+    "fade_in_ms": 20
+   }
+  },
+  {
+   "id": "d-sound",
+   "letter": "D",
+   "kind": "sound",
+   "intended": "/d/",
+   "text": "The sound is \"/d/\".",
+   "full": "audio/d-sound-full.mp3",
+   "trimmed": "audio/d-sound-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 19,
+   "full_duration": 2.0,
+   "stt_full": "The sound is d.",
+   "stt_trim": "D.",
+   "trim_window": [
+    1.41,
+    1.91
+   ],
+   "trim_duration": 0.5,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "e-name",
+   "letter": "E",
+   "kind": "name",
+   "intended": "name E",
+   "text": "The letter is \"E\".",
+   "full": "audio/e-name-full.mp3",
+   "trimmed": "audio/e-name-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 18,
+   "full_duration": 1.76,
+   "stt_full": "The letter is E.",
+   "stt_trim": "E",
+   "trim_window": [
+    1.12,
+    1.76
+   ],
+   "trim_duration": 0.64,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "e-sound",
+   "letter": "E",
+   "kind": "sound",
+   "intended": "/ɛ/",
+   "text": "The sound is \"/ɛ/\".",
+   "full": "audio/e-sound-full.mp3",
+   "trimmed": "audio/e-sound-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 19,
+   "full_duration": 1.92,
+   "stt_full": "The sound is EH.",
+   "stt_trim": "A",
+   "trim_window": [
+    1.27,
+    1.8
+   ],
+   "trim_duration": 0.53,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "f-name",
+   "letter": "F",
+   "kind": "name",
+   "intended": "name F",
+   "text": "The letter is \"F\".",
+   "full": "audio/f-name-full.mp3",
+   "trimmed": "audio/f-name-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 18,
+   "full_duration": 1.52,
+   "stt_full": "The letter is F.",
+   "stt_trim": "F.",
+   "trim_window": [
+    0.99,
+    1.4
+   ],
+   "trim_duration": 0.41,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "f-sound",
+   "letter": "F",
+   "kind": "sound",
+   "intended": "/f/",
+   "text": "The sound is \"/f/\".",
+   "full": "audio/f-sound-full.mp3",
+   "trimmed": "audio/f-sound-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 19,
+   "full_duration": 1.92,
+   "stt_full": "The sound is f-f-f-f-f-f-f-f-f-f-f-f-f-f-f.",
+   "stt_trim": "You",
+   "trim_window": [
+    1.42,
+    1.86
+   ],
+   "trim_duration": 0.44,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "g-name",
+   "letter": "G",
+   "kind": "name",
+   "intended": "name G",
+   "text": "The letter is \"G\".",
+   "full": "audio/g-name-full.mp3",
+   "trimmed": "audio/g-name-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 18,
+   "full_duration": 1.92,
+   "stt_full": "The letter is G.",
+   "stt_trim": "G.",
+   "trim_window": [
+    0.98,
+    1.92
+   ],
+   "trim_duration": 0.94,
+   "trim_retries": 1,
+   "slash_spoken": false
+  },
+  {
+   "id": "g-sound",
+   "letter": "G",
+   "kind": "sound",
+   "intended": "/ɡ/",
+   "text": "The sound is \"/ɡ/\".",
+   "full": "audio/g-sound-full.mp3",
+   "trimmed": "audio/g-sound-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 19,
+   "full_duration": 1.92,
+   "stt_full": "The sound is g.",
+   "stt_trim": "G.",
+   "trim_window": [
+    1.45,
+    1.92
+   ],
+   "trim_duration": 0.47,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "h-name",
+   "letter": "H",
+   "kind": "name",
+   "intended": "name H",
+   "text": "The letter is \"H\".",
+   "full": "audio/h-name-full.mp3",
+   "trimmed": "audio/h-name-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 18,
+   "full_duration": 1.76,
+   "stt_full": "The letter is H.",
+   "stt_trim": "H",
+   "trim_window": [
+    1.05,
+    1.76
+   ],
+   "trim_duration": 0.71,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "h-sound",
+   "letter": "H",
+   "kind": "sound",
+   "intended": "/h/",
+   "text": "The sound is \"/h/\".",
+   "full": "audio/h-sound-full.mp3",
+   "trimmed": "audio/h-sound-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 19,
+   "full_duration": 1.92,
+   "stt_full": "The sound is h.",
+   "stt_trim": "Huh.",
+   "trim_window": [
+    1.48,
+    1.92
+   ],
+   "trim_duration": 0.44,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "i-name",
+   "letter": "I",
+   "kind": "name",
+   "intended": "name I",
+   "text": "The letter is \"I\".",
+   "full": "audio/i-name-full.mp3",
+   "trimmed": "audio/i-name-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 18,
+   "full_duration": 2.08,
+   "stt_full": "The letter is I.",
+   "stt_trim": "I",
+   "trim_window": [
+    1.27,
+    1.92
+   ],
+   "trim_duration": 0.65,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "i-sound",
+   "letter": "I",
+   "kind": "sound",
+   "intended": "/ɪ/",
+   "text": "The sound is \"/ɪ/\".",
+   "full": "audio/i-sound-full.mp3",
+   "trimmed": "audio/i-sound-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 19,
+   "full_duration": 1.92,
+   "stt_full": "The sound is ih.",
+   "stt_trim": "EH",
+   "trim_window": [
+    1.34,
+    1.75
+   ],
+   "trim_duration": 0.41,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "j-name",
+   "letter": "J",
+   "kind": "name",
+   "intended": "name J",
+   "text": "The letter is \"J\".",
+   "full": "audio/j-name-full.mp3",
+   "trimmed": "audio/j-name-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 18,
+   "full_duration": 1.68,
+   "stt_full": "The letter is J.",
+   "stt_trim": "J.",
+   "trim_window": [
+    1.04,
+    1.65
+   ],
+   "trim_duration": 0.65,
+   "trim_retries": 1,
+   "slash_spoken": false,
+   "retrim": {
+    "old": {
+     "window": [
+      0.98,
+      1.65
+     ],
+     "dur": 0.67,
+     "stt": "Jay"
+    },
+    "method": "manual sweep 0.99-1.18 @10ms; passing 0.99-1.10 (1.01 blank, 1.12 isolated), onset clipping from 1.11 (Yay/day/Hey). Picked 1.04 (mid between earliest pass and latest-20ms, erring early to keep j onset).",
+    "fade_in_ms": 20
+   }
+  },
+  {
+   "id": "j-sound",
+   "letter": "J",
+   "kind": "sound",
+   "intended": "/dʒ/",
+   "text": "The sound is \"/dʒ/\".",
+   "full": "audio/j-sound-full.mp3",
+   "trimmed": "audio/j-sound-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 20,
+   "full_duration": 2.08,
+   "stt_full": "The sound is J.",
+   "stt_trim": "Juh.",
+   "trim_window": [
+    1.34,
+    2.08
+   ],
+   "trim_duration": 0.74,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "k-name",
+   "letter": "K",
+   "kind": "name",
+   "intended": "name K",
+   "text": "The letter is \"K\".",
+   "full": "audio/k-name-full.mp3",
+   "trimmed": "audio/k-name-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 18,
+   "full_duration": 1.6,
+   "stt_full": "The letter is K.",
+   "stt_trim": "K",
+   "trim_window": [
+    0.95,
+    1.56
+   ],
+   "trim_duration": 0.61,
+   "trim_retries": 1,
+   "slash_spoken": false,
+   "retrim": {
+    "old": {
+     "window": [
+      0.9,
+      1.56
+     ],
+     "dur": 0.66,
+     "stt": "K."
+    },
+    "method": "gap",
+    "is_word": [
+     0.52,
+     0.9
+    ],
+    "target_start": 0.9,
+    "gap_end": 1.01,
+    "nudges": 0,
+    "fade_in_ms": 20
+   }
+  },
+  {
+   "id": "k-sound",
+   "letter": "K",
+   "kind": "sound",
+   "intended": "/k/",
+   "text": "The sound is \"/k/\".",
+   "full": "audio/k-sound-full.mp3",
+   "trimmed": "audio/k-sound-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 19,
+   "full_duration": 1.84,
+   "stt_full": "The sound is ck.",
+   "stt_trim": "(nothing)",
+   "trim_window": [
+    1.39,
+    1.77
+   ],
+   "trim_duration": 0.38,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "l-name",
+   "letter": "L",
+   "kind": "name",
+   "intended": "name L",
+   "text": "The letter is \"L\".",
+   "full": "audio/l-name-full.mp3",
+   "trimmed": "audio/l-name-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 18,
+   "full_duration": 1.68,
+   "stt_full": "The letter is L.",
+   "stt_trim": "L",
+   "trim_window": [
+    1.05,
+    1.55
+   ],
+   "trim_duration": 0.5,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "l-sound",
+   "letter": "L",
+   "kind": "sound",
+   "intended": "/l/",
+   "text": "The sound is \"/l/\".",
+   "full": "audio/l-sound-full.mp3",
+   "trimmed": "audio/l-sound-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 19,
+   "full_duration": 1.76,
+   "stt_full": "The sound is ooh-la.",
+   "stt_trim": "Lula",
+   "trim_window": [
+    1.19,
+    1.64
+   ],
+   "trim_duration": 0.45,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "m-name",
+   "letter": "M",
+   "kind": "name",
+   "intended": "name M",
+   "text": "The letter is \"M\".",
+   "full": "audio/m-name-full.mp3",
+   "trimmed": "audio/m-name-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 18,
+   "full_duration": 1.76,
+   "stt_full": "The letter is M.",
+   "stt_trim": "M",
+   "trim_window": [
+    1.03,
+    1.63
+   ],
+   "trim_duration": 0.6,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "m-sound",
+   "letter": "M",
+   "kind": "sound",
+   "intended": "/m/",
+   "text": "The sound is \"/m/\".",
+   "full": "audio/m-sound-full.mp3",
+   "trimmed": "audio/m-sound-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 19,
+   "full_duration": 2.24,
+   "stt_full": "The sound is mmm.",
+   "stt_trim": "Mmm.",
+   "trim_window": [
+    1.46,
+    2.21
+   ],
+   "trim_duration": 0.75,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "n-name",
+   "letter": "N",
+   "kind": "name",
+   "intended": "name N",
+   "text": "The letter is \"N\".",
+   "full": "audio/n-name-full.mp3",
+   "trimmed": "audio/n-name-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 18,
+   "full_duration": 1.6,
+   "stt_full": "The letter is N.",
+   "stt_trim": "N",
+   "trim_window": [
+    0.99,
+    1.52
+   ],
+   "trim_duration": 0.53,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "n-sound",
+   "letter": "N",
+   "kind": "sound",
+   "intended": "/n/",
+   "text": "The sound is \"/n/\".",
+   "full": "audio/n-sound-full.mp3",
+   "trimmed": "audio/n-sound-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 19,
+   "full_duration": 1.92,
+   "stt_full": "The sound is mmm.",
+   "stt_trim": "hmm",
+   "trim_window": [
+    1.2,
+    1.92
+   ],
+   "trim_duration": 0.72,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "o-name",
+   "letter": "O",
+   "kind": "name",
+   "intended": "name O",
+   "text": "The letter is \"O\".",
+   "full": "audio/o-name-full.mp3",
+   "trimmed": "audio/o-name-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 18,
+   "full_duration": 1.68,
+   "stt_full": "The letter is O.",
+   "stt_trim": "Oh!",
+   "trim_window": [
+    1.02,
+    1.63
+   ],
+   "trim_duration": 0.61,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "o-sound",
+   "letter": "O",
+   "kind": "sound",
+   "intended": "/ɑ/",
+   "text": "The sound is \"/ɑ/\".",
+   "full": "audio/o-sound-full.mp3",
+   "trimmed": "audio/o-sound-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 19,
+   "full_duration": 1.92,
+   "stt_full": "is ah",
+   "stt_trim": "ah",
+   "trim_window": [
+    1.15,
+    1.7
+   ],
+   "trim_duration": 0.55,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "p-name",
+   "letter": "P",
+   "kind": "name",
+   "intended": "name P",
+   "text": "The letter is \"P\".",
+   "full": "audio/p-name-full.mp3",
+   "trimmed": "audio/p-name-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 18,
+   "full_duration": 2.0,
+   "stt_full": "The letter is P.",
+   "stt_trim": "P.",
+   "trim_window": [
+    1.31,
+    1.87
+   ],
+   "trim_duration": 0.56,
+   "trim_retries": 0,
+   "slash_spoken": false,
+   "retrim": {
+    "old": {
+     "window": [
+      0.88,
+      1.87
+     ],
+     "dur": 0.99,
+     "stt": "(nothing)"
+    },
+    "method": "gap",
+    "is_word": [
+     0.6,
+     1.12
+    ],
+    "target_start": 1.12,
+    "gap_end": 1.37,
+    "nudges": 0,
+    "fade_in_ms": 20
+   }
+  },
+  {
+   "id": "p-sound",
+   "letter": "P",
+   "kind": "sound",
+   "intended": "/p/",
+   "text": "The sound is \"/p/\".",
+   "full": "audio/p-sound-full.mp3",
+   "trimmed": "audio/p-sound-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 19,
+   "full_duration": 1.84,
+   "stt_full": "The sound is P.",
+   "stt_trim": "You",
+   "trim_window": [
+    1.42,
+    1.79
+   ],
+   "trim_duration": 0.37,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "q-name",
+   "letter": "Q",
+   "kind": "name",
+   "intended": "name Q",
+   "text": "The letter is \"Q\".",
+   "full": "audio/q-name-full.mp3",
+   "trimmed": "audio/q-name-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 18,
+   "full_duration": 1.68,
+   "stt_full": "The letter is Q.",
+   "stt_trim": "Queue!",
+   "trim_window": [
+    0.94,
+    1.68
+   ],
+   "trim_duration": 0.74,
+   "trim_retries": 1,
+   "slash_spoken": false,
+   "retrim": {
+    "old": {
+     "window": [
+      0.9,
+      1.68
+     ],
+     "dur": 0.78,
+     "stt": "Queue!"
+    },
+    "method": "gap",
+    "is_word": [
+     0.48,
+     0.9
+    ],
+    "target_start": 0.9,
+    "gap_end": 1.0,
+    "nudges": 0,
+    "fade_in_ms": 20
+   }
+  },
+  {
+   "id": "q-sound",
+   "letter": "Q",
+   "kind": "sound",
+   "intended": "/kw/",
+   "text": "The sound is \"/kw/\".",
+   "full": "audio/q-sound-full.mp3",
+   "trimmed": "audio/q-sound-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 20,
+   "full_duration": 2.0,
+   "stt_full": "The sound is...",
+   "stt_trim": "Oh",
+   "trim_window": [
+    1.57,
+    1.9
+   ],
+   "trim_duration": 0.33,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "r-name",
+   "letter": "R",
+   "kind": "name",
+   "intended": "name R",
+   "text": "The letter is \"R\".",
+   "full": "audio/r-name-full.mp3",
+   "trimmed": "audio/r-name-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 18,
+   "full_duration": 1.76,
+   "stt_full": "The letter is R.",
+   "stt_trim": "R",
+   "trim_window": [
+    1.04,
+    1.76
+   ],
+   "trim_duration": 0.72,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "r-sound",
+   "letter": "R",
+   "kind": "sound",
+   "intended": "/ɹ/",
+   "text": "The sound is \"/ɹ/\".",
+   "full": "audio/r-sound-full.mp3",
+   "trimmed": "audio/r-sound-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 19,
+   "full_duration": 2.24,
+   "stt_full": "The sound is rrr.",
+   "stt_trim": "er",
+   "trim_window": [
+    1.48,
+    2.09
+   ],
+   "trim_duration": 0.61,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "s-name",
+   "letter": "S",
+   "kind": "name",
+   "intended": "name S",
+   "text": "The letter is \"S\".",
+   "full": "audio/s-name-full.mp3",
+   "trimmed": "audio/s-name-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 18,
+   "full_duration": 1.92,
+   "stt_full": "The letter is S.",
+   "stt_trim": "S.",
+   "trim_window": [
+    1.27,
+    1.87
+   ],
+   "trim_duration": 0.6,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "s-sound",
+   "letter": "S",
+   "kind": "sound",
+   "intended": "/s/",
+   "text": "The sound is \"/s/\".",
+   "full": "audio/s-sound-full.mp3",
+   "trimmed": "audio/s-sound-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 19,
+   "full_duration": 1.92,
+   "stt_full": "The sound is sssss.",
+   "stt_trim": "(nothing)",
+   "trim_window": [
+    1.35,
+    1.87
+   ],
+   "trim_duration": 0.52,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "t-name",
+   "letter": "T",
+   "kind": "name",
+   "intended": "name T",
+   "text": "The letter is \"T\".",
+   "full": "audio/t-name-full.mp3",
+   "trimmed": "audio/t-name-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 18,
+   "full_duration": 2.16,
+   "stt_full": "The letter is T.",
+   "stt_trim": "T.",
+   "trim_window": [
+    1.46,
+    2.06
+   ],
+   "trim_duration": 0.6,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "t-sound",
+   "letter": "T",
+   "kind": "sound",
+   "intended": "/t/",
+   "text": "The sound is \"/t/\".",
+   "full": "audio/t-sound-full.mp3",
+   "trimmed": "audio/t-sound-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 19,
+   "full_duration": 1.76,
+   "stt_full": "The sound is t.",
+   "stt_trim": "(nothing)",
+   "trim_window": [
+    1.3,
+    1.68
+   ],
+   "trim_duration": 0.38,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "u-name",
+   "letter": "U",
+   "kind": "name",
+   "intended": "name U",
+   "text": "The letter is \"U\".",
+   "full": "audio/u-name-full.mp3",
+   "trimmed": "audio/u-name-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 18,
+   "full_duration": 1.68,
+   "stt_full": "The letter is U.",
+   "stt_trim": "you",
+   "trim_window": [
+    0.99,
+    1.64
+   ],
+   "trim_duration": 0.65,
+   "trim_retries": 1,
+   "slash_spoken": false,
+   "retrim": {
+    "old": {
+     "window": [
+      0.94,
+      1.64
+     ],
+     "dur": 0.7,
+     "stt": "You"
+    },
+    "method": "no-gap",
+    "is_word": [
+     0.52,
+     0.94
+    ],
+    "target_start": 0.94,
+    "gap_end": null,
+    "nudges": 0,
+    "fade_in_ms": 20
+   }
+  },
+  {
+   "id": "u-sound",
+   "letter": "U",
+   "kind": "sound",
+   "intended": "/ʌ/",
+   "text": "The sound is \"/ʌ/\".",
+   "full": "audio/u-sound-full.mp3",
+   "trimmed": "audio/u-sound-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 19,
+   "full_duration": 1.92,
+   "stt_full": "The sound is...",
+   "stt_trim": "u",
+   "trim_window": [
+    1.4,
+    1.84
+   ],
+   "trim_duration": 0.44,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "v-name",
+   "letter": "V",
+   "kind": "name",
+   "intended": "name V",
+   "text": "The letter is \"V\".",
+   "full": "audio/v-name-full.mp3",
+   "trimmed": "audio/v-name-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 18,
+   "full_duration": 1.68,
+   "stt_full": "The letter is V.",
+   "stt_trim": "V.",
+   "trim_window": [
+    0.92,
+    1.57
+   ],
+   "trim_duration": 0.68,
+   "trim_retries": 1,
+   "slash_spoken": false,
+   "retrim": {
+    "old": {
+     "window": [
+      0.9,
+      1.57
+     ],
+     "dur": 0.67,
+     "stt": "V."
+    },
+    "method": "no-gap",
+    "is_word": [
+     0.5,
+     0.9
+    ],
+    "target_start": 0.9,
+    "gap_end": null,
+    "nudges": 0,
+    "fade_in_ms": 20,
+    "v_sweep": {
+     "prev_window": [
+      1.04,
+      1.57
+     ],
+     "prev_stt": "B.",
+     "note": "1.04 clipped v onset (STT B). Swept 0.92-1.03 step 10ms; 0.92-1.01 read V, 1.02+ read B. Picked earliest passing: 0.92."
+    }
+   }
+  },
+  {
+   "id": "v-sound",
+   "letter": "V",
+   "kind": "sound",
+   "intended": "/v/",
+   "text": "The sound is \"/v/\".",
+   "full": "audio/v-sound-full.mp3",
+   "trimmed": "audio/v-sound-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 19,
+   "full_duration": 2.32,
+   "stt_full": "The sound is V.",
+   "stt_trim": "V.",
+   "trim_window": [
+    1.7,
+    2.18
+   ],
+   "trim_duration": 0.48,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "w-name",
+   "letter": "W",
+   "kind": "name",
+   "intended": "name W",
+   "text": "The letter is \"W\".",
+   "full": "audio/w-name-full.mp3",
+   "trimmed": "audio/w-name-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 18,
+   "full_duration": 1.92,
+   "stt_full": "The winner is W.",
+   "stt_trim": "W.",
+   "trim_window": [
+    1.02,
+    1.76
+   ],
+   "trim_duration": 0.74,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "w-sound",
+   "letter": "W",
+   "kind": "sound",
+   "intended": "/w/",
+   "text": "The sound is \"/w/\".",
+   "full": "audio/w-sound-full.mp3",
+   "trimmed": "audio/w-sound-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 19,
+   "full_duration": 1.84,
+   "stt_full": "The sound is w.",
+   "stt_trim": "Wha?",
+   "trim_window": [
+    1.31,
+    1.68
+   ],
+   "trim_duration": 0.37,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "x-name",
+   "letter": "X",
+   "kind": "name",
+   "intended": "name X",
+   "text": "The letter is \"X\".",
+   "full": "audio/x-name-full.mp3",
+   "trimmed": "audio/x-name-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 18,
+   "full_duration": 2.0,
+   "stt_full": "The letter is X.",
+   "stt_trim": "X",
+   "trim_window": [
+    1.16,
+    2.0
+   ],
+   "trim_duration": 0.84,
+   "trim_retries": 2,
+   "slash_spoken": false
+  },
+  {
+   "id": "x-sound",
+   "letter": "X",
+   "kind": "sound",
+   "intended": "/ks/",
+   "text": "The sound is \"/ks/\".",
+   "full": "audio/x-sound-full.mp3",
+   "trimmed": "audio/x-sound-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 20,
+   "full_duration": 1.92,
+   "stt_full": "The sound is x.",
+   "stt_trim": "X",
+   "trim_window": [
+    1.4,
+    1.88
+   ],
+   "trim_duration": 0.48,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "y-name",
+   "letter": "Y",
+   "kind": "name",
+   "intended": "name Y",
+   "text": "The letter is \"Y\".",
+   "full": "audio/y-name-full.mp3",
+   "trimmed": "audio/y-name-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 18,
+   "full_duration": 1.84,
+   "stt_full": "The letter is Y.",
+   "stt_trim": "Why?",
+   "trim_window": [
+    1.02,
+    1.68
+   ],
+   "trim_duration": 0.66,
+   "trim_retries": 1,
+   "slash_spoken": false
+  },
+  {
+   "id": "y-sound",
+   "letter": "Y",
+   "kind": "sound",
+   "intended": "/j/",
+   "text": "The sound is \"/j/\".",
+   "full": "audio/y-sound-full.mp3",
+   "trimmed": "audio/y-sound-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 19,
+   "full_duration": 2.16,
+   "stt_full": "is y.",
+   "stt_trim": "YEH!",
+   "trim_window": [
+    1.54,
+    2.02
+   ],
+   "trim_duration": 0.48,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "z-name",
+   "letter": "Z",
+   "kind": "name",
+   "intended": "name Z",
+   "text": "The letter is \"Z\".",
+   "full": "audio/z-name-full.mp3",
+   "trimmed": "audio/z-name-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 18,
+   "full_duration": 2.16,
+   "stt_full": "The letter is Z.",
+   "stt_trim": "Z!",
+   "trim_window": [
+    1.31,
+    2.1
+   ],
+   "trim_duration": 0.79,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "z-sound",
+   "letter": "Z",
+   "kind": "sound",
+   "intended": "/z/",
+   "text": "The sound is \"/z/\".",
+   "full": "audio/z-sound-full.mp3",
+   "trimmed": "audio/z-sound-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 19,
+   "full_duration": 2.24,
+   "stt_full": "The sound is zzzz.",
+   "stt_trim": "Zzzz",
+   "trim_window": [
+    1.48,
+    2.1
+   ],
+   "trim_duration": 0.62,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "i-long-extra",
+   "letter": "I",
+   "kind": "extra",
+   "intended": "long I /aɪ/",
+   "text": "The sound is \"/aɪ/\".",
+   "full": "audio/i-long-extra-full.mp3",
+   "trimmed": "audio/i-long-extra-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 20,
+   "full_duration": 1.92,
+   "stt_full": "The sound is I.",
+   "stt_trim": "I",
+   "trim_window": [
+    1.29,
+    1.86
+   ],
+   "trim_duration": 0.57,
+   "trim_retries": 0,
+   "slash_spoken": false
+  },
+  {
+   "id": "g-soft-extra",
+   "letter": "G",
+   "kind": "extra",
+   "intended": "soft G /dʒ/ (same clip as J sound)",
+   "text": "The sound is \"/dʒ/\".",
+   "alias": "j-sound",
+   "full": "audio/j-sound-full.mp3",
+   "trimmed": "audio/j-sound-trim.mp3",
+   "model": "eleven_v4",
+   "credits": 0,
+   "full_duration": 2.08,
+   "stt_full": "The sound is J.",
+   "trim_window": [
+    1.34,
+    2.08
+   ],
+   "trim_duration": 0.74,
+   "stt_trim": "Juh.",
+   "slash_spoken": false
+  }
+ ]
+}
