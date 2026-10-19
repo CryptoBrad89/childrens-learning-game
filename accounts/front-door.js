@@ -1,4 +1,4 @@
-/* The chooser's front door: "Who's playing?", class boards, password step,
+/* The chooser's front door: "Who's playing?", group boards, password step,
  * and the player strip above the worlds. */
 (() => {
 'use strict';
@@ -15,7 +15,7 @@ const MESSAGES = {
   needs_internet: 'This device is offline, and this is the first time signing in here. Connect to the internet once, then try again.',
   offline: 'This device is offline. Connect to the internet, then try again.',
   slow_down: 'Too many tries in a row. Wait a minute, then try again.',
-  no_board: 'No class or home has that code. Check the six letters and numbers, then try again.',
+  no_board: 'No group has that code. Check the six letters and numbers, then try again.',
   not_set_up: 'Accounts aren\'t set up in this copy of the game.',
   storage: 'This browser is blocking storage (often a private window), so nothing can be saved here.'
 };
@@ -36,7 +36,7 @@ function renderWho() {
 const boardIcon = () => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="2"/><circle cx="15.5" cy="10" r="2"/><path d="M5.5 16c.6-1.6 1.7-2.4 3-2.4s2.4.8 3 2.4m1 0c.6-1.6 1.7-2.4 3-2.4s2.4.8 3 2.4"/></svg>';
 function renderBoard() {
   $('#board-title').textContent = board.name;
-  $('#board-code').textContent = (board.kind === 'home' ? 'Home code ' : 'Class code ') + board.code;
+  $('#board-code').textContent = 'Board code ' + board.code;
   $('#board-people').innerHTML = board.children.map(tile).join('');
   $('#board-note').textContent = board.children.length
     ? (board.offline ? 'Offline: showing the pictures saved on this device. ' : '') + 'Each child signs in with their own password.'
@@ -90,7 +90,10 @@ function askPassword(p) {
 async function submit(form, login, password, keep, errorEl, button) {
   button.disabled = true; button.textContent = 'Checking…'; errorEl.textContent = '';
   try {
-    await L.signIn(login, password, {as: 'player', keep});
+    const who = await L.signIn(login, password, {as: 'player', keep});
+    // On a device they haven't used before, wait briefly for their settings before showing the worlds.
+    button.textContent = `Getting ${who.name}'s things…`;
+    await Promise.race([who.ready, new Promise(resolve => setTimeout(resolve, 5000))]);
     setGuest(false); board = null;
     form.closest('dialog').close();
     render();

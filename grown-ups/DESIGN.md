@@ -144,28 +144,31 @@ Sign-in (replaces the gate on first visit; Superdesign step 1, layout):
 
 ```
 │ 01 CHILDREN ───────────────────────────────────────────────── │
-│ ┌ CLASS · you own this ─────────────── Board code  PH77CA ──┐ │
-│ │ Sunflower Class                       Invite code NC3U-3PQD│ │
+│ ┌ GROUP · you made it ───────────────── Board code  PH77CA ──┐ │
+│ │ Sunflowers                            Invite code NC3U-3PQD│ │
 │ │ (cat) Mia   mia-k4x  2 rounds · 2 letters · 1 sticker      │ │
 │ │       [Settings][Password][Edit][Remove][Delete]           │ │
-│ │ Grown-ups  Ms Lee (owner), Mr Patel                        │ │
+│ │ Grown-ups  Ms Lee, Mr Patel                                │ │
 │ │ [Add a child][Add a child who has an account][Print cards] │ │
 │ └────────────────────────────────────────────────────────────┘ │
-│ [New class] [New home] [Join with an invite code]             │
-│ ┌ SETTINGS FOR [Everyone in Sunflower Class (24) ▾] ── sticky ┐│
+│ [New group] [Join with an invite code]                         │
+│ ┌ SETTINGS FOR [Everyone in Sunflowers (24) ▾] ───── sticky ┐ │
 │ │ Changes go to all 24 children. Shown: Ava's settings.      ││
 │ 02 SOUND … 06 WORLDS & BUTTONS  (unchanged from §1)            │
 │ 07 PROGRESS   per world: 26 letter squares, filled when played │
-│               sticker shelf; a table for a whole class         │
+│               sticker shelf; a table for a whole group         │
 │ 08 SYNC & THIS DEVICE  ● All saved · people on this device     │
 │ 09 ABOUT                                                       │
 ```
 
-- "Settings for" is a native `<select>` with optgroups per class/home
+- "Settings for" is a native `<select>` with optgroups per group
   (taste-accessibility: a native select beats a custom one), sticky so it is
   always clear whose settings are changing. Only the fields a grown-up
-  touches are written, so editing a whole class never overwrites one child's
+  touches are written, so editing a whole group never overwrites one child's
   other choices.
+- Groups are plain groups: no classroom, teacher or parent roles. Any grown-up
+  can make any number of them, and every grown-up in a group can do
+  everything there.
 - Group cards are the one bordered surface (design-taste §5: depth from
   structure, hairlines inside). Codes are set in Comfortaa with wide tracking,
   like the section numbers, so they read as "type this".

@@ -1,5 +1,5 @@
 /* Grown-ups' corner: a real grown-up sign-in, then settings that save as they
- * change, for one child, a whole class or home, or the grown-up themselves.
+ * change, for one child, a whole group, or the grown-up themselves.
  * A grown-up who stays signed in on their own device passes the reading gate
  * to come back in. Children and groups are handled in people.js. */
 (() => {
@@ -29,7 +29,7 @@ const C = window.CORNER = {
     return g ? `everyone in ${g.name}` : 'this group';
   },
   render: () => {}, renderTarget, setTarget, refresh: async () => {},
-  // Until a grown-up picks someone, settings go to their first class or home.
+  // Until a grown-up picks someone, settings go to their first group with children.
   retarget() { if (!C.chosen || !C.ids().length) { C.chosen = false; C.target = defaultTarget(); } }
 };
 

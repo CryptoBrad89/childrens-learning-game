@@ -4,8 +4,9 @@ The database is built only from `migrations/`, applied in filename order:
 
 | File | What it does |
 | --- | --- |
-| `20261019120000_accounts_schema.sql` | Tables: profiles, groups (classes and homes), group members, rounds, settings, stickers, link attempts. Row-level security on, no table access for the API roles. |
+| `20261019120000_accounts_schema.sql` | Tables: profiles, groups, group members, rounds, settings, stickers, link attempts. Row-level security on, no table access for the API roles. |
 | `20261019120100_accounts_functions.sql` | The `lw_*` API functions (security definer, `search_path` pinned) and their grants; helpers in the private `lw_private` schema. |
+| `20261019140000_any_grownup_groups.sql` | Plain groups with no class/home kind; no caps on groups or group size; every grown-up in a group can do everything there. |
 
 There are no edge functions, and no auth settings need to change.
 "Confirm email" can stay on: every account the game makes is created

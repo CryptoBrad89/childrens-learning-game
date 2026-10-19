@@ -35,7 +35,7 @@ try {
   assert(await t.locator('#groups-empty').isVisible());
   ok('corner: new grown-up account with a six-character password and nothing else');
 
-  await t.locator('#new-class').click();
+  await t.locator('#new-group').click();
   await t.locator('#form-fields input[name="name"]').fill('Sunflower Class');
   await t.locator('#form-go').click();
   await t.waitForSelector('.group-card h3:text("Sunflower Class")');
@@ -91,7 +91,7 @@ try {
   await c.locator('#open-board').click();
   await c.locator('#code-input').fill('ZZZZZZ');
   await c.locator('#code-form .go').click();
-  await c.waitForFunction(() => /No class or home/.test(document.querySelector('#code-error').textContent));
+  await c.waitForFunction(() => /No group has that code/.test(document.querySelector('#code-error').textContent));
   await c.locator('#code-input').fill(board.toLowerCase());
   await c.locator('#code-form .go').click();
   await c.waitForFunction(() => !document.querySelector('#board').hidden);
@@ -195,7 +195,7 @@ try {
   await h.locator('#signin-password').fill('home12');
   await h.locator('#signin-go').click();
   await h.waitForFunction(() => document.body.dataset.view === 'settings', null, {timeout: 20000});
-  await h.locator('#new-home').click();
+  await h.locator('#new-group').click();
   await h.locator('#form-fields input[name="name"]').fill('Home');
   await h.locator('#form-go').click();
   await h.waitForSelector('.group-card h3:text("Home")');

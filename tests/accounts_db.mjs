@@ -123,9 +123,16 @@ try {
   await refused('lw_join_group', {p_invite: group.board_code}, patelT, 'no_invite');
   await must('lw_join_group', {p_invite: group.invite_code.slice(0, 4) + '-' + group.invite_code.slice(4)}, patelT);
   assert.equal((await must('lw_child_state', {p_child: mia.id}, patelT)).profile.login, mia.login);
-  await refused('lw_new_codes', {p_group: cls}, patelT, 'owners_only');
-  await refused('lw_remove_member', {p_group: cls, p_profile: lee.id}, patelT, 'owners_only');
-  ok('helpers: join by invite code (not the board code); owners keep owner-only actions');
+  // Every grown-up in a group can do everything there; children can't do any of it.
+  await must('lw_new_codes', {p_group: cls}, patelT);
+  const [renewed] = await must('lw_groups', {}, leeT);
+  assert.notEqual(renewed.invite_code, group.invite_code);
+  await must('lw_board', {p_code: renewed.board_code});
+  await refused('lw_board', {p_code: group.board_code}, null, 'no_board');
+  await refused('lw_new_codes', {p_group: cls}, miaT, 'grownups_only');
+  await refused('lw_join_group', {p_invite: renewed.invite_code}, miaT, 'grownups_only');
+  group.board_code = renewed.board_code; group.invite_code = renewed.invite_code;
+  ok('grown-ups: join by invite code (not the board code); every grown-up in a group can do everything; children none of it');
 
   // A parent adds the school child to their home, proven by the child's sign-in.
   await must('lw_sign_up', {p_login: 'mias-dad', p_password: 'cccccc', p_name: 'Sam'});
@@ -166,6 +173,23 @@ try {
   const {rows: [{left}]} = await s.db.query('select (select count(*) from public.rounds where profile_id = $1) + (select count(*) from public.profiles where id = $1) + (select count(*) from auth.users where id = $1) as left', [temp.id]);
   assert.equal(Number(left), 0);
   ok('delete: a child account goes for good, only when no one else looks after them');
+
+  // No caps and no kinds: a grown-up makes plain groups, as many as they like.
+  await must('lw_sign_up', {p_login: 'many', p_password: 'mmmmmm', p_name: 'Sam'});
+  const manyT = await signIn('many', 'mmmmmm');
+  for (let i = 0; i < 55; i++) await must('lw_create_group', {p_kind: null, p_name: `Group ${i}`}, manyT);
+  const mine = await must('lw_groups', {}, manyT);
+  assert.equal(mine.length, 55); assert(mine.every(x => x.kind === 'group'));
+  const bigId = mine[0].id;
+  for (let i = 0; i < 82; i++) await must('lw_create_child', {p_group: bigId, p_name: `Kid ${i}`, p_avatar: 'sun:0', p_password: '7234ab'}, manyT);
+  assert.equal((await must('lw_board', {p_code: mine[0].board_code})).children.length, 82);
+  await refused('lw_create_group', {p_kind: 'classroom', p_name: 'X'}, manyT, 'bad_request');
+  ok('groups: plain groups with no kind, no cap on groups per grown-up or children per group');
+
+  // A grown-up can take another grown-up out; the group stays while grown-ups remain.
+  await must('lw_remove_member', {p_group: cls, p_profile: (await must('lw_me', {}, patelT)).id}, leeT);
+  await refused('lw_child_state', {p_child: mia.id}, patelT, 'not_allowed');
+  await must('lw_join_group', {p_invite: group.invite_code}, patelT);
 
   // Leaving: an owner leaving hands the group on; the last grown-up leaving closes it.
   await must('lw_remove_member', {p_group: cls, p_profile: lee.id}, leeT);

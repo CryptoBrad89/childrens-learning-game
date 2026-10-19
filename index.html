@@ -32,8 +32,8 @@
       <h2 id="who-title" tabindex="-1">Who's playing?</h2>
       <p class="lead" id="who-lead">Tap your picture.</p>
       <ul class="people" id="people" aria-label="People who play on this device"></ul>
-      <p class="empty-door" id="who-empty" hidden>Nobody has played on this device yet. Open your class board, or sign in with a name.</p>
-      <div class="door-actions"><span id="saved-boards" class="door-actions" style="margin:0"></span><button type="button" id="open-board"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7V5a1 1 0 0 1 1-1h2m10 0h2a1 1 0 0 1 1 1v2m0 10v2a1 1 0 0 1-1 1h-2M7 20H5a1 1 0 0 1-1-1v-2M8 12h8"/></svg>Open a class board</button><button type="button" id="name-sign-in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>Sign in with a name</button></div>
+      <p class="empty-door" id="who-empty" hidden>Nobody has played on this device yet. Open a group board, or sign in with a name.</p>
+      <div class="door-actions"><span id="saved-boards" class="door-actions" style="margin:0"></span><button type="button" id="open-board"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7V5a1 1 0 0 1 1-1h2m10 0h2a1 1 0 0 1 1 1v2m0 10v2a1 1 0 0 1-1 1h-2M7 20H5a1 1 0 0 1-1-1v-2M8 12h8"/></svg>Open a group board</button><button type="button" id="name-sign-in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>Sign in with a name</button></div>
       <button type="button" class="just-play" id="just-play">Play without saving</button>
     </section>
     <section class="board" id="board" hidden aria-labelledby="board-title">
@@ -82,15 +82,15 @@
       <label class="field" for="pw-input">Password</label>
       <div class="input-row"><input id="pw-input" type="password" autocomplete="current-password" autocapitalize="off" spellcheck="false" aria-describedby="pw-dots pw-error"><button type="button" class="show" id="pw-show" aria-pressed="false">Show</button></div>
       <p class="dots" id="pw-dots"><i></i><i></i><i></i><i></i><i></i><i></i><span></span></p>
-      <label class="keep"><input type="checkbox" id="pw-keep">Stay signed in on this device (for a tablet at home)</label>
+      <label class="keep"><input type="checkbox" id="pw-keep">Stay signed in on this device (when only this person uses it)</label>
       <p class="error" id="pw-error" role="alert"></p>
       <div class="actions"><button type="button" data-close="1">Not me</button><button class="go" id="pw-go" disabled>Let's play</button></div>
     </form>
   </dialog>
   <dialog class="lw-dialog" id="code-dialog" aria-labelledby="code-title">
     <form id="code-form" novalidate>
-      <h3 id="code-title">Open a class board</h3>
-      <p class="helper">Type the six-letter code from your class or home. The board shows each child's picture.</p>
+      <h3 id="code-title">Open a group board</h3>
+      <p class="helper">Type the group's six-letter board code. The board shows each child's picture.</p>
       <label class="field" for="code-input">Code</label>
       <input id="code-input" class="code-input" type="text" maxlength="9" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-describedby="code-error">
       <p class="error" id="code-error" role="alert"></p>
@@ -106,7 +106,7 @@
       <label class="field" for="name-pw">Password</label>
       <div class="input-row"><input id="name-pw" type="password" autocomplete="current-password" autocapitalize="off" spellcheck="false" aria-describedby="name-dots name-error"><button type="button" class="show" id="name-show" aria-pressed="false">Show</button></div>
       <p class="dots" id="name-dots"><i></i><i></i><i></i><i></i><i></i><i></i><span></span></p>
-      <label class="keep"><input type="checkbox" id="name-keep">Stay signed in on this device (for a tablet at home)</label>
+      <label class="keep"><input type="checkbox" id="name-keep">Stay signed in on this device (when only this person uses it)</label>
       <p class="error" id="name-error" role="alert"></p>
       <div class="actions"><button type="button" data-close="1">Cancel</button><button class="go" id="name-go" disabled>Let's play</button></div>
     </form>

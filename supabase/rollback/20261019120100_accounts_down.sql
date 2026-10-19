@@ -1,4 +1,5 @@
--- Rollback for 20261019120000_accounts_schema.sql and 20261019120100_accounts_functions.sql.
+-- Rollback for 20261019120000_accounts_schema.sql, 20261019120100_accounts_functions.sql
+-- and 20261019140000_any_grownup_groups.sql.
 -- Not a migration: run by hand only to remove accounts and sync completely.
 -- It deletes every Little Woof group, child, setting, round and sticker.
 

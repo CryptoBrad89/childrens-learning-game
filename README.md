@@ -90,11 +90,11 @@ To run the browser suites without writing any screenshots, add
   linking with guess limits, passwords, deleting, and that the tables are
   closed to the API roles.
 - `grown_ups_smoke.cjs` checks the corner with real sign-in at phone, tablet,
-  Chromebook and whiteboard sizes: refusal, every setting saved to a class,
+  Chromebook and whiteboard sizes: refusal, every setting saved to a group,
   guards, reset, sign-out, the reading gate and its pause for a grown-up who
   stays signed in, the settings' effect on the chooser and all three worlds,
   reduced motion and dark mode.
-- `accounts_flow.mjs` walks a teacher, a shared Chromebook and a parent
+- `accounts_flow.mjs` walks two grown-ups and a shared Chromebook
   through accounts end to end.
 - `accounts_two_devices.mjs` is the two-device check: the same child on two
   browser profiles, one offline with a lost upload reply on reconnect;
@@ -134,12 +134,14 @@ Yellow. Each world keeps its own theme choice.
 
 ## Accounts and sync
 
-Everyone has a real login: children, teachers, parents and any other grown-up.
+Everyone has a real login: children and grown-ups. There are no classroom,
+teacher or parent roles; any grown-up can look after any number of children
+and groups.
 Settings, progress (every finished round) and stickers belong to the person,
 live in Supabase, and follow them to any device. Details:
 [reports/accounts-build.md](reports/accounts-build.md).
 
-- **Children** don't type. A grown-up opens the class board on any device
+- **Children** don't type. A grown-up opens a group board on any device
   (a six-character code, remembered on that device), taps the child's picture
   and types the child's password. Passwords only need six characters, for
   example a four-digit number plus the child's initials (`7234mk`). People who
@@ -147,7 +149,7 @@ live in Supabase, and follow them to any device. Details:
   the device to the next child; a new tab always starts at "Who's playing?".
   **Play without saving** keeps the old one-visit game.
 - **Grown-ups** sign in to the grown-ups' corner with a sign-in name and
-  password. They make classes and homes, add children (or add a child who
+  password. They make groups (any number, any size), add children (or add a child who
   already has an account, with the child's sign-in name and password), reset
   passwords, print sign-in cards, see progress, and change settings for one
   child, a whole group, or themselves. A grown-up who stays signed in on their

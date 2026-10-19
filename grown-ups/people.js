@@ -1,4 +1,4 @@
-/* Grown-ups' corner: classes and homes, children, progress, and this device.
+/* Grown-ups' corner: groups, children, progress, and this device.
  * Making or changing accounts needs the internet; settings and progress views
  * work offline from the last copy on this device. */
 (() => {
@@ -18,7 +18,7 @@ const ERRORS = {
   too_many: 'That group is full. Make another one.',
   bad_login: 'That sign-in name and password don\'t match a child\'s account.',
   too_many_tries: 'Too many tries. Wait an hour, then try again.',
-  shared_child: 'Another class or home also looks after this child, so their account stays. Use Remove to take them out of this group.'
+  shared_child: 'Another group also looks after this child, so their account stays. Use Remove to take them out of this group.'
 };
 const say = e => ERRORS[e && e.code] || 'Something went wrong on the way to the server. Try again in a moment.';
 const kids = g => g.members.filter(m => m.member_role === 'child');
@@ -52,7 +52,7 @@ function groupCard(g) {
   const owner = g.role === 'owner', children = kids(g);
   return `<article class="group-card" data-group="${g.id}" aria-labelledby="g-${g.id}">
     <header class="group-head">
-      <div><p class="label">${g.kind === 'home' ? 'Home' : 'Class'}${owner ? ' · you own this' : ''}</p><h3 id="g-${g.id}">${esc(g.name)}</h3></div>
+      <div><p class="label">Group${owner ? ' · you made it' : ''}</p><h3 id="g-${g.id}">${esc(g.name)}</h3></div>
       <dl class="codes">
         <div><dt>Board code</dt><dd>${esc(g.board_code)}</dd><dd class="code-help">Type it on a device to show the children's pictures.</dd></div>
         <div><dt>Invite code</dt><dd>${esc(fmtCode(g.invite_code))}</dd><dd class="code-help">For grown-ups only: it lets them look after these children.</dd></div>
@@ -68,13 +68,13 @@ function groupCard(g) {
         <button type="button" class="quiet-button" data-act="remove" data-id="${k.id}" data-name="${esc(k.name)}">Remove</button>
         <button type="button" class="quiet-button danger" data-act="delete" data-id="${k.id}" data-name="${esc(k.name)}">Delete</button>
       </div></li>`).join('')}</ul>` : '<p class="empty">No children here yet.</p>'}
-    <p class="grownups"><span class="label">Grown-ups</span> ${grownups(g).map(m => esc(m.name) + (m.member_role === 'owner' ? ' (owner)' : '')).join(', ')}</p>
+    <p class="grownups"><span class="label">Grown-ups</span> ${grownups(g).map(m => esc(m.name)).join(', ')}</p>
     <div class="group-buttons">
       <button type="button" class="solid-button" data-act="add">Add a child</button>
       <button type="button" class="quiet-button" data-act="link">Add a child who has an account</button>
       ${children.length ? '<button type="button" class="quiet-button" data-act="cards">Print sign-in cards</button>' : ''}
       <button type="button" class="quiet-button" data-act="rename">Rename</button>
-      ${owner ? '<button type="button" class="quiet-button" data-act="codes">New codes</button>' : ''}
+      <button type="button" class="quiet-button" data-act="codes">New codes</button>
       <button type="button" class="quiet-button danger" data-act="leave">Leave</button>
     </div>
   </article>`;
@@ -174,7 +174,7 @@ function act(button) {
       const child = await api('lw_create_child', {p_group: gid, p_name: v.name, p_avatar: `${v.pic}:${v.tone}`, p_password: v.password});
       return `${child.name} is ready. Their sign-in name is ${child.login}.`;
     }});
-  else if (a === 'link') open({title: `Add a child who has an account`, help: `For a child who already plays somewhere else, such as at school. Type their sign-in name and password (the grown-up who made the account can tell you). The same account, progress and stickers then show in ${g.name} too.`,
+  else if (a === 'link') open({title: `Add a child who has an account`, help: `For a child who already has an account, made by any grown-up. Type their sign-in name and password (the grown-up who made the account can tell you). The same account, progress and stickers then show in ${g.name} too.`,
     fields: field('login', 'Child\'s sign-in name', {help: 'Like mia-k4x.'}) + field('password', 'Child\'s password', {type: 'password'}),
     go: 'Add child', submit: async v => {
       const r = await api('lw_link_child', {p_group: gid, p_login: v.login, p_password: v.password});
@@ -189,7 +189,7 @@ function act(button) {
     }});
   else if (a === 'edit') open({title: `Edit ${name}`, fields: field('name', 'Name', {value: name}) + avatarField(button.dataset.avatar),
     submit: async v => { await api('lw_update_child', {p_child: id, p_name: v.name, p_avatar: `${v.pic}:${v.tone}`}); return 'Saved.'; }});
-  else if (a === 'remove') open({title: `Take ${name} out of ${g.name}?`, help: `${name}'s account, progress and stickers are kept, and so is any other class or home they're in.`, go: 'Take out', danger: true,
+  else if (a === 'remove') open({title: `Take ${name} out of ${g.name}?`, help: `${name}'s account, progress and stickers are kept, and so is any other group they're in.`, go: 'Take out', danger: true,
     submit: async () => { await api('lw_remove_member', {p_group: gid, p_profile: id}); if (C.target && C.target.id === id) C.target = null; return `${name} is out of ${g.name}.`; }});
   else if (a === 'delete') open({title: `Delete ${name}'s account?`, help: `This deletes ${name}'s sign-in, settings, rounds and stickers everywhere, for good. To keep them, use Remove instead.`, go: 'Delete for good', danger: true,
     submit: async () => { await api('lw_delete_child', {p_child: id}); if (C.target && C.target.id === id) C.target = null; return `${name}'s account is deleted.`; }});
@@ -197,7 +197,7 @@ function act(button) {
     submit: async v => { await api('lw_rename_group', {p_group: gid, p_name: v.name}); return 'Saved.'; }});
   else if (a === 'codes') open({title: 'Make new codes?', help: `Use this if a code got out. The old board and invite codes stop working; devices showing the old board need the new code.`, go: 'Make new codes',
     submit: async () => { await api('lw_new_codes', {p_group: gid}); return 'New codes are ready.'; }});
-  else if (a === 'leave') open({title: `Leave ${g.name}?`, help: g.role === 'owner' && grownups(g).length === 1 ? 'You\'re the only grown-up, so the group closes. The children\'s accounts, progress and stickers are kept.' : 'You stop looking after these children. Their accounts are kept.', go: 'Leave', danger: true,
+  else if (a === 'leave') open({title: `Leave ${g.name}?`, help: grownups(g).length === 1 ? 'You\'re the only grown-up, so the group closes. The children\'s accounts, progress and stickers are kept.' : 'You stop looking after these children. Their accounts are kept.', go: 'Leave', danger: true,
     submit: async () => { await api('lw_remove_member', {p_group: gid, p_profile: C.me().id}); C.target = null; return `You left ${g.name}.`; }});
   else if (a === 'cards') printCards(g);
   else if (a === 'forget') {
@@ -207,18 +207,17 @@ function act(button) {
 }
 function printCards(g) {
   $('#cards').innerHTML = kids(g).map(k => `<div class="card">${P.avatar(k.avatar)}<div><strong>${esc(k.name)}</strong>
-    <dl><dt>Sign-in name</dt><dd>${esc(k.login)}</dd><dt>${g.kind === 'home' ? 'Home' : 'Class'} board code</dt><dd>${esc(g.board_code)}</dd><dt>Password</dt><dd>Ask ${esc(C.me().name)}</dd></dl>
-    <p>To play at home, open Lucy's games and choose "Sign in with a name".</p></div></div>`).join('');
+    <dl><dt>Sign-in name</dt><dd>${esc(k.login)}</dd><dt>Board code</dt><dd>${esc(g.board_code)}</dd><dt>Password</dt><dd>Ask ${esc(C.me().name)}</dd></dl>
+    <p>To play on any device, open Lucy's games and choose "Sign in with a name", or open the group board.</p></div></div>`).join('');
   window.print();
 }
 
 document.addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b || !C.me()) return;
   if (b.dataset.act) act(b);
-  else if (b.id === 'new-class' || b.id === 'new-home') {
-    const kind = b.id === 'new-class' ? 'class' : 'home';
-    open({title: kind === 'class' ? 'New class' : 'New home', help: kind === 'class' ? 'For example Sunflower Class or Room 4.' : 'For example The Okafor family or Home.',
-      fields: field('name', 'Name'), go: 'Make it', submit: async v => { await api('lw_create_group', {p_kind: kind, p_name: v.name}); return `${v.name} is ready. Add children next.`; }});
+  else if (b.id === 'new-group') {
+    open({title: 'New group', help: 'Any name that helps you find it, for example Sunflowers, Room 4, Grandma\'s or Saturday club.',
+      fields: field('name', 'Name'), go: 'Make it', submit: async v => { await api('lw_create_group', {p_kind: 'group', p_name: v.name}); return `${v.name} is ready. Add children next.`; }});
   } else if (b.id === 'join-group') open({title: 'Join with an invite code', help: 'Another grown-up can find the invite code on their group in this corner.',
     fields: field('code', 'Invite code', {help: 'Eight letters and numbers, like NC3U-3PQD.'}), go: 'Join',
     submit: async v => { const r = await api('lw_join_group', {p_invite: v.code}); return `You joined ${r.name}.`; }});

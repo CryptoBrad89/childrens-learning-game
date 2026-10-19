@@ -23,13 +23,13 @@ appear once someone is playing (or chooses "Play without saving").
 │   │ (cat)│ │ (fox)│ │ (sun)│ │(duck)│   on this device;      │
 │   │ Mia ●│ │ Leo  │ │ Ava  │ │ Sam  │   ● = play waiting     │
 │   └──────┘ └──────┘ └──────┘ └──────┘   to upload            │
-│  [Sunflower Class] [Open a class board] [Sign in with a name]│
+│  [Sunflowers] [Open a group board]  [Sign in with a name]    │
 │                 Play without saving                          │
 │                                          (For grown-ups)     │
 └──────────────────────────────────────────────────────────────┘
- Class board: same grid, every child in the class; "Back".
+ Group board: same grid, every child in the group; "Back".
  Password step (dialog): (cat) Mia / "Grown-up: type Mia's password."
-   [••••••][Show]  ●●●●●● Ready   □ Stay signed in (home tablet)
+   [••••••][Show]  ●●●●●● Ready   □ Stay signed in (one-person device)
    [Not me]                                   [Let's play]
  Playing strip above the worlds:
    (cat) Mia  ● All saved     [stickers ◎◎◎ +2]      [✓ I'm done]
@@ -42,7 +42,7 @@ Every target is at least 60px (tests check it).
 
 Reuses the chooser's tokens: paper `#faf2df`, sheet `#fffaf0`, ink
 `#253f65`, muted `#536078`, accent `#c74234` (only on "Let's play"), sky
-`#b9dce6` for saved class boards, focus `#007a95`. Six soft tones behind
+`#b9dce6` for saved group boards, focus `#007a95`. Six soft tones behind
 avatars (sky, butter, candy pink, mint, peach, lilac) come from the worlds'
 palettes. Status dots: green saved, amber waiting, grey offline, accent when a
 sign-in is needed. Type: Nunito Sans Black, as the chooser.

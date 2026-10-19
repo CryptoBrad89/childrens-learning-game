@@ -306,8 +306,9 @@ async function offlineSignIn(login, password, opts) {
 function begin(id, {as, keep, offline}) {
   if (as === 'grownup' && person(id).role !== 'grownup') throw new LWError('grownups_only');
   setActive(id, {keep, slot: as === 'grownup' ? KEY.corner : KEY.active});
-  sync(id).catch(() => {});
-  return {...publicPerson(person(id)), offline};
+  // `ready` settles once this device has the person's latest settings (or couldn't get them).
+  const ready = sync(id).catch(() => {});
+  return {...publicPerson(person(id)), offline, ready};
 }
 async function signUp(login, password, name) {
   login = cleanLogin(login);
