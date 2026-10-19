@@ -26,7 +26,7 @@ const assert = require('node:assert/strict');
   await db.query("select public.provision_account($1,'other','Other','grownup',null)", [stranger]);
   await db.exec('reset role');
   await db.query("update public.profiles set handle='test' where id=$1",[adult]);
-  await db.exec(fs.readFileSync('supabase/migrations/20261019201341_portal_master.sql','utf8'));
+  await db.exec(fs.readFileSync('supabase/migrations/20261019201539_portal_master.sql','utf8'));
   await db.exec('set role service_role');
   async function caller(id) {
     await db.exec('reset role');
