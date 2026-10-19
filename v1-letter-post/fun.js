@@ -3,6 +3,7 @@
 'use strict';
 const post=window.CONCEPT.kind==='post', $=s=>document.querySelector(s);
 const reduce=matchMedia('(prefers-reduced-motion: reduce)');
+function reducedMotion(){const mode=document.documentElement&&document.documentElement.dataset&&document.documentElement.dataset.motion;if(mode==='calm')return true;if(mode==='full')return false;return reduce.matches;}
 let active=null, epoch=0, muted=false, speaking=false, audio=null;
 const sources=new Set(), gains=new Set();
 const stats={effects:0,maxEffects:0,maxParticles:0,sfxStarted:0,sfxWhileMuted:0,sfxDuringVoice:0};
@@ -27,7 +28,7 @@ function cancelMoment(){epoch++;if(active){active.cancel();active=null;}stats.ef
 function cancel(){cancelMoment();$('#confetti').replaceChildren();}
 async function moment(el,frames,{duration=440,name='moment',cue=null,setup=null}={}){
  cancelMoment();const mine=epoch;
- if(reduce.matches||!el||document.hidden)return true;
+ if(reducedMotion()||!el||document.hidden)return true;
  if(setup)setup();
  if(cue)sound(cue);
  stats.maxParticles=Math.max(stats.maxParticles,document.querySelectorAll('[data-particle]').length);stats.effects=1;stats.maxEffects=Math.max(stats.maxEffects,stats.effects);document.body.dataset.effect=name;
@@ -38,7 +39,7 @@ async function moment(el,frames,{duration=440,name='moment',cue=null,setup=null}
  return complete;
 }
 function createParticles(theme){
- const host=$('#confetti');host.replaceChildren();if(reduce.matches||document.hidden)return null;
+ const host=$('#confetti');host.replaceChildren();if(reducedMotion()||document.hidden)return null;
  const group=document.createElement('div');group.className=`theme-weather weather-${theme}`;
  for(let i=0;i<6;i++){const p=document.createElement('i');p.dataset.particle='';p.style.setProperty('--n',i);group.append(p);}host.append(group);
  stats.maxParticles=Math.max(stats.maxParticles,document.querySelectorAll('[data-particle]').length);return group;
@@ -80,7 +81,7 @@ const paperFall=[
 ];
 function createPaperRain(){
  const host=$('#confetti');host.querySelector('.paper-rain')?.remove();
- if(reduce.matches||document.hidden)return;
+ if(reducedMotion()||document.hidden)return;
  const group=document.createElement('div');group.className='paper-rain';
  const shapes={post:['envelope','stamp','heart','curl'],space:['star','crescent','planet','curl'],silk:['heart','curl','star','curl']}[window.CONCEPT.kind]||['star','crescent','planet','curl'];
  paperFall.forEach((piece,i)=>{
@@ -111,11 +112,11 @@ window.Fun={cancel,home,lucy,
  replay(){return moment($('.listen-letter')||$('.reward-art'),[{transform:'scale(1)'},{transform:'scale(1.055) rotate(-2deg)'},{transform:'scale(1)'}],{duration:330,name:post?'ink-ring':'signal-ring',cue:'tap'});},
  async hint(button){button.classList.add('miss-active');try{return await moment(button,[{transform:'translateX(0)'},{transform:'translateX(-5px) rotate(-1deg)',offset:.23},{transform:'translateX(4px) rotate(1deg)',offset:.48},{transform:'translateX(-2px)',offset:.72},{transform:'translateX(0)'}],{duration:480,name:'gentle-miss',cue:'tap'});}finally{button.classList.remove('miss-active');}},
  reward(){return moment($(post?'.reward-stamp':'.reward-art'),post?[{transform:'translateY(-16px) rotate(-8deg) scale(1.2)'},{transform:'translateY(0) rotate(12deg) scale(1)',offset:704/4400},{transform:'translateY(0) rotate(12deg) scale(1)'}]:[{transform:'scale(.92) rotate(-7deg)',opacity:.4},{transform:'scale(1.04) rotate(3deg)',opacity:1,offset:396/4400},{transform:'scale(1) rotate(0)',opacity:1,offset:792/4400},{transform:'scale(1) rotate(0)',opacity:1}],{duration:4400,name:post?'delivery-stamp':'world-awakens',cue:'reward',setup:createPaperRain});},
- get evidence(){return {...stats,particles:document.querySelectorAll('[data-particle]').length,active:active?1:0,sources:sources.size,muted,speaking,reduced:reduce.matches};}
+ get evidence(){return {...stats,particles:document.querySelectorAll('[data-particle]').length,active:active?1:0,sources:sources.size,muted,speaking,reduced:reducedMotion()};}
 };
 // Theme particles must be created after moment clears the preceding effect.
-window.Fun.weather=async theme=>{cancel();if(reduce.matches||document.hidden)return true;if(document.body.dataset.screen==='celebrate'){createPaperRain();sound('weather');return true;}const group=createParticles(theme);const mine=epoch;document.body.dataset.effect='theme-weather';sound('weather');stats.maxParticles=Math.max(stats.maxParticles,document.querySelectorAll('[data-particle]').length);stats.effects=1;stats.maxEffects=Math.max(stats.maxEffects,1);const a=group.animate([{transform:'translateY(-12px)',opacity:0},{transform:'translateY(0)',opacity:1,offset:.25},{transform:'translateY(22px)',opacity:0}],{duration:650,easing:'ease-out'});active=a;try{await a.finished;}catch{return false;}if(epoch!==mine)return false;active=null;stats.effects=0;document.body.removeAttribute('data-effect');$('#confetti').replaceChildren();return true;};
-reduce.addEventListener('change',()=>{cancel();if(reduce.matches)document.querySelectorAll('[data-particle]').forEach(p=>p.remove());else if(document.body.dataset.screen==='celebrate')createPaperRain();});
+window.Fun.weather=async theme=>{cancel();if(reducedMotion()||document.hidden)return true;if(document.body.dataset.screen==='celebrate'){createPaperRain();sound('weather');return true;}const group=createParticles(theme);const mine=epoch;document.body.dataset.effect='theme-weather';sound('weather');stats.maxParticles=Math.max(stats.maxParticles,document.querySelectorAll('[data-particle]').length);stats.effects=1;stats.maxEffects=Math.max(stats.maxEffects,1);const a=group.animate([{transform:'translateY(-12px)',opacity:0},{transform:'translateY(0)',opacity:1,offset:.25},{transform:'translateY(22px)',opacity:0}],{duration:650,easing:'ease-out'});active=a;try{await a.finished;}catch{return false;}if(epoch!==mine)return false;active=null;stats.effects=0;document.body.removeAttribute('data-effect');$('#confetti').replaceChildren();return true;};
+reduce.addEventListener('change',()=>{cancel();if(reducedMotion())document.querySelectorAll('[data-particle]').forEach(p=>p.remove());else if(document.body.dataset.screen==='celebrate')createPaperRain();});
 document.addEventListener('visibilitychange',()=>{document.body.dataset.motion=document.hidden?'paused':'ready';if(document.hidden){active?.pause();hush();}else if(active?.playState==='paused')active.play();});
 window.addEventListener('pagehide',cancel);
 })();
