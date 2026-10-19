@@ -42,12 +42,10 @@
     .guest-warning{max-width:46ch;margin:22px 0 12px;padding:12px 16px;border:3px solid #b8392c;border-radius:18px;background:#fffaf0}
     #play-guest{min-height:64px}
     #all-done{min-height:60px;margin:0 0 18px}
-    .play-row{display:flex;justify-content:center;margin-top:22px}
-    #play-chosen{display:inline-flex;flex-direction:row;align-items:center;justify-content:center;width:auto;min-height:64px;padding:0 28px;border-radius:18px;background:#b41468;color:#fff5fb;border-color:#72083d;box-shadow:0 8px 0 #72083d;font-size:22px;text-align:center}
     a.is-chosen{outline:4px solid #b41468;outline-offset:6px}
     a.is-chosen::after{content:'Ready';position:absolute;top:14px;right:14px;background:#fffaf0;color:#432045;border:2px solid currentColor;border-radius:999px;padding:4px 10px;font-size:14px;font-weight:900;letter-spacing:.04em}
     @media(prefers-reduced-motion:no-preference){#login:not([hidden]),#layouts:not([hidden]){animation:lw-reveal 400ms cubic-bezier(.22,1,.36,1) both}}
-    @media(max-width:600px){body{padding:78px 20px 26px}#play-chosen{display:flex;width:100%;grid-template-columns:none}a.is-chosen::after{top:8px;right:8px;font-size:12px}}
+    @media(max-width:600px){body{padding:78px 20px 26px}a.is-chosen::after{top:8px;right:8px;font-size:12px}}
   </style>
 </head>
 <body>
@@ -93,7 +91,6 @@
           <strong>Ribbon Road</strong><span>Follow a sound.<br>Find a little wonder.</span><span class="go">Let's play <b aria-hidden="true">→</b></span>
         </a>
       </nav>
-      <p class="play-row"><a id="play-chosen" href="v4-silk-thread/index.html">Play Ribbon Road</a></p>
     </section>
     <footer><p>Little Sounds Big Discovery. Take your time.</p><a class="grown" href="grown-ups/index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></svg>Are you a grown-up?</a></footer>
   </main>

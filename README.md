@@ -116,13 +116,15 @@ the files directly keeps the local grown-up gate and device settings, which is
 what the offline checks cover.
 
 After a short still splash, the first screen is a child login: sign-in name
-and secret. There is no classroom code on that dialog. **Are you a grown-up?**
-opens the grown-ups' corner. **Play without saving** starts a visit that does
-not keep sounds, stars, or settings. Then the child picks Letter Post, Moonboat,
-or Ribbon Road. Ribbon Road is highlighted and is the default. A child signs in
-with a name and a secret of at least 6 characters (a pin plus initials, such as
-`7234ab`, is enough). There are no capital, number or symbol rules. A grown-up
-signs in with email from **Are you a grown-up?**
+and secret. There is no classroom, group, or invite code on that dialog.
+**Are you a grown-up?** opens the same cream page. **Play without saving**
+starts a visit that does not keep sounds, stars, or settings. Then the child
+picks Letter Post, Moonboat, or Ribbon Road. Ribbon Road is highlighted and is
+the default. The three cards start the game. A child signs in with a name and
+a secret of at least 6 characters (a pin plus initials, such as `7234ab`, is
+enough). There are no capital, number or symbol rules. A grown-up signs in
+with an email they already have. The sign-in screen cannot create a grown-up.
+An admin who is already signed in can add one.
 
 The number-word gate stays on `file://`. On the served game it is replaced by
 these accounts: a child session cannot open settings, and a teacher or parent
@@ -135,10 +137,10 @@ token keeps the session for later offline play.
 
 Demo sign-ins (created by `node tests/seed_accounts.mjs`, safe to run again):
 
-- Teacher `ada@littlewoof.test` / `sunnyday`, class Morning class, code `SUNNY2`
+- Admin grown-up `ada@littlewoof.test` / `sunnyday`. Ada can add children and other grown-ups. The corner does not show a class or invite code.
 - Child Maya, sign-in `maya` / `7234ab`, picture fox
 - Child Sam, sign-in `sam` / `8811sa`, picture owl
-- Parent `pat@littlewoof.test` / `homepup`, linked to Maya
+- Grown-up `pat@littlewoof.test` / `homepup`, linked to Maya. Pat can manage children and cannot add grown-ups.
 
 `accounts_sync.cjs` signs in a fresh child on two browsers, plays one letter
 offline and another online, and checks that both browsers show both letters.

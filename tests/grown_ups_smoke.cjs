@@ -264,7 +264,7 @@ async function run() {
       await unlock(page);
       await page.waitForFunction(() => getComputedStyle(document.querySelector('#settings')).opacity === '1');
       if (options.reducedMotion) assert.equal(await page.locator('.stamp').evaluate(n => getComputedStyle(n).display), 'none');
-      else assert.equal(await page.evaluate(() => getComputedStyle(document.body).backgroundColor), 'rgb(20, 35, 58)');
+      else assert.equal(await page.evaluate(() => getComputedStyle(document.body).backgroundColor), 'rgb(250, 242, 223)');
       await page.screenshot({path: path.join(shots, `${label}.png`), fullPage: true});
       await done(label);
       console.log(`PASS ${label}: unlock and settings render`);

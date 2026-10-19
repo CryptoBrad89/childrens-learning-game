@@ -40,11 +40,8 @@
       if (on) link.setAttribute('aria-current', 'true');
       else link.removeAttribute('aria-current');
     }
-    const play = $('play-chosen');
-    if (play && preferred) {
-      play.href = preferred.getAttribute('href');
-      play.textContent = `Play ${preferred.querySelector('strong')?.textContent || 'this one'}`;
-    }
+    const layouts = $('layouts');
+    if (preferred && layouts && !layouts.hidden) preferred.focus({preventScroll: true});
   }
 
   function show(step) {
@@ -58,8 +55,6 @@
     if (step === 'layouts') {
       delete document.documentElement.dataset.account;
       chooseDefault();
-      const focus = $('play-chosen');
-      if (focus) focus.focus();
     } else if (step === 'login') {
       document.documentElement.dataset.account = 'locked';
       const name = $('login-name');

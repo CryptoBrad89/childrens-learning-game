@@ -54,8 +54,9 @@ async function run() {
     await page.locator('#layouts:not([hidden])').waitFor();
     assert.equal(await page.locator('a[data-world="silk"]').getAttribute('aria-current'), 'true');
     assert.equal(await page.locator('a[data-world="silk"]').evaluate(node => node.classList.contains('is-chosen')), true);
-    assert.equal(await page.locator('#play-chosen').getAttribute('href'), 'v4-silk-thread/index.html');
-    assert.match(await page.locator('#play-chosen').innerText(), /Ribbon Road/);
+    assert.equal(await page.locator('#layouts nav a[data-world]').count(), 3);
+    assert.equal(await page.locator('#play-chosen, .play-row').count(), 0, 'The three cards start the game');
+    assert.equal(await page.locator('a[href="v4-silk-thread/index.html"]').count(), 1);
     assert.equal(await page.evaluate(() => sessionStorage.getItem('lw-guest')), '1');
 
     await page.goto(url('v4-silk-thread/index.html'));

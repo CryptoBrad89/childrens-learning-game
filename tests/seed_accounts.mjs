@@ -42,8 +42,10 @@ async function api(pathname, body, token) {
 
 async function signup(person) {
   const result = await api('/functions/v1/accounts-public', person);
-  if (result.ok || result.status === 409) return;
-  throw new Error(`signup ${person.email} ${result.status}: ${JSON.stringify(result.data)}`);
+  if (result.ok) return;
+  const session = await api('/auth/v1/token?grant_type=password', {email: person.email, password: person.password});
+  if (session.ok) return;
+  throw new Error(`signup closed and ${person.email} did not sign in: ${result.status} ${JSON.stringify(result.data)}`);
 }
 
 async function signIn(email, password) {

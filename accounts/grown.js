@@ -1,6 +1,8 @@
-/* Served grown-ups' corner: a real sign-in instead of the number-word gate.
+/* Served grown-ups' corner: sign in, then manage children.
  * file:// never reaches this file's work, so the reading gate stays for the
  * local prototype and its checks.
+ * There is no public signup. An admin who is already signed in adds grown-ups.
+ * The page does not show groups or codes.
  */
 (function () {
   'use strict';
@@ -9,6 +11,7 @@
   const Store = window.LittleWoofStore;
   const Avatars = window.LittleWoofAvatars;
   const $ = selector => document.querySelector(selector);
+  const PICTURE = /^data:image\/(jpeg|png|webp|gif);base64,[a-z0-9+/=]+$/i;
 
   document.addEventListener('DOMContentLoaded', () => { start().catch(error => showStatus(error.message, true)); });
 
@@ -21,17 +24,23 @@
   function field(label, html) {
     return `<label>${label}${html}</label>`;
   }
+  function escapeHtml(value) {
+    return String(value ?? '').replace(/[&<>"']/g, ch => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'}[ch]));
+  }
+  function isAdmin(user, roster) {
+    const flag = user && user.app_metadata && user.app_metadata.admin;
+    return flag === true || flag === 'true' || !!(roster && roster.is_admin);
+  }
   function avatarPicker(selected = 'pup') {
     return `<div class="choices" role="group" aria-label="Picture">${Avatars.IDS.map(id => `<button type="button" class="avatar-pick" data-avatar="${id}" aria-pressed="${id === selected}" aria-label="${Avatars.AVATARS[id].label}">${Avatars.svg(id)}</button>`).join('')}</div>`;
   }
-  function bindAvatars(root, onPick) {
+  function bindAvatars(root) {
     let current = 'pup';
     root.querySelectorAll('[data-avatar]').forEach(button => {
       if (button.getAttribute('aria-pressed') === 'true') current = button.dataset.avatar;
       button.addEventListener('click', () => {
         current = button.dataset.avatar;
         root.querySelectorAll('[data-avatar]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
-        if (onPick) onPick(current);
       });
     });
     return () => current;
@@ -39,57 +48,91 @@
   function suggestLogin(name) {
     return name.toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 12);
   }
+  async function shrinkPicture(file) {
+    if (!file || !/^image\//.test(file.type)) throw new Error('Choose a picture file.');
+    const bitmap = await createImageBitmap(file);
+    const scale = Math.min(1, 192 / Math.max(bitmap.width, bitmap.height));
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.max(1, Math.round(bitmap.width * scale));
+    canvas.height = Math.max(1, Math.round(bitmap.height * scale));
+    canvas.getContext('2d').drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+    if (bitmap.close) bitmap.close();
+    const url = canvas.toDataURL('image/jpeg', 0.82);
+    if (!PICTURE.test(url) || url.length > 180000) throw new Error('That picture is too big. Try a smaller one.');
+    return url;
+  }
+  function face(child) {
+    if (child.avatar_image && PICTURE.test(child.avatar_image)) {
+      const img = document.createElement('img');
+      img.src = child.avatar_image;
+      img.alt = '';
+      return img;
+    }
+    const holder = document.createElement('span');
+    holder.innerHTML = Avatars.svg(child.avatar || 'pup');
+    return holder;
+  }
+  function paintKids(list, children) {
+    list.replaceChildren();
+    if (!children.length) {
+      const empty = document.createElement('li');
+      empty.className = 'kid';
+      empty.textContent = 'No children yet. Add one below.';
+      list.append(empty);
+      return;
+    }
+    children.forEach(child => {
+      const row = document.createElement('li');
+      row.className = 'kid';
+      const avatar = document.createElement('span');
+      avatar.className = 'player-avatar';
+      avatar.append(face(child));
+      const name = document.createElement('span');
+      name.innerHTML = `<strong>${escapeHtml(child.display_name)}</strong><small>${escapeHtml(child.login_name || '')}</small>`;
+      row.append(avatar, name);
+      list.append(row);
+    });
+  }
 
   async function start() {
     const gate = $('#gate');
     if (gate) gate.hidden = true;
     const host = document.createElement('section');
     host.id = 'account';
-    host.className = 'account';
+    host.className = 'account player';
     host.innerHTML = '<p id="account-status" class="status" role="status"></p>';
     gate.after(host);
-    const user = await Client.sessionUser();
-    if (!user) { renderSign(host, false); return; }
-    const role = Client.roleOf(user);
-    if (role === 'child') { renderChildBlocked(host); return; }
-    await renderDesk(host, role);
+    let user = null;
+    try { user = await Client.sessionUser(); } catch (error) { user = null; }
+    if (!user) { renderSign(host); return; }
+    if (Client.roleOf(user) === 'child') { renderChildBlocked(host); return; }
+    await renderDesk(host, user);
   }
 
-  function renderSign(host, creating) {
-    host.insertAdjacentHTML('beforeend', creating ? signupForm() : signInForm());
-    const form = host.querySelector('form');
-    const swap = host.querySelector('[data-swap]');
-    if (swap) swap.addEventListener('click', () => { host.innerHTML = '<p id="account-status" class="status" role="status"></p>'; renderSign(host, !creating); });
-    form.addEventListener('submit', async event => {
+  function renderSign(host) {
+    host.insertAdjacentHTML('beforeend', signInForm());
+    host.querySelector('form').addEventListener('submit', async event => {
       event.preventDefault();
-      const data = Object.fromEntries(new FormData(form));
-      if (String(data.password || '').length < 6) { showStatus('The secret needs at least 6 characters. A pin and initials is enough, like 7234ab.', true); return; }
+      const data = Object.fromEntries(new FormData(event.target));
+      if (String(data.password || '').length < 6) { showStatus('The secret needs at least 6 characters.', true); return; }
       try {
-        if (creating) {
-          showStatus('Creating the account…');
-          await Client.invoke('accounts-public', {
-            email: data.email, password: data.password, display_name: data.display_name, role: data.role
-          });
-        }
         showStatus('Signing in…');
-        await Client.signIn(String(data.email).trim(), data.password);
-        if (creating && data.role === 'teacher') {
-          const room = await Client.createClass(data.classroom_name || 'My class', data.classroom_code || '');
-          sessionStorage.setItem('lw-class-code', room.code);
+        const user = await Client.signIn(String(data.email).trim(), data.password);
+        if (Client.roleOf(user) === 'child') {
+          await Client.signOut();
+          showStatus('That sign-in is for a child. Use the home screen.', true);
+          return;
         }
         location.reload();
       } catch (error) { showStatus(error.message, true); }
     });
   }
   function signInForm() {
-    return `<h2>Grown-up sign-in</h2><p class="player-lead">Grown-ups use an email. The only rule for the secret is 6 characters, so 7234ab is a fine password.</p><form class="grid">${field('Email', '<input name="email" type="email" autocomplete="username" required>')}${field('Secret', '<input name="password" type="password" minlength="6" autocomplete="current-password" required>')}<button type="submit">Sign in</button></form><button type="button" class="quiet" data-swap>Create a grown-up account</button>`;
-  }
-  function signupForm() {
-    return `<h2>Create a grown-up account</h2><form class="grid">${field('Your name', '<input name="display_name" required maxlength="40">')}${field('Email', '<input name="email" type="email" autocomplete="username" required>')}${field('Secret', '<input name="password" type="password" minlength="6" autocomplete="new-password" required>')}<label>I look after<select name="role"><option value="teacher">a group of children</option><option value="parent">children who already have a sign-in</option></select></label>${field('Group name', '<input name="classroom_name" value="Morning class">')}${field('Group code, optional', '<input name="classroom_code" minlength="4" maxlength="10" autocapitalize="characters" autocomplete="off">')}<button type="submit">Create and sign in</button></form><button type="button" class="quiet" data-swap>I already have an account</button>`;
+    return `<h2>Grown-up sign-in</h2><p class="player-lead">Use the email and secret you already have. An admin who is already signed in can add another grown-up.</p><form class="grid" id="grown-sign-in">${field('Email', '<input name="email" type="email" autocomplete="username" required>')}${field('Secret', '<input name="password" type="password" minlength="6" autocomplete="current-password" required>')}<button type="submit">Sign in</button></form>`;
   }
 
   function renderChildBlocked(host) {
-    host.insertAdjacentHTML('beforeend', `<h2>A grown-up needs to sign in.</h2><p class="player-lead">This screen is signed in as a child, so the settings stay hidden. Signing a grown-up in ends the child's turn. Sign the child in again afterwards.</p><button type="button" id="switch-grownup">Sign in as a grown-up</button>`);
+    host.insertAdjacentHTML('beforeend', `<h2>A grown-up needs to sign in.</h2><p class="player-lead">This screen is signed in as a child, so the settings stay hidden.</p><button type="button" id="switch-grownup">Sign in as a grown-up</button>`);
     host.querySelector('#switch-grownup').addEventListener('click', async () => {
       await Client.signOut();
       Store.clearActive();
@@ -98,55 +141,63 @@
     });
   }
 
-  function wrapSave() {
-    const original = window.GROWN_UPS.save;
-    window.GROWN_UPS.save = function (next) {
-      const ok = original.call(window.GROWN_UPS, next);
-      const id = sessionStorage.getItem('lw-settings-child');
-      if (id) Client.noteSettings(id, window.GROWN_UPS.settings);
-      return ok;
-    };
+  function showDeviceSettings() {
+    const settings = $('#settings');
+    if (!settings) return;
+    settings.hidden = false;
+    settings.dataset.open = 'true';
+    document.body.dataset.view = 'settings';
   }
 
-  async function renderDesk(host, role) {
-    wrapSave();
+  async function renderDesk(host, user) {
     const roster = await Client.roster();
-    const room = roster.classroom;
     const children = roster.children || [];
-    const selected = sessionStorage.getItem('lw-settings-child');
-    const ready = sessionStorage.getItem('lw-settings-ready');
-    if (!(selected && ready === selected) && children[0]) {
-      await useChild(children[0].id);
-      return;
-    }
-
-    host.insertAdjacentHTML('beforeend', deskHtml(role, room, children, selected));
-    if (selected && ready === selected) openSettings(children, selected);
-    const intro = document.querySelector('#sheet .intro');
-    if (intro) intro.textContent = 'Changes save for this child and follow them to the next Chromebook, tablet or home screen.';
-    host.querySelector('#make-class')?.addEventListener('submit', async event => {
-      event.preventDefault();
-      const data = Object.fromEntries(new FormData(event.target));
-      try {
-        const room = await Client.createClass(data.classroom_name, data.classroom_code || '');
-        sessionStorage.setItem('lw-class-code', room.code);
-        location.reload();
-      } catch (error) { showStatus(error.message, true); }
-    });
-    const picker = host.querySelector('#child-picker');
-    if (picker) picker.addEventListener('change', () => useChild(picker.value));
+    const admin = isAdmin(user, roster);
+    host.insertAdjacentHTML('beforeend', deskHtml(children, admin, Client.roleOf(user)));
+    paintKids(host.querySelector('#kids'), children);
     const avatar = bindAvatars(host);
-    host.querySelector('#add-child')?.addEventListener('submit', async event => {
+    let photo = '';
+    const preview = host.querySelector('#photo-preview');
+    const file = host.querySelector('#child-photo');
+    file.addEventListener('change', async () => {
+      const picked = file.files && file.files[0];
+      if (!picked) { photo = ''; preview.hidden = true; preview.replaceChildren(); return; }
+      try {
+        photo = await shrinkPicture(picked);
+        const img = document.createElement('img');
+        img.src = photo;
+        img.alt = 'Chosen picture';
+        preview.replaceChildren(img);
+        preview.hidden = false;
+      } catch (error) {
+        photo = '';
+        file.value = '';
+        preview.hidden = true;
+        showStatus(error.message, true);
+      }
+    });
+    host.querySelector('#clear-photo').addEventListener('click', () => {
+      photo = '';
+      file.value = '';
+      preview.hidden = true;
+      preview.replaceChildren();
+    });
+    host.querySelector('#add-child').addEventListener('submit', async event => {
       event.preventDefault();
       const data = Object.fromEntries(new FormData(event.target));
       const login = (data.login_name || suggestLogin(data.display_name)).toLowerCase();
+      if (!/^[a-z0-9]{2,20}$/.test(login)) { showStatus('Use a short sign-in name, like maya.', true); return; }
       if (String(data.password).length < 6) { showStatus('The secret needs at least 6 characters.', true); return; }
       try {
         showStatus('Adding the child…');
         await Client.invoke('accounts-manage', {
-          action: 'create-child', display_name: data.display_name, login_name: login, password: data.password, avatar: avatar()
+          action: 'create-child',
+          display_name: data.display_name,
+          login_name: login,
+          password: data.password,
+          avatar: avatar(),
+          avatar_image: photo || null
         });
-        sessionStorage.removeItem('lw-settings-ready');
         location.reload();
       } catch (error) { showStatus(error.message, true); }
     });
@@ -156,7 +207,6 @@
       try {
         showStatus('Linking…');
         await Client.invoke('accounts-manage', {action: 'link-child', login_name: data.login_name, password: data.password});
-        sessionStorage.removeItem('lw-settings-ready');
         location.reload();
       } catch (error) { showStatus(error.message, true); }
     });
@@ -170,44 +220,36 @@
         event.target.reset();
       } catch (error) { showStatus(error.message, true); }
     });
+    host.querySelector('#add-grownup')?.addEventListener('submit', async event => {
+      event.preventDefault();
+      const data = Object.fromEntries(new FormData(event.target));
+      if (String(data.password).length < 6) { showStatus('The secret needs at least 6 characters.', true); return; }
+      try {
+        showStatus('Adding the grown-up…');
+        await Client.invoke('accounts-manage', {
+          action: 'create-grownup',
+          display_name: data.display_name,
+          email: data.email,
+          password: data.password,
+          can_admin: event.target.querySelector('[name="can_admin"]').checked
+        });
+        showStatus('Grown-up added. They can sign in with that email.');
+        event.target.reset();
+      } catch (error) { showStatus(error.message, true); }
+    });
     host.querySelector('#sign-out').addEventListener('click', async () => {
       await Client.signOut();
       Store.clearActive();
       Store.clearProjection();
-      sessionStorage.removeItem('lw-settings-child');
-      sessionStorage.removeItem('lw-settings-ready');
       location.href = '../index.html';
     });
+    showDeviceSettings();
   }
 
-  function openSettings(children, id) {
-    const settings = $('#settings');
-    settings.hidden = false;
-    settings.dataset.open = 'true';
-    document.body.dataset.view = 'settings';
-    const leave = document.querySelector('#leave .fill-label');
-    if (leave) leave.textContent = 'Back to the games';
-    const layer = document.querySelector('#leave .fill-layer .fill-label');
-    if (layer) layer.textContent = 'Back to the games';
-  }
-
-  async function useChild(id) {
-    showStatus('Opening this child…');
-    sessionStorage.setItem('lw-settings-child', id);
-    await Client.pull(id);
-    Store.project(Store.readState(id));
-    sessionStorage.setItem('lw-settings-ready', id);
-    location.reload();
-  }
-
-  function deskHtml(role, room, children, selected) {
-    const options = children.map(child => `<option value="${child.id}" ${child.id === selected ? 'selected' : ''}>${child.display_name}</option>`).join('');
-    const classBit = room
-      ? `<p>Group code <span class="code">${room.code}</span></p><p class="player-lead">${room.name}. This code stays with the group. Children sign in with their own name and secret.</p>`
-      : (role === 'teacher' ? `<form id="make-class" class="grid"><h2>Name the group</h2>${field('Group name', '<input name="classroom_name" required value="Morning class">')}${field('Code, optional', '<input name="classroom_code" minlength="4" maxlength="10" autocapitalize="characters">')}<button type="submit">Create the group</button></form>` : '');
-    const picker = children.length ? `<label>Whose settings<select id="child-picker">${options}</select></label>` : '<p>Add a child to choose their letters, sound and worlds.</p>';
-    const add = role === 'teacher' ? `<form id="add-child" class="grid"><h2>Add a child</h2>${field('Name', '<input name="display_name" required maxlength="40">')}<span>Picture</span>${avatarPicker('fox')}${field('Sign-in name', '<input name="login_name" minlength="2" maxlength="20" autocapitalize="none" autocomplete="off" placeholder="maya">')}${field('Secret', '<input name="password" type="password" minlength="6" autocomplete="new-password" required>')}<p class="player-lead">Six characters is the only rule. A pin plus initials works: 7234ab.</p><button type="submit">Add this child</button></form>` : `<form id="link-child" class="grid"><h2>Link a child</h2><p class="player-lead">Type the sign-in name and secret a grown-up already set.</p>${field('Sign-in name', '<input name="login_name" required autocapitalize="none">')}${field('Secret', '<input name="password" type="password" minlength="6" required>')}<button type="submit">Link</button></form>`;
-    const reset = children.length ? `<form id="new-secret" class="grid"><h2>New secret</h2>${field('Sign-in name', `<input name="login_name" value="${children.find(child => child.id === selected)?.login_name || children[0].login_name}" required>`)}${field('New secret', '<input name="password" type="password" minlength="6" required>')}<button type="submit" class="quiet">Save the new secret</button></form>` : '';
-    return `${classBit}${picker}${add}${reset}<button type="button" class="quiet" id="sign-out">Sign out</button>`;
+  function deskHtml(children, admin, role) {
+    const reset = children.length ? `<form id="new-secret" class="grid"><h2>New secret</h2>${field('Sign-in name', `<input name="login_name" value="${escapeHtml(children[0].login_name || '')}" required>`)}${field('New secret', '<input name="password" type="password" minlength="6" required>')}<button type="submit" class="quiet">Save the new secret</button></form>` : '';
+    const link = role === 'parent' ? `<form id="link-child" class="grid"><h2>Link a child</h2><p class="player-lead">Type the sign-in name and secret a grown-up already set.</p>${field('Sign-in name', '<input name="login_name" required autocapitalize="none">')}${field('Secret', '<input name="password" type="password" minlength="6" required>')}<button type="submit" class="quiet">Link</button></form>` : '';
+    const grown = admin ? `<form id="add-grownup" class="grid"><h2>Add a grown-up</h2><p class="player-lead">Only an admin who is already signed in can add another grown-up.</p>${field('Name', '<input name="display_name" required maxlength="40">')}${field('Email', '<input name="email" type="email" autocomplete="off" required>')}${field('Secret', '<input name="password" type="password" minlength="6" autocomplete="new-password" required>')}<label class="check"><input name="can_admin" type="checkbox"> They can add other grown-ups</label><button type="submit">Add this grown-up</button></form>` : '';
+    return `<h2>Children</h2><ul class="kids" id="kids"></ul><form id="add-child" class="grid"><h2>Add a child</h2>${field('Name', '<input name="display_name" required maxlength="40">')}${field('Picture from this device', '<input id="child-photo" name="photo" type="file" accept="image/*">')}<p id="photo-preview" class="photo-preview" hidden></p><button type="button" class="quiet" id="clear-photo">Use the icon instead</button><span>Or pick an icon</span>${avatarPicker('fox')}${field('Sign-in name', '<input name="login_name" minlength="2" maxlength="20" autocapitalize="none" autocomplete="off" placeholder="maya">')}${field('Secret', '<input name="password" type="password" minlength="6" autocomplete="new-password" required>')}<p class="player-lead">Six characters is the only rule. A pin plus initials works: 7234ab.</p><button type="submit">Add this child</button></form>${link}${reset}${grown}<button type="button" class="quiet" id="sign-out">Sign out</button>`;
   }
 })();

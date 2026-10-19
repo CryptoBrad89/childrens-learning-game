@@ -34,27 +34,16 @@ async function api(pathname, body, token) {
   return data;
 }
 function suffix() { return Math.random().toString(36).slice(2, 8); }
-function code() {
-  const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  return Array.from({length: 6}, () => alphabet[Math.floor(Math.random() * alphabet.length)]).join('');
-}
 
 async function seed() {
   const tag = suffix();
-  const teacherEmail = `teacher.${tag}@littlewoof.test`;
-  const teacherPassword = 'sunnyday';
   const login = `k${tag}`.replace(/[^a-z0-9]/g, '').slice(0, 12);
   const childPassword = '7234ab';
-  const classCode = code();
-  await api('/functions/v1/accounts-public', {
-    email: teacherEmail, password: teacherPassword, display_name: 'Test Teacher', role: 'teacher'
-  });
-  const session = await api('/auth/v1/token?grant_type=password', {email: teacherEmail, password: teacherPassword});
-  const room = await api('/rest/v1/rpc/create_classroom', {p_name: 'Sync class', p_code: classCode}, session.access_token);
+  const session = await api('/auth/v1/token?grant_type=password', {email: 'ada@littlewoof.test', password: 'sunnyday'});
   await api('/functions/v1/accounts-manage', {
     action: 'create-child', display_name: 'Sync Kid', login_name: login, password: childPassword, avatar: 'fox'
   }, session.access_token);
-  return {classCode: room.code, login, childPassword};
+  return {login, childPassword};
 }
 
 function listen(page) {
