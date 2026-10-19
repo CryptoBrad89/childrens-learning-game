@@ -1,0 +1,3 @@
+Before click: {"profile":"r2_adult_mvfnzyk3390_new","owner":"r2_adult_mvfnzyk3390_new","notice":"Welcome, Updated grown-up. Manage your kids below.","inert":false,"guardians":[{"child_id":"7a70038d-6c54-4a20-9a2c-836acaa1f31d"}],"child":{"id":"7a70038d-6c54-4a20-9a2c-836acaa1f31d","handle":"r2_play_mvfnzyk3390"}}
+After click: {"profile":"r2_adult_mvfnzyk3390_new","owner":"r2_play_mvfnzyk3390","notice":"Opened Explorer available to link's progress page.","inert":false,"pageerrors":[]}
+PASS LIVE: linked child button selects progress page and settings navigation preserves adult identity and selected child

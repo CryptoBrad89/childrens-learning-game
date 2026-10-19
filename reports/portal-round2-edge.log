@@ -1,0 +1,1 @@
+accounts_database_edge: admin-only creation (including legacy register), anonymous/child denial, avatars, password preservation, guardian checks, cleanup and interrupted retry passed

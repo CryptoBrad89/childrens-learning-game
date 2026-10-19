@@ -1,0 +1,1 @@
+accounts_database: migrations, RLS isolation, profile/Auth transaction + uniqueness, immutable events, retries/conflicts, reset preserves settings + rejects stale round inserts/replays, new generation saves, child denial and full deletion cascade passed

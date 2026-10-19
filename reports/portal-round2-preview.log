@@ -1,0 +1,9 @@
+locator.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator('#play-unsaved')
+
+    at [stdin]:9:75 {
+  log: [ "  - waiting for locator('#play-unsaved')" ],
+  name: 'TimeoutError'
+}
+Direct HEAD checks returned HTTP 403 from Cloudflare for raw.githack.com and rawcdn.githack.com, including the full commit-pinned URL. The browser could not reach the app through that host. Local Chromium + live Supabase verification passed separately.

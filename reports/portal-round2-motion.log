@@ -1,0 +1,13 @@
+PASS v1-letter-post-390-motion: entrances, replay, wrong/correct choice, reward, cancellation, live reduced motion
+PASS v1-letter-post-390-reduced: entrances, replay, wrong/correct choice, reward, cancellation, live reduced motion
+PASS v1-letter-post-768-motion: entrances, replay, wrong/correct choice, reward, cancellation, live reduced motion
+PASS v1-letter-post-768-reduced: entrances, replay, wrong/correct choice, reward, cancellation, live reduced motion
+PASS v1-letter-post-1920-motion: entrances, replay, wrong/correct choice, reward, cancellation, live reduced motion
+PASS v1-letter-post-1920-reduced: entrances, replay, wrong/correct choice, reward, cancellation, live reduced motion
+PASS v3-moonboat-390-motion: entrances, replay, wrong/correct choice, reward, cancellation, live reduced motion
+PASS v3-moonboat-390-reduced: entrances, replay, wrong/correct choice, reward, cancellation, live reduced motion
+PASS v3-moonboat-768-motion: entrances, replay, wrong/correct choice, reward, cancellation, live reduced motion
+PASS v3-moonboat-768-reduced: entrances, replay, wrong/correct choice, reward, cancellation, live reduced motion
+PASS v3-moonboat-1920-motion: entrances, replay, wrong/correct choice, reward, cancellation, live reduced motion
+PASS v3-moonboat-1920-reduced: entrances, replay, wrong/correct choice, reward, cancellation, live reduced motion
+PASS 12 motion cases; screenshots disabled
