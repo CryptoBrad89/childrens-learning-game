@@ -76,6 +76,8 @@ async function run() {
       const {page, done} = await fresh(viewport);
       // The chooser keeps its three worlds and adds a separate grown-up door.
       await page.goto(url('index.html'));
+      await page.locator('#login:not([hidden])').waitFor();
+      assert.equal(await page.locator('#layouts').isHidden(), true, 'Login is the first interactive screen');
       assert.equal(await page.locator('nav a').count(), 3);
       const door = page.locator('footer a.grown');
       assert.equal(await door.getAttribute('href'), 'grown-ups/index.html');
@@ -159,6 +161,9 @@ async function run() {
 
       await page.locator('#leave').click();
       await page.waitForURL(/\/index\.html$/);
+      await page.locator('#login:not([hidden])').waitFor();
+      await page.locator('#play-guest').click();
+      await page.locator('#layouts:not([hidden])').waitFor();
       assert.equal(await page.locator('nav a:visible').count(), 3);
       await page.goto(url('grown-ups/index.html'));
       assert(await page.locator('#settings').isHidden(), 'Every visit starts locked');
@@ -206,6 +211,9 @@ async function run() {
         HTMLMediaElement.prototype.play = function () {setTimeout(() => this.dispatchEvent(new Event('ended')), 30); return Promise.resolve();};
       }, [KEY, JSON.stringify(settings)]);
       await page.goto(url('index.html'));
+      await page.locator('#login:not([hidden])').waitFor();
+      await page.locator('#play-guest').click();
+      await page.locator('#layouts:not([hidden])').waitFor();
       assert.deepEqual(await page.locator('nav a:visible').evaluateAll(n => n.map(a => a.dataset.world)), ['post', 'silk']);
       assert.equal(await page.locator('nav').evaluate(n => n.style.getPropertyValue('--worlds')), '2');
       assert(await page.evaluate(() => document.documentElement.hasAttribute('data-calm')));

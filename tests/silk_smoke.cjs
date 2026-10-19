@@ -44,12 +44,17 @@ async function run() {
       try {
         const page = await context.newPage();
         await page.goto(pathToFileURL(path.join(root, 'index.html')).href);
+        await page.locator('#login:not([hidden])').waitFor();
+        assert.equal(await page.locator('#layouts').isHidden(), true, 'Layouts stay behind the login');
+        await page.locator('#play-guest').click();
+        await page.locator('#layouts:not([hidden])').waitFor();
+        assert.equal(await page.locator('a[data-world="silk"]').getAttribute('aria-current'), 'true', 'Ribbon Road is the default layout');
         assert.deepEqual(await page.locator('nav a').evaluateAll(nodes => nodes.map(node => node.getAttribute('href'))),
           ['v1-letter-post/index.html', 'v3-moonboat/index.html', 'v4-silk-thread/index.html']);
         await fits(page, `chooser ${viewport.width}`);
         await page.evaluate(() => document.fonts.ready);
         await page.screenshot({path: path.join(shots, `chooser-${viewport.width}.png`), fullPage: true});
-        await page.locator('a[href="v4-silk-thread/index.html"]').click();
+        await page.locator('a[data-world="silk"]').click();
         await page.waitForFunction(() => document.body.dataset.screen === 'home');
         console.log(`PASS chooser-${viewport.width}: three usable world links and layout`);
       } finally {await context.close();}
@@ -121,7 +126,7 @@ async function run() {
         } finally {await context.close();}
       }
     }
-    console.log(`PASS Silk Thread and chooser; screenshots: ${shots}`);
+    console.log(`PASS Ribbon Road and chooser; screenshots: ${shots}`);
   } finally {await browser.close();}
 }
 run().catch(error => {console.error(error); process.exitCode = 1;});

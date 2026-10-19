@@ -165,7 +165,7 @@
         const mine = await Client().roster();
         status('Tap who is playing at home.');
         renderPictures(mine.children || [], {password: false});
-        if (!(mine.children || []).length) status('No child is linked yet. A grown-up can add one from For grown-ups.', true);
+        if (!(mine.children || []).length) status('No child is linked yet. A grown-up can add one from Are you a grown-up?', true);
       } catch (error) { status(error.message, true); }
       return;
     }

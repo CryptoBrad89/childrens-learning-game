@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#faf2df">
-  <title>Children's Learning Game · Play with Lucy</title>
+  <title>Letters with Lucy</title>
   <link rel="stylesheet" href="accounts/ui.css">
   <script src="accounts/vendor/supabase.js"></script>
   <script src="accounts/merge.js"></script>
@@ -12,7 +12,6 @@
   <script src="accounts/store.js"></script>
   <script src="accounts/config.js"></script>
   <script src="accounts/client.js"></script>
-  <script src="accounts/chooser.js"></script>
   <script src="accounts/boot.js"></script>
   <script src="grown-ups/settings.js"></script>
   <style>
@@ -27,54 +26,79 @@
     @media(max-width:600px){body{padding:26px 20px}main{margin:0 auto}header{gap:18px;margin-bottom:30px}.brand{font-size:10px}header p:last-child{font-size:16px}h1{font-size:36px}.hello{width:100px}.hello:after{font-size:12px;padding:4px 9px}nav{grid-template-columns:1fr;gap:26px}a{display:grid;grid-template-columns:100px 1fr;padding:20px 16px;gap:7px 15px;text-align:left;align-items:center}.scene{grid-row:1/4;height:130px}.scene svg{width:100px;height:100px}.scene:before,.scene:after{display:none}a strong{font-size:25px}a>span{font-size:15px}a .go{font-size:17px;padding:7px 16px;justify-self:start;margin-top:5px}footer{font-size:12px}}
     @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}a:hover,a:active{transform:none}}
     html[data-calm] *,html[data-calm] *:before,html[data-calm] *:after{animation:none!important;transition:none!important}html[data-calm] a:hover,html[data-calm] a:active{transform:none}
+    [hidden]{display:none!important}
+    .chrome{position:fixed;top:14px;left:18px;z-index:8;margin:0;display:flex;flex-direction:column;align-items:flex-start;gap:2px;max-width:calc(100vw - 36px);pointer-events:none}
+    .chrome strong{font-size:clamp(18px,2.4vw,26px);font-weight:900;letter-spacing:-.03em;line-height:1.05}
+    .chrome small{font-size:11px;letter-spacing:.08em;font-weight:800;color:#536078}
+    body{padding-top:84px}
+    .splash{position:fixed;inset:0;z-index:7;display:grid;place-items:end center;background:#faf2df;padding:96px 24px 48px}
+    .splash-band{position:absolute;inset:0 0 auto;height:42%;background:linear-gradient(100deg,#b9dce6,#faf2df 45%,#ffd2eb 75%,#f6cf65);overflow:hidden}
+    .splash-band canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+    .splash-card{position:relative;z-index:1;text-align:center}
+    .splash-card img{width:min(180px,42vw);height:auto;border:7px solid #fffaf0;border-radius:50%;box-shadow:0 7px 0 #253f65}
+    .splash-card p{margin-top:18px;font-size:clamp(28px,5vw,44px);font-weight:900}
+    #child-form{display:grid;gap:12px;max-width:520px;margin-top:8px}
+    #child-form label,#child-form input{width:100%}
+    .guest-warning{max-width:46ch;margin:22px 0 12px;padding:12px 16px;border:3px solid #b8392c;border-radius:18px;background:#fffaf0}
+    #play-guest{min-height:64px}
+    #all-done{min-height:60px;margin:0 0 18px}
+    .play-row{display:flex;justify-content:center;margin-top:22px}
+    #play-chosen{display:inline-flex;flex-direction:row;align-items:center;justify-content:center;width:auto;min-height:64px;padding:0 28px;border-radius:18px;background:#b41468;color:#fff5fb;border-color:#72083d;box-shadow:0 8px 0 #72083d;font-size:22px;text-align:center}
+    a.is-chosen{outline:4px solid #b41468;outline-offset:6px}
+    a.is-chosen::after{content:'Ready';position:absolute;top:14px;right:14px;background:#fffaf0;color:#432045;border:2px solid currentColor;border-radius:999px;padding:4px 10px;font-size:14px;font-weight:900;letter-spacing:.04em}
+    @media(prefers-reduced-motion:no-preference){#login:not([hidden]),#layouts:not([hidden]){animation:lw-reveal 400ms cubic-bezier(.22,1,.36,1) both}}
+    @media(max-width:600px){body{padding:78px 20px 26px}#play-chosen{display:flex;width:100%;grid-template-columns:none}a.is-chosen::after{top:8px;right:8px;font-size:12px}}
   </style>
 </head>
 <body>
+  <p class="chrome"><strong>Letters with Lucy</strong><small>Little Sounds Big Discovery</small></p>
+  <div id="splash" class="splash">
+    <div class="splash-band" aria-hidden="true"></div>
+    <div class="splash-card">
+      <img src="v1-letter-post/assets/lucy-default.jpg" width="180" height="180" alt="Lucy the golden retriever">
+      <p>Hello.</p>
+    </div>
+  </div>
   <main>
-    <section id="player" class="player" hidden>
-      <div id="player-signed" hidden>
-        <div class="player-avatar" id="player-avatar"></div>
-        <p class="player-name" id="player-name"></p>
-        <p id="kept" data-letters="">Sounds kept: none yet</p>
-        <p id="stars" data-stars="" hidden></p>
-        <button type="button" id="all-done">All done</button>
-      </div>
-      <form id="class-form" hidden>
-        <h2>Who is playing?</h2>
-        <p class="player-lead">On a shared screen, enter the classroom code once. Then tap a picture. A grown-up types the secret.</p>
-        <label>Classroom code<input id="class-code" name="code" autocomplete="off" autocapitalize="characters" minlength="4" maxlength="10" required></label>
-        <button type="submit">Show our pictures</button>
+    <section id="login" class="player" hidden>
+      <h2>Who is playing?</h2>
+      <p class="player-lead">Type your sign-in name and secret.</p>
+      <form id="child-form">
+        <label>Your name<input id="login-name" name="login_name" autocomplete="username" autocapitalize="none" minlength="2" maxlength="20" required></label>
+        <label>Secret<input id="login-secret" name="password" type="password" minlength="6" autocomplete="current-password" required></label>
+        <button type="button" class="quiet" id="show-secret" aria-pressed="false">Show</button>
+        <button type="submit">That's me</button>
       </form>
-      <div id="roster" hidden>
-        <h2>Who is playing?</h2>
-        <p class="player-lead">Tap your picture. A grown-up types the secret. Six characters is enough, like 7234ab.</p>
-        <div id="pictures" class="pictures"></div>
-        <form id="secret-form" hidden>
-          <label>A grown-up types the secret<input id="secret" type="password" minlength="6" autocomplete="current-password" required></label>
-          <button type="button" class="quiet" id="show-secret" aria-pressed="false">Show</button>
-          <button type="submit">That's me</button>
-        </form>
-        <button type="button" class="quiet" id="change-class">Different classroom</button>
-      </div>
-      <p id="player-status" role="status"></p>
+      <p id="guest-warning" class="guest-warning">Play without saving does not keep sounds, stars, or settings. Progress will not be saved.</p>
+      <button type="button" class="quiet" id="play-guest" aria-describedby="guest-warning">Play without saving</button>
+      <p id="login-status" role="status"></p>
     </section>
-    <header><div class="hello"><img src="v1-letter-post/assets/lucy-default.jpg" width="180" height="180" alt="Lucy the golden retriever"></div><div><p class="brand">Children's Learning Game</p><h1>Play with Lucy</h1><p>Pick a little sound adventure.</p></div></header>
-    <nav aria-label="Choose a game">
-      <a data-world="post" href="v1-letter-post/index.html">
-        <div class="scene" aria-hidden="true"><svg viewBox="0 0 180 150" fill="none"><path d="M20 32h140v99H20z" fill="#fff8e5" stroke="#253f65" stroke-width="4" stroke-linejoin="round"/><path d="m20 32 70 53 70-53M20 131l48-48m92 48-48-48" stroke="#253f65" stroke-width="4" stroke-linejoin="round"/><path d="M125 44h23v28h-23z" fill="#c74234"/><path d="m79 10 5-9m-33 16-8-6m65 4 8-8" stroke="#c74234" stroke-width="4" stroke-linecap="round"/></svg></div>
-        <strong>Lucy’s Letter Post</strong><span>Open sound mail.<br>Find its picture.</span><span class="go">Let's deliver <b aria-hidden="true">→</b></span>
-      </a>
-      <a class="space" data-world="space" href="v3-moonboat/index.html">
-        <div class="scene" aria-hidden="true"><svg viewBox="0 0 180 150" fill="none"><path d="M32 95c18 32 75 37 111-3-46 13-75-18-76-52-25 9-43 30-35 55Z" fill="#eed29a" stroke="#fff5dc" stroke-width="3"/><g transform="rotate(22 108 60)"><path d="M91 91V51c0-20 17-35 17-35s17 15 17 35v40Z" fill="#b9dce6" stroke="#fff5dc" stroke-width="3"/><circle cx="108" cy="54" r="9" fill="#292940" stroke="#fff5dc" stroke-width="3"/><path d="m91 74-13 21h13m34-21 13 21h-13" fill="#c78276" stroke="#fff5dc" stroke-width="3"/><path d="m101 100 7 18 7-18" stroke="#eed29a" stroke-width="5" stroke-linecap="round"/></g><path d="m29 27 3 8 8 3-8 3-3 8-3-8-8-3 8-3Z" fill="#eed29a"/></svg></div>
-        <strong>Lucy’s Moonboat</strong><span>Explore a sound.<br>Light up the sky.</span><span class="go">Let's explore <b aria-hidden="true">→</b></span>
-      </a>
-      <a class="silk" data-world="silk" href="v4-silk-thread/index.html">
-        <div class="scene" aria-hidden="true"><svg viewBox="0 0 180 150" fill="none"><path d="M12 112C10 38 84 142 88 65S162 13 166 85" stroke="#fff5fb" stroke-width="13" stroke-linecap="round"/><path d="M12 112C10 38 84 142 88 65S162 13 166 85" stroke="#b41468" stroke-width="3" stroke-linecap="round"/><rect x="17" y="70" width="45" height="50" rx="14" fill="#61ead7" stroke="#432045" stroke-width="3" transform="rotate(-10 40 95)"/><text x="39" y="106" fill="#432045" font-size="33" font-family="Nunito, sans-serif" font-weight="900" text-anchor="middle">A</text><rect x="105" y="22" width="45" height="50" rx="14" fill="#fff5fb" stroke="#432045" stroke-width="3" transform="rotate(10 128 47)"/><text x="128" y="59" fill="#b41468" font-size="33" font-family="Nunito, sans-serif" font-weight="900" text-anchor="middle">B</text></svg></div>
-        <strong>Lucy’s Silk Thread</strong><span>Follow a sound.<br>Find a little wonder.</span><span class="go">Let's play <b aria-hidden="true">→</b></span>
-      </a>
-    </nav>
-    <footer><p>Little sounds. Big adventures. Take your time.</p><a class="grown" href="grown-ups/index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></svg>For grown-ups</a></footer>
+    <section id="layouts" hidden>
+      <p class="player-name" id="player-name" hidden></p>
+      <p id="kept" data-letters="" hidden>Sounds kept: none yet</p>
+      <p id="stars" data-stars="" hidden></p>
+      <button type="button" class="quiet" id="all-done" hidden>All done</button>
+      <header><div class="hello"><img src="v1-letter-post/assets/lucy-default.jpg" width="180" height="180" alt="Lucy the golden retriever"></div><div><h1>Pick a little adventure.</h1><p>Ribbon Road is ready. You can choose another.</p></div></header>
+      <nav aria-label="Choose a game">
+        <a data-world="post" href="v1-letter-post/index.html">
+          <div class="scene" aria-hidden="true"><svg viewBox="0 0 180 150" fill="none"><path d="M20 32h140v99H20z" fill="#fff8e5" stroke="#253f65" stroke-width="4" stroke-linejoin="round"/><path d="m20 32 70 53 70-53M20 131l48-48m92 48-48-48" stroke="#253f65" stroke-width="4" stroke-linejoin="round"/><path d="M125 44h23v28h-23z" fill="#c74234"/><path d="m79 10 5-9m-33 16-8-6m65 4 8-8" stroke="#c74234" stroke-width="4" stroke-linecap="round"/></svg></div>
+          <strong>Lucy’s Letter Post</strong><span>Open sound mail.<br>Find its picture.</span><span class="go">Let's deliver <b aria-hidden="true">→</b></span>
+        </a>
+        <a class="space" data-world="space" href="v3-moonboat/index.html">
+          <div class="scene" aria-hidden="true"><svg viewBox="0 0 180 150" fill="none"><path d="M32 95c18 32 75 37 111-3-46 13-75-18-76-52-25 9-43 30-35 55Z" fill="#eed29a" stroke="#fff5dc" stroke-width="3"/><g transform="rotate(22 108 60)"><path d="M91 91V51c0-20 17-35 17-35s17 15 17 35v40Z" fill="#b9dce6" stroke="#fff5dc" stroke-width="3"/><circle cx="108" cy="54" r="9" fill="#292940" stroke="#fff5dc" stroke-width="3"/><path d="m91 74-13 21h13m34-21 13 21h-13" fill="#c78276" stroke="#fff5dc" stroke-width="3"/><path d="m101 100 7 18 7-18" stroke="#eed29a" stroke-width="5" stroke-linecap="round"/></g><path d="m29 27 3 8 8 3-8 3-3 8-3-8-8-3 8-3Z" fill="#eed29a"/></svg></div>
+          <strong>Lucy’s Moonboat</strong><span>Explore a sound.<br>Light up the sky.</span><span class="go">Let's explore <b aria-hidden="true">→</b></span>
+        </a>
+        <a class="silk is-chosen" data-world="silk" href="v4-silk-thread/index.html" aria-current="true">
+          <div class="scene" aria-hidden="true"><svg viewBox="0 0 180 150" fill="none"><path d="M12 112C10 38 84 142 88 65S162 13 166 85" stroke="#fff5fb" stroke-width="13" stroke-linecap="round"/><path d="M12 112C10 38 84 142 88 65S162 13 166 85" stroke="#b41468" stroke-width="3" stroke-linecap="round"/><rect x="17" y="70" width="45" height="50" rx="14" fill="#61ead7" stroke="#432045" stroke-width="3" transform="rotate(-10 40 95)"/><text x="39" y="106" fill="#432045" font-size="33" font-family="Nunito, sans-serif" font-weight="900" text-anchor="middle">A</text><rect x="105" y="22" width="45" height="50" rx="14" fill="#fff5fb" stroke="#432045" stroke-width="3" transform="rotate(10 128 47)"/><text x="128" y="59" fill="#b41468" font-size="33" font-family="Nunito, sans-serif" font-weight="900" text-anchor="middle">B</text></svg></div>
+          <strong>Ribbon Road</strong><span>Follow a sound.<br>Find a little wonder.</span><span class="go">Let's play <b aria-hidden="true">→</b></span>
+        </a>
+      </nav>
+      <p class="play-row"><a id="play-chosen" href="v4-silk-thread/index.html">Play Ribbon Road</a></p>
+    </section>
+    <footer><p>Little Sounds Big Discovery. Take your time.</p><a class="grown" href="grown-ups/index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></svg>Are you a grown-up?</a></footer>
   </main>
+  <noscript><p>This little game needs JavaScript enabled in your browser.</p></noscript>
+  <script src="accounts/home.js"></script>
   <script>
     // Grown-ups can choose which worlds appear here; at least one always stays.
     function applyWorlds() {
@@ -84,6 +108,7 @@
       const shown = worlds.filter(a => !a.hidden);
       if (!shown.length) worlds.forEach(a => { a.hidden = false; });
       document.querySelector('nav').style.setProperty('--worlds', shown.length || worlds.length);
+      if (window.LittleWoofHome) window.LittleWoofHome.chooseDefault();
     }
     applyWorlds();
     document.addEventListener('little-woof-applied', applyWorlds);

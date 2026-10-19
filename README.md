@@ -1,4 +1,4 @@
-# Children's Learning Game · Letter Post, Moonboat, and Silk Thread
+# Letters with Lucy · Letter Post, Moonboat, and Ribbon Road
 
 Open [index.html](index.html) directly, or serve the repository root with
 `python3 -m http.server 8000` and visit `/`.
@@ -51,6 +51,7 @@ node tests/grown_ups_runtime.cjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/grown_ups_smoke.cjs
 node tests/accounts_merge.cjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/accounts_sync.cjs
+CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/home_flow.cjs
 ```
 
 - `runtime_smoke.cjs` (no browser) plays 234 rounds (26 letters × 3 themes ×
@@ -63,7 +64,7 @@ CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/accounts_sync.cjs
 - `motion_smoke.cjs` drives both worlds at phone, tablet, and whiteboard
   sizes with real interactions, normal and reduced motion, and no network.
   Screenshots go to `/tmp/lpmb-motion-shots`.
-- `silk_smoke.cjs` checks all 26 Silk Thread rounds, palette persistence,
+- `silk_smoke.cjs` checks all 26 Ribbon Road rounds, palette persistence,
   60px touch targets, reduced motion and offline resources at widths 390,
   1180 and 1920. Screenshots go to `/tmp/silk-shots`.
 - `confetti_smoke.cjs` checks continuous confetti in all three games and
@@ -96,14 +97,14 @@ fading soft red glow.
 Rewards recycle twenty-four SVG paper cut-outs continuously until the route
 changes; replay keeps the same pieces falling and reduced motion removes them.
 Letter Post scatters envelopes, stamps, hearts, and paper curls; Moonboat
-scatters stars, crescents, ringed planets, and curls; Silk Thread scatters
+scatters stars, crescents, ringed planets, and curls; Ribbon Road scatters
 hearts, curls, and stars. Separate transform layers handle descent, flutter,
 and tumble, with no per-frame JavaScript or SVG filters. Colors use the
 world palette.
 
-## Silk Thread
+## Ribbon Road
 
-Silk Thread reuses Letter Post's engine, artwork, motion, fonts, and Lucy
+Ribbon Road reuses Letter Post's engine, artwork, motion, fonts, and Lucy
 assets through relative paths. Its `config.js` supplies the home view, title,
 palette labels, and asset base. Pink is the default, followed by Purple and
 Yellow. Each world keeps its own theme choice.
@@ -114,12 +115,14 @@ Serve the folder (`python3 -m http.server 8000`) to use real sign-ins. Opening
 the files directly keeps the local grown-up gate and device settings, which is
 what the offline checks cover.
 
-A shared Chromebook remembers a classroom code, not a child. The screen shows
-that class's pictures. A grown-up taps a child's picture and types a secret of
-at least 6 characters (a pin plus initials, such as `7234ab`, is enough). There
-are no capital, number or symbol rules. At home, a parent signs in with email
-from **For grown-ups**, links a child with that child's secret, then taps the
-child's picture. No second password.
+After a short still splash, the first screen is a child login: sign-in name
+and secret. There is no classroom code on that dialog. **Are you a grown-up?**
+opens the grown-ups' corner. **Play without saving** starts a visit that does
+not keep sounds, stars, or settings. Then the child picks Letter Post, Moonboat,
+or Ribbon Road. Ribbon Road is highlighted and is the default. A child signs in
+with a name and a secret of at least 6 characters (a pin plus initials, such as
+`7234ab`, is enough). There are no capital, number or symbol rules. A grown-up
+signs in with email from **Are you a grown-up?**
 
 The number-word gate stays on `file://`. On the served game it is replaced by
 these accounts: a child session cannot open settings, and a teacher or parent
@@ -142,7 +145,7 @@ offline and another online, and checks that both browsers show both letters.
 
 ## Grown-ups' corner
 
-The chooser's footer has a small **For grown-ups** button that opens
+The home footer has a small **Are you a grown-up?** link that opens
 `grown-ups/index.html`. Before the settings appear, an adult taps three digits
 written as words ("seven, two, five"). Children of three or four can't read
 number words yet. Each miss brings new numbers, every third miss pauses the

@@ -64,12 +64,10 @@ function listen(page) {
 }
 async function signChild(page, seeded) {
   await page.goto('http://127.0.0.1:8765/index.html');
-  await page.locator('#class-code').waitFor();
-  await page.locator('#class-code').fill(seeded.classCode);
-  await page.locator('#class-form button[type="submit"]').click();
-  await page.locator(`[data-login="${seeded.login}"]`).click();
-  await page.locator('#secret').fill(seeded.childPassword);
-  await page.locator('#secret-form button[type="submit"]').click();
+  await page.locator('#child-form').waitFor();
+  await page.locator('#login-name').fill(seeded.login);
+  await page.locator('#login-secret').fill(seeded.childPassword);
+  await page.locator('#child-form button[type="submit"]').click();
   await page.waitForFunction(() => !document.documentElement.dataset.account && document.querySelector('#player-name')?.textContent.includes('Sync Kid'));
 }
 async function play(page, letter) {

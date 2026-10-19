@@ -16,7 +16,14 @@
   }
   function active() { return Store.readActive(); }
 
-  if (grownPage) {
+  function guestVisit() {
+    try { return sessionStorage.getItem('lw-guest') === '1'; } catch (error) { return false; }
+  }
+
+  if (guestVisit()) {
+    Store.clearActive();
+    Client.setLearner(null);
+  } else if (grownPage) {
     const child = settingsChild();
     if (child) Store.project(Store.readState(child));
     else Store.clearProjection();
@@ -85,7 +92,7 @@
       document.getElementById('footer').prepend(stars);
       document.getElementById('footer').prepend(kept);
     }
-    if (document.getElementById('player') && window.LittleWoofChooser) window.LittleWoofChooser.start();
+    if (document.getElementById('login') && window.LittleWoofHome) window.LittleWoofHome.start();
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});
     paintKept();
     const beat = () => { if (navigator.onLine) Client.syncNow().catch(() => {}); };

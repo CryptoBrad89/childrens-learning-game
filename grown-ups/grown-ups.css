@@ -38,6 +38,7 @@ svg{width:1.3em;height:1.3em;flex:none;fill:none;stroke:currentColor;stroke-widt
 .masthead{min-height:var(--band-h);display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding-bottom:28px;flex-wrap:wrap}
 .label,.challenge-label,.index span,h2 span,legend,dt{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:900}
 .label{margin:0 0 6px}
+.chrome-tag{margin:0 0 10px;font-size:.72rem;letter-spacing:.08em;font-weight:800;color:var(--muted)}
 .title{margin:0;font-size:clamp(2.2rem,5.4vw,4.6rem);line-height:1;letter-spacing:-.045em;font-weight:900}
 
 /* Hyperiux arrow-fill-button: the dot's fill grows into the whole button; a clipped copy flips the text. */
