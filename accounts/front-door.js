@@ -46,18 +46,18 @@ function wordmark() {
 }
 
 /* ---------- sign-in dialog ---------- */
-// People who played on this device, then pictures a grown-up chose to show here.
+// People who played on this device, then children a grown-up chose to show here.
 function tiles() {
   const seen = new Set(), out = [];
   for (const p of L.list().filter(x => x.played)) { seen.add(p.login); out.push(p); }
-  for (const b of L.boards()) for (const c of b.children || []) if (!seen.has(c.login)) { seen.add(c.login); out.push(c); }
+  for (const s of L.shown()) for (const c of s.children || []) if (!seen.has(c.login)) { seen.add(c.login); out.push(c); }
   return out;
 }
 function renderTiles() {
   const list = tiles();
   $('#tiles-wrap').hidden = !list.length;
   $('#people').innerHTML = list.map((p, i) => `<li style="--i:${i}"><button type="button" class="person" data-login="${esc(p.login)}" aria-pressed="false">
-    ${P.avatar(p.avatar)}<span class="name">${esc(p.name)}</span>${p.waiting ? '<i class="wait" title="Play waiting to upload"></i><span class="sr-only">, play waiting to upload</span>' : ''}</button></li>`).join('');
+    ${P.avatar(p)}<span class="name">${esc(p.name)}</span>${p.waiting ? '<i class="wait" title="Play waiting to upload"></i><span class="sr-only">, play waiting to upload</span>' : ''}</button></li>`).join('');
 }
 function dots() {
   const n = $('#login-pw').value.length;
@@ -103,7 +103,7 @@ function defaultCard() {
 function renderPlaying() {
   const me = L.player();
   if (!me) return;
-  $('#playing-avatar').innerHTML = P.avatar(me.avatar);
+  $('#playing-avatar').innerHTML = P.avatar(me);
   $('#playing-name').textContent = me.name;
   const earned = L.badges(me.id), keys = L.BADGES.filter(b => earned[b.key]);
   $('#stickers').innerHTML = keys.slice(0, 6).map(b => `<span>${P.sticker(b.key)}</span>`).join('')
@@ -171,10 +171,6 @@ L.on('change', () => {
   else if (L.player()) renderPlaying();
 });
 L.on('status', () => { if (L.player()) renderPlaying(); });
-// Pictures a grown-up put on this device may have changed (new children, new names).
-if (L.boards().length && navigator.onLine !== false) {
-  Promise.allSettled(L.boards().map(b => L.board(b.code))).then(() => { if ($('#login').open) renderTiles(); });
-}
 
 wordmark();
 if (L.player() || guest()) showPicker();

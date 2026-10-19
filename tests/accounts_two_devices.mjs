@@ -21,7 +21,7 @@ const letters = (agg, world) => Object.keys(agg[world] || {}).sort().join('');
 
 const devices = [];
 try {
-  const room = await be.classroom({children: ['Mia']});
+  const room = await be.family({children: ['Mia']});
   const mia = room.kids[0];
   for (const dir of dirs) {
     const persistent = await pw.chromium.launchPersistentContext(dir, {...launchOptions(), viewport: {width: 1366, height: 768}, reducedMotion: 'reduce'});
@@ -30,7 +30,7 @@ try {
   const [A, B] = devices;
   const a = A.pages()[0] || await A.newPage(), b = B.pages()[0] || await B.newPage();
 
-  // Both devices: first load online, Mia signs in from her class board.
+  // Both devices: first load online, Mia signs in with her sign-in name.
   await signInChild(a, web.url, mia.login, mia.password);
   await signInChild(b, web.url, mia.login, mia.password);
   assert.notEqual(await a.evaluate(() => window.LW.deviceId), await b.evaluate(() => window.LW.deviceId), 'Two separate profiles');
@@ -74,10 +74,10 @@ try {
   assert.match(await a.locator('#playing-sync').textContent(), /Saved on this device/);
   ok('device A offline: pages load from the service worker; 6 rounds, 2 color changes and new stickers wait on the device');
 
-  // Meanwhile, online: B picks a newer Letter Post color, and the teacher changes Mia's hints.
+  // Meanwhile, online: B picks a newer Letter Post color, and a grown-up changes Mia's hints.
   await b.selectOption('#theme', '2');
   await waitSynced(b);
-  await be.rpc('lw_put_settings', {p_changes: [{profile: mia.id, field: 'hintAfter', v: 1, t: Date.now()}]}, room.teacher.token);
+  await be.rpc('lw_put_settings', {p_changes: [{profile: mia.id, field: 'hintAfter', v: 1, t: Date.now()}]}, room.grownup.token);
 
   // ---- Device A reconnects. The first upload reaches the server but its reply is lost.
   let lost = 0;
@@ -96,8 +96,8 @@ try {
   await a.evaluate(() => window.LW.sync(window.LW.playerId())); // and once more, for good measure
   ok('device A back online: first reply lost, retried, everything uploaded');
 
-  // ---- What the server holds: each round once, the newest color edits, the teacher's change, the stickers.
-  const server = await be.rpc('lw_child_state', {p_child: mia.id}, room.teacher.token);
+  // ---- What the server holds: each round once, the newest color edits, the grown-up's change, the stickers.
+  const server = await be.rpc('lw_child_state', {p_child: mia.id}, room.grownup.token);
   assert.equal(total(server.agg), 7, 'Exactly 7 rounds: 1 from B and 6 from A');
   assert.equal(letters(server.agg, 'post'), 'ABIPST'); assert.equal(letters(server.agg, 'space'), 'N');
   assert.deepEqual([server.agg.post.S.n, server.agg.post.A.n, server.agg.post.A.clean, server.agg.post.P.clean], [1, 1, 0, 0]);

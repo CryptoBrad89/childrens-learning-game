@@ -56,8 +56,9 @@ every screen.
 ```
 
 - The dialog holds no group, board or class codes. Picture tiles come from
-  people who played on this device and from groups a grown-up chose to show
-  here ("Show their pictures on this device" in the grown-ups' corner).
+  people who played on this device and from children a grown-up chose to show
+  here ("Show my children's pictures on the sign-in" in the grown-ups'
+  corner). A child with an uploaded photo shows that photo.
 - "Play without saving" is one click. The picker then says plainly, in a
   `role="status"` bar, that nothing will be kept, and each world's footer
   repeats "Playing without saving".
@@ -72,7 +73,7 @@ Phone: two picture tiles per row in the dialog. Every target is at least 60px
 
 Reuses the chooser's tokens: paper `#faf2df`, sheet `#fffaf0`, ink
 `#253f65`, muted `#536078`, accent `#c74234` (only on "Let's play"), sky
-`#b9dce6` for saved group boards, focus `#007a95`. Six soft tones behind
+`#b9dce6` for a tapped picture tile, focus `#007a95`. Six soft tones behind
 avatars (sky, butter, candy pink, mint, peach, lilac) come from the worlds'
 palettes. Status dots: green saved, amber waiting, grey offline, accent when a
 sign-in is needed. Type: Nunito Sans Black, as the chooser.

@@ -16,7 +16,7 @@ const SELF = document.currentScript && document.currentScript.src;
 const DOMAIN = '@accounts.little-woof.invalid';
 const WORLDS = ['post', 'space', 'silk'];
 const LETTERS = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
-const KEY = {people: 'lw:people', outbox: 'lw:outbox', device: 'lw:device', boards: 'lw:boards', active: 'lw:active', corner: 'lw:corner'};
+const KEY = {people: 'lw:people', outbox: 'lw:outbox', device: 'lw:device', shown: 'lw:shown', active: 'lw:active', corner: 'lw:corner'};
 const dataKey = id => 'lw:data:' + id;
 const MAX_UPLOAD = 500, SYNC_EVERY = 30000, TIMEOUT = 15000;
 
@@ -62,7 +62,7 @@ function list() {
   return Object.values(people()).sort((a, b) => (b.lastUsed || 0) - (a.lastUsed || 0))
     .map(p => ({...publicPerson(p), waiting: waiting(p.id)}));
 }
-const publicPerson = p => p && ({id: p.id, login: p.login, name: p.name, avatar: p.avatar, role: p.role,
+const publicPerson = p => p && ({id: p.id, login: p.login, name: p.name, avatar: p.avatar, picture: p.picture || null, role: p.role,
   lastUsed: p.lastUsed, played: !!p.played, needsSignIn: !!p.needsSignIn || !p.session});
 
 // Who is playing in this tab. A turn ends when the tab closes, unless the
@@ -199,7 +199,10 @@ function adopt(id, state) {
   if (!d.snap.server_time || state.server_time >= d.snap.server_time) d.snap = state;
   save(id, d);
   const p = person(id);
-  if (p && (p.name !== state.profile.name || p.avatar !== state.profile.avatar)) patchPerson(id, {name: state.profile.name, avatar: state.profile.avatar});
+  const picture = state.profile.picture || null;
+  if (p && (p.name !== state.profile.name || p.avatar !== state.profile.avatar || (p.picture || null) !== picture)) {
+    patchPerson(id, {name: state.profile.name, avatar: state.profile.avatar, picture});
+  }
 }
 
 /* ---------- talking to Supabase ---------- */
@@ -291,7 +294,7 @@ async function signIn(login, password, {as = 'player', keep = false} = {}) {
   if (!me.ok) throw failure(me);
   const verifier = await makeVerifier(password).catch(() => null);
   const old = person(id) || {};
-  savePerson({...old, id, login: me.body.login, name: me.body.name, avatar: me.body.avatar, role: me.body.role,
+  savePerson({...old, id, login: me.body.login, name: me.body.name, avatar: me.body.avatar, picture: me.body.picture || null, role: me.body.role,
     verifier: verifier || old.verifier || null, lastUsed: Date.now(), needsSignIn: false,
     session: {access: s.access_token, refresh: s.refresh_token, exp: s.expires_at || Math.floor(Date.now() / 1000) + (s.expires_in || 3600)}});
   if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
@@ -310,12 +313,6 @@ function begin(id, {as, keep, offline}) {
   const ready = sync(id).catch(() => {});
   return {...publicPerson(person(id)), offline, ready};
 }
-async function signUp(login, password, name) {
-  login = cleanLogin(login);
-  const res = await request('/rest/v1/rpc/lw_sign_up', {p_login: login, p_password: password, p_name: name});
-  if (!res.ok) throw failure(res);
-  return res.body;
-}
 function endTurn(slot = KEY.active) { setActive(null, {slot}); }
 // Removes a person's copy from this device. Refused while anything waits to upload.
 async function forget(id) {
@@ -327,24 +324,17 @@ async function forget(id) {
   emit('change', {id});
 }
 
-/* ---------- picture boards (a class or home, by its code) ---------- */
-const cleanCode = code => String(code || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
-function boards() { return read(KEY.boards, []); }
-async function board(code) {
-  code = cleanCode(code);
-  const cached = boards().find(b => b.code === code);
-  try {
-    const b = await api(null, 'lw_board', {p_code: code});
-    write(KEY.boards, [{...b, fetched: Date.now()}, ...boards().filter(x => x.code !== b.code && x.id !== b.id)].slice(0, 20));
-    return b;
-  } catch (e) {
-    if (e.code === 'offline' && cached) return {...cached, offline: true};
-    // A code that was replaced: drop the stale copy.
-    if (e.code === 'no_board' && cached) forgetBoard(code);
-    throw e;
-  }
+/* ---------- children's pictures on this device's sign-in ---------- */
+// A grown-up can choose to show their children's pictures in the sign-in
+// dialog here (names and pictures only; each child still types a password).
+// The corner refreshes the copy whenever that grown-up opens it.
+drop('lw:boards'); // the accounts build kept group boards here, by code
+function shown() { return read(KEY.shown, []); }
+function showHere(by, children) {
+  const list = (children || []).map(c => ({id: c.id, login: c.login, name: c.name, avatar: c.avatar, picture: c.picture || null}));
+  write(KEY.shown, [{by, children: list, at: Date.now()}, ...shown().filter(x => x.by !== by)].slice(0, 20));
 }
-function forgetBoard(codeOrId) { write(KEY.boards, boards().filter(b => b.code !== cleanCode(codeOrId) && b.id !== codeOrId)); }
+function hideHere(by) { write(KEY.shown, shown().filter(x => x.by !== by)); }
 
 /* ---------- sync ---------- */
 const syncing = new Set(), lastError = {};
@@ -421,10 +411,10 @@ window.LW = {
   player: () => publicPerson(person(activeId())), playerId: () => activeId(),
   grownup: () => publicPerson(person(activeId(KEY.corner))), grownupId: () => activeId(KEY.corner),
   keptGrownup: () => read(KEY.corner, null) === activeId(KEY.corner) && !!activeId(KEY.corner),
-  signIn, signUp, endTurn, endCorner: () => endTurn(KEY.corner), forget,
+  signIn, endTurn, endCorner: () => endTurn(KEY.corner), forget,
   values, settingsOf, setSettings, progress, summary, badges, recordRound, adopt,
   lettersIn: (id, world) => Object.entries(progress(id)[world] || {}).filter(([, c]) => c.n > 0).map(([l]) => l),
-  board, boards, forgetBoard, cleanCode,
+  shown, showHere, hideHere, isShownHere: by => shown().some(x => x.by === by),
   cache: (key, value) => value === undefined ? read('lw:cache:' + key, null) : write('lw:cache:' + key, value),
   sync, syncAll, status, api: (id, fn, args) => api(id, fn, args)
 };

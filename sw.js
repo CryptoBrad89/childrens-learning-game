@@ -4,7 +4,7 @@
  * background when online; pictures, fonts and audio never change in place.
  * tests/offline_shell.cjs checks this list against the files in the repo. */
 'use strict';
-const VERSION = 'little-woof-shell-2';
+const VERSION = 'little-woof-shell-3';
 const FILES = [
   './',
   "accounts/accounts.js",

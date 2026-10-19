@@ -11,9 +11,15 @@ function parse(avatar) {
   const [pic, tone] = String(avatar || 'sun').split(':');
   return {pic: AVATARS.includes(pic) ? pic : 'sun', tone: Math.min(5, Math.max(0, Number(tone) || 0))};
 }
-function avatar(value, {label = ''} = {}) {
-  const {pic, tone} = parse(value), art = window.draw ? window.draw(pic) : '';
-  return `<span class="lw-avatar" style="--tone:${TONES[tone]}"${label ? ` role="img" aria-label="${esc(label)}"` : ' aria-hidden="true"'}>${art}</span>`;
+// Only small photos made by the corner (see the database's picture check).
+const PHOTO = /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/]+={0,2}$/;
+const photo = p => typeof p === 'string' && p.length <= 60000 && PHOTO.test(p) ? p : null;
+// A person's picture: their uploaded photo when they have one, else the drawn
+// avatar. Takes a person ({avatar, picture}) or just an avatar value.
+function avatar(who, {label = ''} = {}) {
+  const value = who && typeof who === 'object' ? who.avatar : who, src = who && typeof who === 'object' ? photo(who.picture) : null;
+  const {pic, tone} = parse(value), art = src ? `<img src="${src}" alt="">` : window.draw ? window.draw(pic) : '';
+  return `<span class="lw-avatar${src ? ' photo' : ''}" style="--tone:${TONES[tone]}"${label ? ` role="img" aria-label="${esc(label)}"` : ' aria-hidden="true"'}>${art}</span>`;
 }
 // A stamp edge: a circle with sixteen bumps.
 const edge = (() => {
@@ -52,5 +58,5 @@ function syncState(st) {
   if (st.waiting) return ['waiting', 'Saved on this device. Uploading soon'];
   return ['saved', 'All saved'];
 }
-window.LW_PICTURES = {AVATARS, TONES, avatar, sticker, parse, esc, syncState};
+window.LW_PICTURES = {AVATARS, TONES, avatar, photo, sticker, parse, esc, syncState};
 })();

@@ -1,6 +1,8 @@
-/* Grown-ups' corner: groups, children, progress, and this device.
- * Making or changing accounts needs the internet; settings and progress views
- * work offline from the last copy on this device. */
+/* Grown-ups' corner: children, grown-ups, progress, and this device.
+ * There are no groups or codes: a grown-up's children are simply theirs, and
+ * every grown-up they add looks after the same children. Making or changing
+ * accounts needs the internet; settings and progress work offline from the
+ * last copy on this device. */
 (() => {
 'use strict';
 const L = window.LW, C = window.CORNER, P = window.LW_PICTURES, $ = s => document.querySelector(s), esc = P.esc;
@@ -8,83 +10,73 @@ const WORLD_NAMES = {post: 'Letter Post', space: 'Moonboat', silk: 'Ribbon Road'
 const ERRORS = {
   offline: 'This needs the internet. Connect, then try again. Settings changes still work offline.',
   signed_out: 'Your sign-in has run out on this device. Sign out, then sign in again.',
-  not_allowed: 'Only grown-ups in this group can do that.',
-  owners_only: 'Only the grown-up who owns this group can do that.',
+  not_allowed: 'You don\'t look after this child, so you can\'t change that.',
+  grownups_only: 'Only grown-ups can do that.',
   password_short: 'Passwords need at least six characters.',
   password_long: 'That password is too long. Use 72 characters or fewer.',
   bad_password: 'Your current password doesn\'t match.',
   name_shape: 'Names need 1 to 40 characters.',
-  too_many: 'That group is full. Make another one.',
+  name_long: 'Names need 1 to 40 characters.',
+  login_shape: 'Sign-in names use 3 to 32 letters, numbers, dots or dashes, starting with a letter or number.',
+  login_taken: 'That sign-in name is taken. Try adding a number or initials.',
+  bad_picture: 'That picture couldn\'t be used. Try a different photo.',
   bad_login: 'That sign-in name and password don\'t match a child\'s account.',
   too_many_tries: 'Too many tries. Wait an hour, then try again.',
-  shared_child: 'Another group also looks after this child, so their account stays. Use Remove to take them out of this group.'
+  shared_child: 'Another grown-up outside your corner also looks after this child, so their account stays. Choose "Take them off our list" instead.'
 };
 const say = e => ERRORS[e && e.code] || 'Something went wrong on the way to the server. Try again in a moment.';
-const kids = g => g.members.filter(m => m.member_role === 'child');
-const grownups = g => g.members.filter(m => m.member_role !== 'child');
 function ago(ms) {
   if (!ms) return 'not played yet';
   const days = Math.floor((new Date().setHours(0, 0, 0, 0) - new Date(ms).setHours(0, 0, 0, 0)) / 864e5);
   return days <= 0 ? 'played today' : days === 1 ? 'played yesterday' : days < 14 ? `played ${days} days ago` : `played ${new Date(ms).toLocaleDateString()}`;
 }
 const plural = (n, one, many = one + 's') => `${n} ${n === 1 ? one : many}`;
-// Whether this group's pictures show on this device's sign-in.
-const onDevice = g => L.boards().some(b => b.id === g.id);
+const kid = id => C.children().find(k => k.id === id);
 
 /* ---------- loading ---------- */
 let loading = null;
 C.refresh = () => loading ||= (async () => {
   const me = C.me(); if (!me) return;
   try {
-    const groups = await L.api(me.id, 'lw_groups', {});
-    L.cache('groups:' + me.id, groups);
-    await Promise.all(groups.filter(g => kids(g).length).map(async g => {
-      const states = await L.api(me.id, 'lw_group_states', {p_group: g.id});
+    const portal = await L.api(me.id, 'lw_portal', {});
+    L.cache('portal:' + me.id, portal);
+    if (portal.children.length) {
+      const states = await L.api(me.id, 'lw_children_states', {});
       for (const state of Object.values(states)) L.adopt(state.profile.id, state);
-    }));
-    C.loaded = Date.now();
-  } catch (e) { C.loadError = e.code; }
+    }
+    // Keep this device's sign-in pictures up to date, when this grown-up chose to show them.
+    if (L.isShownHere(me.id)) L.showHere(me.id, portal.children);
+    C.loaded = Date.now(); C.loadError = null;
+  } catch (e) {
+    C.loadError = e.code;
+    // Shown under Children, so an empty list is never a mystery.
+    $('#kids-status').textContent = /Could not find the function/.test(e.message) ? 'The game\'s database needs its latest update before children can show here.'
+      : e.code === 'offline' ? 'This device is offline, so this is the last list it saw. Changes to accounts need the internet.' : say(e);
+  }
   finally { loading = null; }
 })();
 
-/* ---------- children and groups ---------- */
-function groupCard(g) {
-  const owner = g.role === 'owner', children = kids(g);
-  return `<article class="group-card" data-group="${g.id}" aria-labelledby="g-${g.id}">
-    <header class="group-head">
-      <div><p class="label">Group${owner ? ' · you made it' : ''}</p><h3 id="g-${g.id}">${esc(g.name)}</h3></div>
-    </header>
-    ${children.length ? `<ul class="kids">${children.map(k => `<li class="kid">
-      ${P.avatar(k.avatar)}
-      <div class="kid-text"><strong>${esc(k.name)}</strong><span class="login">${esc(k.login)}</span><small>${plural(k.rounds, 'round')} · ${plural(k.letters, 'letter')} · ${plural(k.badges, 'sticker')} · ${ago(k.last_played)}</small></div>
-      <div class="kid-actions">
-        <button type="button" class="quiet-button" data-act="settings" data-id="${k.id}" data-name="${esc(k.name)}">Settings</button>
-        <button type="button" class="quiet-button" data-act="password" data-id="${k.id}" data-name="${esc(k.name)}">Password</button>
-        <button type="button" class="quiet-button" data-act="edit" data-id="${k.id}" data-name="${esc(k.name)}" data-avatar="${esc(k.avatar)}">Edit</button>
-        <button type="button" class="quiet-button" data-act="remove" data-id="${k.id}" data-name="${esc(k.name)}">Remove</button>
-        <button type="button" class="quiet-button danger" data-act="delete" data-id="${k.id}" data-name="${esc(k.name)}">Delete</button>
-      </div></li>`).join('')}</ul>` : '<p class="empty">No children here yet.</p>'}
-    <p class="grownups"><span class="label">Grown-ups</span> ${grownups(g).map(m => esc(m.name)).join(', ')}</p>
-    <div class="group-buttons">
-      <button type="button" class="solid-button" data-act="add">Add a child</button>
-      <button type="button" class="quiet-button" data-act="link">Add a child who has an account</button>
-      ${children.length ? '<button type="button" class="quiet-button" data-act="cards">Print sign-in cards</button>' : ''}
-      ${children.length ? `<button type="button" class="quiet-button" data-act="device" aria-pressed="${onDevice(g)}">${onDevice(g) ? 'Stop showing their pictures here' : 'Show their pictures on this device'}</button>` : ''}
-      <button type="button" class="quiet-button" data-act="rename">Rename</button>
-      <button type="button" class="quiet-button danger" data-act="leave">Leave</button>
-    </div>
-  </article>`;
-}
-function renderGroups() {
-  const groups = C.groups();
-  $('#groups').innerHTML = groups.map(groupCard).join('');
-  $('#groups-empty').hidden = groups.length > 0;
+/* ---------- children ---------- */
+function renderKids() {
+  const kids = C.children();
+  $('#kids').innerHTML = kids.map(k => `<li class="kid-card" data-id="${k.id}">
+    <div class="kid-top">${P.avatar(k)}
+      <div class="kid-text"><strong>${esc(k.name)}</strong><span class="login">${esc(k.login)}</span>
+      <small>${plural(k.rounds, 'round')} · ${plural(k.letters, 'letter')} · ${plural(k.badges, 'sticker')} · ${ago(k.last_played)}</small></div></div>
+    <div class="kid-actions">
+      <button type="button" class="quiet-button" data-act="settings">Settings &amp; progress</button>
+      <button type="button" class="quiet-button" data-act="edit">Name &amp; picture</button>
+      <button type="button" class="quiet-button" data-act="password">Password</button>
+      <button type="button" class="quiet-button danger" data-act="remove">Remove</button>
+    </div></li>`).join('');
+  $('#kids-empty').hidden = kids.length > 0;
+  $('#print-cards').hidden = !kids.length;
 }
 
 /* ---------- progress ---------- */
 function personProgress(id, name) {
   const agg = L.progress(id), s = L.summary(agg), earned = L.badges(id, {remember: false});
-  const worlds = L.WORLDS.map(w => `<div class="world-row"><h3>${WORLD_NAMES[w]}<small>${plural(s.byWorld[w].size, 'letter')} · ${plural(s.worlds[w], 'round')}</small></h3>
+  const worlds = ['silk', 'post', 'space'].map(w => `<div class="world-row"><h3>${WORLD_NAMES[w]}<small>${plural(s.byWorld[w].size, 'letter')} · ${plural(s.worlds[w], 'round')}</small></h3>
     <ol class="mini-letters" aria-label="${WORLD_NAMES[w]} letters">${L.LETTERS.map(l => {
       const cell = (agg[w] || {})[l];
       return `<li class="${cell && cell.n ? 'got' : ''}" aria-label="${l}${cell && cell.n ? `, ${plural(cell.n, 'round')}` : ', not yet'}">${l}${cell && cell.n > 1 ? `<small>${cell.n}</small>` : ''}</li>`;
@@ -94,43 +86,79 @@ function personProgress(id, name) {
     ${worlds}<h3 class="sub">Stickers</h3><ul class="sticker-shelf">${stickers}</ul>`;
 }
 function renderProgress() {
-  const t = C.target, me = C.me();
+  const kids = C.children(), t = C.target;
   let html;
-  if (!t || t.kind === 'me') html = personProgress(me.id, 'You');
-  else if (t.kind === 'child') html = personProgress(t.id, t.name);
-  else {
-    const g = C.groups().find(x => x.id === t.id);
-    html = g ? `<div class="table-scroll"><table class="progress-table"><caption>${esc(g.name)}</caption><thead><tr><th scope="col">Child</th><th scope="col">Rounds</th><th scope="col">Letters</th><th scope="col">Stickers</th><th scope="col">Last played</th></tr></thead><tbody>${kids(g).map(k => {
+  if (!kids.length) html = '<p class="empty">Progress shows here once a child has played.</p>';
+  else if (t.kind === 'child' && kid(t.id)) html = personProgress(t.id, t.name);
+  else html = `<div class="table-scroll"><table class="progress-table"><thead><tr><th scope="col">Child</th><th scope="col">Rounds</th><th scope="col">Letters</th><th scope="col">Stickers</th><th scope="col">Last played</th></tr></thead><tbody>${kids.map(k => {
       const s = L.summary(L.progress(k.id)), b = Object.keys(L.badges(k.id, {remember: false})).length;
       return `<tr><th scope="row">${esc(k.name)}</th><td>${s.rounds}</td><td>${s.letters.size}</td><td>${b}</td><td>${ago(k.last_played)}</td></tr>`;
-    }).join('')}</tbody></table></div><p class="section-help">Pick one child under "Settings for" to see each letter and sticker.</p>` : '';
-  }
+    }).join('')}</tbody></table></div><p class="section-help">Pick one child under Settings to see each letter and sticker.</p>`;
   $('#progress-body').innerHTML = html;
+}
+
+/* ---------- grown-ups ---------- */
+function renderGrownups() {
+  const me = C.me(), others = C.portal().grownups || [];
+  $('#grownup-list').innerHTML = [`<li>${P.avatar(me)}<span class="pl-text"><strong>${esc(me.name)} (you)</strong><small>${esc(me.login)}</small></span></li>`,
+    ...others.map(g => `<li data-id="${g.id}">${P.avatar(g)}<span class="pl-text"><strong>${esc(g.name)}</strong><small>${esc(g.login)}${g.made_by_me ? ' · you added them' : ''}</small></span>
+      <button type="button" class="quiet-button danger" data-act="remove-grownup" data-id="${g.id}" data-name="${esc(g.name)}">Remove</button></li>`)].join('');
 }
 
 /* ---------- this device ---------- */
 function renderDevice() {
-  const me = C.me(), st = L.status(me.id), [state, text] = P.syncState(st);
-  const others = L.list().reduce((n, p) => n + p.waiting, 0) - st.waiting;
-  $('#sync-line').dataset.state = state;
-  $('#sync-line span').textContent = text + (others > 0 ? `. ${plural(others, 'change')} from other people here also waiting` : '') + (st.syncedAt ? `. Last synced ${new Date(st.syncedAt).toLocaleTimeString([], {hour: 'numeric', minute: '2-digit'})}` : '');
-  $('#device-people').innerHTML = L.list().map(p => `<li>${P.avatar(p.avatar)}<span class="dp-text"><strong>${esc(p.name)}</strong><small>${p.role === 'child' ? 'Child' : 'Grown-up'} · ${esc(p.login)}${p.waiting ? ` · ${plural(p.waiting, 'thing')} waiting to upload` : ' · all uploaded'}${p.needsSignIn && p.waiting ? ' · sign in again to finish' : ''}</small></span>
-    <button type="button" class="quiet-button" data-act="forget" data-id="${p.id}" data-name="${esc(p.name)}"${p.waiting ? ' disabled title="Waiting to upload"' : ''}>Forget on this device</button></li>`).join('');
+  const me = C.me(), people = L.list().filter(p => p.id !== me.id);
+  $('#show-here').checked = L.isShownHere(me.id);
+  $('#device-people').innerHTML = people.map(p => `<li>${P.avatar(p)}<span class="pl-text"><strong>${esc(p.name)}</strong><small>${p.role === 'child' ? 'Child' : 'Grown-up'} · ${esc(p.login)}${p.waiting ? ' · still uploading' : ''}</small></span>
+    <button type="button" class="quiet-button" data-act="forget" data-id="${p.id}" data-name="${esc(p.name)}"${p.waiting ? ' disabled title="Still uploading"' : ''}>Forget here</button></li>`).join('');
+  $('#device-empty').hidden = people.length > 0;
 }
 C.render = () => {
-  if (!C.me() || $('#settings').hidden) return;
-  renderGroups(); renderProgress(); renderDevice();
+  if (!C.me() || $('#portal').hidden) return;
+  // The settings picker follows the same list of children, so draw it with them.
+  C.renderTarget(); renderKids(); renderProgress(); renderGrownups(); renderDevice();
 };
 
 /* ---------- forms ---------- */
 let onSubmit = null;
-function avatarField(value = 'cat:0') {
-  const {pic, tone} = P.parse(value);
-  return `<fieldset class="pictures"><legend>Picture</legend><div class="picture-grid">${P.AVATARS.map(a => `<label><input type="radio" name="pic" value="${a}"${a === pic ? ' checked' : ''}><span class="sr-only">${a}</span>${P.avatar(a + ':' + tone)}</label>`).join('')}</div></fieldset>
-    <fieldset class="tones"><legend>Color</legend><div class="tone-grid">${P.TONES.map((c, i) => `<label style="--tone:${c}"><input type="radio" name="tone" value="${i}"${i === tone ? ' checked' : ''}><span class="sr-only">Color ${i + 1}</span></label>`).join('')}</div></fieldset>`;
-}
 const field = (name, label, {type = 'text', help = '', value = '', auto = 'off'} = {}) =>
   `<label class="field"><span>${label}</span>${help ? `<small>${help}</small>` : ''}<input name="${name}" type="${type}" value="${esc(value)}" autocomplete="${auto}" autocapitalize="off" spellcheck="false"></label>`;
+// A drawn picture and a color, plus "Upload a picture" for any photo or drawing.
+function pictureField({avatar = 'cat:0', picture = null} = {}) {
+  const {pic, tone} = P.parse(avatar), photo = P.photo(picture);
+  return `<fieldset class="pictures"><legend>Picture</legend>
+    <div class="photo-row"><span class="photo-preview" id="photo-preview">${P.avatar({avatar, picture: photo})}</span>
+      <span class="photo-buttons"><label class="quiet-button upload"><input type="file" accept="image/*" id="photo-file">Upload a picture</label>
+      <button type="button" class="quiet-button" id="photo-clear"${photo ? '' : ' hidden'}>Use a drawn picture</button></span></div>
+    <p class="photo-note" id="photo-note">${photo ? 'Their photo shows wherever they sign in and play.' : 'Or pick one of these.'}</p>
+    <input type="hidden" name="photo" value="${photo || ''}">
+    <div class="picture-grid">${P.AVATARS.map(a => `<label><input type="radio" name="pic" value="${a}"${a === pic ? ' checked' : ''}><span class="sr-only">${a}</span>${P.avatar(a + ':' + tone)}</label>`).join('')}</div></fieldset>
+    <fieldset class="tones"><legend>Color</legend><div class="tone-grid">${P.TONES.map((c, i) => `<label style="--tone:${c}"><input type="radio" name="tone" value="${i}"${i === tone ? ' checked' : ''}><span class="sr-only">Color ${i + 1}</span></label>`).join('')}</div></fieldset>`;
+}
+function previewPicture() {
+  const form = $('#form-dialog-form'), photo = form.elements.photo; if (!photo) return;
+  const pic = (form.querySelector('input[name="pic"]:checked') || {}).value || 'sun', tone = (form.querySelector('input[name="tone"]:checked') || {}).value || 0;
+  $('#photo-preview').innerHTML = P.avatar({avatar: `${pic}:${tone}`, picture: photo.value || null});
+  $('#photo-clear').hidden = !photo.value;
+  $('#photo-note').textContent = photo.value ? 'Their photo shows wherever they sign in and play.' : 'Or pick one of these.';
+}
+// Any picture becomes a small square photo (160 × 160), cut from its middle.
+async function shrink(file) {
+  if (!file || (file.type && !file.type.startsWith('image/'))) throw fail('That file isn\'t a picture. Choose a photo or a drawing.');
+  const url = URL.createObjectURL(file);
+  try {
+    const img = await new Promise((resolve, reject) => { const i = new Image(); i.onload = () => resolve(i); i.onerror = reject; i.src = url; })
+      .catch(() => { throw fail('That picture couldn\'t be opened. Try a JPEG or PNG photo.'); });
+    const w = img.naturalWidth, h = img.naturalHeight, side = Math.min(w, h), size = 160;
+    if (!side) throw fail('That picture couldn\'t be opened. Try a JPEG or PNG photo.');
+    const canvas = document.createElement('canvas'); canvas.width = canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#fffaf0'; ctx.fillRect(0, 0, size, size);
+    ctx.drawImage(img, (w - side) / 2, (h - side) / 2, side, side, 0, 0, size, size);
+    for (const q of [.85, .7, .55, .4]) { const data = canvas.toDataURL('image/jpeg', q); if (P.photo(data)) return data; }
+    throw fail('That picture is too detailed to use. Try a different photo.');
+  } finally { URL.revokeObjectURL(url); }
+}
 function open({title, help = '', fields = '', go = 'Save', danger = false, submit}) {
   $('#form-title').textContent = title;
   $('#form-help').textContent = help;
@@ -140,92 +168,113 @@ function open({title, help = '', fields = '', go = 'Save', danger = false, submi
   $('#form-go').classList.toggle('danger-solid', danger);
   onSubmit = submit;
   $('#form-dialog').showModal();
-  ($('#form-fields input:not([type=radio])') || $('#form-fields input:checked') || $('#form-go')).focus();
+  ($('#form-fields input:not([type=radio]):not([type=file]):not([type=hidden])') || $('#form-fields input:checked') || $('#form-go')).focus();
 }
 $('#form-dialog-form').addEventListener('submit', async e => {
   e.preventDefault();
-  const form = new FormData(e.target), values = Object.fromEntries(form.entries());
+  const form = new FormData(e.target), values = Object.fromEntries([...form.entries()].filter(([, v]) => typeof v === 'string'));
   $('#form-go').disabled = true; $('#form-error').textContent = '';
   try {
     const note = await onSubmit(values);
     $('#form-dialog').close();
     await C.refresh(); C.retarget(); C.renderTarget(); C.render();
-    if (note) { $('#groups-status').textContent = note; }
+    if (note) $('#kids-status').textContent = note;
   } catch (err) { $('#form-error').textContent = err.local || say(err); }
   finally { $('#form-go').disabled = false; }
 });
 $('#form-dialog').addEventListener('click', e => { if (e.target.dataset.close) $('#form-dialog').close(); });
+$('#form-dialog').addEventListener('change', async e => {
+  if (e.target.id === 'photo-file') {
+    const file = e.target.files && e.target.files[0]; e.target.value = '';
+    if (!file) return;
+    $('#form-error').textContent = '';
+    try { $('#form-dialog-form').elements.photo.value = await shrink(file); }
+    catch (err) { $('#form-error').textContent = err.local || say(err); }
+    previewPicture();
+  } else if (e.target.name === 'pic') {
+    // Picking a drawn picture uses it instead of the photo.
+    $('#form-dialog-form').elements.photo.value = ''; previewPicture();
+  } else if (e.target.name === 'tone') previewPicture();
+});
+$('#form-dialog').addEventListener('click', e => {
+  if (e.target.id === 'photo-clear') { $('#form-dialog-form').elements.photo.value = ''; previewPicture(); }
+});
 const fail = local => Object.assign(new Error(local), {local});
 const needPassword = v => { if ((v || '').length < 6) throw fail(ERRORS.password_short); };
 const api = (fn, args) => L.api(C.me().id, fn, args);
+const avatarOf = v => `${v.pic || 'sun'}:${v.tone || 0}`;
 
-function act(button) {
-  const a = button.dataset.act, card = button.closest('[data-group]'), gid = card && card.dataset.group;
-  const g = C.groups().find(x => x.id === gid), id = button.dataset.id, name = button.dataset.name;
-  if (a === 'settings') { C.setTarget({kind: 'child', id, name}); $('#target-bar').scrollIntoView({block: 'start'}); $('#target').focus({preventScroll: true}); }
-  else if (a === 'add') open({title: `Add a child to ${g.name}`, help: 'Each child gets their own sign-in name. The password is yours to choose: at least six characters, for example a four-digit number you\'ll remember plus the child\'s initials, like 7234mk.',
-    fields: field('name', 'Child\'s name', {help: 'First name is enough. Children see it under their picture.'}) + avatarField(`${P.AVATARS[(kids(g).length * 7) % P.AVATARS.length]}:${kids(g).length % 6}`) + field('password', 'Password', {help: 'At least six characters.', auto: 'new-password'}),
+function addChild() {
+  const n = C.children().length;
+  open({title: 'Add a child', help: 'Each child gets their own sign-in name. The password is yours to choose: at least six characters, for example a four-digit number you\'ll remember plus the child\'s initials, like 7234mk.',
+    fields: field('name', 'Child\'s name', {help: 'First name is enough. Children see it under their picture.'}) + pictureField({avatar: `${P.AVATARS[(n * 7) % P.AVATARS.length]}:${n % 6}`}) + field('password', 'Password', {help: 'At least six characters.', auto: 'new-password'}),
     go: 'Add child', submit: async v => {
       needPassword(v.password);
-      const child = await api('lw_create_child', {p_group: gid, p_name: v.name, p_avatar: `${v.pic}:${v.tone}`, p_password: v.password});
+      const child = await api('lw_add_child', {p_name: v.name, p_avatar: avatarOf(v), p_password: v.password, p_picture: v.photo || null});
       return `${child.name} is ready. Their sign-in name is ${child.login}.`;
     }});
-  else if (a === 'link') open({title: `Add a child who has an account`, help: `For a child who already has an account, made by any grown-up. Type their sign-in name and password (the grown-up who made the account can tell you). The same account, progress and stickers then show in ${g.name} too.`,
-    fields: field('login', 'Child\'s sign-in name', {help: 'Like mia-k4x.'}) + field('password', 'Child\'s password', {type: 'password'}),
-    go: 'Add child', submit: async v => {
-      const r = await api('lw_link_child', {p_group: gid, p_login: v.login, p_password: v.password});
-      if (!r.ok) throw Object.assign(new Error(r.error), {code: r.error});
-      return `${r.child.name} is now in ${g.name} too.`;
-    }});
+}
+function act(button) {
+  const a = button.dataset.act, card = button.closest('[data-id]'), id = button.dataset.id || (card && card.dataset.id);
+  const k = kid(id), name = button.dataset.name || (k && k.name);
+  if (a === 'settings') { C.setTarget({kind: 'child', id, name}); $('#settings').scrollIntoView({block: 'start'}); $('#target').focus({preventScroll: true}); }
+  else if (a === 'edit') open({title: `${name}'s name and picture`, fields: field('name', 'Name', {value: name}) + pictureField({avatar: k.avatar, picture: k.picture}),
+    submit: async v => { await api('lw_edit_child', {p_child: id, p_name: v.name, p_avatar: avatarOf(v), p_picture: v.photo || null}); return 'Saved.'; }});
   else if (a === 'password') open({title: `New password for ${name}`, help: 'At least six characters. The old password stops working straight away, including on devices that are offline right now once they reconnect.',
     fields: field('password', 'New password', {auto: 'new-password'}), submit: async v => {
       needPassword(v.password);
       await api('lw_set_child_password', {p_child: id, p_password: v.password});
       return `${name}'s password is changed.`;
     }});
-  else if (a === 'edit') open({title: `Edit ${name}`, fields: field('name', 'Name', {value: name}) + avatarField(button.dataset.avatar),
-    submit: async v => { await api('lw_update_child', {p_child: id, p_name: v.name, p_avatar: `${v.pic}:${v.tone}`}); return 'Saved.'; }});
-  else if (a === 'remove') open({title: `Take ${name} out of ${g.name}?`, help: `${name}'s account, progress and stickers are kept, and so is any other group they're in.`, go: 'Take out', danger: true,
-    submit: async () => { await api('lw_remove_member', {p_group: gid, p_profile: id}); if (C.target && C.target.id === id) C.target = null; return `${name} is out of ${g.name}.`; }});
-  else if (a === 'delete') open({title: `Delete ${name}'s account?`, help: `This deletes ${name}'s sign-in, settings, rounds and stickers everywhere, for good. To keep them, use Remove instead.`, go: 'Delete for good', danger: true,
-    submit: async () => { await api('lw_delete_child', {p_child: id}); if (C.target && C.target.id === id) C.target = null; return `${name}'s account is deleted.`; }});
-  else if (a === 'rename') open({title: `Rename ${g.name}`, fields: field('name', 'Name', {value: g.name}),
-    submit: async v => { await api('lw_rename_group', {p_group: gid, p_name: v.name}); return 'Saved.'; }});
-  else if (a === 'leave') open({title: `Leave ${g.name}?`, help: grownups(g).length === 1 ? 'You\'re the only grown-up, so the group closes. The children\'s accounts, progress and stickers are kept.' : 'You stop looking after these children. Their accounts are kept.', go: 'Leave', danger: true,
-    submit: async () => { await api('lw_remove_member', {p_group: gid, p_profile: C.me().id}); C.target = null; return `You left ${g.name}.`; }});
-  else if (a === 'cards') printCards(g);
-  else if (a === 'device') {
-    const shown = onDevice(g);
-    (shown ? Promise.resolve(L.forgetBoard(g.id)) : L.board(g.board_code)).then(() => {
-      renderGroups();
-      $('#groups-status').textContent = shown ? `${g.name}'s pictures no longer show on this device.` : `${g.name}'s pictures now show when someone signs in on this device. Each child still types their password.`;
-    }).catch(err => { $('#groups-status').textContent = say(err); });
-  }
+  else if (a === 'remove') open({title: `Remove ${name}?`, go: 'Remove', danger: true,
+    fields: `<fieldset class="choices"><legend class="sr-only">How to remove ${esc(name)}</legend>
+      <label class="choice"><input type="radio" name="how" value="off" checked><span><strong>Take them off our list</strong><small>${esc(name)}'s account, progress and stickers are kept, for any other grown-up who looks after them.</small></span></label>
+      <label class="choice"><input type="radio" name="how" value="delete"><span><strong>Delete their account for good</strong><small>Their sign-in, settings, rounds and stickers go everywhere. This can't be undone.</small></span></label></fieldset>`,
+    submit: async v => {
+      if (v.how === 'delete') await api('lw_delete_child', {p_child: id});
+      else await api('lw_remove_child', {p_child: id});
+      if (C.target.id === id) C.target = {kind: 'all'};
+      return v.how === 'delete' ? `${name}'s account is deleted.` : `${name} is off your list. Their account is kept.`;
+    }});
+  else if (a === 'remove-grownup') open({title: `Remove ${name}?`, help: `${name} stops looking after these children. Their own account is kept.`, go: 'Remove', danger: true,
+    submit: async () => { await api('lw_remove_grownup', {p_grownup: id}); return `${name} no longer looks after these children.`; }});
   else if (a === 'forget') {
-    L.forget(id).then(() => { renderDevice(); $('#groups-status').textContent = `${name} is forgotten on this device. Their account is safe.`; })
-      .catch(err => { $('#groups-status').textContent = err.code === 'still_waiting' ? `${name} still has play waiting to upload.` : say(err); });
+    L.forget(id).then(() => { renderDevice(); $('#kids-status').textContent = `${name} is forgotten on this device. Their account is safe.`; })
+      .catch(err => { $('#kids-status').textContent = err.code === 'still_waiting' ? `${name}'s play is still uploading. Try again in a moment.` : say(err); });
   }
 }
-function printCards(g) {
-  $('#cards').innerHTML = kids(g).map(k => `<div class="card">${P.avatar(k.avatar)}<div><strong>${esc(k.name)}</strong>
+function printCards() {
+  $('#cards').innerHTML = C.children().map(k => `<div class="card">${P.avatar(k)}<div><strong>${esc(k.name)}</strong>
     <dl><dt>Sign-in name</dt><dd>${esc(k.login)}</dd><dt>Password</dt><dd>Ask ${esc(C.me().name)}</dd></dl>
     <p>To play on any device, open Letters with Lucy and type this sign-in name and the password.</p></div></div>`).join('');
   window.print();
 }
 
 document.addEventListener('click', e => {
-  const b = e.target.closest('button'); if (!b || !C.me()) return;
+  const b = e.target.closest('button'); if (!b || !C.me() || b.closest('#form-dialog')) return;
   if (b.dataset.act) act(b);
-  else if (b.id === 'new-group') {
-    open({title: 'New group', help: 'Any name that helps you find it, for example Sunflowers, Room 4, Grandma\'s or Saturday club.',
-      fields: field('name', 'Name'), go: 'Make it', submit: async v => { await api('lw_create_group', {p_kind: 'group', p_name: v.name}); return `${v.name} is ready. Add children next.`; }});
-  }
+  else if (b.id === 'add-child') addChild();
+  else if (b.id === 'add-existing') open({title: 'Add a child who already has an account', help: 'For a child another grown-up made an account for. Type their sign-in name and password (that grown-up can tell you). The same account, progress and stickers then show here too.',
+    fields: field('login', 'Child\'s sign-in name', {help: 'Like mia-k4x.'}) + field('password', 'Child\'s password', {type: 'password'}),
+    go: 'Add child', submit: async v => {
+      const r = await api('lw_add_existing_child', {p_login: v.login, p_password: v.password});
+      if (!r.ok) throw Object.assign(new Error(r.error), {code: r.error});
+      return `${r.child.name} is on your list now.`;
+    }});
+  else if (b.id === 'add-grownup') open({title: 'Add a grown-up', help: 'They\'ll look after the same children as you. Tell them their sign-in name and password; they can change the password once they\'re in.',
+    fields: field('name', 'Their name', {help: 'For example Ms Lee, Sam or Grandma.'}) + field('login', 'Their sign-in name', {help: '3 to 32 letters, numbers, dots or dashes, like ms-lee.'}) + field('password', 'Password', {help: 'At least six characters.', auto: 'new-password'}),
+    go: 'Add grown-up', submit: async v => {
+      needPassword(v.password);
+      const g = await api('lw_create_grownup', {p_login: v.login, p_password: v.password, p_name: v.name});
+      return `${g.name} can sign in now as ${g.login}.`;
+    }});
+  else if (b.id === 'print-cards') printCards();
   else if (b.id === 'password-mine') open({title: 'Change my password', fields: field('old', 'Current password', {type: 'password', auto: 'current-password'}) + field('password', 'New password', {type: 'password', auto: 'new-password', help: 'At least six characters.'}),
     submit: async v => { needPassword(v.password); await api('lw_change_password', {p_old: v.old, p_new: v.password}); return 'Your password is changed. Use it next time you sign in.'; }});
-  else if (b.id === 'sync-now') {
-    $('#sync-line span').textContent = 'Saving…';
-    L.syncAll().then(() => C.refresh()).then(() => { C.renderTarget(); C.render(); });
-  }
 });
-L.on('status', () => { if (C.me() && !$('#settings').hidden) renderDevice(); });
+$('#show-here').addEventListener('change', e => {
+  const me = C.me();
+  if (e.target.checked) L.showHere(me.id, C.children()); else L.hideHere(me.id);
+  $('#kids-status').textContent = e.target.checked ? 'Your children\'s pictures now show on this device\'s sign-in. Each child still types their password.' : 'Your children\'s pictures no longer show on this device\'s sign-in.';
+});
 })();

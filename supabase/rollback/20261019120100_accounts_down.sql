@@ -1,5 +1,5 @@
--- Rollback for 20261019120000_accounts_schema.sql, 20261019120100_accounts_functions.sql
--- and 20261019140000_any_grownup_groups.sql.
+-- Rollback for 20261019120000_accounts_schema.sql, 20261019120100_accounts_functions.sql,
+-- 20261019140000_any_grownup_groups.sql and 20261019180000_simple_grownups_corner.sql.
 -- Not a migration: run by hand only to remove accounts and sync completely.
 -- It deletes every Letters with Lucy group, child, setting, round and sticker.
 
@@ -11,7 +11,10 @@ drop function if exists
   public.lw_remove_member(uuid, uuid), public.lw_create_child(uuid, text, text, text),
   public.lw_update_child(uuid, text, text), public.lw_set_child_password(uuid, text),
   public.lw_link_child(uuid, text, text), public.lw_delete_child(uuid),
-  public.lw_child_state(uuid), public.lw_group_states(uuid);
+  public.lw_child_state(uuid), public.lw_group_states(uuid),
+  public.lw_portal(), public.lw_children_states(), public.lw_add_child(text, text, text, text),
+  public.lw_edit_child(uuid, text, text, text), public.lw_add_existing_child(text, text),
+  public.lw_remove_child(uuid), public.lw_create_grownup(text, text, text), public.lw_remove_grownup(uuid);
 
 -- The sign-ins the game made (children and grown-ups). Remove this statement to
 -- keep the Supabase Auth users while dropping the game's tables.

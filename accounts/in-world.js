@@ -16,7 +16,7 @@ if (!me || !P) return;
 if (footer) {
   const chip = document.createElement('span');
   chip.className = 'lw-player';
-  chip.innerHTML = `${P.avatar(me.avatar)}<span>${P.esc(me.name)}</span><a href="../index.html" id="lw-done">I'm done</a>`;
+  chip.innerHTML = `${P.avatar(me)}<span>${P.esc(me.name)}</span><a href="../index.html" id="lw-done">I'm done</a>`;
   footer.insertBefore(chip, footer.lastElementChild);
   chip.querySelector('#lw-done').addEventListener('click', () => L.endTurn());
 }

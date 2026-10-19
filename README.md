@@ -87,17 +87,24 @@ To run the browser suites without writing any screenshots, add
   files and every page loads accounts before settings.
 - `accounts_db.mjs` runs `supabase/migrations` in PGlite (real Postgres in
   WebAssembly) behind a local stand-in for Supabase Auth and PostgREST
-  (`tests/db/supabase-stand-in.mjs`) and checks the API: sign-up rules,
-  children, boards, idempotent sync, settings conflicts, stickers, joining,
-  linking with guess limits, passwords, deleting, and that the tables are
-  closed to the API roles.
+  (`tests/db/supabase-stand-in.mjs`) and checks the API: no public sign-up
+  (nothing is open to anyone signed out), grown-ups made only by a signed-in
+  grown-up, no group or code functions, children with drawn or uploaded
+  pictures, idempotent sync, settings conflicts, stickers, adding an existing
+  child with guess limits, passwords, removing and deleting, and that the
+  tables are closed to the API roles.
 - `grown_ups_smoke.cjs` checks the corner with real sign-in at phone, tablet,
-  Chromebook and whiteboard sizes: refusal, every setting saved to a group,
-  guards, reset, sign-out, the reading gate and its pause for a grown-up who
-  stays signed in, the settings' effect on the chooser and all three worlds,
-  reduced motion and dark mode.
-- `accounts_flow.mjs` walks two grown-ups and a shared Chromebook
-  through accounts end to end.
+  Chromebook and whiteboard sizes: the grown-up sign-in card matches the
+  children's (same cream page, card, ink and red button) and has no way to
+  make an account, refusal, the simple corner with no banners, groups or
+  codes, every setting saved to the children, guards, reset, sign-out, the
+  reading gate and its pause for a grown-up who stays signed in, the
+  settings' effect on the chooser and all three worlds, reduced motion, and a
+  dark-mode device still getting the cream corner.
+- `accounts_flow.mjs` walks grown-ups and a shared Chromebook through
+  accounts end to end: children with an uploaded photo or a drawn picture, a
+  grown-up adding another grown-up, pictures shown on a shared sign-in,
+  adding an existing child, removing and deleting.
 - `accounts_two_devices.mjs` is the two-device check: the same child on two
   browser profiles, one offline with a lost upload reply on reconnect;
   progress, settings and stickers must match exactly on both and the server.
@@ -150,27 +157,33 @@ orphan saved play; every name people see is Ribbon Road.
 ## Accounts and sync
 
 Everyone has a real login: children and grown-ups. There are no classroom,
-teacher or parent roles; any grown-up can look after any number of children
-and groups.
+teacher or parent roles, and no groups or codes; any grown-up can look after
+any number of children.
 Settings, progress (every finished round) and stickers belong to the person,
 live in Supabase, and follow them to any device. Details:
 [reports/accounts-build.md](reports/accounts-build.md).
 
 - **Home flow.** A short splash, then a sign-in dialog. A child signs in with
   their sign-in name and password (or taps their picture if they played on the
-  device before, or a grown-up put their group's pictures on it). Passwords
+  device before, or a grown-up chose to show their children's pictures on it). Passwords
   only need six characters, for example a four-digit number plus the child's
   initials (`7234mk`). The dialog also has **Play without saving** (nothing is
   kept, and the game says so) and a small **Are you a grown-up?** link. Then
   the three layouts appear with **Ribbon Road** ready to go; picking one goes
   straight into it. **I'm done** hands the device to the next child, and a
   new tab never continues as the last child.
-- **Grown-ups** sign in to the grown-ups' corner with a sign-in name and
-  password. They make groups (any number, any size), add children (or add a child who
-  already has an account, with the child's sign-in name and password), reset
-  passwords, print sign-in cards, show a group's pictures on a device's sign-in, see progress, and change settings for one
-  child, a whole group, or themselves. A grown-up who stays signed in on their
-  own device passes the number-word reading gate to come back in.
+- **Grown-ups** sign in to the grown-ups' corner, on the same cream card as
+  the children's sign-in. There is no public sign-up: only a grown-up who is
+  signed in can add another grown-up, who then looks after the same children
+  (the first grown-up is made by the project owner; see
+  [supabase/README.md](supabase/README.md)). There are no groups or codes.
+  Grown-ups add children (with one of the drawn pictures or any uploaded
+  photo), or add a child who already has an account with the child's sign-in
+  name and password. They reset passwords, print sign-in cards, show their
+  children's pictures on a device's sign-in, see progress, change settings for
+  one child or all of them, and take a child off their list or delete the
+  account. A grown-up who stays signed in on their own device passes the
+  number-word reading gate to come back in.
 - **Offline**: everything is saved on the device first and uploaded when the
   connection returns. Rounds carry an id made on the device, so a retried
   upload never counts twice; settings merge per field, newest edit wins.
@@ -182,8 +195,8 @@ the schema), `sw.js` (offline shell).
 ## Grown-ups' corner
 
 The sign-in dialog's **Are you a grown-up?** link (and the chooser's footer
-button) opens `grown-ups/index.html`. A grown-up signs in (or makes an account). Settings
-save as soon as they change, to the chosen person's account, and apply the
+button) opens `grown-ups/index.html`. A grown-up signs in. Settings
+save as soon as they change, to the chosen child's account, and apply the
 next time a world opens:
 
 - **Sound:** Lucy's voice on or off at the start, voice volume (with a sample),
@@ -194,7 +207,7 @@ next time a world opens:
 - **Help:** the right picture is outlined after one miss, after two (the
   default), or never.
 - **Motion:** *Calm motion* behaves exactly like a reduced-motion preference.
-- **Worlds and buttons:** which worlds the chooser shows (at least one), and
+- **Games and buttons:** which worlds the chooser shows (at least one), and
   whether children see the sound and color buttons.
 
 `grown-ups/settings.js` is the shared, validated settings view of the person

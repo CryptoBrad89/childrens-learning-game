@@ -72,19 +72,31 @@ export async function backend() {
       assert.equal(r.status, 200, `sign in ${login}: ${JSON.stringify(r.body)}`);
       return r.body.access_token;
     },
-    // A grown-up with a class and children, all made through the public API.
-    async classroom({suffix = Date.now().toString(36), children = ['Mia', 'Leo']} = {}) {
-      const login = `teacher-${suffix}`, password = 'lucy-1234';
-      await api.rpc('lw_sign_up', {p_login: login, p_password: password, p_name: 'Ms Lee'});
+    // A grown-up account. There is no public sign-up: locally the project owner's
+    // SQL function makes it; live, the demo grown-up adds it from their corner.
+    async makeGrownup(login, password, name) {
+      if (standIn) {
+        const {rows: [{p}]} = await standIn.db.query('select lw_private.make_grownup($1, $2, $3) as p', [login, password, name]);
+        return p;
+      }
+      // The new grown-up joins the demo grown-up's children; take them off again so
+      // each test grown-up starts with an empty corner of their own.
+      const admin = await api.token(process.env.LW_ADMIN_LOGIN || 'demo-grownup', process.env.LW_ADMIN_PASSWORD || '7234ab');
+      const made = await api.rpc('lw_create_grownup', {p_login: login, p_password: password, p_name: name}, admin);
+      await api.rpc('lw_remove_grownup', {p_grownup: made.id}, admin);
+      return made;
+    },
+    // A grown-up with children, all made through the public API.
+    async family({suffix = Date.now().toString(36), children = ['Mia', 'Leo']} = {}) {
+      const login = `grownup-${suffix}`, password = 'lucy-1234';
+      await api.makeGrownup(login, password, 'Sam Lee');
       const token = await api.token(login, password);
-      const {id: group} = await api.rpc('lw_create_group', {p_kind: 'class', p_name: `Sunflowers ${suffix}`}, token);
       const kids = [];
       for (const [i, name] of children.entries()) {
         const pw = `7234${name.slice(0, 2).toLowerCase()}`;
-        kids.push({...await api.rpc('lw_create_child', {p_group: group, p_name: name, p_avatar: `${['cat', 'fox', 'sun'][i % 3]}:${i}`, p_password: pw}, token), password: pw});
+        kids.push({...await api.rpc('lw_add_child', {p_name: name, p_avatar: `${['cat', 'fox', 'sun'][i % 3]}:${i}`, p_password: pw}, token), password: pw});
       }
-      const [g] = (await api.rpc('lw_groups', {}, token)).filter(x => x.id === group);
-      return {teacher: {login, password, token}, group, board: g.board_code, invite: g.invite_code, kids};
+      return {grownup: {login, password, token}, kids};
     }
   };
   return api;

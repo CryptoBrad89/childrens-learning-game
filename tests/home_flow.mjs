@@ -20,7 +20,7 @@ const brand = page => page.evaluate(() => {
 });
 
 try {
-  const room = await be.classroom({children: ['Mia']});
+  const room = await be.family({children: ['Mia']});
   const mia = room.kids[0];
 
   // ---- First visit: the splash, then the sign-in dialog and nothing else.
@@ -110,12 +110,12 @@ try {
     await page.waitForFunction(() => document.body.dataset.home === 'picker');
     assert.equal(await page.evaluate(() => document.querySelector('#login').open), false);
     // If a grown-up hides Ribbon Road, the first shown layout is the default instead.
-    await be.rpc('lw_put_settings', {p_changes: [{profile: mia.id, field: 'games', v: ['post', 'space'], t: Date.now()}]}, room.teacher.token);
+    await be.rpc('lw_put_settings', {p_changes: [{profile: mia.id, field: 'games', v: ['post', 'space'], t: Date.now()}]}, room.grownup.token);
     await page.evaluate(() => window.LW.sync(window.LW.playerId()));
     await page.reload();
     await page.waitForFunction(() => document.querySelector('nav a.is-default')?.dataset.world === 'post');
     assert.equal(await page.locator('nav a[data-world="silk"]').isHidden(), true);
-    await be.rpc('lw_put_settings', {p_changes: [{profile: mia.id, field: 'games', v: ['post', 'space', 'silk'], t: Date.now()}]}, room.teacher.token);
+    await be.rpc('lw_put_settings', {p_changes: [{profile: mia.id, field: 'games', v: ['post', 'space', 'silk'], t: Date.now()}]}, room.grownup.token);
     // I'm done brings the sign-in back, with Mia's picture.
     await page.locator('#done').click();
     await loginOpen(page);

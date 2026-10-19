@@ -1,101 +1,82 @@
 # Grown-ups' corner: design notes
 
-**Design read:** a quiet back office behind Lucy's post office. It's a settings room
-for any adult (teacher, parent, carer, childminder) and is used on tablets,
-Chromebooks and interactive whiteboards, so it needs big touch targets, readable
-type from across a room, and no hover-only actions. It keeps the chooser's paper
-and ink colors, Nunito type and postal motifs, but turns everything down: one
-accent, hairline rules, numbered sections, and none of the child UI's bounce.
+**Design read (portal rethink, 2026-10-19):** one journey, not two worlds. A
+grown-up reaches the corner from "Are you a grown-up?" on the children's
+sign-in, so the corner keeps that card's cream paper, ink outlines, offset
+shadows, Nunito Black headings and one red button. It is a simple admin for
+grown-ups to manage their children: no "playing as" or sync banners, no
+groups, no codes, no dark-blue back office. It is used on tablets,
+Chromebooks and whiteboards, so every target is at least 60px (72px on
+whiteboards) and nothing depends on hover.
 
-Everything lives in `grown-ups/`. It works from `file://` and offline, and loads
-no network resources.
+Everything lives in `grown-ups/`, on top of `accounts/front-door.css` (the
+children's sign-in styles), and works offline once loaded.
 
-## 1. Layout (Superdesign workflow, step 1)
+## 1. Layout
 
-Gate (first screen; the settings stay hidden until it is passed):
-
-```
-┌───────────────────────────────────────────────────────────────┐
-│ ░░ static paper-shader band ░░░░░░░░░░░░░░░░░░░░░░░ (postmark) │
-│ FOR GROWN-UPS                                                 │
-│ Grown-ups' corner                                             │
-├──────────────────────────────┬────────────────────────────────┤
-│ A quick check that a         │   ┌────┐┌────┐┌────┐  slots    │
-│ grown-up is here.            │   └────┘└────┘└────┘           │
-│                              │   ┌────┬────┬────┐             │
-│ Tap the numbers              │   │ 1  │ 2  │ 3  │  80px keys  │
-│  seven · two · five          │   │ 4  │ 5  │ 6  │             │
-│                              │   │ 7  │ 8  │ 9  │             │
-│ Why the check? …             │   └────┴────┴────┘             │
-│ [← Back to the games]        │   status line (aria-live)      │
-└──────────────────────────────┴────────────────────────────────┘
- Phone: one column, keypad below the words.
-```
-
-Settings (after the gate):
+Sign-in: the children's sign-in card, same size and place, new words.
 
 ```
-┌───────────────────────────────────────────────────────────────┐
-│ ░░ band ░░  Grown-ups' corner          [Lock and go to games →]│
-├──────────────┬────────────────────────────────────────────────┤
-│ 01 Sound     │ 01  SOUND ─────────────────────────────────────│
-│ 02 Letters   │ Lucy's voice ............................ [●○] │
-│ 03 Help      │ Voice volume  [━━━━━━●────] 80 %  [Play sample]│
-│ 04 Motion    │ Sound effects ........................... [●○] │
-│ 05 Worlds    │ 02  LETTERS ───────────────────────────────────│
-│ 06 About     │ [All 26] [Starter s a t p i n] [Vowels]        │
-│              │ A B C D E F G … (26 × 60px toggles)            │
-│ (sticky)     │ 03  HELP  (After 1 miss | After 2 | Don't)     │
-│              │ 04  MOTION   Calm motion ................ [●○] │
-│              │ 05  WORLDS & BUTTONS   3 world switches, kids' │
-│              │     buttons switch                             │
-│              │ 06  ABOUT THE GAME   short notes               │
-│              │ [Reset all settings]            (SAVED stamp)  │
-└──────────────┴────────────────────────────────────────────────┘
- Under 960px the index column hides and sections stack.
+ (paw) Letters with Lucy                         ← top left, as on every screen
+            ┌────────────────────────────────────┐
+            │ (Lucy) Hello, grown-up!            │
+            │ Sign in to look after your children│
+            │ SIGN-IN NAME  [                  ] │
+            │ PASSWORD      [          ] [Show]  │
+            │ ○○○○○○ 6 more                      │
+            │ ☐ Stay signed in on this device    │
+            │ [        Sign in        ]  (red)   │
+            │ [   Back to the games   ]          │
+            │ New here? A grown-up who already   │
+            │ has an account adds you.           │
+            └────────────────────────────────────┘
 ```
 
-## 2. Theme (step 2)
+There is no "New account" option: grown-up accounts are only made inside the
+corner, by a grown-up who is signed in. The card opens in the same place,
+at the same size, with the same pop as the children's, so only the words
+change.
 
-| Token | Light | Dark | Use |
-| --- | --- | --- | --- |
-| `--paper` | `#faf2df` | `#14233a` | page |
-| `--sheet` | `#fffaf0` | `#1c2f4a` | rows, keys |
-| `--ink` | `#253f65` | `#fff3d8` | text, on-state fills |
-| `--muted` | `#536078` | `#c5d4de` | help text (5.7:1 / 8.9:1) |
-| `--accent` | `#b8392c` | `#ffa58f` | one action, switch on-state |
-| `--focus` | `#007a95` | `#83e4ee` | 4px focus ring |
-| `--line` | ink at 18% | ink at 18% | hairlines |
+The reading gate (§3) is the same card with the number words and keypad.
 
-Type: Nunito Sans Black for the display and headings, Bold for body text,
-Comfortaa for the section numbers `01–06`. Labels are uppercase with
-0.14em letter-spacing. Body text is 18–20px (larger on whiteboards), with a
-line length of 60ch or less.
+The corner, after sign-in: a column of cream cards, in the order a grown-up
+needs them.
 
-Background: Paper Shaders' *static mesh gradient* (ported to one WebGL2
-draw call and rendered once, with no animation loop). It blends the three
-worlds' colors (sky, candy pink, butter) with grain, so the band looks like
-risograph paper. If WebGL is unavailable, the band falls back to a CSS
-gradient.
+```
+ (paw) Letters with Lucy                    [Sign out and go to the games]
+ Grown-ups' corner
+ Hello, Sam. Add children, choose their settings…
+ ┌ Children ─────────────────────────────────── [+ Add a child] ┐
+ │ ┌──────────────┐ ┌──────────────┐                            │
+ │ │(photo) Mia   │ │(fox) Leo     │   one card per child,      │
+ │ │mia-k4x       │ │leo-ftu       │   picture first            │
+ │ │2 rounds · …  │ │…             │                            │
+ │ │[Settings & progress][Name & picture][Password][Remove]     │
+ │ [Add a child who already has an account] [Print sign-in cards]│
+ └──────────────────────────────────────────────────────────────┘
+ ┌ Settings ──────────────────────── For [All children (2) ▾] ──┐
+ │ Sound · Letters · Help when stuck · Motion · Games           │
+ └──────────────────────────────────────────────────────────────┘
+ ┌ Progress ┐  a table for all children; letters and stickers for one
+ ┌ Grown-ups ─────────────────────────────── [+ Add a grown-up] ┐
+ ┌ This device ┐  show my children's pictures on the sign-in; who played here
+ ┌ You ┐  change my password, sign out
+```
 
-## 3. Motion (step 3)
+Phone: one column; child cards stack; header buttons go full width.
 
-| Moment | Spec | Source |
-| --- | --- | --- |
-| Gate → settings | translateY 16px + opacity, 400ms `cubic-bezier(.22,1,.36,1)` | Better Design `panel-reveal` (no blur on large surfaces, per taste-motion) |
-| Digit fills a slot | 8px pop-in, 300ms `cubic-bezier(.34,1.45,.64,1)` | Better Design `number-pop-in` |
-| Wrong code | 480ms side wiggle, same curve as the game's wrong-card wiggle | game |
-| Switch thumb | 200ms `cubic-bezier(.4,0,.2,1)` | Better Design `switch` |
-| Help selector | sliding pill under the checked option, 300ms emphasized | motion-primitives `AnimatedBackground` |
-| Reset dialog | opacity + scale .96→1, 200ms ease-out | motion-primitives `Dialog` |
-| "Saved" | postmark stamp lands, 900ms, once per change | trickle `stamp` |
-| Section rules | hairline draws left→right once, 600ms | trickle `underline-draw` |
-| Lock button | fill expands out of the arrow circle on hover/focus/press, 450ms | Hyperiux `arrow-fill-button` |
+## 2. Theme
 
-The page has no loops. `prefers-reduced-motion` and the corner's own *Calm
-motion* setting both remove all of it.
+The games page's tokens, light only (a device in dark mode still gets the
+cream corner, so the step from the children's sign-in never changes color):
+paper `#faf2df` with the dotted pattern, sheet `#fffaf0`, ink `#253f65`,
+muted `#536078`, red `#c74234` for the one main action per card and switch
+on-states, focus `#007a95`, danger `#a3322a`. Cards: 3px ink border, 30px
+radius, 7px offset ink shadow, the same as the sign-in card and the layout
+cards. Type: Nunito Sans Black headings, Bold body, Comfortaa for sign-in
+names.
 
-## 4. Child gate
+## 3. Child gate
 
 The gate is a reading check rather than a dexterity check. It shows three
 different digits written as words ("seven, two, five"), and the adult taps them
@@ -103,90 +84,38 @@ on a 1–9 keypad. Three- and four-year-olds can't read number words yet. A rand
 tapper has a 1 in 504 chance per attempt, every miss brings a new set of
 numbers, and every third miss pauses the keypad for 10 seconds. Easy runs like
 1-2-3 or 9-8-7 are never asked. Physical number keys also work, for
-Chromebooks. This is child-proofing, not security: settings are ordinary local
-storage.
+Chromebooks. It only guards re-entry for a grown-up who chose to stay signed
+in on their own device.
 
-## 5. Real sign-in (accounts build)
+## 4. People
 
-**Design read** (design-taste §0): the same quiet back office, now with a front
-desk. Grown-ups sign in once per visit on shared Chromebooks; on their own
-phone they can stay signed in, and the reading gate from §4 becomes the
-re-entry check. Same tokens as §2, one accent, no new colors except three
-status dots (green saved, amber waiting, grey offline).
+- **Children** are the grown-up's own list. Add a child: name, a picture
+  (one of the game's drawn word pictures on six soft tones, or **Upload a
+  picture**: any photo, cut to a 160 × 160 square in the browser and sent as
+  a small JPEG), and a password of six characters or more. The sign-in name
+  is made from the name plus three characters.
+- **Remove** asks how: take the child off our list (the account is kept) or
+  delete the account for good.
+- **Grown-ups** added here look after the same children and can add
+  children and grown-ups too. Removing one keeps their account.
+- **No groups or codes.** Behind the scenes each grown-up has one team in
+  the database; it is never shown.
+- **This device:** "Show my children's pictures on the sign-in" puts their
+  pictures on a shared device's sign-in (each child still types a password);
+  "Who played on this device" can forget someone here.
+- Errors follow taste-ux-copy's what + why + fix.
 
-Sign-in (replaces the gate on first visit; Superdesign step 1, layout):
-
-```
-┌───────────────────────────────────────────────────────────────┐
-│ ░░ static paper-shader band ░░░░░░░░░░░░░░░░░░░░░░░ (postmark) │
-│ FOR GROWN-UPS  Grown-ups' corner              [Back to games →]│
-├──────────────────────────────┬────────────────────────────────┤
-│ Sign in, grown-ups.          │ ( Sign in | New account )  pill│
-│ Settings, progress and       │ SIGN-IN NAME  [ms-lee        ] │
-│ stickers belong to each      │ PASSWORD      [••••••  ][Show] │
-│ child and follow them …      │ ●●●●○○  2 more                 │
-│ (offline note when offline)  │ Stay signed in on this device ⊙│
-│                              │ [ Sign in ]   status line       │
-└──────────────────────────────┴────────────────────────────────┘
-```
-
-- Password rule shown as six dots that fill as you type (ui-layouts
-  `pass-strength-dotted-indicator`, cut down to the owner's single rule: six
-  characters; no strength meter, because strength rules are ruled out).
-- Show/Hide toggle from ui-layouts `showhide-pass`, as a real button with
-  `aria-pressed`.
-- Sign in / New account uses the existing sliding pill (motion-primitives
-  `AnimatedBackground`, same as the Help selector).
-- Errors follow taste-ux-copy's what + why + fix, next to the form
-  ("That sign-in name and password don't match. Check both and try again.").
-
-## 6. Children, "Settings for", progress, sync
-
-```
-│ 01 CHILDREN ───────────────────────────────────────────────── │
-│ ┌ GROUP · you made it ───────────────────────────────────────┐ │
-│ │ Sunflowers                                                 │ │
-│ │ (cat) Mia   mia-k4x  2 rounds · 2 letters · 1 sticker      │ │
-│ │       [Settings][Password][Edit][Remove][Delete]           │ │
-│ │ Grown-ups  Ms Lee, Mr Patel                                │ │
-│ │ [Add a child][Add a child who has an account][Print cards] │ │
-│ └────────────────────────────────────────────────────────────┘ │
-│ [New group]                                                    │
-│ ┌ SETTINGS FOR [Everyone in Sunflowers (24) ▾] ───── sticky ┐ │
-│ │ Changes go to all 24 children. Shown: Ava's settings.      ││
-│ 02 SOUND … 06 WORLDS & BUTTONS  (unchanged from §1)            │
-│ 07 PROGRESS   per world: 26 letter squares, filled when played │
-│               sticker shelf; a table for a whole group         │
-│ 08 SYNC & THIS DEVICE  ● All saved · people on this device     │
-│ 09 ABOUT                                                       │
-```
-
-- "Settings for" is a native `<select>` with optgroups per group
-  (taste-accessibility: a native select beats a custom one), sticky so it is
-  always clear whose settings are changing. Only the fields a grown-up
-  touches are written, so editing a whole group never overwrites one child's
-  other choices.
-- Groups are plain groups: no classroom, teacher or parent roles. Any grown-up
-  can make any number of them, and every grown-up in a group can do
-  everything there.
-- Group cards are the one bordered surface (design-taste §5: depth from
-  structure, hairlines inside).
-- No codes anywhere in the corner (owner review): grown-ups make children and
-  groups, and reach a child who already has an account with that child's
-  sign-in name and password. "Show their pictures on this device" puts a
-  group's pictures on a shared device's sign-in without showing any code.
-- Pictures for children reuse the game's own word art (`art.js`) on six soft
-  tones; nothing new is drawn for characters.
-- Printed sign-in cards: one card per child (picture, name, sign-in name,
-  how to sign in) via print CSS; the password is never printed.
-
-## 7. Motion added
+## 5. Motion
 
 | Moment | Spec | Source |
 | --- | --- | --- |
-| Password dot fills | scale 1 → 1.12, 220ms `--ease-pop` | Better Design `number-pop-in` (as the gate slots) |
-| Sign in / New account | sliding pill, 300ms emphasized | motion-primitives `AnimatedBackground` |
-| Form dialogs | opacity + scale .96 → 1, 200ms | motion-primitives `Dialog` (existing rule) |
-| "Saved" | the postmark stamp from §3, once per change | trickle `stamp` |
+| Corner cards arrive | translateY 14px + opacity, 420ms emphasized, 60ms stagger | Better Design `panel-reveal` |
+| Sign-in and form cards | opacity + scale .96 → 1, 260ms pop | motion-primitives `Dialog` (the children's sign-in rule) |
+| Digit fills a slot | 8px pop-in, 300ms pop | Better Design `number-pop-in` |
+| Wrong code | 480ms side wiggle | game |
+| Switch thumb | 200ms standard | Better Design `switch` |
+| Help selector | sliding pill under the checked option, 300ms | motion-primitives `AnimatedBackground` |
+| "Saved" | postmark stamp lands once per change | trickle `stamp` |
 
-No loops. Reduced motion and Calm motion remove all of it.
+No loops. `prefers-reduced-motion` and the corner's own *Calm motion* setting
+remove all of it.
