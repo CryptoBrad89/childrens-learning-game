@@ -1,0 +1,22 @@
+[
+  {
+    "role": "master",
+    "handle": "test",
+    "status": 200
+  },
+  {
+    "role": "regular",
+    "handle": "master_regular_mvfp6t8w390",
+    "status": 200
+  },
+  {
+    "role": "child",
+    "handle": "master_kid_mvfp6t8w390",
+    "status": 200
+  },
+  {
+    "role": "master lowercase",
+    "handle": "test",
+    "status": 400
+  }
+]

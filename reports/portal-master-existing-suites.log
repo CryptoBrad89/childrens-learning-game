@@ -1,0 +1,154 @@
+
+RUN accounts_selection
+Before click: {"profile":"test_adult_mvevk15s","owner":"test_adult_mvevk15s","notice":"Welcome, Sync test grown-up. Manage your kids below.","inert":false,"guardians":[{"child_id":"918bc03b-de9c-46e9-aa96-0f524c0b31ce"},{"child_id":"644c0c08-2064-4269-a40c-19be71d4a0ce"}],"child":{"id":"918bc03b-de9c-46e9-aa96-0f524c0b31ce","handle":"test_child_mvevk15s"}}
+After click: {"profile":"test_adult_mvevk15s","owner":"test_child_mvevk15s","notice":"Opened Sync test child's progress page.","inert":false,"pageerrors":[]}
+PASS LIVE: linked child button selects progress page and settings navigation preserves adult identity and selected child
+EXIT accounts_selection 0
+
+RUN home_flow
+PASS 390: login-first, default Ribbon Road, unsaved warning, no persisted play/preferences, cached offline reload, branding and fit
+PASS 768: login-first, default Ribbon Road, unsaved warning, no persisted play/preferences, cached offline reload, branding and fit
+PASS 1440: login-first, default Ribbon Road, unsaved warning, no persisted play/preferences, cached offline reload, branding and fit
+PASS account separation: child-first sign-in, grown-up kid management without codes, saved account play, cached child continuation and guest isolation
+PASS local file: clear sign-in guidance and fully playable unsaved Ribbon Road
+EXIT home_flow 0
+
+RUN grown_ups_smoke
+PASS grown-ups-phone: chooser door, gate refusal and unlock, every setting, guards, reset, relock, layout and offline
+PASS grown-ups-tablet: chooser door, gate refusal and unlock, every setting, guards, reset, relock, layout and offline
+PASS grown-ups-chromebook: chooser door, gate refusal and unlock, every setting, guards, reset, relock, layout and offline
+PASS grown-ups-whiteboard: chooser door, gate refusal and unlock, every setting, guards, reset, relock, layout and offline
+PASS gate pause: three misses pause the keypad for 10 seconds, then a new code works
+PASS worlds-phone: hidden world, chosen letters, quiet start, hidden buttons, calm motion, one-miss hint and volume
+PASS worlds-whiteboard: hidden world, chosen letters, quiet start, hidden buttons, calm motion, one-miss hint and volume
+PASS grown-ups-reduced: unlock and settings render
+PASS grown-ups-dark: unlock and settings render
+PASS grown-ups' corner; screenshots disabled
+EXIT grown_ups_smoke 0
+
+RUN grown_ups_runtime
+PASS grown-up settings: defaults, validation, save/load, corrupt and blocked storage
+PASS v1-letter-post: chosen letters, counts, wrap, hints (1 / never), voice off, volume and hidden children's buttons
+PASS v3-moonboat: chosen letters, counts, wrap, hints (1 / never), voice off, volume and hidden children's buttons
+PASS v4-silk-thread: chosen letters, counts, wrap, hints (1 / never), voice off, volume and hidden children's buttons
+EXIT grown_ups_runtime 0
+
+RUN runtime_smoke
+PASS v1-letter-post: 78 rounds, all themes, listen/replay, two misses, collection, next/wrap and mute (browser APIs stubbed)
+PASS v3-moonboat: 78 rounds, all themes, listen/replay, two misses, collection, next/wrap and mute (browser APIs stubbed)
+PASS v4-silk-thread: 78 rounds, all themes, listen/replay, two misses, collection, next/wrap and mute (browser APIs stubbed)
+EXIT runtime_smoke 0
+
+RUN motion_smoke
+PASS v1-letter-post-390-motion: entrances, replay, wrong/correct choice, reward, cancellation, live reduced motion
+PASS v1-letter-post-390-reduced: entrances, replay, wrong/correct choice, reward, cancellation, live reduced motion
+PASS v1-letter-post-768-motion: entrances, replay, wrong/correct choice, reward, cancellation, live reduced motion
+PASS v1-letter-post-768-reduced: entrances, replay, wrong/correct choice, reward, cancellation, live reduced motion
+PASS v1-letter-post-1920-motion: entrances, replay, wrong/correct choice, reward, cancellation, live reduced motion
+PASS v1-letter-post-1920-reduced: entrances, replay, wrong/correct choice, reward, cancellation, live reduced motion
+PASS v3-moonboat-390-motion: entrances, replay, wrong/correct choice, reward, cancellation, live reduced motion
+PASS v3-moonboat-390-reduced: entrances, replay, wrong/correct choice, reward, cancellation, live reduced motion
+PASS v3-moonboat-768-motion: entrances, replay, wrong/correct choice, reward, cancellation, live reduced motion
+PASS v3-moonboat-768-reduced: entrances, replay, wrong/correct choice, reward, cancellation, live reduced motion
+PASS v3-moonboat-1920-motion: entrances, replay, wrong/correct choice, reward, cancellation, live reduced motion
+PASS v3-moonboat-1920-reduced: entrances, replay, wrong/correct choice, reward, cancellation, live reduced motion
+PASS 12 motion cases; screenshots disabled
+EXIT motion_smoke 0
+
+RUN browser_smoke
+PASS v1-letter-post-390-theme0: B/J/X/Z flow, hints, replay, collection, wrap, keyboard and layout
+page.waitForFunction: Target page, context or browser has been closed
+Browser logs:
+
+<launching> /usr/bin/google-chrome --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,Translate,AutoDeElevate,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --no-sandbox --disable-dev-shm-usage --user-data-dir=/tmp/playwright_chromiumdev_profile-xp8zy8 --remote-debugging-pipe --no-startup-window
+<launched> pid=333697
+[pid=333697][err] [333697:333718:1019/151900.374480:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[pid=333697][err] [333697:333718:1019/151900.374599:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[pid=333697][err] [333697:333718:1019/151900.396736:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[pid=333697][err] [333697:333718:1019/151900.396778:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[pid=333697][err] [333697:333718:1019/151900.396868:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[pid=333697][err] [333697:333718:1019/151900.396876:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[pid=333697][err] [333697:333718:1019/151900.396889:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[pid=333697][err] [333697:333718:1019/151900.477168:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[pid=333697][err] [333697:333697:1019/151900.486269:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[pid=333697][err] [333697:333718:1019/151900.486329:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[pid=333697][err] [333697:333697:1019/151900.486451:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[pid=333697][err] [333697:333718:1019/151900.487253:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[pid=333697][err] [333697:333697:1019/151900.489029:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[pid=333697][err] [333697:333718:1019/151900.489107:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[pid=333697][err] [333697:333697:1019/151900.490652:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[pid=333697][err] [333697:333718:1019/151900.490876:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[pid=333697][err] [333697:333718:1019/151900.490906:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[pid=333697][err] [333697:333697:1019/151900.494054:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[pid=333697][err] [333697:333718:1019/151900.494300:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[pid=333697][err] [333697:333697:1019/151900.494377:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[pid=333697][err] [333697:333697:1019/151900.494673:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.Properties.GetAll: object_path= /org/freedesktop/UPower/devices/DisplayDevice: unknown error type: 
+[pid=333697][err] [333697:333697:1019/151900.495502:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[pid=333697][err] [333697:333718:1019/151900.495549:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[pid=333697][err] [333697:333697:1019/151900.496913:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[pid=333697][err] [333697:333718:1019/151900.496958:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[pid=333697][err] [333697:333697:1019/151900.497249:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[pid=333697][err] ALSA lib confmisc.c:855:(parse_card) cannot find card '0'
+[pid=333697][err] ALSA lib conf.c:5205:(_snd_config_evaluate) function snd_func_card_inum returned error: No such file or directory
+[pid=333697][err] ALSA lib confmisc.c:422:(snd_func_concat) error evaluating strings
+[pid=333697][err] ALSA lib conf.c:5205:(_snd_config_evaluate) function snd_func_concat returned error: No such file or directory
+[pid=333697][err] ALSA lib confmisc.c:1342:(snd_func_refer) error evaluating name
+[pid=333697][err] ALSA lib conf.c:5205:(_snd_config_evaluate) function snd_func_refer returned error: No such file or directory
+[pid=333697][err] ALSA lib conf.c:5728:(snd_config_expand) Evaluate error: No such file or directory
+[pid=333697][err] ALSA lib pcm.c:2722:(snd_pcm_open_noupdate) Unknown PCM default
+[pid=333697][err] [333827:333827:1019/151902.327172:ERROR:media/audio/alsa/alsa_util.cc:204] PcmOpen: default,No such file or directory
+[pid=333697][err] ALSA lib confmisc.c:855:(parse_card) cannot find card '0'
+[pid=333697][err] ALSA lib conf.c:5205:(_snd_config_evaluate) function snd_func_card_inum returned error: No such file or directory
+[pid=333697][err] ALSA lib confmisc.c:422:(snd_func_concat) error evaluating strings
+[pid=333697][err] ALSA lib conf.c:5205:(_snd_config_evaluate) function snd_func_concat returned error: No such file or directory
+[pid=333697][err] ALSA lib confmisc.c:1342:(snd_func_refer) error evaluating name
+[pid=333697][err] ALSA lib conf.c:5205:(_snd_config_evaluate) function snd_func_refer returned error: No such file or directory
+[pid=333697][err] ALSA lib conf.c:5728:(snd_config_expand) Evaluate error: No such file or directory
+[pid=333697][err] ALSA lib pcm.c:2722:(snd_pcm_open_noupdate) Unknown PCM default
+[pid=333697][err] [333827:333827:1019/151902.327229:ERROR:media/audio/alsa/alsa_util.cc:204] PcmOpen: plug:default,No such file or directory
+[pid=333697][err] [333697:333720:1019/151902.756222:ERROR:google_apis/gcm/engine/registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT
+[pid=333697][err] [333697:333720:1019/151926.913627:ERROR:google_apis/gcm/engine/registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT
+[pid=333697][err] [333697:333720:1019/152009.666835:ERROR:google_apis/gcm/engine/registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT
+    at run (/workspace/clg-codex/tests/browser_smoke.cjs:80:26) {
+  log: []
+}
+EXIT browser_smoke 1
+
+RUN silk_smoke
+PASS chooser-390: three usable world links and layout
+PASS chooser-1180: three usable world links and layout
+PASS chooser-1920: three usable world links and layout
+PASS Silk A–Z: 26 real listen/match/celebrate rounds, full collection, X ending, keyboard wrap
+PASS silk-390-pink: palette persistence, home/activity/reward, 60px targets, offline, reduced motion
+PASS silk-390-purple: palette persistence, home/activity/reward, 60px targets, offline, reduced motion
+PASS silk-390-yellow: palette persistence, home/activity/reward, 60px targets, offline, reduced motion
+PASS silk-1180-pink: palette persistence, home/activity/reward, 60px targets, offline, reduced motion
+PASS silk-1180-purple: palette persistence, home/activity/reward, 60px targets, offline, reduced motion
+PASS silk-1180-yellow: palette persistence, home/activity/reward, 60px targets, offline, reduced motion
+PASS silk-1920-pink: palette persistence, home/activity/reward, 60px targets, offline, reduced motion
+PASS silk-1920-purple: palette persistence, home/activity/reward, 60px targets, offline, reduced motion
+PASS silk-1920-yellow: palette persistence, home/activity/reward, 60px targets, offline, reduced motion
+PASS Ribbon Road and chooser; screenshots disabled
+EXIT silk_smoke 0
+
+RUN confetti_smoke
+PASS v1-letter-post-390-theme0: themed paper, independent fall/flutter, continuous recycling, replay, theme change and cleanup
+PASS v1-letter-post-390-theme1: themed paper, independent fall/flutter, continuous recycling, replay, theme change and cleanup
+PASS v1-letter-post-390-theme2: themed paper, independent fall/flutter, continuous recycling, replay, theme change and cleanup
+PASS v1-letter-post-1920-theme0: themed paper, independent fall/flutter, continuous recycling, replay, theme change and cleanup
+PASS v1-letter-post-1920-theme1: themed paper, independent fall/flutter, continuous recycling, replay, theme change and cleanup
+PASS v1-letter-post-1920-theme2: themed paper, independent fall/flutter, continuous recycling, replay, theme change and cleanup
+PASS v3-moonboat-390-theme0: themed paper, independent fall/flutter, continuous recycling, replay, theme change and cleanup
+PASS v3-moonboat-390-theme1: themed paper, independent fall/flutter, continuous recycling, replay, theme change and cleanup
+PASS v3-moonboat-390-theme2: themed paper, independent fall/flutter, continuous recycling, replay, theme change and cleanup
+PASS v3-moonboat-1920-theme0: themed paper, independent fall/flutter, continuous recycling, replay, theme change and cleanup
+PASS v3-moonboat-1920-theme1: themed paper, independent fall/flutter, continuous recycling, replay, theme change and cleanup
+PASS v3-moonboat-1920-theme2: themed paper, independent fall/flutter, continuous recycling, replay, theme change and cleanup
+PASS v4-silk-thread-390-theme0: themed paper, independent fall/flutter, continuous recycling, replay, theme change and cleanup
+PASS v4-silk-thread-390-theme1: themed paper, independent fall/flutter, continuous recycling, replay, theme change and cleanup
+PASS v4-silk-thread-390-theme2: themed paper, independent fall/flutter, continuous recycling, replay, theme change and cleanup
+PASS v4-silk-thread-1920-theme0: themed paper, independent fall/flutter, continuous recycling, replay, theme change and cleanup
+PASS v4-silk-thread-1920-theme1: themed paper, independent fall/flutter, continuous recycling, replay, theme change and cleanup
+PASS v4-silk-thread-1920-theme2: themed paper, independent fall/flutter, continuous recycling, replay, theme change and cleanup
+PASS 18 confetti cases; screenshots disabled
+EXIT confetti_smoke 0

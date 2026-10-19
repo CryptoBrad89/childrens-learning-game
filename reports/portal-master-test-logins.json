@@ -1,0 +1,48 @@
+{
+  "project": "ixjbgshhzeaosrzavssr",
+  "created_at": "2026-10-19T20:19:21.991Z",
+  "grownup": {
+    "handle": "test",
+    "password": "ABCD1234"
+  },
+  "cases": [
+    {
+      "width": 390,
+      "regular": {
+        "handle": "master_regular_mvfp6t8w390",
+        "password": "8345bc",
+        "id": "4d0d6d30-38cf-4179-af83-b17d80132aa9"
+      },
+      "child": {
+        "handle": "master_kid_mvfp6t8w390",
+        "password": "7234ab",
+        "id": "297440a7-bb41-4d28-bbda-f04805813bf5"
+      },
+      "reassigned_child": {
+        "handle": "master_orphan_mvfp6t8w390",
+        "password": "7234ab",
+        "id": "62ae2ce3-10fd-49f1-95eb-5f8c91245453"
+      },
+      "deleted_grownup_id": "cb3ebd7a-5aa3-4bb4-8d27-425934361a69"
+    },
+    {
+      "width": 1440,
+      "regular": {
+        "handle": "master_regular_mvfp75521440",
+        "password": "8345bc",
+        "id": "212f5158-397e-45ba-9b88-3cbd6baa8f10"
+      },
+      "child": {
+        "handle": "master_kid_mvfp75521440",
+        "password": "7234ab",
+        "id": "7b07eb18-cae7-40d0-abc6-439a86939706"
+      },
+      "reassigned_child": {
+        "handle": "master_orphan_mvfp75521440",
+        "password": "7234ab",
+        "id": "ed4c41dc-a7d5-477d-8942-083d94cc4220"
+      },
+      "deleted_grownup_id": "e2f8f129-98d3-4db0-9e5f-30b84d419701"
+    }
+  ]
+}

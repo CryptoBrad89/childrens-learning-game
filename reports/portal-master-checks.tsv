@@ -1,0 +1,25 @@
+check	result	evidence
+accounts_selection	PASS	portal-master-existing-suites.log
+home_flow	PASS	portal-master-existing-suites.log
+grown_ups_smoke	PASS	portal-master-existing-suites.log
+grown_ups_runtime	PASS	portal-master-existing-suites.log
+runtime_smoke	PASS	portal-master-existing-suites.log
+motion_smoke	PASS	portal-master-existing-suites.log
+silk_smoke	PASS	portal-master-existing-suites.log
+confetti_smoke	PASS	portal-master-existing-suites.log
+browser_smoke shard 0	PASS	portal-master-browser-shard-0.log
+browser_smoke shard 1	PASS	portal-master-browser-shard-1.log
+browser_smoke shard 2	PASS	portal-master-browser-shard-2.log
+browser_smoke shard 3	PASS	portal-master-browser-shard-3.log
+browser_smoke shard 4	PASS	portal-master-browser-shard-4.log
+browser_smoke shard 5	PASS	portal-master-browser-shard-5.log
+browser	PASS	portal-master-browser.log
+database	PASS	portal-master-database.log
+edge	PASS	portal-master-edge.log
+static	PASS	portal-master-static.log
+portal-fixture	PASS	portal-master-portal-fixture.log
+portal-live	PASS	portal-master-portal-live.log
+sync-fixture	PASS	portal-master-sync-fixture.log
+sync-live	PASS	portal-master-sync-live.log
+round2	PASS	portal-master-round2.log
+hosted	PASS	portal-master-hosted.log

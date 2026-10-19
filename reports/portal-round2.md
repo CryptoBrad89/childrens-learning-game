@@ -16,7 +16,7 @@ For localhost, run `python3 -m http.server 8000` and open [home](http://localhos
 
 | Account | Username | Password |
 | --- | --- | --- |
-| Administrator grown-up | `r2_adult_mvfnzyk3390_new` | `8345bc` |
+| Administrator grown-up | `test` | `ABCD1234` |
 | Second grown-up | `r2_parent_mvfnzyk3390` | `7234ab` |
 | Child | `r2_play_mvfnzyk3390` | `7234ab` |
 
@@ -53,3 +53,5 @@ All browser helpers use `NO_SCREENSHOTS=1 CHROMIUM_EXECUTABLE=/usr/bin/google-ch
 - `python3 tests/run_tests.py`: **6/6** strict checks. Strict Edge TypeScript, JavaScript syntax, and `git diff --check` pass.
 
 No open product questions. [Retained login verification](portal-round2-review-logins.log) checks child sign-in and confirms the second grown-up still has the child available to link.
+
+Credential verification (2026-10-19): On **ixjbgshhzeaosrzavssr only**, changed the original administrator through **Edit my profile** and **Change my password** to `test` / `ABCD1234`. The username was available and the password passed existing rules; no code, schema, or password-policy changes were needed. Fresh Chromium portal sign-in confirmed the same account ID and grown-up administrator role, the linked child **Explorer available to link** (`r2_play_mvfnzyk3390`), and successful creation of a temporary grown-up that could also sign in. Removed that temporary account after verification. Lowercase `abcd1234` was rejected. Updated this table, the report JSON, and `.job/portal-round2-test-logins.json`.
