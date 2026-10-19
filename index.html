@@ -5,7 +5,12 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#faf2df">
   <title>Children's Learning Game · Play with Lucy</title>
+  <link rel="stylesheet" href="accounts/front-door.css">
+  <script src="accounts/config.js"></script>
+  <script src="accounts/accounts.js"></script>
   <script src="grown-ups/settings.js"></script>
+  <script src="v1-letter-post/art.js"></script>
+  <script src="accounts/pictures.js"></script>
   <style>
     @font-face{font-family:Nunito;src:url(v1-letter-post/assets/NunitoSans-Black.woff2);font-weight:900;font-display:swap}
     @font-face{font-family:Nunito;src:url(v1-letter-post/assets/NunitoSans-Bold.woff2);font-weight:700;font-display:swap}
@@ -23,6 +28,27 @@
 <body>
   <main>
     <header><div class="hello"><img src="v1-letter-post/assets/lucy-default.jpg" width="180" height="180" alt="Lucy the golden retriever"></div><div><p class="brand">Children's Learning Game</p><h1>Play with Lucy</h1><p>Pick a little sound adventure.</p></div></header>
+    <section class="who" id="who" hidden aria-labelledby="who-title">
+      <h2 id="who-title" tabindex="-1">Who's playing?</h2>
+      <p class="lead" id="who-lead">Tap your picture.</p>
+      <ul class="people" id="people" aria-label="People who play on this device"></ul>
+      <p class="empty-door" id="who-empty" hidden>Nobody has played on this device yet. Open your class board, or sign in with a name.</p>
+      <div class="door-actions"><span id="saved-boards" class="door-actions" style="margin:0"></span><button type="button" id="open-board"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7V5a1 1 0 0 1 1-1h2m10 0h2a1 1 0 0 1 1 1v2m0 10v2a1 1 0 0 1-1 1h-2M7 20H5a1 1 0 0 1-1-1v-2M8 12h8"/></svg>Open a class board</button><button type="button" id="name-sign-in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>Sign in with a name</button></div>
+      <button type="button" class="just-play" id="just-play">Play without saving</button>
+    </section>
+    <section class="board" id="board" hidden aria-labelledby="board-title">
+      <div class="board-head"><div><h2 id="board-title" tabindex="-1"></h2><span class="code" id="board-code"></span></div><button type="button" id="board-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H4m6-6-6 6 6 6"/></svg>Back</button></div>
+      <ul class="people" id="board-people" aria-label="Children in this group"></ul>
+      <p class="board-note" id="board-note"></p>
+      <button type="button" class="just-play" id="board-forget">Remove this board from this device</button>
+    </section>
+    <div class="playing" id="playing" hidden>
+      <span id="playing-avatar"></span>
+      <p class="who-name"><span id="playing-name" tabindex="-1"></span><small class="sync" id="playing-sync" data-state="saved" role="status"><i aria-hidden="true"></i><span></span></small></p>
+      <button type="button" id="sticker-button" class="sticker-button"><span class="stickers" id="stickers" aria-hidden="true"></span><span id="sticker-count"></span></button>
+      <button type="button" id="done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5L20 6"/></svg>I'm done</button>
+    </div>
+    <div class="guest-bar" id="guest-bar" hidden><p><strong>Playing without saving</strong><small>Stars and stickers won't be kept.</small></p><button type="button" id="guest-who">Who's playing?</button></div>
     <nav aria-label="Choose a game">
       <a data-world="post" href="v1-letter-post/index.html">
         <div class="scene" aria-hidden="true"><svg viewBox="0 0 180 150" fill="none"><path d="M20 32h140v99H20z" fill="#fff8e5" stroke="#253f65" stroke-width="4" stroke-linejoin="round"/><path d="m20 32 70 53 70-53M20 131l48-48m92 48-48-48" stroke="#253f65" stroke-width="4" stroke-linejoin="round"/><path d="M125 44h23v28h-23z" fill="#c74234"/><path d="m79 10 5-9m-33 16-8-6m65 4 8-8" stroke="#c74234" stroke-width="4" stroke-linecap="round"/></svg></div>
@@ -41,7 +67,7 @@
   </main>
   <script>
     // Grown-ups can choose which worlds appear here; at least one always stays.
-    (() => {
+    (window.applyWorlds = () => {
       const games = window.GROWN_UPS ? window.GROWN_UPS.settings.games : [];
       const worlds = [...document.querySelectorAll('nav a[data-world]')];
       worlds.forEach(a => { a.hidden = !games.includes(a.dataset.world); });
@@ -50,5 +76,48 @@
       document.querySelector('nav').style.setProperty('--worlds', shown.length || worlds.length);
     })();
   </script>
+  <dialog class="lw-dialog" id="pw-dialog" aria-labelledby="pw-title" aria-describedby="pw-helper">
+    <form id="pw-form" novalidate>
+      <div class="who-line"><span id="pw-avatar"></span><div><h3 id="pw-title"></h3><p class="helper" id="pw-helper"></p></div></div>
+      <label class="field" for="pw-input">Password</label>
+      <div class="input-row"><input id="pw-input" type="password" autocomplete="current-password" autocapitalize="off" spellcheck="false" aria-describedby="pw-dots pw-error"><button type="button" class="show" id="pw-show" aria-pressed="false">Show</button></div>
+      <p class="dots" id="pw-dots"><i></i><i></i><i></i><i></i><i></i><i></i><span></span></p>
+      <label class="keep"><input type="checkbox" id="pw-keep">Stay signed in on this device (for a tablet at home)</label>
+      <p class="error" id="pw-error" role="alert"></p>
+      <div class="actions"><button type="button" data-close="1">Not me</button><button class="go" id="pw-go" disabled>Let's play</button></div>
+    </form>
+  </dialog>
+  <dialog class="lw-dialog" id="code-dialog" aria-labelledby="code-title">
+    <form id="code-form" novalidate>
+      <h3 id="code-title">Open a class board</h3>
+      <p class="helper">Type the six-letter code from your class or home. The board shows each child's picture.</p>
+      <label class="field" for="code-input">Code</label>
+      <input id="code-input" class="code-input" type="text" maxlength="9" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-describedby="code-error">
+      <p class="error" id="code-error" role="alert"></p>
+      <div class="actions"><button type="button" data-close="1">Cancel</button><button class="go">Open board</button></div>
+    </form>
+  </dialog>
+  <dialog class="lw-dialog" id="name-dialog" aria-labelledby="name-title">
+    <form id="name-form" novalidate>
+      <h3 id="name-title">Sign in with a name</h3>
+      <p class="helper">For anyone with an account: children and grown-ups. Use the sign-in name, like mia-k4x.</p>
+      <label class="field" for="name-input">Sign-in name</label>
+      <input id="name-input" type="text" autocomplete="username" autocapitalize="off" spellcheck="false">
+      <label class="field" for="name-pw">Password</label>
+      <div class="input-row"><input id="name-pw" type="password" autocomplete="current-password" autocapitalize="off" spellcheck="false" aria-describedby="name-dots name-error"><button type="button" class="show" id="name-show" aria-pressed="false">Show</button></div>
+      <p class="dots" id="name-dots"><i></i><i></i><i></i><i></i><i></i><i></i><span></span></p>
+      <label class="keep"><input type="checkbox" id="name-keep">Stay signed in on this device (for a tablet at home)</label>
+      <p class="error" id="name-error" role="alert"></p>
+      <div class="actions"><button type="button" data-close="1">Cancel</button><button class="go" id="name-go" disabled>Let's play</button></div>
+    </form>
+  </dialog>
+  <dialog class="lw-dialog book-dialog" id="book-dialog" aria-labelledby="book-title">
+    <form method="dialog">
+      <h3 id="book-title">Stickers</h3>
+      <ul class="book" id="book"></ul>
+      <div class="actions"><span></span><button class="go">Close</button></div>
+    </form>
+  </dialog>
+  <script src="accounts/front-door.js"></script>
 </body>
 </html>
