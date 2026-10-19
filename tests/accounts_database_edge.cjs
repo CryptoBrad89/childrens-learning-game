@@ -28,7 +28,7 @@ const request = (body,token) => new Request('https://project.invalid/functions/v
       return ok({id});
     }
     if (url.endsWith('/rpc/provision_account')) return ok(null);
-    if (url.includes('/rest/v1/profiles?')) return ok([{id,handle:'teacher',role:'grownup'}]);
+    if (url.includes('/rest/v1/profiles?')) return ok([{id,handle:'teacher',role:'grownup',is_master:true}]);
     throw Error(`Unexpected ${url}`);
   };
   const registered=await handler(request({action:'register',handle:' Teacher ',display_name:'Teacher',password:' 1234 '},'valid-token'));
@@ -53,7 +53,7 @@ const request = (body,token) => new Request('https://project.invalid/functions/v
   calls=[];
   transport=(url) => {
     if (url.endsWith('/auth/v1/user')) return ok({id});
-    if (url.includes('role=eq.grownup')) return ok([{id}]);
+    if (url.includes('role=eq.grownup')) return ok([{id,is_master:true}]);
     if (url.endsWith('/auth/v1/admin/users')) return ok({id});
     if (url.endsWith('/rpc/provision_account')) return new Response('{}',{status:400});
     if (url.includes('/profiles?')) return ok([]);
@@ -65,7 +65,7 @@ const request = (body,token) => new Request('https://project.invalid/functions/v
   calls=[];
   transport=(url) => {
     if (url.endsWith('/auth/v1/user')) return ok({id});
-    if (url.includes('role=eq.grownup')) return ok([{id}]);
+    if (url.includes('role=eq.grownup')) return ok([{id,is_master:true}]);
     if (url.endsWith('/auth/v1/admin/users')) return new Response('{}',{status:422});
     if (url.includes('/auth/v1/token?')) return ok({user:{id,app_metadata:{account_role:'grownup',creator_id:id}}});
     if (url.endsWith('/rpc/provision_account')) return ok(null);
@@ -99,5 +99,28 @@ const request = (body,token) => new Request('https://project.invalid/functions/v
     assert.equal((await handler(request({action:'create-child',handle:'kid',display_name:'Kid',password:'123456',avatar},'valid-token'))).status,400);
     assert.equal(calls.some(x=>x.url.endsWith('/auth/v1/admin/users')),false);
   }
+  const target='10000000-0000-0000-0000-000000000002';
+  for (const role of ['master','regular','child','anonymous']) for(const action of ['create-grownup','register','delete-grownup','reset-grownup-password']) {
+    calls=[];
+    transport=(url,options)=>{
+      if(url.endsWith('/auth/v1/user')) return ok({id});
+      if(url.includes(`id=eq.${id}&role=eq.grownup`)) return ok(role==='child'?[]:[{id,is_master:role==='master'}]);
+      if(url.includes(`id=eq.${target}&role=eq.grownup&is_master=eq.false`)) return ok([{id:target}]);
+      if(url.endsWith('/auth/v1/admin/users')) return ok({id:target});
+      if(url.endsWith('/rpc/provision_account')) return ok(null);
+      if(url.includes(`/admin/users/${target}`)) return ok(null);
+      if(url.includes('/profiles?')) return ok([{id:target,role:'grownup'}]);
+      throw Error(url);
+    };
+    const result=await handler(request({action,handle:'regular',display_name:'Regular',password:'ABCD1234',grownup_id:target,confirm:action},role==='anonymous'?undefined:'valid-token'));
+    assert.equal(result.status,role==='master'?200:role==='anonymous'?401:403,`${role}: ${action}`);
+    if(role!=='master') assert.equal(calls.some(call=>call.url.includes('/admin/users')),false);
+  }
+  transport=url=>url.endsWith('/auth/v1/user')?ok({id}):url.includes('is_master=eq.false')?ok([]):ok([{id,is_master:true}]);
+  for(const action of ['delete-grownup','reset-grownup-password']) {
+    assert.equal((await handler(request({action,grownup_id:id,confirm:action,password:'ABCD1234'},'valid-token'))).status,403,'Master self action rejected');
+    assert.equal((await handler(request({action,grownup_id:target,confirm:action,password:'ABCD1234'},'valid-token'))).status,403,'Child/missing target rejected');
+  }
+  console.log('PASS master Edge: master/regular/child/anonymous create, legacy register, delete and password-reset matrix; self and invalid targets denied');
   process.stdout.write('accounts_database_edge: admin-only creation (including legacy register), anonymous/child denial, avatars, password preservation, guardian checks, cleanup and interrupted retry passed\n');
 })().catch(error=>{process.stderr.write(`${error.stack}\n`);process.exitCode=1;});

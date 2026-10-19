@@ -73,8 +73,29 @@ export async function serve(request: Request): Promise<Response> {
     if (!bearer) throw new RequestError('Sign in as a grown-up first.', 401);
     const authenticated = object(await api('/auth/v1/user', {}, bearer, publicKey));
     const adult = string(authenticated.id, 'User ID');
-    const rows = await api(`/rest/v1/profiles?id=eq.${adult}&role=eq.grownup&select=id`);
+    const rows = await api(`/rest/v1/profiles?id=eq.${adult}&role=eq.grownup&select=id,is_master`);
     if (!Array.isArray(rows) || rows.length !== 1) throw new RequestError('A grown-up account is required.', 403);
+    const master = object(rows[0]).is_master === true;
+    if (['register', 'create-grownup', 'list-grownups', 'delete-grownup', 'reset-grownup-password'].includes(action) && !master) {
+      throw new RequestError('Only the master can manage grown-up accounts.', 403);
+    }
+    if (action === 'list-grownups') {
+      return response({ grownups: await api('/rest/v1/profiles?role=eq.grownup&select=id,handle,display_name,is_master&order=display_name') });
+    }
+    if (action === 'delete-grownup' || action === 'reset-grownup-password') {
+      const id = uuid(input.grownup_id, 'Grown-up ID');
+      const targets = await api(`/rest/v1/profiles?id=eq.${id}&role=eq.grownup&is_master=eq.false&select=id`);
+      if (id === adult || !Array.isArray(targets) || targets.length !== 1) {
+        throw new RequestError('Choose another regular grown-up account.', 403);
+      }
+      if (action === 'delete-grownup') {
+        if (input.confirm !== action) throw new RequestError('Confirm this action first.');
+        await api(`/auth/v1/admin/users/${id}`, { method: 'DELETE' });
+      } else {
+        await api(`/auth/v1/admin/users/${id}`, { method: 'PUT', body: JSON.stringify({ password: password(input.password) }) });
+      }
+      return response({ ok: true });
+    }
     if (action === 'register' || action === 'create-grownup' || action === 'create-child') {
       const name = handle(input.handle);
       const secret = password(input.password);

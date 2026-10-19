@@ -36,6 +36,8 @@ function backend() {
     const actor = users.get((request.headers().authorization || '').replace('Bearer ',''));
     if (url.pathname.endsWith('/accounts')) {
       if (!actor || actor.profile.role !== 'grownup') {status=403;result={error:'A grown-up account is required.'};}
+      else if(['create-grownup','register','delete-grownup','reset-grownup-password','list-grownups'].includes(data.action)&&!actor.profile.is_master){status=403;result={error:'Master required'};}
+      else if(data.action==='list-grownups')result={grownups:[...users.values()].map(u=>u.profile).filter(p=>p.role==='grownup')};
       else if(data.action==='list-linkable-children')result={children:[...users.values()].map(u=>u.profile).filter(p=>p.role==='child' && links.some(l=>l.child_id===p.id&&l.adult_id!==actor.profile.id)&&!links.some(l=>l.child_id===p.id&&l.adult_id===actor.profile.id))};
       else if(data.action==='link-child'){links.push({adult_id:actor.profile.id,child_id:data.child_id});result={ok:true};}
       else if (data.action === 'register' || data.action === 'create-grownup' || data.action === 'create-child') {
@@ -73,7 +75,7 @@ function backend() {
     } else {status=404;result={message:'Unimplemented fixture route '+url.pathname};}
     await requestRoute.fulfill({status,contentType:'application/json',body:status===204?'':JSON.stringify(result)});
   }
-  return {route,events,seed(handle,password,display_name='Test administrator') { const id=crypto.randomUUID();users.set(id,{password,profile:{id,handle,display_name,role:'grownup'}}); },loseNextResponse(){loseResponse=true;},holdRefresh(){
+  return {route,events,seed(handle,password,display_name='Test administrator') { const id=crypto.randomUUID();users.set(id,{password,profile:{id,handle,display_name,role:'grownup',is_master:users.size===0}}); },loseNextResponse(){loseResponse=true;},holdRefresh(){
     let arrived,release;const started=new Promise(resolve=>{arrived=resolve;});const wait=new Promise(resolve=>{release=resolve;});
     refreshHold={arrived,wait};return {started,release};
   }};
@@ -120,11 +122,12 @@ async function run() {
     if(!live)fixture.seed('admin_seed',password);
     await a.goto(url+'/accounts/');
     assert.equal(await a.evaluate(()=>ACCOUNT_CONFIG.url),'https://ixjbgshhzeaosrzavssr.supabase.co','Tests may only touch the authorized project');
-    const seed=live?JSON.parse(fs.readFileSync(process.env.ACCOUNTS_SEED_REPORT||'reports/home-flow-test-logins.json','utf8')):null;
+    const seed=live?JSON.parse(fs.readFileSync(process.env.ACCOUNTS_SEED_REPORT||'reports/portal-master-test-logins.json','utf8')):null;
     const seedAdult=live?seed.grownup.handle:'admin_seed';
     const seedPassword=live?seed.grownup.password:password;
     await form(a,'signin-form',{handle:seedAdult,password:seedPassword});
     await form(a,'create-grownup-form',{handle:adult,password,display_name:'Sync test grown-up'});
+    if(live)await form(a,'create-grownup-form',{handle:parent,password,display_name:'Sync test grown-up'});
     await a.locator('#sign-out').click();
     await form(a,'signin-form',{handle:adult,password});
     await form(a,'create-child-form',{handle:child,password,display_name:'Sync test child'});
@@ -132,7 +135,6 @@ async function run() {
     if(live) {
       await form(a,'create-child-form',{handle:otherChild,password:'aaaaaa',display_name:'Sync other child'});
       otherChildId=await a.evaluate(async id=>(await ACCOUNTS.rest('/guardians?select=child_id')).find(link=>link.child_id!==id).child_id,childId);
-      await form(a,'create-grownup-form',{handle:parent,password,display_name:'Sync test grown-up'});
       await b.goto(url+'/accounts/');
       await form(b,'signin-form',{handle:parent,password});
       await b.locator('#link-child-choice option[value="'+childId+'"]').waitFor({state:'attached'});

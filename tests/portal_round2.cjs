@@ -5,7 +5,7 @@ const fs=require('node:fs');
 const {staticServer,playwright,form,round}=require('./accounts_sync.cjs');
 (async()=>{
   const {server,url}=await staticServer(); let browser;
-  const seed=JSON.parse(fs.readFileSync('reports/home-flow-test-logins.json')).grownup;
+  const seed=JSON.parse(fs.readFileSync('reports/portal-master-test-logins.json')).grownup;
   const logins={created_at:new Date().toISOString(),project:'ixjbgshhzeaosrzavssr',cases:[]};
   try {
     browser=await playwright().chromium.launch({headless:true,executablePath:process.env.CHROMIUM_EXECUTABLE||'/usr/bin/google-chrome',args:['--no-sandbox']});
@@ -104,7 +104,7 @@ const {staticServer,playwright,form,round}=require('./accounts_sync.cjs');
       assert.equal(await a.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
       assert.deepEqual(errors,[]);
       logins.cases.push({width,grownup:{handle:newAdult,password:'8345bc'},second_grownup:{handle:parent,password},child:{handle:keep,password,id:keepId},deleted_child_id:childId});
-      fs.writeFileSync('reports/portal-round2-test-logins.json',JSON.stringify(logins,null,2)+'\n');
+      fs.writeFileSync('.job/portal-master-round2-rerun-logins.json',JSON.stringify(logins,null,2)+'\n');
       console.log(`PASS LIVE ${width}: cancelled/confirmed deletion removes Auth login, profiles/avatar, all guardian links and progress; no overflow or page errors`);
       for(const ctx of contexts)await ctx.close();
     }

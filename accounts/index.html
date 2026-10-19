@@ -24,7 +24,7 @@
   <main id="account-main" tabindex="-1">
     <p id="account-status" class="notice" role="status" aria-live="polite">Opening your progress page…</p>
     <div id="signed-out" hidden>
-      <div class="welcome"><h2>Welcome, grown-ups.</h2><p>Sign in to manage your kids. Ask an existing grown-up administrator if you need an account.</p></div>
+      <div class="welcome"><h2>Welcome, grown-ups.</h2><p>Sign in to manage your kids. Ask the master grown-up if you need an account.</p></div>
       <div class="progress-grid">
         <section class="panel" aria-labelledby="signin-title">
           <h2 id="signin-title"><span>01</span>Grown-up sign-in</h2>
@@ -71,12 +71,23 @@
         </details>
         <p class="help">Play keeps working offline after the first visit. New play is saved here and sent when you're online again. Sign in online first when using a new device.</p>
       </section>
-      <details data-adult class="password-panel"><summary>Add a grown-up administrator</summary><p class="help">Only signed-in grown-ups can create another administrator.</p><form id="create-grownup-form">
+      <details data-master hidden class="password-panel"><summary>Add a grown-up</summary><p class="help">Only the master can create grown-up accounts.</p><form id="create-grownup-form">
         <label>Name<input name="display_name" autocomplete="off" required></label>
         <label>Login name<input name="handle" autocomplete="off" autocapitalize="none" required></label>
         <label>Password<input name="password" type="password" minlength="6" autocomplete="new-password" required></label>
         <button type="submit" class="quiet-button">Create grown-up account</button><p class="form-result" role="status" aria-live="polite"></p>
       </form></details>
+      <section id="grownups" class="panel" data-master hidden aria-labelledby="grownups-title">
+        <h2 id="grownups-title">Grown-ups</h2>
+        <p class="help">Manage other grown-ups here. Your master account is protected.</p>
+        <p id="grownups-status" role="status"></p>
+        <ul id="grownups-list" class="children-list"></ul>
+        <details><summary>Reset a grown-up's password</summary><form id="reset-grownup-password-form">
+          <label>Grown-up<select id="grownup-choice" name="grownup_id" required><option value="">Choose a grown-up</option></select></label>
+          <label>New password<input name="password" type="password" minlength="6" autocomplete="new-password" required></label>
+          <button type="submit" class="quiet-button">Set new password</button><p class="form-result" role="status" aria-live="polite"></p>
+        </form></details>
+      </section>
       <section id="people" class="panel" data-adult aria-labelledby="people-title">
         <h2 id="people-title"><span>02</span>Kids</h2>
         <p class="help">Open a child's progress page to see their progress or change their settings.</p>
@@ -111,6 +122,12 @@
   <h2 id="confirm-title"></h2><p id="confirm-copy"></p>
   <div class="actions"><button type="button" id="cancel-child" class="quiet-button">Cancel</button><button type="button" id="confirm-child-action" class="solid-button"></button></div>
   <p id="confirm-result" role="status"></p>
+</dialog>
+<dialog id="confirm-grownup" aria-labelledby="confirm-grownup-title" aria-describedby="confirm-grownup-copy">
+  <h2 id="confirm-grownup-title"></h2>
+  <p id="confirm-grownup-copy">Their login and guardian links will be permanently deleted. Kids and their progress stay. Kids with no other grown-up will be linked to the master.</p>
+  <div class="actions"><button type="button" id="cancel-grownup" class="quiet-button" autofocus>Cancel</button><button type="button" id="confirm-grownup-action" class="solid-button">Permanently delete grown-up</button></div>
+  <p id="confirm-grownup-result" role="status"></p>
 </dialog>
 </body>
 </html>
