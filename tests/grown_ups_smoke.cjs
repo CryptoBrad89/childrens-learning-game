@@ -140,7 +140,7 @@ async function run() {
       await page.waitForFunction(() => document.body?.dataset.view === 'signin');
       assert(await page.locator('#settings').isHidden(), 'Every visit starts signed out');
       await done(label);
-      console.log(`PASS ${label}: chooser door, sign-in refusal, every setting saved to the class, guards, reset, sign-out, layout`);
+      console.log(`PASS ${label}: chooser door, sign-in refusal, every setting saved to the group, guards, reset, sign-out, layout`);
     }
 
     // A grown-up who stays signed in passes the reading gate; three misses pause it for ten seconds.

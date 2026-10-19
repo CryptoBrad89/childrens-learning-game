@@ -1,6 +1,6 @@
-/* Accounts end to end in a real browser: a grown-up makes an account, a class
+/* Accounts end to end in a real browser: a grown-up makes an account, a group
  * and children in the grown-ups' corner and picks their settings; a child signs
- * in from the class board on another device, plays, earns a sticker and hands
+ * in from the group board on another device, plays, earns a sticker and hands
  * over; the gate guards a grown-up who stays signed in. No screenshots.
  * Run: CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/accounts_flow.mjs */
 import assert from 'node:assert/strict';
@@ -53,7 +53,7 @@ try {
   assert.equal(logins.length, 2); assert.match(logins[0], /^leo-[a-z0-9]{3}$/); assert.match(logins[1], /^mia-[a-z0-9]{3}$/);
   const board = (await t.locator('.codes dd').first().textContent()).trim();
   assert.match(board, /^[A-Z0-9]{6}$/);
-  ok('corner: class with two children, readable sign-in names and a board code');
+  ok('corner: a group with two children, readable sign-in names and a board code');
 
   // Settings for the whole class: starter letters and calm motion.
   assert.equal(await t.locator('#target').inputValue(), `group:${await t.locator('.group-card').getAttribute('data-group')}`);
@@ -78,7 +78,7 @@ try {
   assert.equal((await be.rpc('lw_child_state', {p_child: mia.id}, leeToken)).settings.hintAfter, undefined);
   for (const size of sizes) { await t.setViewportSize(size); await fits(t, `corner settings ${size.name}`, size.width >= 1600 ? 72 : 60); }
   await t.setViewportSize({width: 1366, height: 768});
-  ok('corner: settings for a whole class and for one child reach the server');
+  ok('corner: settings for a whole group and for one child reach the server');
 
   // ---- A shared classroom Chromebook: nobody has played here yet.
   const cb = await context(browser, be);
@@ -110,7 +110,7 @@ try {
   assert.deepEqual(await c.evaluate(() => window.GROWN_UPS.settings.letters), ['A', 'I', 'N', 'P', 'S', 'T']);
   assert.equal(await c.evaluate(() => document.documentElement.hasAttribute('data-calm')), true);
   await fits(c, 'playing strip');
-  ok('chromebook: class board by code, wrong password refused, Mia signs in with her class settings');
+  ok('chromebook: group board by code, wrong password refused, Mia signs in with her group\'s settings');
 
   // Mia plays in Letter Post: only the class's letters, and the round is kept.
   await c.locator('nav a[data-world="post"]').click();
@@ -166,7 +166,7 @@ try {
   await t.locator('.kid:has-text("Mia") [data-act="settings"]').click();
   await t.waitForFunction(() => /2 rounds, 2 letters of 26/.test(document.querySelector('#progress-body').textContent));
   assert.equal(await t.locator('#progress-body .sticker-shelf li.earned').count(), 1);
-  ok('corner: Mia\'s rounds, letters and sticker show for the teacher');
+  ok('corner: Mia\'s rounds, letters and sticker show for the grown-up');
 
   // Grown-up who stays signed in: the number-word gate guards re-entry.
   await t.locator('#signout').click();
@@ -206,7 +206,7 @@ try {
   await h.waitForFunction(() => /Mia is now in Home/.test(document.querySelector('#groups-status').textContent));
   await h.locator('.kid:has-text("Mia") [data-act="settings"]').click();
   await h.waitForFunction(() => /2 rounds, 2 letters of 26/.test(document.querySelector('#progress-body').textContent));
-  ok('home: a parent links the school account; the same progress shows at home');
+  ok('second grown-up: links Mia\'s existing account into their own group; the same progress shows there');
 
   for (const ctx of [teacher, cb, home]) assert.deepEqual(ctx.errors, [], 'browser errors');
   console.log(`\n${passed} accounts flow checks passed (${be.mode} backend)`);
