@@ -9,7 +9,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import {playwright, launchOptions, serveGame, backend, context, playRound, boardSignIn, waitSynced, screen} from './accounts/harness.mjs';
+import {playwright, launchOptions, serveGame, backend, context, playRound, signInChild, waitSynced, screen} from './accounts/harness.mjs';
 
 const be = await backend(), web = await serveGame();
 const dirs = ['a', 'b'].map(n => fs.mkdtempSync(path.join(os.tmpdir(), `lw-device-${n}-`)));
@@ -31,8 +31,8 @@ try {
   const a = A.pages()[0] || await A.newPage(), b = B.pages()[0] || await B.newPage();
 
   // Both devices: first load online, Mia signs in from her class board.
-  await boardSignIn(a, web.url, room.board, 'Mia', mia.password);
-  await boardSignIn(b, web.url, room.board, 'Mia', mia.password);
+  await signInChild(a, web.url, mia.login, mia.password);
+  await signInChild(b, web.url, mia.login, mia.password);
   assert.notEqual(await a.evaluate(() => window.LW.deviceId), await b.evaluate(() => window.LW.deviceId), 'Two separate profiles');
   // Device A's offline shell is in place: the service worker stored every game file.
   const expected = await a.evaluate(async () => {

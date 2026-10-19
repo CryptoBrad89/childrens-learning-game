@@ -1,10 +1,18 @@
 /* Inside a world: shows who is playing in the footer, with "I'm done", and a
- * sticker toast when a round earns one. Nothing shows for play without saving. */
+ * sticker toast when a round earns one. Play without saving shows a small
+ * reminder that nothing is kept. */
 (() => {
 'use strict';
 const L = window.LW, P = window.LW_PICTURES, me = L && L.player();
-if (!me || !P) return;
 const footer = document.querySelector('#footer');
+let unsaved = false;
+try { unsaved = sessionStorage.getItem('lw:guest') === '1'; } catch (e) { unsaved = false; }
+if (!me && unsaved && footer) {
+  const note = document.createElement('span');
+  note.className = 'lw-unsaved'; note.textContent = 'Playing without saving';
+  footer.insertBefore(note, footer.lastElementChild);
+}
+if (!me || !P) return;
 if (footer) {
   const chip = document.createElement('span');
   chip.className = 'lw-player';

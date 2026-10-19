@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#faf2df">
-  <title>Children's Learning Game · Play with Lucy</title>
+  <title>Letters with Lucy</title>
   <link rel="stylesheet" href="accounts/front-door.css">
   <script src="accounts/config.js"></script>
   <script src="accounts/accounts.js"></script>
@@ -25,30 +25,23 @@
     html[data-calm] *,html[data-calm] *:before,html[data-calm] *:after{animation:none!important;transition:none!important}html[data-calm] a:hover,html[data-calm] a:active{transform:none}
   </style>
 </head>
-<body>
+<body data-home="start">
+  <p class="chrome-brand"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="16" rx="6" ry="5"/><ellipse cx="4" cy="10" rx="2.5" ry="3"/><ellipse cx="9" cy="5" rx="2.5" ry="3"/><ellipse cx="16" cy="5" rx="2.5" ry="3"/><ellipse cx="21" cy="10" rx="2.5" ry="3"/></svg><span>Letters with Lucy<small>Little sounds. Big discoveries.</small></span></p>
+  <!-- Splash. A splash video will go here later: put a <video> inside #splash and the
+       sign-in opens when it ends (front-door.js). Until then this short card plays. -->
+  <div class="splash" id="splash" aria-hidden="true" hidden>
+    <canvas id="paper"></canvas>
+    <div class="splash-card"><img src="v1-letter-post/assets/lucy-default.jpg" width="200" height="200" alt=""><p class="splash-name" id="splash-name">Letters with Lucy</p><p class="splash-tag">Little sounds. Big discoveries.</p></div>
+  </div>
   <main>
-    <header><div class="hello"><img src="v1-letter-post/assets/lucy-default.jpg" width="180" height="180" alt="Lucy the golden retriever"></div><div><p class="brand">Children's Learning Game</p><h1>Play with Lucy</h1><p>Pick a little sound adventure.</p></div></header>
-    <section class="who" id="who" hidden aria-labelledby="who-title">
-      <h2 id="who-title" tabindex="-1">Who's playing?</h2>
-      <p class="lead" id="who-lead">Tap your picture.</p>
-      <ul class="people" id="people" aria-label="People who play on this device"></ul>
-      <p class="empty-door" id="who-empty" hidden>Nobody has played on this device yet. Open a group board, or sign in with a name.</p>
-      <div class="door-actions"><span id="saved-boards" class="door-actions" style="margin:0"></span><button type="button" id="open-board"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7V5a1 1 0 0 1 1-1h2m10 0h2a1 1 0 0 1 1 1v2m0 10v2a1 1 0 0 1-1 1h-2M7 20H5a1 1 0 0 1-1-1v-2M8 12h8"/></svg>Open a group board</button><button type="button" id="name-sign-in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>Sign in with a name</button></div>
-      <button type="button" class="just-play" id="just-play">Play without saving</button>
-    </section>
-    <section class="board" id="board" hidden aria-labelledby="board-title">
-      <div class="board-head"><div><h2 id="board-title" tabindex="-1"></h2><span class="code" id="board-code"></span></div><button type="button" id="board-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12H4m6-6-6 6 6 6"/></svg>Back</button></div>
-      <ul class="people" id="board-people" aria-label="Children in this group"></ul>
-      <p class="board-note" id="board-note"></p>
-      <button type="button" class="just-play" id="board-forget">Remove this board from this device</button>
-    </section>
+    <header><div class="hello"><img src="v1-letter-post/assets/lucy-default.jpg" width="180" height="180" alt="Lucy the golden retriever"></div><div><h1 id="pick-title" tabindex="-1">Play with Lucy</h1><p>Pick a game, then let's go.</p></div></header>
     <div class="playing" id="playing" hidden>
       <span id="playing-avatar"></span>
       <p class="who-name"><span id="playing-name" tabindex="-1"></span><small class="sync" id="playing-sync" data-state="saved" role="status"><i aria-hidden="true"></i><span></span></small></p>
       <button type="button" id="sticker-button" class="sticker-button"><span class="stickers" id="stickers" aria-hidden="true"></span><span id="sticker-count"></span></button>
       <button type="button" id="done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5L20 6"/></svg>I'm done</button>
     </div>
-    <div class="guest-bar" id="guest-bar" hidden><p><strong>Playing without saving</strong><small>Stars and stickers won't be kept.</small></p><button type="button" id="guest-who">Who's playing?</button></div>
+    <div class="guest-bar" id="guest-bar" role="status" hidden><p><strong>You're playing without saving.</strong><small>Stars, stickers and settings won't be kept after this visit.</small></p><button type="button" id="guest-signin">Sign in instead</button></div>
     <nav aria-label="Choose a game">
       <a data-world="post" href="v1-letter-post/index.html">
         <div class="scene" aria-hidden="true"><svg viewBox="0 0 180 150" fill="none"><path d="M20 32h140v99H20z" fill="#fff8e5" stroke="#253f65" stroke-width="4" stroke-linejoin="round"/><path d="m20 32 70 53 70-53M20 131l48-48m92 48-48-48" stroke="#253f65" stroke-width="4" stroke-linejoin="round"/><path d="M125 44h23v28h-23z" fill="#c74234"/><path d="m79 10 5-9m-33 16-8-6m65 4 8-8" stroke="#c74234" stroke-width="4" stroke-linecap="round"/></svg></div>
@@ -58,9 +51,9 @@
         <div class="scene" aria-hidden="true"><svg viewBox="0 0 180 150" fill="none"><path d="M32 95c18 32 75 37 111-3-46 13-75-18-76-52-25 9-43 30-35 55Z" fill="#eed29a" stroke="#fff5dc" stroke-width="3"/><g transform="rotate(22 108 60)"><path d="M91 91V51c0-20 17-35 17-35s17 15 17 35v40Z" fill="#b9dce6" stroke="#fff5dc" stroke-width="3"/><circle cx="108" cy="54" r="9" fill="#292940" stroke="#fff5dc" stroke-width="3"/><path d="m91 74-13 21h13m34-21 13 21h-13" fill="#c78276" stroke="#fff5dc" stroke-width="3"/><path d="m101 100 7 18 7-18" stroke="#eed29a" stroke-width="5" stroke-linecap="round"/></g><path d="m29 27 3 8 8 3-8 3-3 8-3-8-8-3 8-3Z" fill="#eed29a"/></svg></div>
         <strong>Lucy’s Moonboat</strong><span>Explore a sound.<br>Light up the sky.</span><span class="go">Let's explore <b aria-hidden="true">→</b></span>
       </a>
-      <a class="silk" data-world="silk" href="v4-silk-thread/index.html">
+      <a class="silk" data-world="silk" href="v4-ribbon-road/index.html">
         <div class="scene" aria-hidden="true"><svg viewBox="0 0 180 150" fill="none"><path d="M12 112C10 38 84 142 88 65S162 13 166 85" stroke="#fff5fb" stroke-width="13" stroke-linecap="round"/><path d="M12 112C10 38 84 142 88 65S162 13 166 85" stroke="#b41468" stroke-width="3" stroke-linecap="round"/><rect x="17" y="70" width="45" height="50" rx="14" fill="#61ead7" stroke="#432045" stroke-width="3" transform="rotate(-10 40 95)"/><text x="39" y="106" fill="#432045" font-size="33" font-family="Nunito, sans-serif" font-weight="900" text-anchor="middle">A</text><rect x="105" y="22" width="45" height="50" rx="14" fill="#fff5fb" stroke="#432045" stroke-width="3" transform="rotate(10 128 47)"/><text x="128" y="59" fill="#b41468" font-size="33" font-family="Nunito, sans-serif" font-weight="900" text-anchor="middle">B</text></svg></div>
-        <strong>Lucy’s Silk Thread</strong><span>Follow a sound.<br>Find a little wonder.</span><span class="go">Let's play <b aria-hidden="true">→</b></span>
+        <span class="pick-badge" aria-hidden="true">Start here</span><strong>Lucy’s Ribbon Road</strong><span>Follow a sound.<br>Find a little wonder.</span><span class="go">Let's play <b aria-hidden="true">→</b></span>
       </a>
     </nav>
     <footer><p>Little sounds. Big adventures. Take your time.</p><a class="grown" href="grown-ups/index.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5"/></svg>For grown-ups</a></footer>
@@ -76,39 +69,20 @@
       document.querySelector('nav').style.setProperty('--worlds', shown.length || worlds.length);
     })();
   </script>
-  <dialog class="lw-dialog" id="pw-dialog" aria-labelledby="pw-title" aria-describedby="pw-helper">
-    <form id="pw-form" novalidate>
-      <div class="who-line"><span id="pw-avatar"></span><div><h3 id="pw-title"></h3><p class="helper" id="pw-helper"></p></div></div>
-      <label class="field" for="pw-input">Password</label>
-      <div class="input-row"><input id="pw-input" type="password" autocomplete="current-password" autocapitalize="off" spellcheck="false" aria-describedby="pw-dots pw-error"><button type="button" class="show" id="pw-show" aria-pressed="false">Show</button></div>
-      <p class="dots" id="pw-dots"><i></i><i></i><i></i><i></i><i></i><i></i><span></span></p>
-      <label class="keep"><input type="checkbox" id="pw-keep">Stay signed in on this device (when only this person uses it)</label>
-      <p class="error" id="pw-error" role="alert"></p>
-      <div class="actions"><button type="button" data-close="1">Not me</button><button class="go" id="pw-go" disabled>Let's play</button></div>
-    </form>
-  </dialog>
-  <dialog class="lw-dialog" id="code-dialog" aria-labelledby="code-title">
-    <form id="code-form" novalidate>
-      <h3 id="code-title">Open a group board</h3>
-      <p class="helper">Type the group's six-letter board code. The board shows each child's picture.</p>
-      <label class="field" for="code-input">Code</label>
-      <input id="code-input" class="code-input" type="text" maxlength="9" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-describedby="code-error">
-      <p class="error" id="code-error" role="alert"></p>
-      <div class="actions"><button type="button" data-close="1">Cancel</button><button class="go">Open board</button></div>
-    </form>
-  </dialog>
-  <dialog class="lw-dialog" id="name-dialog" aria-labelledby="name-title">
-    <form id="name-form" novalidate>
-      <h3 id="name-title">Sign in with a name</h3>
-      <p class="helper">For anyone with an account: children and grown-ups. Use the sign-in name, like mia-k4x.</p>
-      <label class="field" for="name-input">Sign-in name</label>
-      <input id="name-input" type="text" autocomplete="username" autocapitalize="off" spellcheck="false">
-      <label class="field" for="name-pw">Password</label>
-      <div class="input-row"><input id="name-pw" type="password" autocomplete="current-password" autocapitalize="off" spellcheck="false" aria-describedby="name-dots name-error"><button type="button" class="show" id="name-show" aria-pressed="false">Show</button></div>
-      <p class="dots" id="name-dots"><i></i><i></i><i></i><i></i><i></i><i></i><span></span></p>
-      <label class="keep"><input type="checkbox" id="name-keep">Stay signed in on this device (when only this person uses it)</label>
-      <p class="error" id="name-error" role="alert"></p>
-      <div class="actions"><button type="button" data-close="1">Cancel</button><button class="go" id="name-go" disabled>Let's play</button></div>
+  <dialog class="lw-dialog login" id="login" aria-labelledby="login-title" aria-describedby="login-helper">
+    <form id="login-form" novalidate>
+      <div class="who-line"><img class="login-lucy" src="v1-letter-post/assets/lucy-default.jpg" width="80" height="80" alt=""><div><h2 id="login-title">Hello! Who's playing?</h2><p class="helper" id="login-helper">Sign in to keep your stars and stickers. A grown-up can help.</p></div></div>
+      <div class="tiles" id="tiles-wrap" hidden><p class="tiles-label" id="tiles-label">Played here before? Tap your picture.</p><ul class="people" id="people" aria-labelledby="tiles-label"></ul></div>
+      <label class="field" for="login-name">Sign-in name</label>
+      <input id="login-name" type="text" autocomplete="username" autocapitalize="off" spellcheck="false" placeholder="like mia-k4x">
+      <label class="field" for="login-pw">Password</label>
+      <div class="input-row"><input id="login-pw" type="password" autocomplete="current-password" autocapitalize="off" spellcheck="false" aria-describedby="login-dots login-error"><button type="button" class="show" id="login-show" aria-pressed="false">Show</button></div>
+      <p class="dots" id="login-dots"><i></i><i></i><i></i><i></i><i></i><i></i><span></span></p>
+      <label class="keep"><input type="checkbox" id="login-keep">Stay signed in on this device (when only this person uses it)</label>
+      <p class="error" id="login-error" role="alert"></p>
+      <button class="go" id="login-go" disabled>Let's play</button>
+      <button type="button" class="unsaved" id="play-unsaved">Play without saving</button>
+      <p class="grown-line"><a class="grown-link" id="grown-link" href="grown-ups/index.html">Are you a grown-up?</a></p>
     </form>
   </dialog>
   <dialog class="lw-dialog book-dialog" id="book-dialog" aria-labelledby="book-title">
@@ -118,6 +92,7 @@
       <div class="actions"><span></span><button class="go">Close</button></div>
     </form>
   </dialog>
+  <script src="grown-ups/paper-shader.js"></script>
   <script src="accounts/front-door.js"></script>
 </body>
 </html>

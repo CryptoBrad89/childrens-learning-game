@@ -1,7 +1,7 @@
 -- Rollback for 20261019120000_accounts_schema.sql, 20261019120100_accounts_functions.sql
 -- and 20261019140000_any_grownup_groups.sql.
 -- Not a migration: run by hand only to remove accounts and sync completely.
--- It deletes every Little Woof group, child, setting, round and sticker.
+-- It deletes every Letters with Lucy group, child, setting, round and sticker.
 
 drop function if exists
   public.lw_sign_up(text, text, text), public.lw_me(), public.lw_change_password(text, text),

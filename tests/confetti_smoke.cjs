@@ -18,7 +18,7 @@ function playwright() {
     args: ['--no-sandbox', '--disable-dev-shm-usage']});
   let cases = 0;
   try {
-    for (const game of ['v1-letter-post', 'v3-moonboat', 'v4-silk-thread']) {
+    for (const game of ['v1-letter-post', 'v3-moonboat', 'v4-ribbon-road']) {
       for (const viewport of [{width: 390, height: 844}, {width: 1920, height: 1080}]) {
         for (let theme = 0; theme < 3; theme++) {
           const context = await browser.newContext({viewport, reducedMotion: 'no-preference'});
@@ -54,7 +54,7 @@ function playwright() {
             }));
             const first = await sample();
             assert.equal(first.length, 24, `${prefix}: bounded paper confetti pieces`);
-            const expectedShapes = game === 'v1-letter-post' ? ['curl', 'envelope', 'heart', 'stamp'] : game === 'v4-silk-thread' ? ['curl', 'heart', 'star'] : ['crescent', 'curl', 'planet', 'star'];
+            const expectedShapes = game === 'v1-letter-post' ? ['curl', 'envelope', 'heart', 'stamp'] : game === 'v4-ribbon-road' ? ['curl', 'heart', 'star'] : ['crescent', 'curl', 'planet', 'star'];
             assert.deepEqual([...new Set(first.map(piece => piece.shape))].sort(), expectedShapes, `${prefix}: world-themed shape variety`);
             assert(first.filter(piece => piece.width >= (viewport.width === 390 ? 64 : 100)).length >= 4,
               `${prefix}: clearly large hero pieces`);

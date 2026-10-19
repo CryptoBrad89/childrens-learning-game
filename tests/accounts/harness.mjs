@@ -122,23 +122,25 @@ export async function playRound(page, letter, misses = 0) {
   await page.locator('.secondary[data-action="home"]').click();
   await screen(page, 'home');
 }
-/** Signs a child in from the chooser through their class board. */
-export async function boardSignIn(page, base, board, name, password, {keep = false} = {}) {
+/** Waits for the chooser's sign-in dialog (after the splash, on a first visit). */
+export const loginOpen = page => page.waitForFunction(() => document.querySelector('#login')?.open, null, {timeout: 20000});
+/** Signs someone in from the chooser's dialog with their sign-in name and password. */
+export async function signInChild(page, base, login, password, {keep = false} = {}) {
   await page.goto(base + '/index.html');
-  await page.locator('#open-board').click();
-  await page.locator('#code-input').fill(board);
-  await page.locator('#code-form .go').click();
-  await page.locator(`#board-people .person[data-name="${name}"]`).click();
-  await page.locator('#pw-input').fill(password);
-  if (keep) await page.locator('#pw-keep').check();
-  await page.locator('#pw-go').click();
-  await page.waitForFunction(() => !document.querySelector('#playing').hidden, null, {timeout: 20000});
+  await loginOpen(page);
+  await page.locator('#login-name').fill(login);
+  await page.locator('#login-pw').fill(password);
+  if (keep) await page.locator('#login-keep').check();
+  await page.locator('#login-go').click();
+  await page.waitForFunction(() => document.body.dataset.home === 'picker' && !document.querySelector('#playing').hidden, null, {timeout: 20000});
 }
 export const waitSynced = (page, id, timeout = 30000) => page.waitForFunction(i => {
   const s = window.LW.status(i || window.LW.playerId());
   return s.online && !s.waiting && !s.syncing && s.syncedAt;
 }, id || null, {timeout});
 export async function fits(page, label, minimum = 60, selector = 'button,a,select,input:not([type="radio"]):not([type="checkbox"])') {
+  // Measure after entrances finish (dialogs scale in), ignoring endless loops.
+  await page.waitForFunction(() => document.getAnimations().every(a => a.playState !== 'running' || a.effect?.getTiming().iterations === Infinity), null, {timeout: 5000}).catch(() => {});
   const failures = await page.evaluate(([minimum, selector]) => {
     const out = [];
     if (document.documentElement.scrollWidth > innerWidth + 1) {

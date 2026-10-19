@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const {pathToFileURL} = require('node:url');
 const root = path.resolve(__dirname, '..');
-const shots = '/tmp/silk-shots';
+const shots = '/tmp/ribbon-shots';
 const alphabet = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
 const themes = ['Pink', 'Purple', 'Yellow'];
 const viewports = [{width: 390, height: 844}, {width: 1180, height: 900}, {width: 1920, height: 1080}];
@@ -44,14 +44,15 @@ async function run() {
       try {
         const page = await context.newPage();
         await page.goto(pathToFileURL(path.join(root, 'index.html')).href);
-        // The chooser asks "Who's playing?" first; this check plays without saving.
-        await page.locator('#just-play').click();
+        // The chooser opens its sign-in dialog first; this check plays without saving.
+        await page.waitForFunction(() => document.querySelector('#login')?.open, null, {timeout: 20000});
+        await page.locator('#play-unsaved').click();
         assert.deepEqual(await page.locator('nav a').evaluateAll(nodes => nodes.map(node => node.getAttribute('href'))),
-          ['v1-letter-post/index.html', 'v3-moonboat/index.html', 'v4-silk-thread/index.html']);
+          ['v1-letter-post/index.html', 'v3-moonboat/index.html', 'v4-ribbon-road/index.html']);
         await fits(page, `chooser ${viewport.width}`);
         await page.evaluate(() => document.fonts.ready);
         await page.screenshot({path: path.join(shots, `chooser-${viewport.width}.png`), fullPage: true});
-        await page.locator('a[href="v4-silk-thread/index.html"]').click();
+        await page.locator('a[href="v4-ribbon-road/index.html"]').click();
         await page.waitForFunction(() => document.body.dataset.screen === 'home');
         console.log(`PASS chooser-${viewport.width}: three usable world links and layout`);
       } finally {await context.close();}
@@ -64,7 +65,7 @@ async function run() {
         const page = await context.newPage();
         page.on('pageerror', error => errors.push(error.message));
         page.on('requestfailed', request => {if (request.url().startsWith('file:') && !request.failure().errorText.includes('ABORTED')) missing.push(request.url());});
-        const prefix = `silk-${viewport.width}-${name.toLowerCase()}`;
+        const prefix = `ribbon-${viewport.width}-${name.toLowerCase()}`;
         const screen = name => page.waitForFunction(name => document.body.dataset.screen === name, name);
         const settled = () => page.waitForFunction(() => !document.body.dataset.effect && !document.body.classList.contains('talking'));
         const capture = async name => {
@@ -77,7 +78,7 @@ async function run() {
           await page.screenshot({path: path.join(shots, `${prefix}-${name}.png`), fullPage: true});
         };
         try {
-          await page.goto(pathToFileURL(path.join(root, 'v4-silk-thread/index.html')).href);
+          await page.goto(pathToFileURL(path.join(root, 'v4-ribbon-road/index.html')).href);
           await screen('home');
           assert.equal(await page.locator('#theme').inputValue(), '0', 'Pink is default');
           assert.deepEqual(await page.locator('#theme option').allTextContents(), themes);
@@ -114,7 +115,7 @@ async function run() {
             assert.equal(await page.locator('.visited').count(), 26, 'All A–Z sounds are reachable and collectible');
             await page.locator('[data-letter="Z"]').focus(); await page.keyboard.press('ArrowRight');
             assert.equal(await page.locator(':focus').getAttribute('data-letter'), 'A');
-            console.log('PASS Silk A–Z: 26 real listen/match/celebrate rounds, full collection, X ending, keyboard wrap');
+            console.log('PASS Ribbon Road A–Z: 26 real listen/match/celebrate rounds, full collection, X ending, keyboard wrap');
           }
           assert.deepEqual(errors, [], `${prefix}: browser errors`);
           assert.deepEqual(network, [], `${prefix}: attempted network requests`);
@@ -123,7 +124,7 @@ async function run() {
         } finally {await context.close();}
       }
     }
-    console.log(`PASS Silk Thread and chooser; screenshots: ${shots}`);
+    console.log(`PASS Ribbon Road and chooser; screenshots: ${shots}`);
   } finally {await browser.close();}
 }
 run().catch(error => {console.error(error); process.exitCode = 1;});

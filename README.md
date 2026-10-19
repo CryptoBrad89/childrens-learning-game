@@ -1,4 +1,4 @@
-# Children's Learning Game · Letter Post, Moonboat, and Silk Thread
+# Letters with Lucy · Letter Post, Moonboat, and Ribbon Road
 
 Serve the repository root over HTTP(S), for example
 `python3 -m http.server 8000`, and visit `/`. After the first visit a service
@@ -48,7 +48,7 @@ Offline runtime and browser checks:
 node tests/runtime_smoke.cjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/browser_smoke.cjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/motion_smoke.cjs
-CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/silk_smoke.cjs
+CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/ribbon_smoke.cjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/confetti_smoke.cjs
 node tests/grown_ups_runtime.cjs
 node tests/offline_shell.cjs
@@ -57,6 +57,8 @@ node tests/accounts_db.mjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/grown_ups_smoke.cjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/accounts_flow.mjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/accounts_two_devices.mjs
+CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/home_flow.mjs
+node tests/names_check.cjs
 ```
 
 To run the browser suites without writing any screenshots, add
@@ -72,9 +74,9 @@ To run the browser suites without writing any screenshots, add
 - `motion_smoke.cjs` drives both worlds at phone, tablet, and whiteboard
   sizes with real interactions, normal and reduced motion, and no network.
   Screenshots go to `/tmp/lpmb-motion-shots`.
-- `silk_smoke.cjs` checks all 26 Silk Thread rounds, palette persistence,
+- `ribbon_smoke.cjs` checks all 26 Ribbon Road rounds, palette persistence,
   60px touch targets, reduced motion and offline resources at widths 390,
-  1180 and 1920. Screenshots go to `/tmp/silk-shots`.
+  1180 and 1920. Screenshots go to `/tmp/ribbon-shots`.
 - `confetti_smoke.cjs` checks continuous confetti in all three games and
   themes at phone and whiteboard sizes. Screenshots go to
   `/tmp/confetti-shots`.
@@ -100,6 +102,14 @@ To run the browser suites without writing any screenshots, add
   browser profiles, one offline with a lost upload reply on reconnect;
   progress, settings and stickers must match exactly on both and the server.
 
+- `home_flow.mjs` checks the home flow: splash, then the sign-in dialog as the
+  first interactive thing (no group codes, a small grown-up link), play without
+  saving (warned, nothing saved or sent), the picker defaulting to Ribbon Road
+  and jumping straight in, a splash video hook, and the name top left on every
+  screen.
+- `names_check.cjs` (no browser) fails if any of the game's or the third
+  layout's old names appears in a page, script, style, doc or test.
+
 The accounts suites use the local stand-in by default; set `LW_BACKEND=live`
 to run them against the real Supabase project in `accounts/config.js`.
 
@@ -120,18 +130,23 @@ fading soft red glow.
 Rewards recycle twenty-four SVG paper cut-outs continuously until the route
 changes; replay keeps the same pieces falling and reduced motion removes them.
 Letter Post scatters envelopes, stamps, hearts, and paper curls; Moonboat
-scatters stars, crescents, ringed planets, and curls; Silk Thread scatters
+scatters stars, crescents, ringed planets, and curls; Ribbon Road scatters
 hearts, curls, and stars. Separate transform layers handle descent, flutter,
 and tumble, with no per-frame JavaScript or SVG filters. Colors use the
 world palette.
 
-## Silk Thread
+## Ribbon Road
 
-Silk Thread reuses Letter Post's engine, artwork, motion, fonts, and Lucy
+Ribbon Road reuses Letter Post's engine, artwork, motion, fonts, and Lucy
 assets through relative paths. Its `config.js` supplies the home view, title,
 palette labels, and asset base. Pink is the default, followed by Purple and
 Yellow. Each world keeps its own theme choice.
 
+
+Inside the code and the saved data the layout's key is still `silk`
+(rounds' world, the `theme_silk` setting, the `all-silk` sticker, the CSS
+hook). It is stored on devices and in the database, so renaming it would
+orphan saved play; every name people see is Ribbon Road.
 ## Accounts and sync
 
 Everyone has a real login: children and grown-ups. There are no classroom,
@@ -141,17 +156,19 @@ Settings, progress (every finished round) and stickers belong to the person,
 live in Supabase, and follow them to any device. Details:
 [reports/accounts-build.md](reports/accounts-build.md).
 
-- **Children** don't type. A grown-up opens a group board on any device
-  (a six-character code, remembered on that device), taps the child's picture
-  and types the child's password. Passwords only need six characters, for
-  example a four-digit number plus the child's initials (`7234mk`). People who
-  played on a device appear on its "Who's playing?" screen. **I'm done** hands
-  the device to the next child; a new tab always starts at "Who's playing?".
-  **Play without saving** keeps the old one-visit game.
+- **Home flow.** A short splash, then a sign-in dialog. A child signs in with
+  their sign-in name and password (or taps their picture if they played on the
+  device before, or a grown-up put their group's pictures on it). Passwords
+  only need six characters, for example a four-digit number plus the child's
+  initials (`7234mk`). The dialog also has **Play without saving** (nothing is
+  kept, and the game says so) and a small **Are you a grown-up?** link. Then
+  the three layouts appear with **Ribbon Road** ready to go; picking one goes
+  straight into it. **I'm done** hands the device to the next child, and a
+  new tab never continues as the last child.
 - **Grown-ups** sign in to the grown-ups' corner with a sign-in name and
   password. They make groups (any number, any size), add children (or add a child who
   already has an account, with the child's sign-in name and password), reset
-  passwords, print sign-in cards, see progress, and change settings for one
+  passwords, print sign-in cards, show a group's pictures on a device's sign-in, see progress, and change settings for one
   child, a whole group, or themselves. A grown-up who stays signed in on their
   own device passes the number-word reading gate to come back in.
 - **Offline**: everything is saved on the device first and uploaded when the
@@ -164,8 +181,8 @@ the schema), `sw.js` (offline shell).
 
 ## Grown-ups' corner
 
-The chooser's footer has a small **For grown-ups** button that opens
-`grown-ups/index.html`. A grown-up signs in (or makes an account). Settings
+The sign-in dialog's **Are you a grown-up?** link (and the chooser's footer
+button) opens `grown-ups/index.html`. A grown-up signs in (or makes an account). Settings
 save as soon as they change, to the chosen person's account, and apply the
 next time a world opens:
 

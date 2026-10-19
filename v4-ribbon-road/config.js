@@ -1,15 +1,15 @@
 window.CONCEPT = {
   kind: 'silk',
-  title: 'Lucy’s Silk Thread',
+  title: 'Lucy’s Ribbon Road',
   themes: ['Pink', 'Purple', 'Yellow'],
-  slug: 'v4-silk-thread',
+  slug: 'v4-ribbon-road',
   assetBase: '../v1-letter-post/assets',
   home: ({ pic, pickers, collection, count = 26 }) => `
     <section class="screen home silk-home">
       <div class="silk-welcome">
         <div class="home-copy">
           <p class="eyebrow">LITTLE SOUNDS. BIG DISCOVERIES.</p>
-          <h1>Lucy’s<br><em>Silk Thread.</em></h1>
+          <h1>Lucy’s<br><em>Ribbon Road.</em></h1>
           <p class="lead">A little sound.<br>A lovely place to start.</p>
           <div class="beads" aria-hidden="true"><b>A</b><b>B</b><b>C</b><b>D</b><b>E</b><b>F</b></div>
           <button class="primary silk-play" data-action="start"><span class="play-icon" aria-hidden="true">▶</span><span>Play with Lucy<small>Tap to start sound</small></span><span class="cta-spark" aria-hidden="true">✦</span></button>

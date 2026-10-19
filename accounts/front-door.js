@@ -1,46 +1,104 @@
-/* The chooser's front door: "Who's playing?", group boards, password step,
- * and the player strip above the worlds. */
+/* The chooser's home flow: splash, then the sign-in dialog (child first, with
+ * "Play without saving" and "Are you a grown-up?"), then the layout picker with
+ * Ribbon Road ready to go. */
 (() => {
 'use strict';
 const L = window.LW, P = window.LW_PICTURES, G = window.GROWN_UPS;
 const $ = s => document.querySelector(s), esc = P.esc;
-const GUEST = 'lw:guest';
-let board = null, pending = null;
-
-const guest = () => { try { return sessionStorage.getItem(GUEST) === '1'; } catch (e) { return false; } };
-const setGuest = on => { try { if (on) sessionStorage.setItem(GUEST, '1'); else sessionStorage.removeItem(GUEST); } catch (e) { /* this visit only */ } };
+const GUEST = 'lw:guest', SPLASHED = 'lw:splashed', DEFAULT_WORLD = 'silk';
+const session = {
+  get: k => { try { return sessionStorage.getItem(k); } catch (e) { return null; } },
+  set: (k, v) => { try { if (v == null) sessionStorage.removeItem(k); else sessionStorage.setItem(k, v); } catch (e) { /* this page only */ } }
+};
+const guest = () => session.get(GUEST) === '1';
+const setGuest = on => session.set(GUEST, on ? '1' : null);
+const calm = () => matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.hasAttribute('data-calm');
 
 const MESSAGES = {
-  bad_login: 'That password doesn\'t match. Check it with the grown-up who set it up, then try again.',
+  bad_login: 'That sign-in name and password don\'t match. Check them with a grown-up, then try again.',
   needs_internet: 'This device is offline, and this is the first time signing in here. Connect to the internet once, then try again.',
   offline: 'This device is offline. Connect to the internet, then try again.',
   slow_down: 'Too many tries in a row. Wait a minute, then try again.',
-  no_board: 'No group has that code. Check the six letters and numbers, then try again.',
-  not_set_up: 'Accounts aren\'t set up in this copy of the game.',
-  storage: 'This browser is blocking storage (often a private window), so nothing can be saved here.'
+  not_set_up: 'Accounts aren\'t set up in this copy of the game.'
 };
 const message = e => MESSAGES[e && e.code] || 'Couldn\'t reach the sign-in service just now. Check the internet connection and try again.';
 
-function tile(p, i) {
-  return `<li style="--i:${i}"><button type="button" class="person" data-login="${esc(p.login)}" data-id="${esc(p.id || '')}" data-name="${esc(p.name)}" data-avatar="${esc(p.avatar)}">
-    ${P.avatar(p.avatar)}<span class="name">${esc(p.name)}</span>${p.waiting ? '<i class="wait" title="Play waiting to upload"></i><span class="sr-only">, play waiting to upload</span>' : ''}</button></li>`;
+/* ---------- splash ---------- */
+// Plays once per visit. A <video> placed inside #splash later is played to its end
+// (up to 20 seconds); until then the short card shows briefly.
+function splash() {
+  const el = $('#splash');
+  if (session.get(SPLASHED)) return Promise.resolve();
+  session.set(SPLASHED, '1');
+  el.hidden = false; document.body.dataset.home = 'splash';
+  const video = el.querySelector('video');
+  const wait = video
+    ? new Promise(resolve => { video.addEventListener('ended', resolve, {once: true}); video.addEventListener('error', resolve, {once: true}); video.play().catch(resolve); setTimeout(resolve, 20000); })
+    : new Promise(resolve => setTimeout(resolve, calm() ? 500 : 1400));
+  return wait.then(() => new Promise(resolve => {
+    el.classList.add('leaving');
+    setTimeout(() => { el.hidden = true; el.classList.remove('leaving'); resolve(); }, calm() ? 0 : 260);
+  }));
 }
-function renderWho() {
-  const players = L.list().filter(p => p.played).sort((a, b) => (a.role === 'child' ? 0 : 1) - (b.role === 'child' ? 0 : 1));
-  $('#people').innerHTML = players.map(tile).join('');
-  $('#people').hidden = !players.length;
-  $('#who-empty').hidden = !!players.length;
-  $('#who-lead').textContent = players.length ? 'Tap your picture.' : 'A grown-up can help you sign in.';
-  $('#saved-boards').innerHTML = L.boards().map(b => `<button type="button" class="board-link" data-code="${esc(b.code)}">${boardIcon()}${esc(b.name)}</button>`).join('');
+function wordmark() {
+  const name = $('#splash-name'), text = name.textContent;
+  name.innerHTML = [...text].map((c, i) => `<span style="--i:${i}">${c === ' ' ? '&nbsp;' : esc(c)}</span>`).join('');
 }
-const boardIcon = () => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="2"/><circle cx="15.5" cy="10" r="2"/><path d="M5.5 16c.6-1.6 1.7-2.4 3-2.4s2.4.8 3 2.4m1 0c.6-1.6 1.7-2.4 3-2.4s2.4.8 3 2.4"/></svg>';
-function renderBoard() {
-  $('#board-title').textContent = board.name;
-  $('#board-code').textContent = 'Board code ' + board.code;
-  $('#board-people').innerHTML = board.children.map(tile).join('');
-  $('#board-note').textContent = board.children.length
-    ? (board.offline ? 'Offline: showing the pictures saved on this device. ' : '') + 'Each child signs in with their own password.'
-    : 'No children in this group yet. A grown-up can add them in the grown-ups\' corner.';
+
+/* ---------- sign-in dialog ---------- */
+// People who played on this device, then pictures a grown-up chose to show here.
+function tiles() {
+  const seen = new Set(), out = [];
+  for (const p of L.list().filter(x => x.played)) { seen.add(p.login); out.push(p); }
+  for (const b of L.boards()) for (const c of b.children || []) if (!seen.has(c.login)) { seen.add(c.login); out.push(c); }
+  return out;
+}
+function renderTiles() {
+  const list = tiles();
+  $('#tiles-wrap').hidden = !list.length;
+  $('#people').innerHTML = list.map((p, i) => `<li style="--i:${i}"><button type="button" class="person" data-login="${esc(p.login)}" aria-pressed="false">
+    ${P.avatar(p.avatar)}<span class="name">${esc(p.name)}</span>${p.waiting ? '<i class="wait" title="Play waiting to upload"></i><span class="sr-only">, play waiting to upload</span>' : ''}</button></li>`).join('');
+}
+function dots() {
+  const n = $('#login-pw').value.length;
+  $('#login-dots').querySelectorAll('i').forEach((dot, i) => dot.classList.toggle('on', i < n));
+  $('#login-dots span').textContent = n >= 6 ? 'Ready' : `${6 - n} more`;
+  $('#login-go').disabled = n < 6 || !$('#login-name').value.trim();
+}
+function openLogin() {
+  document.body.dataset.home = 'login';
+  render();
+  renderTiles();
+  $('#login-name').value = '';
+  $('#login-pw').value = ''; $('#login-pw').type = 'password'; $('#login-show').textContent = 'Show';
+  $('#login-error').textContent = ''; $('#login-keep').checked = false;
+  dots();
+  const d = $('#login');
+  if (!d.open) d.showModal();
+  ($('#people .person') || $('#login-name')).focus();
+}
+async function signIn(e) {
+  e.preventDefault();
+  const login = $('#login-name').value.trim(), password = $('#login-pw').value, go = $('#login-go');
+  if (password.length < 6 || !login) return;
+  go.disabled = true; go.textContent = 'Checking…'; $('#login-error').textContent = '';
+  try {
+    const who = await L.signIn(login, password, {as: 'player', keep: $('#login-keep').checked});
+    // On a device they haven't used before, wait briefly for their settings before showing the games.
+    go.textContent = `Getting ${who.name}'s things…`;
+    await Promise.race([who.ready, new Promise(resolve => setTimeout(resolve, 5000))]);
+    setGuest(false);
+    $('#login').close();
+    showPicker();
+  } catch (err) {
+    $('#login-error').textContent = message(err);
+  } finally { go.textContent = 'Let\'s play'; dots(); }
+}
+
+/* ---------- picker ---------- */
+function defaultCard() {
+  const shown = [...document.querySelectorAll('nav a[data-world]:not([hidden])')];
+  return shown.find(a => a.dataset.world === DEFAULT_WORLD) || shown[0];
 }
 function renderPlaying() {
   const me = L.player();
@@ -57,102 +115,50 @@ function renderPlaying() {
   $('#playing-sync span').textContent = text;
 }
 function render() {
-  const me = L.player(), isGuest = !me && guest();
+  const me = L.player(), playing = !!(me || guest());
   G.settings = G.load(); G.apply(G.settings);
   if (window.applyWorlds) window.applyWorlds();
+  $('header').hidden = !playing; $('nav').hidden = !playing;
   $('#playing').hidden = !me;
-  $('#guest-bar').hidden = !isGuest;
-  $('nav').hidden = !(me || isGuest);
-  $('#who').hidden = !!(me || isGuest || board);
-  $('#board').hidden = !!(me || isGuest || !board);
+  $('#guest-bar').hidden = !(!me && guest());
+  document.querySelectorAll('nav a[data-world]').forEach(a => a.classList.remove('is-default'));
+  const card = defaultCard();
+  if (card) card.classList.add('is-default');
   if (me) renderPlaying();
-  else if (board) renderBoard();
-  else if (!isGuest) renderWho();
 }
-
-/* ---------- password step ---------- */
-function dots(input, holder) {
-  const n = input.value.length;
-  holder.querySelectorAll('i').forEach((dot, i) => dot.classList.toggle('on', i < n));
-  holder.querySelector('span').textContent = n >= 6 ? 'Ready' : `${6 - n} more`;
-}
-function askPassword(p) {
-  pending = p;
-  const d = $('#pw-dialog');
-  $('#pw-avatar').innerHTML = P.avatar(p.avatar);
-  $('#pw-title').textContent = p.name;
-  $('#pw-helper').textContent = `Grown-up: type ${p.name}'s password.`;
-  $('#pw-input').value = ''; $('#pw-input').type = 'password'; $('#pw-show').textContent = 'Show';
-  $('#pw-error').textContent = ''; $('#pw-keep').checked = false;
-  dots($('#pw-input'), $('#pw-dots')); $('#pw-go').disabled = true;
-  d.showModal(); $('#pw-input').focus();
-}
-async function submit(form, login, password, keep, errorEl, button) {
-  button.disabled = true; button.textContent = 'Checking…'; errorEl.textContent = '';
-  try {
-    const who = await L.signIn(login, password, {as: 'player', keep});
-    // On a device they haven't used before, wait briefly for their settings before showing the worlds.
-    button.textContent = `Getting ${who.name}'s things…`;
-    await Promise.race([who.ready, new Promise(resolve => setTimeout(resolve, 5000))]);
-    setGuest(false); board = null;
-    form.closest('dialog').close();
-    render();
-    window.scrollTo({top: 0});
-    $('#playing-name').focus({preventScroll: true});
-  } catch (e) {
-    errorEl.textContent = message(e);
-  } finally {
-    button.textContent = 'Let\'s play'; button.disabled = password.length < 6;
-  }
+function showPicker() {
+  document.body.dataset.home = 'picker';
+  render();
+  window.scrollTo({top: 0});
+  const card = defaultCard();
+  if (card) card.focus({preventScroll: true});
 }
 
 /* ---------- wiring ---------- */
-document.addEventListener('click', async e => {
+document.addEventListener('click', e => {
   const t = e.target.closest('button'); if (!t) return;
-  if (t.matches('.person')) askPassword(t.dataset);
-  else if (t.matches('.board-link[data-code]')) openBoard(t.dataset.code);
-  else if (t.id === 'open-board') { $('#code-input').value = ''; $('#code-error').textContent = ''; $('#code-dialog').showModal(); $('#code-input').focus(); }
-  else if (t.id === 'name-sign-in') { $('#name-input').value = ''; $('#name-pw').value = ''; $('#name-error').textContent = ''; dots($('#name-pw'), $('#name-dots')); $('#name-go').disabled = true; $('#name-dialog').showModal(); $('#name-input').focus(); }
-  else if (t.id === 'just-play') { setGuest(true); render(); $('nav a:not([hidden])')?.focus(); }
-  else if (t.id === 'guest-who') { setGuest(false); render(); $('#who-title').focus(); }
-  else if (t.id === 'board-back') { board = null; render(); $('#who-title').focus(); }
-  else if (t.id === 'board-forget') { L.forgetBoard(board.code); board = null; render(); }
-  else if (t.id === 'done') { L.endTurn(); setGuest(false); render(); $('#who-title').focus(); }
+  if (t.matches('#people .person')) {
+    document.querySelectorAll('#people .person').forEach(b => b.setAttribute('aria-pressed', String(b === t)));
+    $('#login-name').value = t.dataset.login; $('#login-error').textContent = '';
+    dots(); $('#login-pw').focus();
+  } else if (t.id === 'play-unsaved') {
+    setGuest(true); $('#login').close(); showPicker();
+  } else if (t.id === 'guest-signin') { setGuest(false); openLogin(); }
+  else if (t.id === 'done') { L.endTurn(); setGuest(false); openLogin(); }
   else if (t.id === 'sticker-button') openStickers();
-  else if (t.id === 'pw-show' || t.id === 'name-show') {
-    const input = t.id === 'pw-show' ? $('#pw-input') : $('#name-pw');
-    input.type = input.type === 'password' ? 'text' : 'password';
+  else if (t.id === 'login-show') {
+    const input = $('#login-pw'); input.type = input.type === 'password' ? 'text' : 'password';
     t.textContent = input.type === 'password' ? 'Show' : 'Hide'; t.setAttribute('aria-pressed', String(input.type === 'text'));
-  } else if (t.dataset.close) t.closest('dialog').close();
-});
-async function openBoard(code, errorEl) {
-  try {
-    board = await L.board(code);
-    if (errorEl) errorEl.closest('dialog').close();
-    render(); $('#board-title').focus();
-  } catch (e) {
-    if (errorEl) errorEl.textContent = message(e);
-    else { board = null; render(); }
   }
-}
-$('#pw-input').addEventListener('input', e => { dots(e.target, $('#pw-dots')); $('#pw-go').disabled = e.target.value.length < 6; });
-$('#name-pw').addEventListener('input', e => { dots(e.target, $('#name-dots')); $('#name-go').disabled = e.target.value.length < 6; });
-$('#pw-form').addEventListener('submit', e => {
-  e.preventDefault();
-  if ($('#pw-input').value.length < 6) return;
-  submit(e.target, pending.login, $('#pw-input').value, $('#pw-keep').checked, $('#pw-error'), $('#pw-go'));
 });
-$('#name-form').addEventListener('submit', e => {
-  e.preventDefault();
-  if ($('#name-pw').value.length < 6 || !$('#name-input').value.trim()) return;
-  submit(e.target, $('#name-input').value, $('#name-pw').value, $('#name-keep').checked, $('#name-error'), $('#name-go'));
+$('#login-form').addEventListener('submit', signIn);
+$('#login-pw').addEventListener('input', dots);
+$('#login-name').addEventListener('input', () => {
+  dots();
+  document.querySelectorAll('#people .person').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.login === $('#login-name').value.trim().toLowerCase())));
 });
-$('#code-form').addEventListener('submit', e => {
-  e.preventDefault();
-  const code = L.cleanCode($('#code-input').value);
-  if (code.length !== 6) { $('#code-error').textContent = 'Codes have six letters and numbers.'; return; }
-  openBoard(code, $('#code-error'));
-});
+// The sign-in is the front door: Escape doesn't close it onto an empty page.
+$('#login').addEventListener('cancel', e => e.preventDefault());
 function openStickers() {
   const me = L.player(); if (!me) return;
   const earned = L.badges(me.id);
@@ -160,7 +166,17 @@ function openStickers() {
   $('#book').innerHTML = L.BADGES.map(b => `<li class="${earned[b.key] ? 'earned' : ''}">${P.sticker(b.key, !!earned[b.key])}<strong>${esc(b.title)}</strong><small>${earned[b.key] ? esc(b.about) : 'Not yet'}</small></li>`).join('');
   $('#book-dialog').showModal();
 }
-L.on('change', () => { if (!document.querySelector('dialog[open]')) render(); else if (L.player()) renderPlaying(); });
+L.on('change', () => {
+  if (document.body.dataset.home === 'picker' && !document.querySelector('dialog[open]')) render();
+  else if (L.player()) renderPlaying();
+});
 L.on('status', () => { if (L.player()) renderPlaying(); });
-render();
+// Pictures a grown-up put on this device may have changed (new children, new names).
+if (L.boards().length && navigator.onLine !== false) {
+  Promise.allSettled(L.boards().map(b => L.board(b.code))).then(() => { if ($('#login').open) renderTiles(); });
+}
+
+wordmark();
+if (L.player() || guest()) showPicker();
+else splash().then(openLogin);
 })();

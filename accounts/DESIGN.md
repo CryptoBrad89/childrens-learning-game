@@ -1,4 +1,4 @@
-# Front door and stickers: design notes
+# Home flow and stickers: design notes
 
 **Design read** (design-taste §0): the chooser's storybook paper for
 three- and four-year-olds on shared Chromebooks, tablets and whiteboards, with
@@ -10,33 +10,63 @@ drawn or typographic.
 
 ## Layout (Superdesign step 1)
 
-"Who's playing?" sits between Lucy's hello and the world cards; the worlds
-appear once someone is playing (or chooses "Play without saving").
+Home flow: splash, then the sign-in dialog as the first interactive thing,
+then the layout picker. "Letters with Lucy" and its tagline sit top left on
+every screen.
 
 ```
+ ① Splash (once per visit, ~1.4s; 0.5s and still with reduced motion)
 ┌──────────────────────────────────────────────────────────────┐
-│ (Lucy)  CHILDREN'S LEARNING GAME                             │
-│         Play with Lucy                                       │
-│                    Who's playing?                            │
-│                   Tap your picture.                          │
-│   ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐   people who played    │
-│   │ (cat)│ │ (fox)│ │ (sun)│ │(duck)│   on this device;      │
-│   │ Mia ●│ │ Leo  │ │ Ava  │ │ Sam  │   ● = play waiting     │
-│   └──────┘ └──────┘ └──────┘ └──────┘   to upload            │
-│  [Sunflowers] [Open a group board]  [Sign in with a name]    │
-│                 Play without saving                          │
-│                                          (For grown-ups)     │
+│ ░░ Paper Shaders mesh-gradient paper ░░░░░░░░░░░░░░░░░░░░░░░ │
+│                         (Lucy)                               │
+│                  L e t t e r s  w i t h  L u c y             │  ← trickle char-stagger
+│               LITTLE SOUNDS. BIG DISCOVERIES.                │
 └──────────────────────────────────────────────────────────────┘
- Group board: same grid, every child in the group; "Back".
- Password step (dialog): (cat) Mia / "Grown-up: type Mia's password."
-   [••••••][Show]  ●●●●●● Ready   □ Stay signed in (one-person device)
-   [Not me]                                   [Let's play]
- Playing strip above the worlds:
-   (cat) Mia  ● All saved     [stickers ◎◎◎ +2]      [✓ I'm done]
+   A <video> placed in #splash later plays to its end instead.
+
+ ② Sign-in dialog (modal; Escape doesn't close it)
+┌ (paw) Letters with Lucy ─────────────────────────────────────┐
+│            ┌────────────────────────────────────┐            │
+│            │ (Lucy) Hello! Who's playing?       │            │
+│            │  Sign in to keep your stars …      │            │
+│            │ ┌ Played here before? Tap your ┐   │ only when  │
+│            │ │ (cat) Mia  (fox) Leo  …       │   │ there are  │
+│            │ └───────────────────────────────┘   │ pictures   │
+│            │ SIGN-IN NAME [ like mia-k4x     ]  │            │
+│            │ PASSWORD     [ ••••••   ][Show]   │            │
+│            │ ●●●●●● Ready                       │            │
+│            │ □ Stay signed in on this device    │            │
+│            │ [        Let's play         ]  red │  primary   │
+│            │ [    Play without saving    ]      │  secondary │
+│            │        Are you a grown-up?         │  small link│
+│            └────────────────────────────────────┘            │
+└──────────────────────────────────────────────────────────────┘
+
+ ③ Picker
+┌ (paw) Letters with Lucy ─────────────────────────────────────┐
+│ (Lucy)  Play with Lucy / Pick a game, then let's go.          │
+│ ┌ (cat) Mia · All saved   ◎◎◎ stickers        [✓ I'm done] ┐ │
+│ or: ┌ You're playing without saving.  Stars, stickers and   ┐ │
+│     │ settings won't be kept after this visit. [Sign in]    │ │
+│ ┌──────────┐ ┌──────────┐ ╔══════════╗ ← Ribbon Road: ring,   │
+│ │Letter    │ │Moonboat  │ ║Ribbon    ║   "Start here" sticker,│
+│ │Post      │ │          │ ║Road      ║   focused, so Enter     │
+│ └──────────┘ └──────────┘ ╚══════════╝   starts it             │
+└──────────────────────────────────────────────────────────────┘
 ```
 
-Phone: two tiles per row. Whiteboard (≥1600px): 120px pictures, 24px names.
-Every target is at least 60px (tests check it).
+- The dialog holds no group, board or class codes. Picture tiles come from
+  people who played on this device and from groups a grown-up chose to show
+  here ("Show their pictures on this device" in the grown-ups' corner).
+- "Play without saving" is one click. The picker then says plainly, in a
+  `role="status"` bar, that nothing will be kept, and each world's footer
+  repeats "Playing without saving".
+- The grown-up link is a plain underlined link, smaller than both buttons,
+  and says only "Are you a grown-up?".
+- Picking a layout goes straight into that game.
+
+Phone: two picture tiles per row in the dialog. Every target is at least 60px
+(tests check it).
 
 ## Theme (step 2)
 
@@ -51,10 +81,13 @@ sign-in is needed. Type: Nunito Sans Black, as the chooser.
 
 | Moment | Spec | Source |
 | --- | --- | --- |
-| Who's playing / board / strip enter | translateY 14px + fade, 420ms `cubic-bezier(.22,1,.36,1)` | the chooser's own `arrive` |
+| Strip / unsaved bar enter | translateY 14px + fade, 420ms `cubic-bezier(.22,1,.36,1)` | the chooser's own `arrive` |
 | Person tiles | same, staggered 45ms each | motion-primitives `AnimatedGroup` stagger |
 | Tile press | translateY 4px, shadow collapses | playful-color chunky CTA |
-| Password dialog | scale .96 → 1, 260ms pop | motion-primitives `Dialog` |
+| Sign-in dialog | scale .96 → 1, 260ms pop | motion-primitives `Dialog` |
+| Splash wordmark | letters slide up 0.4em, 38ms apart, 600ms `cubic-bezier(.16,1,.3,1)` | trickle `char-stagger` (slide) |
+| Splash portrait | pops in with a tilt, 520ms | the chooser's `hello` |
+| "Start here" sticker | pops on the default layout, 320ms | playful-color sticker |
 | Password dots | scale 1.12 pop as each fills | ui-layouts dotted indicator + Better Design `number-pop-in` |
 | Sticker toast (in worlds) | drops in with a 3° tilt, rests, leaves; 4.2s once | trickle `stamp` (a sticker landing) |
 
@@ -63,7 +96,7 @@ Calm motion turn every one of them off.
 
 ## Accessibility (taste-accessibility checklist)
 
-One `h1` per page; "Who's playing?" is an `h2`; dialogs are native
+One `h1` per page; the dialog's "Who's playing?" is an `h2`; dialogs are native
 `<dialog>` with `showModal()` (focus moves in and returns). Every input has a
 label; errors are text in a `role="alert"` line beside the form, never color
 alone; password dots are described, not announced on every key. Avatars are

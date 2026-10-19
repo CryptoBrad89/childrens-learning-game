@@ -1,10 +1,10 @@
-/* Offline shell for Lucy's games. On first load every file the games need is
+/* Offline shell for Letters with Lucy. On first load every file the games need is
  * stored, so they work offline afterwards; accounts sync separately (see
  * accounts/accounts.js). Pages, scripts and styles are refreshed in the
  * background when online; pictures, fonts and audio never change in place.
  * tests/offline_shell.cjs checks this list against the files in the repo. */
 'use strict';
-const VERSION = 'little-woof-shell-1';
+const VERSION = 'little-woof-shell-2';
 const FILES = [
   './',
   "accounts/accounts.js",
@@ -142,9 +142,9 @@ const FILES = [
   "v3-moonboat/fun.js",
   "v3-moonboat/index.html",
   "v3-moonboat/style.css",
-  "v4-silk-thread/config.js",
-  "v4-silk-thread/index.html",
-  "v4-silk-thread/style.css"
+  "v4-ribbon-road/config.js",
+  "v4-ribbon-road/index.html",
+  "v4-ribbon-road/style.css"
 ];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(VERSION).then(cache => cache.addAll(FILES)).then(() => self.skipWaiting()));

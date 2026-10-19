@@ -144,14 +144,14 @@ Sign-in (replaces the gate on first visit; Superdesign step 1, layout):
 
 ```
 │ 01 CHILDREN ───────────────────────────────────────────────── │
-│ ┌ GROUP · you made it ───────────────── Board code  PH77CA ──┐ │
-│ │ Sunflowers                            Invite code NC3U-3PQD│ │
+│ ┌ GROUP · you made it ───────────────────────────────────────┐ │
+│ │ Sunflowers                                                 │ │
 │ │ (cat) Mia   mia-k4x  2 rounds · 2 letters · 1 sticker      │ │
 │ │       [Settings][Password][Edit][Remove][Delete]           │ │
 │ │ Grown-ups  Ms Lee, Mr Patel                                │ │
 │ │ [Add a child][Add a child who has an account][Print cards] │ │
 │ └────────────────────────────────────────────────────────────┘ │
-│ [New group] [Join with an invite code]                         │
+│ [New group]                                                    │
 │ ┌ SETTINGS FOR [Everyone in Sunflowers (24) ▾] ───── sticky ┐ │
 │ │ Changes go to all 24 children. Shown: Ava's settings.      ││
 │ 02 SOUND … 06 WORLDS & BUTTONS  (unchanged from §1)            │
@@ -170,12 +170,15 @@ Sign-in (replaces the gate on first visit; Superdesign step 1, layout):
   can make any number of them, and every grown-up in a group can do
   everything there.
 - Group cards are the one bordered surface (design-taste §5: depth from
-  structure, hairlines inside). Codes are set in Comfortaa with wide tracking,
-  like the section numbers, so they read as "type this".
+  structure, hairlines inside).
+- No codes anywhere in the corner (owner review): grown-ups make children and
+  groups, and reach a child who already has an account with that child's
+  sign-in name and password. "Show their pictures on this device" puts a
+  group's pictures on a shared device's sign-in without showing any code.
 - Pictures for children reuse the game's own word art (`art.js`) on six soft
   tones; nothing new is drawn for characters.
 - Printed sign-in cards: one card per child (picture, name, sign-in name,
-  board code) via print CSS; the password is never printed.
+  how to sign in) via print CSS; the password is never printed.
 
 ## 7. Motion added
 

@@ -23,7 +23,7 @@ for (const file of listed) assert(fs.existsSync(path.join(root, file)), `Missing
 assert.match(sw, /const VERSION = 'little-woof-shell-\d+'/);
 console.log(`PASS offline shell: sw.js stores all ${files.length} shipped files`);
 
-for (const page of ['index.html', 'grown-ups/index.html', 'v1-letter-post/index.html', 'v3-moonboat/index.html', 'v4-silk-thread/index.html']) {
+for (const page of ['index.html', 'grown-ups/index.html', 'v1-letter-post/index.html', 'v3-moonboat/index.html', 'v4-ribbon-road/index.html']) {
   const html = fs.readFileSync(path.join(root, page), 'utf8');
   const scripts = [...html.matchAll(/<script src="([^"]+)"/g)].map(m => path.basename(m[1]));
   const at = name => scripts.indexOf(name);

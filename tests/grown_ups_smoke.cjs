@@ -49,11 +49,13 @@ async function run() {
       const label = `grown-ups-${viewport.name}`;
       const {page, done} = await fresh(viewport);
       const big = viewport.width >= 1600 ? 72 : 60;
-      // The chooser keeps its three worlds and its separate grown-up door.
+      // The chooser's sign-in dialog has a small, plain door for grown-ups.
       await page.goto(web.url + '/index.html');
+      await H.loginOpen(page);
       assert.equal(await page.locator('nav a').count(), 3);
-      const door = page.locator('footer a.grown');
+      const door = page.locator('#grown-link');
       assert.equal(await door.getAttribute('href'), 'grown-ups/index.html');
+      assert.equal(await door.textContent(), 'Are you a grown-up?');
       await H.fits(page, `${label} chooser`);
       await door.click();
       await page.waitForFunction(() => document.body?.dataset.view === 'signin');
@@ -194,13 +196,13 @@ async function run() {
         Object.defineProperty(HTMLMediaElement.prototype, 'volume', {set(v) {volumes.push(v); setter.call(this, v);}, get() {return 1;}});
         HTMLMediaElement.prototype.play = function () {setTimeout(() => this.dispatchEvent(new Event('ended')), 30); return Promise.resolve();};
       });
-      await H.boardSignIn(page, web.url, room.board, 'Mia', mia.password);
+      await H.signInChild(page, web.url, mia.login, mia.password);
       await page.waitForFunction(() => window.GROWN_UPS.settings.calm === true);
       assert.deepEqual(await page.locator('nav a:visible').evaluateAll(n => n.map(a => a.dataset.world)), ['post', 'silk']);
       assert.equal(await page.locator('nav').evaluate(n => n.style.getPropertyValue('--worlds')), '2');
       assert(await page.evaluate(() => document.documentElement.hasAttribute('data-calm')));
       await H.fits(page, `${label} chooser`);
-      for (const world of ['v1-letter-post', 'v3-moonboat', 'v4-silk-thread']) {
+      for (const world of ['v1-letter-post', 'v3-moonboat', 'v4-ribbon-road']) {
         await page.goto(`${web.url}/${world}/index.html`);
         await page.waitForFunction(() => document.body?.dataset.screen === 'home');
         assert.deepEqual(await page.locator('.letter-list [data-letter]').evaluateAll(n => n.map(b => b.dataset.letter)), ['A', 'I', 'N', 'P', 'S', 'T']);

@@ -1,4 +1,4 @@
-/* Little Woof accounts: who is playing, what they own, and sync with Supabase.
+/* Letters with Lucy accounts: who is playing, what they own, and sync with Supabase.
  *
  * Settings, rounds and stickers belong to the person and live on the server.
  * This device keeps a copy of each person who signed in here, so play works
@@ -125,13 +125,13 @@ const BADGES = [
   {key: 'five-letters', title: 'Five letters', about: 'Found five different letters.', test: s => s.letters.size >= 5},
   {key: 'satpin', title: 's a t p i n', about: 'Found s, a, t, p, i and n.', test: s => has(s.letters, 'SATPIN')},
   {key: 'vowels', title: 'Vowels', about: 'Found a, e, i, o and u.', test: s => has(s.letters, 'AEIOU')},
-  {key: 'three-worlds', title: 'Three worlds', about: 'Played in Letter Post, Moonboat and Silk Thread.', test: s => WORLDS.every(w => s.worlds[w] > 0)},
+  {key: 'three-worlds', title: 'Three worlds', about: 'Played in Letter Post, Moonboat and Ribbon Road.', test: s => WORLDS.every(w => s.worlds[w] > 0)},
   {key: 'ten-rounds', title: 'Ten rounds', about: 'Finished ten rounds.', test: s => s.rounds >= 10},
   {key: 'sharp-ears', title: 'Sharp ears', about: 'Ten rounds right the first time.', test: s => s.clean >= 10},
   {key: 'fifty-rounds', title: 'Fifty rounds', about: 'Finished fifty rounds.', test: s => s.rounds >= 50},
   {key: 'all-post', title: 'Full mailbag', about: 'All 26 letters in Letter Post.', test: s => s.byWorld.post.size === 26},
   {key: 'all-space', title: 'Full sky', about: 'All 26 letters in Moonboat.', test: s => s.byWorld.space.size === 26},
-  {key: 'all-silk', title: 'Full thread', about: 'All 26 letters in Silk Thread.', test: s => s.byWorld.silk.size === 26},
+  {key: 'all-silk', title: 'Full ribbon', about: 'All 26 letters in Ribbon Road.', test: s => s.byWorld.silk.size === 26},
   {key: 'alphabet', title: 'A to Z', about: 'Found every letter from a to z.', test: s => s.letters.size === 26}
 ];
 // Stickers come from play, so a device works them out itself (offline too) and
@@ -335,14 +335,16 @@ async function board(code) {
   const cached = boards().find(b => b.code === code);
   try {
     const b = await api(null, 'lw_board', {p_code: code});
-    write(KEY.boards, [{...b, fetched: Date.now()}, ...boards().filter(x => x.code !== b.code)].slice(0, 6));
+    write(KEY.boards, [{...b, fetched: Date.now()}, ...boards().filter(x => x.code !== b.code && x.id !== b.id)].slice(0, 20));
     return b;
   } catch (e) {
     if (e.code === 'offline' && cached) return {...cached, offline: true};
+    // A code that was replaced: drop the stale copy.
+    if (e.code === 'no_board' && cached) forgetBoard(code);
     throw e;
   }
 }
-function forgetBoard(code) { write(KEY.boards, boards().filter(b => b.code !== cleanCode(code))); }
+function forgetBoard(codeOrId) { write(KEY.boards, boards().filter(b => b.code !== cleanCode(codeOrId) && b.id !== codeOrId)); }
 
 /* ---------- sync ---------- */
 const syncing = new Set(), lastError = {};

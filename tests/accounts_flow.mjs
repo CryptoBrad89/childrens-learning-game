@@ -1,10 +1,10 @@
 /* Accounts end to end in a real browser: a grown-up makes an account, a group
  * and children in the grown-ups' corner and picks their settings; a child signs
- * in from the group board on another device, plays, earns a sticker and hands
+ * in on another device (a grown-up puts the group's pictures there), plays, earns a sticker and hands
  * over; the gate guards a grown-up who stays signed in. No screenshots.
  * Run: CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/accounts_flow.mjs */
 import assert from 'node:assert/strict';
-import {playwright, launchOptions, serveGame, backend, context, playRound, boardSignIn, waitSynced, fits, screen} from './accounts/harness.mjs';
+import {playwright, launchOptions, serveGame, backend, context, playRound, loginOpen, waitSynced, fits, screen} from './accounts/harness.mjs';
 
 const WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
 const be = await backend(), web = await serveGame(), browser = await playwright().chromium.launch(launchOptions());
@@ -18,7 +18,8 @@ try {
   const teacher = await context(browser, be);
   const t = await teacher.newPage();
   await t.goto(web.url + '/index.html');
-  await t.locator('footer a.grown').click();
+  await loginOpen(t);
+  await t.locator('#grown-link').click();
   await t.waitForFunction(() => document.body.dataset.view === 'signin');
   assert(await t.locator('#settings').isHidden() && await t.locator('#gate').isHidden());
   await fits(t, 'corner sign-in');
@@ -51,9 +52,13 @@ try {
   }
   const logins = await t.locator('.kid .login').allTextContents();
   assert.equal(logins.length, 2); assert.match(logins[0], /^leo-[a-z0-9]{3}$/); assert.match(logins[1], /^mia-[a-z0-9]{3}$/);
-  const board = (await t.locator('.codes dd').first().textContent()).trim();
-  assert.match(board, /^[A-Z0-9]{6}$/);
-  ok('corner: a group with two children, readable sign-in names and a board code');
+  // No group, board or invite codes anywhere in the corner: grown-ups just make and look after children.
+  const cornerText = await t.locator('body').innerText();
+  assert(!/\bcodes?\b|invite/i.test(cornerText), 'No codes in the grown-ups\' corner');
+  assert.equal(await t.locator('#join-group, [data-act="codes"]').count(), 0);
+  const [{board_code: board}] = await be.rpc('lw_groups', {}, await be.token(`lee-${suffix}`, 'lucy12'));
+  assert(!cornerText.includes(board));
+  ok('corner: a group with two children and readable sign-in names; no codes shown');
 
   // Settings for the whole class: starter letters and calm motion.
   assert.equal(await t.locator('#target').inputValue(), `group:${await t.locator('.group-card').getAttribute('data-group')}`);
@@ -80,37 +85,45 @@ try {
   await t.setViewportSize({width: 1366, height: 768});
   ok('corner: settings for a whole group and for one child reach the server');
 
-  // ---- A shared classroom Chromebook: nobody has played here yet.
+  // ---- A shared Chromebook: nobody has played here yet. The sign-in dialog comes first.
   const cb = await context(browser, be);
   const c = await cb.newPage();
   await c.goto(web.url + '/index.html');
-  assert(await c.locator('#who').isVisible());
+  await loginOpen(c);
   assert(await c.locator('nav').isHidden(), 'Worlds wait until someone is playing');
-  assert(await c.locator('#who-empty').isVisible());
-  for (const size of sizes) { await c.setViewportSize(size); await fits(c, `who's playing ${size.name}`); }
-  await c.locator('#open-board').click();
-  await c.locator('#code-input').fill('ZZZZZZ');
-  await c.locator('#code-form .go').click();
-  await c.waitForFunction(() => /No group has that code/.test(document.querySelector('#code-error').textContent));
-  await c.locator('#code-input').fill(board.toLowerCase());
-  await c.locator('#code-form .go').click();
-  await c.waitForFunction(() => !document.querySelector('#board').hidden);
-  assert.deepEqual(await c.locator('#board-people .person .name').allTextContents(), ['Leo', 'Mia']);
-  await fits(c, 'class board');
-  await c.locator('#board-people .person[data-name="Mia"]').click();
-  assert(await c.locator('#pw-go').isDisabled());
-  await c.locator('#pw-input').fill('7234mx');
-  await c.locator('#pw-go').click();
-  await c.waitForFunction(() => /doesn't match/.test(document.querySelector('#pw-error').textContent));
-  await c.locator('#pw-input').fill('7234mk');
-  await c.locator('#pw-go').click();
-  await c.waitForFunction(() => !document.querySelector('#playing').hidden);
+  assert(await c.locator('#tiles-wrap').isHidden(), 'No pictures yet on this device');
+  for (const size of sizes) { await c.setViewportSize(size); await fits(c, `sign-in dialog ${size.name}`); }
+  // A grown-up puts the group's pictures on this device from the grown-ups' corner.
+  await c.locator('#grown-link').click();
+  await c.waitForFunction(() => document.body.dataset.view === 'signin');
+  await c.locator('#signin-login').fill(`lee-${suffix}`);
+  await c.locator('#signin-password').fill('lucy12');
+  await c.locator('#signin-go').click();
+  await c.waitForFunction(() => document.body.dataset.view === 'settings', null, {timeout: 20000});
+  await c.waitForSelector('.group-card [data-act="device"]');
+  await c.locator('.group-card [data-act="device"]').click();
+  await c.waitForFunction(() => /now show when someone signs in/.test(document.querySelector('#groups-status').textContent));
+  assert.equal(await c.locator('.group-card [data-act="device"]').getAttribute('aria-pressed'), 'true');
+  await c.locator('#leave').click();
+  await c.waitForURL(/\/index\.html$/);
+  await loginOpen(c);
+  assert.deepEqual(await c.locator('#people .person .name').allTextContents(), ['Leo', 'Mia']);
+  assert(!(await c.locator('#login').innerText()).includes(board), 'No group code in the sign-in dialog');
+  await c.locator('#people .person:has-text("Mia")').click();
+  assert.equal(await c.locator('#login-name').inputValue(), logins[1]);
+  assert(await c.locator('#login-go').isDisabled());
+  await c.locator('#login-pw').fill('7234mx');
+  await c.locator('#login-go').click();
+  await c.waitForFunction(() => /don't match/.test(document.querySelector('#login-error').textContent));
+  await c.locator('#login-pw').fill('7234mk');
+  await c.locator('#login-go').click();
+  await c.waitForFunction(() => document.body.dataset.home === 'picker' && !document.querySelector('#playing').hidden, null, {timeout: 20000});
   assert.equal(await c.locator('#playing-name').textContent(), 'Mia');
   assert(await c.locator('nav').isVisible());
   assert.deepEqual(await c.evaluate(() => window.GROWN_UPS.settings.letters), ['A', 'I', 'N', 'P', 'S', 'T']);
   assert.equal(await c.evaluate(() => document.documentElement.hasAttribute('data-calm')), true);
-  await fits(c, 'playing strip');
-  ok('chromebook: group board by code, wrong password refused, Mia signs in with her group\'s settings');
+  await fits(c, 'picker');
+  ok('chromebook: a grown-up shows the group\'s pictures here; Mia taps hers, a wrong password is refused, she signs in with her settings');
 
   // Mia plays in Letter Post: only the class's letters, and the round is kept.
   await c.locator('nav a[data-world="post"]').click();
@@ -131,32 +144,34 @@ try {
 
   // "I'm done" hands the Chromebook to the next child.
   await c.locator('#lw-done').click();
-  await c.waitForFunction(() => !document.querySelector('#who').hidden);
-  assert.deepEqual(await c.locator('#people .person .name').allTextContents(), ['Mia']);
-  await c.locator('#people .person[data-name="Mia"]').click();
-  await c.locator('#pw-input').fill('7234mk');
-  await c.locator('#pw-go').click();
-  await c.waitForFunction(() => !document.querySelector('#playing').hidden);
+  await loginOpen(c);
+  assert.deepEqual(await c.locator('#people .person .name').allTextContents(), ['Mia', 'Leo'], 'Who played here comes first');
+  await c.locator('#people .person:has-text("Mia")').click();
+  await c.locator('#login-pw').fill('7234mk');
+  await c.locator('#login-go').click();
+  await c.waitForFunction(() => document.body.dataset.home === 'picker' && !document.querySelector('#playing').hidden, null, {timeout: 20000});
   assert.equal(await c.locator('#stickers .lw-sticker').count(), 1);
   await c.locator('#sticker-button').click();
   assert.equal(await c.locator('#book li.earned').count(), 1);
   await c.locator('#book-dialog .go').click();
   await c.locator('#done').click();
-  await c.waitForFunction(() => !document.querySelector('#who').hidden);
-  // A new tab on the same Chromebook starts with "Who's playing?", not the last child.
+  await loginOpen(c);
+  // A new tab on the same Chromebook never continues as the last child.
   const c2 = await cb.newPage();
   await c2.goto(web.url + '/v1-letter-post/index.html');
   await screen(c2, 'home');
   assert.equal(await c2.locator('#footer .lw-player').count(), 0);
   assert.match(await c2.locator('.collection-heading').textContent(), /this visit/);
   await c2.close();
-  ok('chromebook: I\'m done returns to the pictures; a new tab never continues as the last child');
+  ok('chromebook: I\'m done returns to the sign-in; a new tab never continues as the last child');
 
   // Play without saving still works and keeps nothing.
-  await c.locator('#just-play').click();
+  await c.locator('#play-unsaved').click();
   assert(await c.locator('#guest-bar').isVisible());
+  assert.match(await c.locator('#guest-bar').textContent(), /won't be kept/);
   assert.equal(await c.locator('nav a:not([hidden])').count(), 3);
-  await c.locator('#guest-who').click();
+  await c.locator('#guest-signin').click();
+  await loginOpen(c);
   ok('chromebook: play without saving keeps the old one-visit game');
 
   // ---- Back on the laptop: progress shows in the corner.
@@ -179,7 +194,8 @@ try {
   assert.equal(await t.locator('#leave .fill-label').first().textContent(), 'Lock and go to games');
   await t.locator('#leave').click();
   await t.waitForURL(/\/index\.html$/);
-  await t.locator('footer a.grown').click();
+  await loginOpen(t);
+  await t.locator('#grown-link').click();
   await t.waitForFunction(() => document.body.dataset.view === 'gate');
   const digits = (await t.locator('#challenge span').allTextContents()).map(w => WORDS.indexOf(w));
   for (const d of digits) await t.locator(`[data-digit="${d}"]`).click();

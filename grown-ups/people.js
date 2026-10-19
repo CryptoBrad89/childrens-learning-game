@@ -4,13 +4,12 @@
 (() => {
 'use strict';
 const L = window.LW, C = window.CORNER, P = window.LW_PICTURES, $ = s => document.querySelector(s), esc = P.esc;
-const WORLD_NAMES = {post: 'Letter Post', space: 'Moonboat', silk: 'Silk Thread'};
+const WORLD_NAMES = {post: 'Letter Post', space: 'Moonboat', silk: 'Ribbon Road'};
 const ERRORS = {
   offline: 'This needs the internet. Connect, then try again. Settings changes still work offline.',
   signed_out: 'Your sign-in has run out on this device. Sign out, then sign in again.',
   not_allowed: 'Only grown-ups in this group can do that.',
   owners_only: 'Only the grown-up who owns this group can do that.',
-  no_invite: 'No group has that invite code. Check it with the grown-up who shared it.',
   password_short: 'Passwords need at least six characters.',
   password_long: 'That password is too long. Use 72 characters or fewer.',
   bad_password: 'Your current password doesn\'t match.',
@@ -23,13 +22,14 @@ const ERRORS = {
 const say = e => ERRORS[e && e.code] || 'Something went wrong on the way to the server. Try again in a moment.';
 const kids = g => g.members.filter(m => m.member_role === 'child');
 const grownups = g => g.members.filter(m => m.member_role !== 'child');
-const fmtCode = c => c && c.length === 8 ? `${c.slice(0, 4)}-${c.slice(4)}` : c;
 function ago(ms) {
   if (!ms) return 'not played yet';
   const days = Math.floor((new Date().setHours(0, 0, 0, 0) - new Date(ms).setHours(0, 0, 0, 0)) / 864e5);
   return days <= 0 ? 'played today' : days === 1 ? 'played yesterday' : days < 14 ? `played ${days} days ago` : `played ${new Date(ms).toLocaleDateString()}`;
 }
 const plural = (n, one, many = one + 's') => `${n} ${n === 1 ? one : many}`;
+// Whether this group's pictures show on this device's sign-in.
+const onDevice = g => L.boards().some(b => b.id === g.id);
 
 /* ---------- loading ---------- */
 let loading = null;
@@ -53,10 +53,6 @@ function groupCard(g) {
   return `<article class="group-card" data-group="${g.id}" aria-labelledby="g-${g.id}">
     <header class="group-head">
       <div><p class="label">Group${owner ? ' · you made it' : ''}</p><h3 id="g-${g.id}">${esc(g.name)}</h3></div>
-      <dl class="codes">
-        <div><dt>Board code</dt><dd>${esc(g.board_code)}</dd><dd class="code-help">Type it on a device to show the children's pictures.</dd></div>
-        <div><dt>Invite code</dt><dd>${esc(fmtCode(g.invite_code))}</dd><dd class="code-help">For grown-ups only: it lets them look after these children.</dd></div>
-      </dl>
     </header>
     ${children.length ? `<ul class="kids">${children.map(k => `<li class="kid">
       ${P.avatar(k.avatar)}
@@ -73,8 +69,8 @@ function groupCard(g) {
       <button type="button" class="solid-button" data-act="add">Add a child</button>
       <button type="button" class="quiet-button" data-act="link">Add a child who has an account</button>
       ${children.length ? '<button type="button" class="quiet-button" data-act="cards">Print sign-in cards</button>' : ''}
+      ${children.length ? `<button type="button" class="quiet-button" data-act="device" aria-pressed="${onDevice(g)}">${onDevice(g) ? 'Stop showing their pictures here' : 'Show their pictures on this device'}</button>` : ''}
       <button type="button" class="quiet-button" data-act="rename">Rename</button>
-      <button type="button" class="quiet-button" data-act="codes">New codes</button>
       <button type="button" class="quiet-button danger" data-act="leave">Leave</button>
     </div>
   </article>`;
@@ -195,11 +191,16 @@ function act(button) {
     submit: async () => { await api('lw_delete_child', {p_child: id}); if (C.target && C.target.id === id) C.target = null; return `${name}'s account is deleted.`; }});
   else if (a === 'rename') open({title: `Rename ${g.name}`, fields: field('name', 'Name', {value: g.name}),
     submit: async v => { await api('lw_rename_group', {p_group: gid, p_name: v.name}); return 'Saved.'; }});
-  else if (a === 'codes') open({title: 'Make new codes?', help: `Use this if a code got out. The old board and invite codes stop working; devices showing the old board need the new code.`, go: 'Make new codes',
-    submit: async () => { await api('lw_new_codes', {p_group: gid}); return 'New codes are ready.'; }});
   else if (a === 'leave') open({title: `Leave ${g.name}?`, help: grownups(g).length === 1 ? 'You\'re the only grown-up, so the group closes. The children\'s accounts, progress and stickers are kept.' : 'You stop looking after these children. Their accounts are kept.', go: 'Leave', danger: true,
     submit: async () => { await api('lw_remove_member', {p_group: gid, p_profile: C.me().id}); C.target = null; return `You left ${g.name}.`; }});
   else if (a === 'cards') printCards(g);
+  else if (a === 'device') {
+    const shown = onDevice(g);
+    (shown ? Promise.resolve(L.forgetBoard(g.id)) : L.board(g.board_code)).then(() => {
+      renderGroups();
+      $('#groups-status').textContent = shown ? `${g.name}'s pictures no longer show on this device.` : `${g.name}'s pictures now show when someone signs in on this device. Each child still types their password.`;
+    }).catch(err => { $('#groups-status').textContent = say(err); });
+  }
   else if (a === 'forget') {
     L.forget(id).then(() => { renderDevice(); $('#groups-status').textContent = `${name} is forgotten on this device. Their account is safe.`; })
       .catch(err => { $('#groups-status').textContent = err.code === 'still_waiting' ? `${name} still has play waiting to upload.` : say(err); });
@@ -207,8 +208,8 @@ function act(button) {
 }
 function printCards(g) {
   $('#cards').innerHTML = kids(g).map(k => `<div class="card">${P.avatar(k.avatar)}<div><strong>${esc(k.name)}</strong>
-    <dl><dt>Sign-in name</dt><dd>${esc(k.login)}</dd><dt>Board code</dt><dd>${esc(g.board_code)}</dd><dt>Password</dt><dd>Ask ${esc(C.me().name)}</dd></dl>
-    <p>To play on any device, open Lucy's games and choose "Sign in with a name", or open the group board.</p></div></div>`).join('');
+    <dl><dt>Sign-in name</dt><dd>${esc(k.login)}</dd><dt>Password</dt><dd>Ask ${esc(C.me().name)}</dd></dl>
+    <p>To play on any device, open Letters with Lucy and type this sign-in name and the password.</p></div></div>`).join('');
   window.print();
 }
 
@@ -218,9 +219,7 @@ document.addEventListener('click', e => {
   else if (b.id === 'new-group') {
     open({title: 'New group', help: 'Any name that helps you find it, for example Sunflowers, Room 4, Grandma\'s or Saturday club.',
       fields: field('name', 'Name'), go: 'Make it', submit: async v => { await api('lw_create_group', {p_kind: 'group', p_name: v.name}); return `${v.name} is ready. Add children next.`; }});
-  } else if (b.id === 'join-group') open({title: 'Join with an invite code', help: 'Another grown-up can find the invite code on their group in this corner.',
-    fields: field('code', 'Invite code', {help: 'Eight letters and numbers, like NC3U-3PQD.'}), go: 'Join',
-    submit: async v => { const r = await api('lw_join_group', {p_invite: v.code}); return `You joined ${r.name}.`; }});
+  }
   else if (b.id === 'password-mine') open({title: 'Change my password', fields: field('old', 'Current password', {type: 'password', auto: 'current-password'}) + field('password', 'New password', {type: 'password', auto: 'new-password', help: 'At least six characters.'}),
     submit: async v => { needPassword(v.password); await api('lw_change_password', {p_old: v.old, p_new: v.password}); return 'Your password is changed. Use it next time you sign in.'; }});
   else if (b.id === 'sync-now') {

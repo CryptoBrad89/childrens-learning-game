@@ -128,7 +128,7 @@ async function worldChecks(name) {
     assert(t.main().includes('0 of 6 · yours to keep'), `${name}: collection counts the chosen letters`);
     assert(!t.main().includes('undefined'), `${name}: invalid markup`);
     if (name === 'v3-moonboat') assert(t.main().includes('6 LITTLE WORLDS'));
-    if (name === 'v4-silk-thread') assert(t.main().includes('6 letters chosen for today'));
+    if (name === 'v4-ribbon-road') assert(t.main().includes('6 letters chosen for today'));
     const header = t.getNode('#header').innerHTML;
     assert(header.includes('class="controls" hidden'), `${name}: children's buttons hidden`);
     assert(header.includes('aria-pressed="true"') && header.includes('Turn sound on'), `${name}: starts muted`);
@@ -143,7 +143,7 @@ async function worldChecks(name) {
     const correct = t.getNode('[data-answer="S"]'); correct.dataset.answer = 'S';
     await t.app.answer(correct); await t.flush();
     assert(t.main().includes('1 of 6 · yours to keep'));
-    assert.deepEqual(JSON.parse(JSON.stringify(t.LW.rounds)), [{world: {'v1-letter-post': 'post', 'v3-moonboat': 'space', 'v4-silk-thread': 'silk'}[name], letter: 'S', misses: 1, hinted: true}], `${name}: the finished round is recorded once for the player`);
+    assert.deepEqual(JSON.parse(JSON.stringify(t.LW.rounds)), [{world: {'v1-letter-post': 'post', 'v3-moonboat': 'space', 'v4-ribbon-road': 'silk'}[name], letter: 'S', misses: 1, hinted: true}], `${name}: the finished round is recorded once for the player`);
     const order = [];
     for (let i = 0; i < 7; i++) {
       const next = t.makeNode(); next.dataset.action = 'next';
@@ -151,7 +151,7 @@ async function worldChecks(name) {
       order.push(t.app.current.letter);
     }
     assert.deepEqual(order, ['T', 'A', 'I', 'N', 'P', 'S', 'T'], `${name}: "Another sound" stays within the chosen letters`);
-    if (name === 'v4-silk-thread') {
+    if (name === 'v4-ribbon-road') {
       const start = t.makeNode(); start.dataset.action = 'start';
       t.getNode('#main').listeners.click({target: start}); await t.flush();
       assert.equal(t.app.current.letter, 'A', 'Play with Lucy starts at the first chosen letter');
@@ -194,5 +194,5 @@ async function worldChecks(name) {
 
 (async () => {
   settingsChecks();
-  for (const name of ['v1-letter-post', 'v3-moonboat', 'v4-silk-thread']) await worldChecks(name);
+  for (const name of ['v1-letter-post', 'v3-moonboat', 'v4-ribbon-road']) await worldChecks(name);
 })().catch(error => {console.error(error); process.exitCode = 1;});

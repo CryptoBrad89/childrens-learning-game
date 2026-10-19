@@ -132,5 +132,5 @@ async function smoke(game) {
 }
 
 (async () => {
-  for (const game of ['v1-letter-post', 'v3-moonboat', 'v4-silk-thread']) await smoke(game);
+  for (const game of ['v1-letter-post', 'v3-moonboat', 'v4-ribbon-road']) await smoke(game);
 })().catch(error => {console.error(error); process.exitCode = 1;});
