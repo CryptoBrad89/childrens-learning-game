@@ -1,5 +1,7 @@
 /* No dependencies. Checks grown-up settings parsing, and that every world's real
- * renderer obeys them, in a VM with minimal browser API stubs (as runtime_smoke.cjs). */
+ * renderer obeys the signed-in player's settings and records their rounds, in a
+ * VM with minimal browser API stubs (as runtime_smoke.cjs). Settings belong to
+ * the person (accounts/accounts.js, stubbed here as window.LW). */
 'use strict';
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -9,23 +11,22 @@ const root = path.resolve(__dirname, '..');
 const alphabet = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
 const settingsSource = fs.readFileSync(path.join(root, 'grown-ups/settings.js'), 'utf8');
 
-function storage(initial = {}, {broken = false} = {}) {
-  const data = {...initial};
-  return {
-    data,
-    getItem(key) {if (broken) throw new Error('blocked'); return key in data ? data[key] : null;},
-    setItem(key, value) {if (broken) throw new Error('blocked'); data[key] = String(value);}
-  };
+// A stand-in for accounts/accounts.js: one person signed in, with these settings.
+function account(values, {signedIn = true} = {}) {
+  const rounds = [], edits = [];
+  return {rounds, edits, playerId: () => signedIn ? 'child-1' : null, values: id => id === 'child-1' ? values : {},
+    lettersIn: () => [], recordRound(r) { rounds.push(r); return {saved: true, newBadges: []}; },
+    setSettings(actor, targets, changes) { edits.push({actor, targets, changes}); return true; }};
 }
-function loadSettings(localStorage) {
+function loadSettings(LW) {
   const documentElement = {dataset: {}};
-  const window = {};
-  vm.runInContext(settingsSource, vm.createContext({window, document: {documentElement}, localStorage}));
+  const window = {LW};
+  vm.runInContext(settingsSource, vm.createContext({window, document: {documentElement}}));
   return {api: window.GROWN_UPS, documentElement};
 }
 
 function settingsChecks() {
-  const {api, documentElement} = loadSettings(storage());
+  const {api, documentElement} = loadSettings(undefined);
   assert.deepEqual(JSON.parse(JSON.stringify(api.settings)), {
     voice: true, effects: true, calm: false, kidControls: true, volume: 100,
     letters: alphabet, hintAfter: 2, games: ['post', 'space', 'silk']
@@ -40,21 +41,18 @@ function settingsChecks() {
   assert.deepEqual([...api.normalize({letters: []}).letters], alphabet, 'At least one letter always stays');
   assert.equal(api.normalize({hintAfter: 0}).hintAfter, 0);
 
-  const store = storage();
-  const first = loadSettings(store);
-  assert.equal(first.api.save({...first.api.settings, calm: true, letters: ['S', 'A', 'T']}), true);
-  assert('calm' in first.documentElement.dataset, 'Calm motion is visible to CSS straight away');
-  const second = loadSettings(store);
-  assert.equal(second.api.settings.calm, true);
-  assert.deepEqual([...second.api.settings.letters], ['A', 'S', 'T']);
-  assert('calm' in second.documentElement.dataset);
-
-  const corrupt = loadSettings(storage({'little-woof-grown-ups': '{not json'}));
-  assert.equal(corrupt.api.settings.volume, 100); assert.equal(corrupt.api.storageOK, true);
-  const blocked = loadSettings(storage({}, {broken: true}));
-  assert.equal(blocked.api.storageOK, false); assert.equal(blocked.api.save({calm: true}), false);
-  assert.equal(blocked.api.settings.calm, true, 'Blocked storage still applies for this page');
-  console.log('PASS grown-up settings: defaults, validation, save/load, corrupt and blocked storage');
+  // The signed-in player's own settings apply, before anything renders.
+  const mine = loadSettings(account({calm: true, letters: ['T', 'S', 'A'], theme_post: 2}));
+  assert.equal(mine.api.settings.calm, true);
+  assert.deepEqual([...mine.api.settings.letters], ['A', 'S', 'T']);
+  assert('calm' in mine.documentElement.dataset, 'Calm motion is visible to CSS straight away');
+  // Nobody signed in: defaults, whatever this device had saved before.
+  const nobody = loadSettings(account({calm: true}, {signedIn: false}));
+  assert.equal(nobody.api.settings.calm, false);
+  // Only changed fields are saved, so editing one field never overwrites another.
+  assert.deepEqual(JSON.parse(JSON.stringify(api.changes(api.DEFAULTS, {...api.DEFAULTS, volume: 40, letters: ['S', 'A']}))), {volume: 40, letters: ['A', 'S']});
+  assert.equal(Object.keys(api.changes(api.DEFAULTS, {...api.DEFAULTS})).length, 0);
+  console.log('PASS grown-up settings: defaults, validation, the player\'s own settings, nobody signed in, changed fields only');
 }
 
 async function game(name, saved) {
@@ -95,14 +93,16 @@ async function game(name, saved) {
   const noEffect = async () => true;
   const Fun = {cancel() {}, voice() {}, mute() {}, home: noEffect, open: noEffect, press: noEffect, replay: noEffect,
     hint: noEffect, lucy: noEffect, exit: noEffect, correct: noEffect, reward: noEffect, weather: noEffect, evidence: {reduced: false}};
-  const window = {Fun, scrollTo() {}};
-  const localStorage = storage({'little-woof-grown-ups': JSON.stringify(saved)});
+  const LW = saved ? account(saved) : account({}, {signedIn: false});
+  const window = {Fun, scrollTo() {}, LW};
+  const localStorage = {getItem() {return null;}, setItem() {}};
   const context = vm.createContext({window, document, Audio, queueMicrotask, localStorage});
   const html = fs.readFileSync(path.join(root, name, 'index.html'), 'utf8');
   const scripts = [...html.matchAll(/<script src="([^"]+)"/g)].map(m => m[1]);
   assert(scripts.indexOf('../grown-ups/settings.js') > -1 && scripts.indexOf('../grown-ups/settings.js') < scripts.findIndex(s => s.endsWith('app.js')),
     `${name}: settings must load before the app`);
   assert(scripts.indexOf('../grown-ups/settings.js') < scripts.findIndex(s => s.endsWith('fun.js')), `${name}: settings must load before effects`);
+  assert(scripts.indexOf('../accounts/accounts.js') > -1 && scripts.indexOf('../accounts/accounts.js') < scripts.indexOf('../grown-ups/settings.js'), `${name}: accounts load before settings`);
   assert(html.includes('href="../grown-ups/in-game.css"'), `${name}: missing in-game grown-up styles`);
   const script = base => path.resolve(root, name, scripts.find(file => path.basename(file) === base));
   for (const file of ['config.js', 'settings.js', 'art.js']) vm.runInContext(fs.readFileSync(script(file), 'utf8'), context);
@@ -116,7 +116,7 @@ async function game(name, saved) {
   const app = window.testGame;
   const flush = () => new Promise(resolve => setImmediate(resolve));
   const main = () => getNode('#main').innerHTML;
-  return {app, flush, main, getNode, played, volumes, window, makeNode};
+  return {app, flush, main, getNode, played, volumes, window, makeNode, LW};
 }
 
 async function worldChecks(name) {
@@ -125,7 +125,7 @@ async function worldChecks(name) {
     const t = await game(name, {letters, hintAfter: 1, voice: false, volume: 40, kidControls: false});
     await t.app.go('home');
     assert.deepEqual([...t.main().matchAll(/data-letter="([A-Z])"/g)].map(m => m[1]), pool, `${name}: pickers show only the chosen letters, A-Z`);
-    assert(t.main().includes('0 of 6 · this visit'), `${name}: collection counts the chosen letters`);
+    assert(t.main().includes('0 of 6 · yours to keep'), `${name}: collection counts the chosen letters`);
     assert(!t.main().includes('undefined'), `${name}: invalid markup`);
     if (name === 'v3-moonboat') assert(t.main().includes('6 LITTLE WORLDS'));
     if (name === 'v4-silk-thread') assert(t.main().includes('6 letters chosen for today'));
@@ -142,7 +142,8 @@ async function worldChecks(name) {
     assert(t.getNode('[data-answer="S"]').classList.values.has('hint'), `${name}: hint after one miss`);
     const correct = t.getNode('[data-answer="S"]'); correct.dataset.answer = 'S';
     await t.app.answer(correct); await t.flush();
-    assert(t.main().includes('1 of 6 · this visit'));
+    assert(t.main().includes('1 of 6 · yours to keep'));
+    assert.deepEqual(JSON.parse(JSON.stringify(t.LW.rounds)), [{world: {'v1-letter-post': 'post', 'v3-moonboat': 'space', 'v4-silk-thread': 'silk'}[name], letter: 'S', misses: 1, hinted: true}], `${name}: the finished round is recorded once for the player`);
     const order = [];
     for (let i = 0; i < 7; i++) {
       const next = t.makeNode(); next.dataset.action = 'next';
@@ -174,14 +175,21 @@ async function worldChecks(name) {
   {
     const t = await game(name, {letters: ['Q']});
     await t.app.go('home');
-    assert(t.main().includes('0 of 1 · this visit'));
+    assert(t.main().includes('0 of 1 · yours to keep'));
     if (name === 'v3-moonboat') assert(t.main().includes('1 LITTLE WORLD<'));
     await t.app.start('Q'); await t.flush();
     const next = t.makeNode(); next.dataset.action = 'next';
     t.getNode('#main').listeners.click({target: next}); await t.flush();
     assert.equal(t.app.current.letter, 'Q', `${name}: a single letter wraps to itself`);
   }
-  console.log(`PASS ${name}: chosen letters, counts, wrap, hints (1 / never), voice off, volume and hidden children's buttons`);
+  {
+    const t = await game(name, null);
+    await t.app.go('home');
+    assert.equal([...t.main().matchAll(/data-letter="/g)].length, 26, `${name}: nobody signed in plays all 26`);
+    assert(t.main().includes('0 of 26 · this visit'), `${name}: play without saving keeps the one-visit collection`);
+    assert.equal(t.LW.rounds.length, 0);
+  }
+  console.log(`PASS ${name}: chosen letters, counts, wrap, hints (1 / never), voice off, volume, hidden children's buttons, rounds recorded`);
 }
 
 (async () => {

@@ -1,0 +1,8 @@
+{
+  "name": "little-woof-db-tests",
+  "private": true,
+  "description": "Test-only tools: runs supabase/migrations in PGlite (Postgres in WebAssembly) behind a small local stand-in for Supabase Auth and PostgREST.",
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.8"
+  }
+}

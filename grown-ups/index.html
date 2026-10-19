@@ -8,10 +8,15 @@
 <meta name="robots" content="noindex">
 <title>Grown-ups' corner · Little Woof</title>
 <link rel="stylesheet" href="grown-ups.css">
+<script src="../accounts/config.js"></script>
+<script src="../accounts/accounts.js"></script>
 <script src="settings.js"></script>
+<script src="../v1-letter-post/art.js" defer></script>
+<script src="../accounts/pictures.js" defer></script>
 <script src="../audio-map.js" defer></script>
 <script src="paper-shader.js" defer></script>
 <script src="grown-ups.js" defer></script>
+<script src="people.js" defer></script>
 </head>
 <body>
 <div class="band" aria-hidden="true"><canvas id="paper"></canvas><span class="postmark"><b>GROWN-UPS</b><i>LITTLE WOOF POST</i><b>ONLY</b></span></div>
@@ -24,12 +29,39 @@
     <a class="fill-button" id="leave" href="../index.html"><span class="fill-label">Back to the games</span><span class="fill-layer" aria-hidden="true"><span class="fill-label">Back to the games</span></span><span class="fill-dot" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
   </header>
 
-  <main id="gate" class="gate" aria-labelledby="gate-title">
+  <main id="signin" class="gate signin" aria-labelledby="signin-title" hidden>
+    <div class="gate-copy">
+      <h2 id="signin-title">Sign in, grown-ups.</h2>
+      <p class="why">Settings, progress and stickers belong to each child and follow them to every device. Any grown-up signs in here to look after them.</p>
+      <p class="why offline-note" id="signin-offline" hidden>This device is offline. Grown-ups who have signed in here before can still sign in; changes upload when the internet is back.</p>
+    </div>
+    <div class="gate-pad signin-pad">
+      <fieldset class="segmented" id="signin-mode">
+        <legend class="sr-only">Sign in or make an account</legend>
+        <div class="segments two"><span class="pill" aria-hidden="true"></span>
+          <label><input type="radio" name="signin-mode" value="in" checked><span>Sign in</span></label>
+          <label><input type="radio" name="signin-mode" value="new"><span>New account</span></label>
+        </div>
+      </fieldset>
+      <form id="signin-form" class="form" novalidate>
+        <label class="field" id="name-field" hidden><span>Your name</span><small>Shown to other grown-ups, for example Ms Lee or Sam.</small><input id="signin-display" type="text" autocomplete="name" maxlength="40"></label>
+        <label class="field"><span>Sign-in name</span><small id="login-help">The name you chose when you made your account.</small><input id="signin-login" type="text" autocomplete="username" autocapitalize="off" spellcheck="false" maxlength="32" required></label>
+        <label class="field"><span>Password</span><small>At least six characters. That's the only rule.</small><span class="input-row"><input id="signin-password" type="password" autocomplete="current-password" autocapitalize="off" spellcheck="false" required><button type="button" class="quiet-button show" id="signin-show" aria-pressed="false">Show</button></span></label>
+        <p class="dots" id="signin-dots"><i></i><i></i><i></i><i></i><i></i><i></i><span></span></p>
+        <label class="row keep"><span class="row-text"><strong>Stay signed in on this device</strong><small>For your own phone or tablet. Next time, a quick number check opens the corner.</small></span><input type="checkbox" role="switch" id="signin-keep"></label>
+        <button class="solid-button" id="signin-go">Sign in</button>
+        <p class="gate-status" id="signin-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </main>
+
+  <main id="gate" class="gate" aria-labelledby="gate-title" hidden>
     <div class="gate-copy">
       <h2 id="gate-title">A quick check that a grown-up is here.</h2>
       <p class="challenge-label" id="challenge-label">Tap these numbers in order</p>
       <p class="challenge" id="challenge" aria-describedby="challenge-label"></p>
-      <p class="why">Why the check? Little ones can't read number words yet, so this keeps the settings out of small hands. Number keys on a keyboard work too.</p>
+      <p class="why">Why the check? You're signed in on this device, and little ones can't read number words yet, so this keeps the settings out of small hands. Number keys on a keyboard work too.</p>
+      <p class="why"><button type="button" class="quiet-button" id="gate-signout">Not <span id="gate-name">you</span>? Sign out</button></p>
     </div>
     <div class="gate-pad">
       <div class="slots" id="slots" aria-label="Numbers tapped so far"><span></span><span></span><span></span></div>
@@ -41,19 +73,40 @@
   <div id="settings" class="settings" hidden>
     <nav class="index" aria-label="Settings sections">
       <ol>
-        <li><a href="#sound"><span>01</span>Sound</a></li>
-        <li><a href="#letters"><span>02</span>Letters</a></li>
-        <li><a href="#help"><span>03</span>Help</a></li>
-        <li><a href="#motion"><span>04</span>Motion</a></li>
-        <li><a href="#worlds"><span>05</span>Worlds &amp; buttons</a></li>
-        <li><a href="#about"><span>06</span>About the game</a></li>
+        <li><a href="#children"><span>01</span>Children</a></li>
+        <li><a href="#sound"><span>02</span>Sound</a></li>
+        <li><a href="#letters"><span>03</span>Letters</a></li>
+        <li><a href="#help"><span>04</span>Help</a></li>
+        <li><a href="#motion"><span>05</span>Motion</a></li>
+        <li><a href="#worlds"><span>06</span>Worlds &amp; buttons</a></li>
+        <li><a href="#progress"><span>07</span>Progress</a></li>
+        <li><a href="#device"><span>08</span>Sync &amp; this device</a></li>
+        <li><a href="#about"><span>09</span>About</a></li>
       </ol>
     </nav>
     <main class="sheet" id="sheet" tabindex="-1" aria-label="Grown-up settings">
-      <p class="intro">Changes save straight away on this device and apply the next time a world opens.</p>
+      <p class="intro" id="hello">Signed in.</p>
+
+      <section id="children" aria-labelledby="children-title">
+        <h2 id="children-title"><span>01</span>Children</h2>
+        <p class="section-help">Put children in groups any way you like: one group or many, big or small. Every grown-up in a group looks after every child in it, and a child can be in any number of groups.</p>
+        <div id="groups"></div>
+        <p class="empty" id="groups-empty" hidden>No groups yet. Make one to add children.</p>
+        <div class="group-actions">
+          <button type="button" class="quiet-button" id="new-group">New group</button>
+          <button type="button" class="quiet-button" id="join-group">Join with an invite code</button>
+        </div>
+        <p class="save-status" id="groups-status" role="status" aria-live="polite"></p>
+      </section>
+
+      <div class="target-bar" id="target-bar">
+        <label for="target"><span class="label">Settings for</span></label>
+        <select id="target"></select>
+        <p id="target-note"></p>
+      </div>
 
       <section id="sound" aria-labelledby="sound-title">
-        <h2 id="sound-title"><span>01</span>Sound</h2>
+        <h2 id="sound-title"><span>02</span>Sound</h2>
         <label class="row">
           <span class="row-text"><strong>Lucy's voice</strong><small>Lucy says each letter, sound and word. When it's off, the games start quiet.</small></span>
           <input type="checkbox" role="switch" data-setting="voice">
@@ -72,7 +125,7 @@
       </section>
 
       <section id="letters" aria-labelledby="letters-title">
-        <h2 id="letters-title"><span>02</span>Letters</h2>
+        <h2 id="letters-title"><span>03</span>Letters</h2>
         <p class="section-help">Choose which letters appear in every world. Use a small set to focus on today's sounds. Wrong-answer pictures can still come from any letter.</p>
         <div class="presets" role="group" aria-label="Quick letter sets">
           <button type="button" data-preset="all" aria-pressed="false">All 26</button>
@@ -84,7 +137,7 @@
       </section>
 
       <section id="help" aria-labelledby="help-title">
-        <h2 id="help-title"><span>03</span>Help when stuck</h2>
+        <h2 id="help-title"><span>04</span>Help when stuck</h2>
         <fieldset class="segmented" id="hint">
           <legend>After a wrong picture, Lucy can outline the right one and say its word. Choose when that happens.</legend>
           <div class="segments">
@@ -97,7 +150,7 @@
       </section>
 
       <section id="motion" aria-labelledby="motion-title">
-        <h2 id="motion-title"><span>04</span>Motion</h2>
+        <h2 id="motion-title"><span>05</span>Motion</h2>
         <label class="row">
           <span class="row-text"><strong>Calm motion</strong><small>Turns off confetti, bouncing and drifting backgrounds. Devices set to reduce motion are always calm.</small></span>
           <input type="checkbox" role="switch" data-setting="calm">
@@ -105,7 +158,7 @@
       </section>
 
       <section id="worlds" aria-labelledby="worlds-title">
-        <h2 id="worlds-title"><span>05</span>Worlds &amp; buttons</h2>
+        <h2 id="worlds-title"><span>06</span>Worlds &amp; buttons</h2>
         <fieldset class="group" id="games">
           <legend>Worlds on the home page</legend>
           <label class="row"><span class="row-text"><strong><i class="swatch post" aria-hidden="true"></i>Lucy's Letter Post</strong></span><input type="checkbox" role="switch" data-game="post"></label>
@@ -118,18 +171,35 @@
         </label>
       </section>
 
+      <section id="progress" aria-labelledby="progress-title">
+        <h2 id="progress-title"><span>07</span>Progress</h2>
+        <div id="progress-body"></div>
+      </section>
+
+      <section id="device" aria-labelledby="device-title">
+        <h2 id="device-title"><span>08</span>Sync &amp; this device</h2>
+        <p class="sync-line" id="sync-line" data-state="saved" role="status"><i aria-hidden="true"></i><span></span></p>
+        <p class="section-help">Everything saves on this device first, then uploads. Play from a device that was offline appears everywhere once that device is back online.</p>
+        <button type="button" class="quiet-button" id="sync-now">Sync now</button>
+        <h3 class="sub">People who signed in on this device</h3>
+        <ul class="device-people" id="device-people"></ul>
+      </section>
+
       <section id="about" aria-labelledby="about-title">
-        <h2 id="about-title"><span>06</span>About the game</h2>
+        <h2 id="about-title"><span>09</span>About</h2>
         <dl class="notes">
           <div><dt>Each round</dt><dd>Children hear a letter's name and sound, find the picture that starts with it, then celebrate. X is the exception: fox <em>ends</em> with x.</dd></div>
-          <div><dt>Collections</dt><dd>Stamps and stars last for one visit. They reset when the page closes.</dd></div>
-          <div><dt>Privacy</dt><dd>Nothing about the child is recorded or sent anywhere. These settings stay in this browser on this device.</dd></div>
+          <div><dt>Collections</dt><dd>When a child is signed in, stamps and stars are theirs to keep on every device. Play without saving keeps them for one visit.</dd></div>
+          <div><dt>Stickers</dt><dd>Children earn stickers for first sounds, letter sets, rounds and finishing a world. They show on the home page and in each world.</dd></div>
+          <div><dt>What's saved</dt><dd>Each child's name, picture, settings, finished rounds (letter, world, misses) and stickers, in this game's Supabase project. A copy stays on devices they used, for offline play.</dd></div>
           <div><dt>Shortcuts</dt><dd>In a world, Esc goes back to its home and arrow keys move between letters.</dd></div>
         </dl>
       </section>
 
       <div class="sheet-end">
-        <button type="button" class="quiet-button danger" id="reset">Reset all settings</button>
+        <button type="button" class="quiet-button danger" id="reset">Reset these settings</button>
+        <button type="button" class="quiet-button" id="password-mine">Change my password</button>
+        <button type="button" class="quiet-button" id="signout">Sign out</button>
         <p class="save-status" id="save-status" role="status" aria-live="polite"></p>
       </div>
     </main>
@@ -137,13 +207,23 @@
 </div>
 <span class="stamp" id="stamp" aria-hidden="true">Saved</span>
 <dialog id="confirm" aria-labelledby="confirm-title" aria-describedby="confirm-text">
-  <h2 id="confirm-title">Reset all settings?</h2>
-  <p id="confirm-text">Sound, letters, help, motion and worlds go back to how they started. This can't be undone.</p>
+  <h2 id="confirm-title">Reset these settings?</h2>
+  <p id="confirm-text">Sound, letters, help, motion and worlds go back to how they started for <span id="confirm-who">this person</span>. This can't be undone.</p>
   <form method="dialog" class="dialog-actions">
     <button value="cancel" class="quiet-button">Keep my settings</button>
     <button value="reset" class="solid-button" id="confirm-reset">Reset settings</button>
   </form>
 </dialog>
+<dialog id="form-dialog" aria-labelledby="form-title">
+  <form id="form-dialog-form" class="form" novalidate>
+    <h2 id="form-title"></h2>
+    <p id="form-help"></p>
+    <div id="form-fields"></div>
+    <p class="save-status error" id="form-error" role="alert"></p>
+    <div class="dialog-actions"><button type="button" class="quiet-button" data-close="1">Cancel</button><button class="solid-button" id="form-go">Save</button></div>
+  </form>
+</dialog>
+<section class="cards" id="cards" aria-hidden="true"></section>
 <noscript><p class="noscript">The grown-ups' corner needs JavaScript enabled in your browser.</p></noscript>
 </body>
 </html>

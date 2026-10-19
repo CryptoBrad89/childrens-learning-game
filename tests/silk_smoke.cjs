@@ -44,6 +44,8 @@ async function run() {
       try {
         const page = await context.newPage();
         await page.goto(pathToFileURL(path.join(root, 'index.html')).href);
+        // The chooser asks "Who's playing?" first; this check plays without saving.
+        await page.locator('#just-play').click();
         assert.deepEqual(await page.locator('nav a').evaluateAll(nodes => nodes.map(node => node.getAttribute('href'))),
           ['v1-letter-post/index.html', 'v3-moonboat/index.html', 'v4-silk-thread/index.html']);
         await fits(page, `chooser ${viewport.width}`);

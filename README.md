@@ -1,16 +1,19 @@
 # Children's Learning Game · Letter Post, Moonboat, and Silk Thread
 
-Open [index.html](index.html) directly, or serve the repository root with
-`python3 -m http.server 8000` and visit `/`.
-All three games work offline from local files, without a build step.
-Vanilla HTML, CSS, and JavaScript; no dependencies.
+Serve the repository root over HTTP(S), for example
+`python3 -m http.server 8000`, and visit `/`. After the first visit a service
+worker (`sw.js`) keeps every file, so the games work offline. Opening
+[index.html](index.html) straight from disk still works too (without the
+offline shell). No build step. Vanilla HTML, CSS, and JavaScript; the only
+runtime service is the Supabase project for accounts (see below).
 
 All three games cover A–Z with their screens, typography, palettes, Lucy
-photos, screen animations, themes, hints, replay and visit collections.
+photos, screen animations, themes, hints, replay and collections.
 Envelope/planet cards scroll vertically within their shelves; stamp
 strips/constellations scroll horizontally and count up to 26. A newly earned
-letter is brought into view on the celebration screen. Collections last for
-the current visit.
+letter is brought into view on the celebration screen. When a child is signed
+in, collections are theirs to keep on every device; playing without saving
+keeps them for the current visit.
 
 G uses goat. X uses fox's ending /ks/: the question and hint say “ends with,”
 and the celebration says “Fox ends with x.” Distractors exclude matching
@@ -48,8 +51,16 @@ CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/motion_smoke.cjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/silk_smoke.cjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/confetti_smoke.cjs
 node tests/grown_ups_runtime.cjs
+node tests/offline_shell.cjs
+npm ci --prefix tests/db            # once: PGlite, for the database tests
+node tests/accounts_db.mjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/grown_ups_smoke.cjs
+CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/accounts_flow.mjs
+CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/accounts_two_devices.mjs
 ```
+
+To run the browser suites without writing any screenshots, add
+`-r ./tests/no-screenshots.cjs` after `node`.
 
 - `runtime_smoke.cjs` (no browser) plays 234 rounds (26 letters × 3 themes ×
   3 games) with browser APIs stubbed: listen/replay, wrong answers and
@@ -67,19 +78,34 @@ CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/grown_ups_smoke.cjs
 - `confetti_smoke.cjs` checks continuous confetti in all three games and
   themes at phone and whiteboard sizes. Screenshots go to
   `/tmp/confetti-shots`.
-- `grown_ups_runtime.cjs` (no browser) checks that settings are validated and
-  saved, and that every world's real renderer obeys chosen letters, hint
-  timing, a quiet start, voice volume and hidden children's buttons.
-- `grown_ups_smoke.cjs` checks the grown-ups' corner at phone, tablet,
-  Chromebook and whiteboard sizes: the chooser door, gate refusal, the
-  three-miss pause and unlock, every setting, the last-world and last-letter
-  guards, reset, relocking, and the settings' effect on the chooser and all
-  three worlds. It also covers reduced motion and dark mode. Screenshots go to
-  `/tmp/grown-ups-shots`.
+- `grown_ups_runtime.cjs` (no browser) checks that settings are validated,
+  come from the signed-in player, and that every world's real renderer obeys
+  them and records finished rounds.
+- `offline_shell.cjs` (no browser) checks `sw.js` stores exactly the shipped
+  files and every page loads accounts before settings.
+- `accounts_db.mjs` runs `supabase/migrations` in PGlite (real Postgres in
+  WebAssembly) behind a local stand-in for Supabase Auth and PostgREST
+  (`tests/db/supabase-stand-in.mjs`) and checks the API: sign-up rules,
+  children, boards, idempotent sync, settings conflicts, stickers, joining,
+  linking with guess limits, passwords, deleting, and that the tables are
+  closed to the API roles.
+- `grown_ups_smoke.cjs` checks the corner with real sign-in at phone, tablet,
+  Chromebook and whiteboard sizes: refusal, every setting saved to a group,
+  guards, reset, sign-out, the reading gate and its pause for a grown-up who
+  stays signed in, the settings' effect on the chooser and all three worlds,
+  reduced motion and dark mode.
+- `accounts_flow.mjs` walks two grown-ups and a shared Chromebook
+  through accounts end to end.
+- `accounts_two_devices.mjs` is the two-device check: the same child on two
+  browser profiles, one offline with a lost upload reply on reconnect;
+  progress, settings and stickers must match exactly on both and the server.
+
+The accounts suites use the local stand-in by default; set `LW_BACKEND=live`
+to run them against the real Supabase project in `accounts/config.js`.
 
 Set `PLAYWRIGHT_MODULE` and/or `CHROMIUM_EXECUTABLE` if needed. The
 [verification skill](tests/verify-game/SKILL.md) documents repeatable home,
-play, and reward journeys. These prototypes do not install a service worker.
+play, and reward journeys.
 
 ## Motion
 
@@ -106,16 +132,42 @@ assets through relative paths. Its `config.js` supplies the home view, title,
 palette labels, and asset base. Pink is the default, followed by Purple and
 Yellow. Each world keeps its own theme choice.
 
+## Accounts and sync
+
+Everyone has a real login: children and grown-ups. There are no classroom,
+teacher or parent roles; any grown-up can look after any number of children
+and groups.
+Settings, progress (every finished round) and stickers belong to the person,
+live in Supabase, and follow them to any device. Details:
+[reports/accounts-build.md](reports/accounts-build.md).
+
+- **Children** don't type. A grown-up opens a group board on any device
+  (a six-character code, remembered on that device), taps the child's picture
+  and types the child's password. Passwords only need six characters, for
+  example a four-digit number plus the child's initials (`7234mk`). People who
+  played on a device appear on its "Who's playing?" screen. **I'm done** hands
+  the device to the next child; a new tab always starts at "Who's playing?".
+  **Play without saving** keeps the old one-visit game.
+- **Grown-ups** sign in to the grown-ups' corner with a sign-in name and
+  password. They make groups (any number, any size), add children (or add a child who
+  already has an account, with the child's sign-in name and password), reset
+  passwords, print sign-in cards, see progress, and change settings for one
+  child, a whole group, or themselves. A grown-up who stays signed in on their
+  own device passes the number-word reading gate to come back in.
+- **Offline**: everything is saved on the device first and uploaded when the
+  connection returns. Rounds carry an id made on the device, so a retried
+  upload never counts twice; settings merge per field, newest edit wins.
+
+Code: `accounts/` (client, front door, pictures, in-world strip),
+`grown-ups/` (corner), `supabase/migrations/` (database, the only source of
+the schema), `sw.js` (offline shell).
+
 ## Grown-ups' corner
 
 The chooser's footer has a small **For grown-ups** button that opens
-`grown-ups/index.html`. Before the settings appear, an adult taps three digits
-written as words ("seven, two, five"). Children of three or four can't read
-number words yet. Each miss brings new numbers, every third miss pauses the
-keypad for 10 seconds, and every visit starts locked again.
-
-Settings save as soon as they change, in this browser's local storage under
-`little-woof-grown-ups`, and apply the next time a world opens:
+`grown-ups/index.html`. A grown-up signs in (or makes an account). Settings
+save as soon as they change, to the chosen person's account, and apply the
+next time a world opens:
 
 - **Sound:** Lucy's voice on or off at the start, voice volume (with a sample),
   and sound effects.
@@ -128,14 +180,13 @@ Settings save as soon as they change, in this browser's local storage under
 - **Worlds and buttons:** which worlds the chooser shows (at least one), and
   whether children see the sound and color buttons.
 
-`grown-ups/settings.js` is the shared, validated store. `grown-ups/in-game.css`
-mirrors the reduced-motion rules for calm motion. The defaults leave every
-world exactly as it was. The masthead band is Paper Shaders' static mesh
-gradient (Apache-2.0, see `grown-ups/paper-shaders/`), drawn once with WebGL2,
-with a CSS fallback. Design notes are in
-[grown-ups/DESIGN.md](grown-ups/DESIGN.md). Opened straight from `file://`,
-some browsers (Firefox, for example) may keep separate storage for each page. Serve the
-folder (see above) to share settings in every browser.
+`grown-ups/settings.js` is the shared, validated settings view of the person
+playing. `grown-ups/in-game.css` mirrors the reduced-motion rules for calm
+motion. The defaults leave every world exactly as it was. The masthead band is
+Paper Shaders' static mesh gradient (Apache-2.0, see `grown-ups/paper-shaders/`),
+drawn once with WebGL2, with a CSS fallback. Design notes are in
+[grown-ups/DESIGN.md](grown-ups/DESIGN.md) and
+[accounts/DESIGN.md](accounts/DESIGN.md).
 
 ## Rules
 

@@ -105,3 +105,85 @@ numbers, and every third miss pauses the keypad for 10 seconds. Easy runs like
 1-2-3 or 9-8-7 are never asked. Physical number keys also work, for
 Chromebooks. This is child-proofing, not security: settings are ordinary local
 storage.
+
+## 5. Real sign-in (accounts build)
+
+**Design read** (design-taste §0): the same quiet back office, now with a front
+desk. Grown-ups sign in once per visit on shared Chromebooks; on their own
+phone they can stay signed in, and the reading gate from §4 becomes the
+re-entry check. Same tokens as §2, one accent, no new colors except three
+status dots (green saved, amber waiting, grey offline).
+
+Sign-in (replaces the gate on first visit; Superdesign step 1, layout):
+
+```
+┌───────────────────────────────────────────────────────────────┐
+│ ░░ static paper-shader band ░░░░░░░░░░░░░░░░░░░░░░░ (postmark) │
+│ FOR GROWN-UPS  Grown-ups' corner              [Back to games →]│
+├──────────────────────────────┬────────────────────────────────┤
+│ Sign in, grown-ups.          │ ( Sign in | New account )  pill│
+│ Settings, progress and       │ SIGN-IN NAME  [ms-lee        ] │
+│ stickers belong to each      │ PASSWORD      [••••••  ][Show] │
+│ child and follow them …      │ ●●●●○○  2 more                 │
+│ (offline note when offline)  │ Stay signed in on this device ⊙│
+│                              │ [ Sign in ]   status line       │
+└──────────────────────────────┴────────────────────────────────┘
+```
+
+- Password rule shown as six dots that fill as you type (ui-layouts
+  `pass-strength-dotted-indicator`, cut down to the owner's single rule: six
+  characters; no strength meter, because strength rules are ruled out).
+- Show/Hide toggle from ui-layouts `showhide-pass`, as a real button with
+  `aria-pressed`.
+- Sign in / New account uses the existing sliding pill (motion-primitives
+  `AnimatedBackground`, same as the Help selector).
+- Errors follow taste-ux-copy's what + why + fix, next to the form
+  ("That sign-in name and password don't match. Check both and try again.").
+
+## 6. Children, "Settings for", progress, sync
+
+```
+│ 01 CHILDREN ───────────────────────────────────────────────── │
+│ ┌ GROUP · you made it ───────────────── Board code  PH77CA ──┐ │
+│ │ Sunflowers                            Invite code NC3U-3PQD│ │
+│ │ (cat) Mia   mia-k4x  2 rounds · 2 letters · 1 sticker      │ │
+│ │       [Settings][Password][Edit][Remove][Delete]           │ │
+│ │ Grown-ups  Ms Lee, Mr Patel                                │ │
+│ │ [Add a child][Add a child who has an account][Print cards] │ │
+│ └────────────────────────────────────────────────────────────┘ │
+│ [New group] [Join with an invite code]                         │
+│ ┌ SETTINGS FOR [Everyone in Sunflowers (24) ▾] ───── sticky ┐ │
+│ │ Changes go to all 24 children. Shown: Ava's settings.      ││
+│ 02 SOUND … 06 WORLDS & BUTTONS  (unchanged from §1)            │
+│ 07 PROGRESS   per world: 26 letter squares, filled when played │
+│               sticker shelf; a table for a whole group         │
+│ 08 SYNC & THIS DEVICE  ● All saved · people on this device     │
+│ 09 ABOUT                                                       │
+```
+
+- "Settings for" is a native `<select>` with optgroups per group
+  (taste-accessibility: a native select beats a custom one), sticky so it is
+  always clear whose settings are changing. Only the fields a grown-up
+  touches are written, so editing a whole group never overwrites one child's
+  other choices.
+- Groups are plain groups: no classroom, teacher or parent roles. Any grown-up
+  can make any number of them, and every grown-up in a group can do
+  everything there.
+- Group cards are the one bordered surface (design-taste §5: depth from
+  structure, hairlines inside). Codes are set in Comfortaa with wide tracking,
+  like the section numbers, so they read as "type this".
+- Pictures for children reuse the game's own word art (`art.js`) on six soft
+  tones; nothing new is drawn for characters.
+- Printed sign-in cards: one card per child (picture, name, sign-in name,
+  board code) via print CSS; the password is never printed.
+
+## 7. Motion added
+
+| Moment | Spec | Source |
+| --- | --- | --- |
+| Password dot fills | scale 1 → 1.12, 220ms `--ease-pop` | Better Design `number-pop-in` (as the gate slots) |
+| Sign in / New account | sliding pill, 300ms emphasized | motion-primitives `AnimatedBackground` |
+| Form dialogs | opacity + scale .96 → 1, 200ms | motion-primitives `Dialog` (existing rule) |
+| "Saved" | the postmark stamp from §3, once per change | trickle `stamp` |
+
+No loops. Reduced motion and Calm motion remove all of it.

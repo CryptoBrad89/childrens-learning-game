@@ -1,15 +1,16 @@
 /* Grown-up settings shared by the chooser, every world and the grown-ups' corner.
- * Stored on this device only; nothing about the child is recorded. */
+ * They belong to the person who is playing (see accounts/accounts.js) and follow
+ * them to any device. Nobody signed in plays with the defaults; nothing is kept
+ * for the device itself. */
 (() => {
 'use strict';
-const KEY = 'little-woof-grown-ups';
 const ALL = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
 const GAMES = ['post', 'space', 'silk'];
+const FIELDS = ['voice', 'volume', 'effects', 'calm', 'letters', 'hintAfter', 'games', 'kidControls'];
 const DEFAULTS = Object.freeze({
   voice: true, volume: 100, effects: true, calm: false,
   letters: ALL, hintAfter: 2, games: GAMES, kidControls: true
 });
-let storageOK = true;
 
 function normalize(raw) {
   const value = raw && typeof raw === 'object' ? raw : {};
@@ -25,26 +26,23 @@ function normalize(raw) {
     games: games.length ? games : [...GAMES]
   };
 }
-function load() {
-  let saved = null;
-  try { saved = localStorage.getItem(KEY); } catch (e) { storageOK = false; }
-  try { return normalize(JSON.parse(saved)); } catch (e) { return normalize(null); }
+// The settings of a person on this device (the player when no id is given).
+function load(id) {
+  const L = window.LW, who = id || (L && L.playerId());
+  return normalize(who && L ? L.values(who) : null);
 }
-function save(next) {
-  const clean = normalize(next);
-  api.settings = clean;
-  try { localStorage.setItem(KEY, JSON.stringify(clean)); storageOK = true; }
-  catch (e) { storageOK = false; }
-  apply(clean);
-  return storageOK;
+// Fields of `next` that differ from `from`, ready to save.
+function changes(from, next) {
+  const a = normalize(from), b = normalize(next), out = {};
+  for (const f of FIELDS) if (JSON.stringify(a[f]) !== JSON.stringify(b[f])) out[f] = b[f];
+  return out;
 }
 // Page-wide switches that CSS can see before anything renders.
 function apply(settings) {
   const root = document.documentElement;
   if (settings.calm) root.dataset.calm = ''; else delete root.dataset.calm;
 }
-const api = {KEY, ALL, GAMES, DEFAULTS, normalize, load, save,
-  settings: load(), get storageOK() { return storageOK; }};
+const api = {ALL, GAMES, FIELDS, DEFAULTS, normalize, load, changes, apply, settings: load()};
 apply(api.settings);
 window.GROWN_UPS = api;
 })();
