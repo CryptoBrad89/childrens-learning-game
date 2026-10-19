@@ -43,8 +43,8 @@ function transaction(mode, action) {
   });
 }
 async function reloadRecords() { records = await transaction('readonly', store => store.getAll()); }
-function snapshotFor(id) {
-  const own = guest ? [] : records.filter(r => r.user_id === id);
+function snapshotFor(id, source = records) {
+  const own = guest ? [] : source.filter(r => r.user_id === id);
   const accepted = own.filter(r => !r.pending).sort((a,b) => Number(a.seq)-Number(b.seq));
   const pending = own.filter(r => r.pending).sort((a,b) => a.local_order-b.local_order || a.id.localeCompare(b.id));
   const settings = {}, themes = {post:0,space:0,silk:0}, rounds = [];
@@ -108,6 +108,20 @@ async function manage(action, fields={}) {
   if (!self || self.role !== 'grownup') throw new Error('Sign in as a grown-up administrator first.');
   return network('/functions/v1/accounts',{method:'POST',body:{...fields,action},token:await token()});
 }
+async function readProgress(id) {
+  const remote = [];
+  for(let offset=0;;offset+=500){
+    const batch = await rest('operations?user_id=eq.'+encodeURIComponent(id)+'&select=id,seq,user_id,kind,payload&order=seq.asc&offset='+offset+'&limit=500');
+    remote.push(...batch); if(batch.length<500)break;
+  }
+  return {snapshot:snapshotFor(id,remote),checkedAt:new Date().toISOString()};
+}
+async function editProfile(fields) {
+  const {profile} = await manage('edit-profile', fields);
+  if (!profile || profile.id!==self?.id) throw new Error('Profile could not update.');
+  const wasSelf=owner?.id===self.id;
+  persistSession({...session,profile}); if(wasSelf)owner=profile; emit();
+}
 async function signIn(handle, password, {role} = {}) {
   requireHostedAccounts();
   await ready;
@@ -145,7 +159,7 @@ async function append(kind, payload, id=crypto.randomUUID(), user=owner?.id) {
   if (guest) return false;
   await ready;
   if (!user) return false;
-  const event = {id,user_id:user,kind,payload,pending:true,local_order:lastOrder=Math.max(Date.now(),lastOrder+1,...records.filter(r=>r.pending).map(r=>r.local_order+1))};
+  const event = {id,user_id:user,kind,payload,progress_version:owner?.progress_version || 0,pending:true,local_order:lastOrder=Math.max(Date.now(),lastOrder+1,...records.filter(r=>r.pending).map(r=>r.local_order+1))};
   try {
     await transaction('readwrite',(store,tx)=>{
       const prior=store.get(id);
@@ -171,17 +185,29 @@ async function setSettings(next) {
 async function recordRound(world, letter, misses, id) { return append('round',{world,letter,misses},id); }
 async function sync() {
   if (guest || !session || !owner || !db) return;
-  if (syncing) return syncing;
+  if (syncing) {
+    await syncing;
+    if (navigator.onLine && records.some(r=>r.pending && r.user_id===owner?.id)) return sync();
+    return;
+  }
   if (!navigator.onLine) { message('Offline. Your play is saved here and will sync when connected.'); return; }
   const account = owner.id, actor = self.id;
   syncing = (async()=>{
     try {
       message('Syncing your adventures…');
       await reloadRecords();
+      const profiles = await rest('/profiles?id=eq.'+account+'&select=*');
+      if (!profiles.length) throw new Error('This account is no longer available.');
+      if (self?.id!==actor || read(SESSION_KEY)?.user?.id!==actor) return;
+      const version = profiles[0].progress_version || 0;
+      if (owner?.id === account) owner = profiles[0];
+      if (self?.id === account) persistSession({...session, profile:profiles[0]});
+      await transaction('readwrite',store=>{for(const event of records)if(event.user_id===account && event.pending && event.kind==='round' && (event.progress_version||0)!==version)store.delete(event.id);});
+      await reloadRecords();
       const pending = records.filter(r=>r.user_id===account && r.pending).sort((a,b)=>a.local_order-b.local_order || a.id.localeCompare(b.id));
       for (let i=0;i<pending.length;i+=100) {
         if (self?.id!==actor) return;
-        await rest('/rpc/sync_batch',{method:'POST',body:{p_owner:account,p_events:pending.slice(i,i+100).map(({id,kind,payload})=>({id,kind,payload}))}});
+        await rest('/rpc/sync_batch',{method:'POST',body:{p_owner:account,p_progress_version:version,p_events:pending.slice(i,i+100).map(({id,kind,payload})=>({id,kind,payload}))}});
       }
       const remote = [];
       for (let offset=0;;offset+=500) {
@@ -189,7 +215,10 @@ async function sync() {
         remote.push(...batch);
         if (batch.length<500) break;
       }
-      await transaction('readwrite',store=>{ for (const event of remote) store.put({...event,pending:false}); });
+      await transaction('readwrite',store=>{
+        for (const event of records) if(event.user_id===account && (!event.pending || pending.some(p=>p.id===event.id))) store.delete(event.id);
+        for (const event of remote) store.put({...event,pending:false});
+      });
       await reloadRecords(); channel?.postMessage('changed');
       const remaining = records.filter(r=>r.user_id===account && r.pending).length;
       message(remaining ? remaining+' changes saved here. Syncing again shortly.' : 'All adventures are synced.');
@@ -214,7 +243,7 @@ window.ACCOUNTS = {ready,
     try { sessionStorage.setItem(GUEST_KEY,'1'); } catch {}
     emit();
   },
-  get guest(){return guest;}, signIn,signOut,selectOwner,setSetting,setSettings,recordRound,sync,rest,manage,
+  get guest(){return guest;}, signIn,signOut,selectOwner,setSetting,setSettings,recordRound,sync,rest,manage,readProgress,editProfile,
   async changePassword(password) { if([...password].length<6)throw new Error('Use at least 6 characters.'); return network('/auth/v1/user',{method:'PUT',token:await token(),body:{password}}); },
   get session(){return guest?null:session;},get profile(){return guest?null:self;},get owner(){return guest?null:owner;},get status(){return status;},
   get snapshot(){return snapshotFor(guest?null:owner?.id);},get pending(){if(guest)return 0;return records.filter(r=>r.pending && r.user_id===owner?.id).length;},

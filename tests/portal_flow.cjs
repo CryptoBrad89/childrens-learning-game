@@ -36,7 +36,7 @@ const live=process.argv.includes('--live');
       assert.equal(await page.locator('#create-child-form input[type=radio][name=avatar]').count(),6);
       const suffix=Date.now().toString(36)+width+colorScheme;
       const iconKid='icon_'+suffix,photoKid='photo_'+suffix,adult='adult_'+suffix;
-      await page.locator('[name=avatar][value="🐱"]').check();
+      await page.locator('#create-child-form [name=avatar][value="🐱"]').check();
       await form(page,'create-child-form',{handle:iconKid,password:'7234ab',display_name:'Icon child'});
       assert.equal(await page.locator('#children-list li').filter({hasText:iconKid}).locator('.child-avatar').innerText(),'🐱');
       const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aD1sAAAAASUVORK5CYII=','base64');

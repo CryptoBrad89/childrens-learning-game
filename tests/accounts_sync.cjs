@@ -36,6 +36,8 @@ function backend() {
     const actor = users.get((request.headers().authorization || '').replace('Bearer ',''));
     if (url.pathname.endsWith('/accounts')) {
       if (!actor || actor.profile.role !== 'grownup') {status=403;result={error:'A grown-up account is required.'};}
+      else if(data.action==='list-linkable-children')result={children:[...users.values()].map(u=>u.profile).filter(p=>p.role==='child' && links.some(l=>l.child_id===p.id&&l.adult_id!==actor.profile.id)&&!links.some(l=>l.child_id===p.id&&l.adult_id===actor.profile.id))};
+      else if(data.action==='link-child'){links.push({adult_id:actor.profile.id,child_id:data.child_id});result={ok:true};}
       else if (data.action === 'register' || data.action === 'create-grownup' || data.action === 'create-child') {
         if (data.password.length < 6) {status=400;result={message:'Use at least 6 characters.'};}
         else {
@@ -60,7 +62,7 @@ function backend() {
     else if (url.pathname.endsWith('/classes')) result=[];
     else if (url.pathname.endsWith('/sync_batch')) {
       const allowed=data.p_owner===actor.profile.id || links.some(l=>l.adult_id===actor.profile.id&&l.child_id===data.p_owner);
-      if(!allowed) {status=403;result={message:'Not your notebook'};}
+      if(!allowed) {status=403;result={message:'Not your progress page'};}
       else {
         for(const event of data.p_events) if(!events.has(event.id))events.set(event.id,{...event,user_id:data.p_owner,seq:++seq});
         if(loseResponse) {loseResponse=false;await requestRoute.abort('failed');return;}
@@ -133,7 +135,8 @@ async function run() {
       await form(a,'create-grownup-form',{handle:parent,password,display_name:'Sync test grown-up'});
       await b.goto(url+'/accounts/');
       await form(b,'signin-form',{handle:parent,password});
-      await form(b,'link-child-form',{handle:child,password});
+      await b.locator('#link-child-choice option[value="'+childId+'"]').waitFor({state:'attached'});
+      await form(b,'link-child-form',{child_id:childId});
       await b.waitForFunction(handle=>document.querySelector('#children-list').textContent.includes(handle),child);
       await b.locator('#sign-out').click();
       console.log('PASS LIVE SUPABASE: administrator creates second grown-up, who links existing child, lowercase six-character child password');

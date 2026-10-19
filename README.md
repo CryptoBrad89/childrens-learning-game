@@ -16,7 +16,7 @@ photos, screen animations, themes, hints, replay and visit collections.
 Envelope/planet cards scroll vertically within their shelves; stamp
 strips/constellations scroll horizontally and count up to 26. A newly earned
 letter is brought into view on the celebration screen. The in-world collections last for
-the current visit. Signed-in notebooks keep lasting progress and milestones.
+the current visit. Signed-in progress pages keep lasting progress and milestones.
 
 G uses goat. X uses fox's ending /ks/: the question and hint say “ends with,”
 and the celebration says “Fox ends with x.” Distractors exclude matching
@@ -115,7 +115,7 @@ Yellow. Each world keeps its own theme choice.
 ## Grown-ups' corner
 
 The chooser's footer has a small **For grown-ups** button that opens
-`grown-ups/index.html`. On hosted pages, sign in with a grown-up account to open settings. A grown-up can select a linked child in the notebook before opening this corner. From local files, an adult taps three digits
+`grown-ups/index.html`. On hosted pages, sign in with a grown-up account to open settings. A grown-up can select a linked child in the progress page before opening this corner. From local files, an adult taps three digits
 written as words ("seven, two, five"). Children of three or four can't read
 number words yet. Each miss brings new numbers, every third miss pauses the
 keypad for 10 seconds, and every visit starts locked again.
@@ -149,9 +149,11 @@ folder (see above) to share settings in every browser.
 
 ## Accounts and offline sync
 
-Serve the repository on HTTPS, or use `python3 -m http.server 8000` for localhost testing. Start at `/` for child sign-in. The grown-up link opens `/accounts/` through the protected settings area; sign in with an existing grown-up account, then make child logins or link an existing child's account. Everyone signs in with a unique login name and a password of at least six characters. A child uses the same login wherever they play. The portal manages kids, offers profile icons or picture uploads when creating a child, and manages child settings. The notebook shows lasting rounds and milestones, and offers an explicit **I'm done** sign-out for shared computers.
+Serve the repository on HTTPS, or use `python3 -m http.server 8000` for localhost testing. Start at `/` for child sign-in. The grown-up link opens `/accounts/` through the protected settings area; sign in with an existing grown-up account, then make child logins or link an existing child's account. Everyone signs in with a unique login name and a password of at least six characters. A child uses the same login wherever they play. The portal manages kids, offers profile icons or picture uploads when creating a child, and manages child settings. The progress page shows lasting rounds and milestones, and offers an explicit **I'm done** sign-out for shared computers.
 
-The header says **Games ready for offline play** after the whole game is cached. A previously signed-in person can reopen and play offline. A new sign-in requires a connection. Completed rounds and field-level setting edits wait in IndexedDB until reconnecting; repeated delivery cannot count a round twice. Settings include every grown-up option, sound choice and each world's theme. Opening a new world uses the latest synchronized choices. The in-world strip remains a collection for this visit; the notebook is permanent history.
+Grown-ups can edit their display name, unique username, password, and profile icon or uploaded picture. **Link an existing child** offers children already linked to other grown-ups, without asking for a child's password. Each linked child has an **Open progress page** button. The portal reads server progress on entry and refreshes automatically; connection failures show labelled last-known data. **Manage this child**, inside their progress page, contains confirmed progress reset and permanent account deletion. Reset keeps the child's login and settings, and prevents older offline rounds from returning.
+
+The header says **Games ready for offline play** after the whole game is cached. A previously signed-in person can reopen and play offline. A new sign-in requires a connection. Completed rounds and field-level setting edits wait in IndexedDB until reconnecting; repeated delivery cannot count a round twice. Settings include every grown-up option, sound choice and each world's theme. Opening a new world uses the latest synchronized choices. The in-world strip remains a collection for this visit; the progress page is permanent history.
 
 Only the publishable client key is in `accounts/config.js`. The database and account-provisioning function are recorded in [supabase/](supabase/README.md). [Build report](reports/accounts-build.md) and [design notes](reports/accounts-design.md) explain the choices and limits.
 

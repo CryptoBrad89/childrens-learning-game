@@ -1,5 +1,5 @@
 'use strict';
-// Rerunnable live probe of the premise: a linked child's button selects their notebook.
+// Rerunnable live probe of the premise: a linked child's button selects their progress page.
 // Uses existing accounts; creates no users and changes no saved settings.
 const assert = require('node:assert/strict');
 const http = require('node:http');
@@ -57,7 +57,7 @@ async function run() {
     await page.locator('#settings-link').click();
     await page.waitForFunction(handle => ACCOUNTS.owner?.handle === handle, child);
     assert.equal(await page.evaluate(() => ACCOUNTS.profile.handle), adult);
-    console.log('PASS LIVE: linked child button selects notebook and settings navigation preserves adult identity and selected child');
+    console.log('PASS LIVE: linked child button selects progress page and settings navigation preserves adult identity and selected child');
   } finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); }
 }
 run().catch(error => { console.error(error); process.exitCode = 1; });

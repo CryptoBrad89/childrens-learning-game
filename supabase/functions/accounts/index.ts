@@ -126,20 +126,46 @@ export async function serve(request: Request): Promise<Response> {
       const profiles = await api(`/rest/v1/profiles?id=eq.${id}&select=*`);
       return response({ profile: Array.isArray(profiles) ? profiles[0] : null });
     }
-    if (action === 'link-child') {
-      const name = handle(input.handle);
-      const secret = password(input.password);
-      const session = object(await api('/auth/v1/token?grant_type=password', {
-        method: 'POST', body: JSON.stringify({ email: email(name), password: secret }),
-      }, publicKey, publicKey));
-      const id = string(object(session.user).id, 'Child ID');
+    if (action === 'list-linkable-children' || action === 'link-child') {
+      const links = await api('/rest/v1/guardians?select=adult_id,child_id');
+      if (!Array.isArray(links)) throw new RequestError('Children could not load.', 503);
+      const others = new Set(links.filter(link => object(link).adult_id !== adult).map(link => string(object(link).child_id, 'Child ID')));
+      const mine = new Set(links.filter(link => object(link).adult_id === adult).map(link => string(object(link).child_id, 'Child ID')));
+      if (action === 'list-linkable-children') {
+        const ids = [...others].filter(id => !mine.has(id));
+        const profiles = ids.length ? await api(`/rest/v1/profiles?id=in.(${ids.join(',')})&role=eq.child&select=id,handle,display_name&order=display_name`) : [];
+        return response({ children: profiles });
+      }
+      const id = uuid(input.child_id);
+      if (!others.has(id) && !mine.has(id)) throw new RequestError('Choose a child already linked to a grown-up.', 403);
       const profiles = await api(`/rest/v1/profiles?id=eq.${id}&role=eq.child&select=*`);
-      if (!Array.isArray(profiles) || profiles.length !== 1) throw new RequestError('That login does not belong to a child.', 400);
+      if (!Array.isArray(profiles) || profiles.length !== 1) throw new RequestError('Choose a child account.');
       await api('/rest/v1/guardians?on_conflict=adult_id,child_id', {
         method: 'POST', headers: { Prefer: 'resolution=ignore-duplicates' },
         body: JSON.stringify({ adult_id: adult, child_id: id }),
       });
       return response({ profile: profiles[0] });
+    }
+    if (action === 'edit-profile') {
+      const name = handle(input.handle);
+      const display = string(input.display_name, 'Name').trim();
+      if (!display || [...display].length > 60) throw new RequestError('Use a name of 1–60 characters.');
+      const avatar = childAvatar(input.avatar);
+      const taken = await api(`/rest/v1/profiles?handle=eq.${name}&id=neq.${adult}&select=id`);
+      if (Array.isArray(taken) && taken.length) throw new RequestError('That handle is taken. Choose another handle.', 409);
+      await api('/rest/v1/rpc/edit_grownup_profile', { method: 'POST', body: JSON.stringify({p_adult: adult, p_handle: name, p_display_name: display, p_avatar: avatar}) });
+      const profiles = await api(`/rest/v1/profiles?id=eq.${adult}&select=*`);
+      return response({ profile: Array.isArray(profiles) ? profiles[0] : null });
+    }
+    if (action === 'delete-child' || action === 'reset-child-progress') {
+      const id = uuid(input.child_id);
+      const links = await api(`/rest/v1/guardians?adult_id=eq.${adult}&child_id=eq.${id}&select=child_id`);
+      const children = await api(`/rest/v1/profiles?id=eq.${id}&role=eq.child&select=id`);
+      if (!Array.isArray(links) || links.length !== 1 || !Array.isArray(children) || children.length !== 1) throw new RequestError('This child is not linked to your account.', 403);
+      if (input.confirm !== action) throw new RequestError('Confirm this action first.');
+      if (action === 'delete-child') await api(`/auth/v1/admin/users/${id}`, { method: 'DELETE' });
+      else await api('/rest/v1/rpc/reset_child_progress', {method: 'POST', body: JSON.stringify({p_adult: adult, p_child: id})});
+      return response({ok: true});
     }
     if (action === 'reset-child-password') {
       const id = uuid(input.child_id);

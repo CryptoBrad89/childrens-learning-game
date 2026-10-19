@@ -19,9 +19,9 @@ if(!isHome&&!isAdmin){
   const header=document.querySelector('#header,.masthead');if(header)header.after(strip);else document.body.prepend(strip);
   function render(){
     name.textContent=A.guest?'Playing without saving':A.profile?'Playing as '+A.profile.display_name:'Keep your discoveries.';
-    link.href=new URL(A.profile?'accounts/index.html':'index.html',base).href;link.textContent=A.profile?'Your notebook':'Sign in';
+    link.href=new URL(A.profile?'accounts/index.html':'index.html',base).href;link.textContent=A.profile?'Your progress page':'Sign in';
     done.hidden=!A.profile&&!A.guest;done.textContent=A.guest?'Finish playing':"I'm done";
-    progress.textContent=A.profile?A.snapshot.count+' rounds in your notebook'+(A.snapshot.achievements.length?' · '+A.snapshot.achievements.join(' · '):''):'';
+    progress.textContent=A.profile?A.snapshot.count+' rounds completed'+(A.snapshot.achievements.length?' · '+A.snapshot.achievements.join(' · '):''):'';
     status.textContent=A.guest?'Progress, achievements and settings will not be saved.':A.status+(A.pending?' '+A.pending+' waiting to sync.':'');
   }
   done.addEventListener('click',async()=>{done.disabled=true;await A.signOut();location.href=new URL('index.html',base).href;});
