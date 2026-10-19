@@ -95,6 +95,17 @@ assets through relative paths. Its `config.js` supplies the home view, title,
 palette labels, and asset base. Pink is the default, followed by Purple and
 Yellow. Each world keeps its own theme choice.
 
+## Grown-ups
+
+Grown-ups is a separate page for any adult using the game at home or in a classroom. Open it from Grown-ups on the first page, or from the same link in a game footer. A hold and a short reading question keep a young child from changing the game. It is not a password.
+
+The page can turn sound off, calm or allow motion, limit today's letters, hide an adventure, and outline the answer after one miss instead of two. Nothing is changed until an adult saves it. Collections still last for one visit. Hand this back closes the page until the question is answered again.
+
+```sh
+node tests/grownups_model.cjs
+CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/grownups_smoke.cjs
+```
+
 ## Rules
 
 - Lucy's images are never redrawn or altered.
