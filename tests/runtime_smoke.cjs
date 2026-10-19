@@ -52,7 +52,7 @@ async function smoke(game) {
   };
   const window = {Fun, scrollTo() {}};
   const context = vm.createContext({
-    window, document, Audio, queueMicrotask,
+    window, document, Audio, queueMicrotask, location: {protocol: 'file:'},
     localStorage: {getItem() {return null;}, setItem() {}}
   });
   const scripts = [...fs.readFileSync(path.join(root, game, 'index.html'), 'utf8').matchAll(/<script src="([^"]+)"/g)].map(match => match[1]);

@@ -1,0 +1,17 @@
+Accounts browser: creating grown-up and child through forms
+PASS LIVE SUPABASE: create class, assign child, second grown-up links existing child, lowercase six-character child password
+PASS LIVE SUPABASE: RLS rejects cross-child reads and unauthorized progress write
+Accounts browser: opening game and preparing offline cache
+Accounts browser: offline reload and actual B round
+Accounts browser: reconnecting both profiles
+PASS LIVE SUPABASE: two isolated profiles; offline game round, cache reload, settings, theme, milestone, concurrent fields, duplicate prevention
+locator.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator('#children-list li').filter({ hasText: 'test_child_mveuugbw' }).getByRole('button', { name: /Open notebook/ })
+
+    at run (/workspace/clg-codex/tests/accounts_sync.cjs:229:111) {
+  log: [
+    "  - waiting for locator('#children-list li').filter({ hasText: 'test_child_mveuugbw' }).getByRole('button', { name: /Open notebook/ })"
+  ],
+  name: 'TimeoutError'
+}

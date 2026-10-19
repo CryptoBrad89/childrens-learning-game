@@ -9,8 +9,8 @@ All three games cover A–Z with their screens, typography, palettes, Lucy
 photos, screen animations, themes, hints, replay and visit collections.
 Envelope/planet cards scroll vertically within their shelves; stamp
 strips/constellations scroll horizontally and count up to 26. A newly earned
-letter is brought into view on the celebration screen. Collections last for
-the current visit.
+letter is brought into view on the celebration screen. The in-world collections last for
+the current visit. Signed-in notebooks keep lasting progress and milestones.
 
 G uses goat. X uses fox's ending /ks/: the question and hint say “ends with,”
 and the celebration says “Fox ends with x.” Distractors exclude matching
@@ -79,7 +79,7 @@ CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/grown_ups_smoke.cjs
 
 Set `PLAYWRIGHT_MODULE` and/or `CHROMIUM_EXECUTABLE` if needed. The
 [verification skill](tests/verify-game/SKILL.md) documents repeatable home,
-play, and reward journeys. These prototypes do not install a service worker.
+play, and reward journeys. Hosted pages install a service worker and cache all game assets for offline use. `file://` play keeps the original local behavior.
 
 ## Motion
 
@@ -109,13 +109,12 @@ Yellow. Each world keeps its own theme choice.
 ## Grown-ups' corner
 
 The chooser's footer has a small **For grown-ups** button that opens
-`grown-ups/index.html`. Before the settings appear, an adult taps three digits
+`grown-ups/index.html`. On hosted pages, sign in with a grown-up account to open settings. A grown-up can select a linked child in the notebook before opening this corner. From local files, an adult taps three digits
 written as words ("seven, two, five"). Children of three or four can't read
 number words yet. Each miss brings new numbers, every third miss pauses the
 keypad for 10 seconds, and every visit starts locked again.
 
-Settings save as soon as they change, in this browser's local storage under
-`little-woof-grown-ups`, and apply the next time a world opens:
+Signed-in settings save to the selected person's account and sync across devices. They apply the next time a world opens. Local-file settings use this browser's `little-woof-grown-ups` storage:
 
 - **Sound:** Lucy's voice on or off at the start, voice volume (with a sample),
   and sound effects.
@@ -141,3 +140,26 @@ folder (see above) to share settings in every browser.
 
 - Lucy's images are never redrawn or altered.
 - No new audio unless explicitly requested; any new voice is Lucy / `eleven_v4`.
+
+
+## Accounts and offline sync
+
+Serve the repository on HTTPS, or use `python3 -m http.server 8000` for localhost testing. Open `/accounts/` to create a grown-up login, then make child logins or link an existing child's account. Everyone signs in with a unique login name and a password of at least six characters. A child uses the same login at school and home. The notebook manages classes and child settings, shows lasting rounds and milestones, and offers an explicit **I'm done** sign-out for shared computers.
+
+The header says **Games ready for offline play** after the whole game is cached. A previously signed-in person can reopen and play offline. A new sign-in requires a connection. Completed rounds and field-level setting edits wait in IndexedDB until reconnecting; repeated delivery cannot count a round twice. Settings include every grown-up option, sound choice and each world's theme. Opening a new world uses the latest synchronized choices. The in-world strip remains a collection for this visit; the notebook is permanent history.
+
+Only the publishable client key is in `accounts/config.js`. The database and account-provisioning function are recorded in [supabase/](supabase/README.md). [Build report](reports/accounts-build.md) and [design notes](reports/accounts-design.md) explain the choices and limits.
+
+After editing game assets, run `python3 scripts/build-offline-manifest.py` and commit the generated `sw-assets.js`.
+
+Run account checks with:
+
+```sh
+node tests/accounts_database.cjs
+node tests/accounts_database_edge.cjs
+CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/accounts_sync.cjs
+CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/accounts_sync.cjs --live
+CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/accounts_selection.cjs
+```
+
+The SQL checks need the pinned local test tools documented in `supabase/README.md`. The default browser account test uses a labelled protocol fixture. `--live` creates test users only in the configured project `ixjbgshhzeaosrzavssr` and saves their logins to `reports/accounts-test-logins.json`. It proves actual Supabase Auth, sync and row permissions with two isolated browser profiles. All account tests avoid screenshots. Add `NO_SCREENSHOTS=1` when running the older browser checks.

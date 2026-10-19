@@ -35,7 +35,7 @@ async function run() {
             await page.evaluate(() => Promise.allSettled(document.getAnimations()
               .filter(a => a.effect.getTiming().iterations !== Infinity).map(a => a.finished)));
             await page.locator('img').evaluateAll(images => Promise.all(images.map(image => image.decode().catch(() => {}))));
-            await page.screenshot({path: path.join(shots, `${prefix}-${name}.png`), fullPage: true});
+            if (!process.env.NO_SCREENSHOTS) await page.screenshot({path: path.join(shots, `${prefix}-${name}.png`), fullPage: true});
           };
           async function animations(label, expectMotion = !reduced) {
             const result = await page.evaluate(() => {
@@ -133,7 +133,7 @@ async function run() {
         }
       }
     }
-    console.log(`PASS ${cases} motion cases; screenshots: ${shots}`);
+    console.log(`PASS ${cases} motion cases; screenshots ${process.env.NO_SCREENSHOTS ? "disabled" : shots}`);
   } finally {await browser.close();}
 }
 run().catch(error => {

@@ -1,6 +1,13 @@
 /* Grown-ups' corner: a reading gate, then settings that save as they change. */
-(() => {
+(async () => {
 'use strict';
+if(location.protocol !== 'file:'){
+  if(!window.ACCOUNTS){location.replace('../accounts/index.html');return;}
+  await window.ACCOUNTS.ready;
+  if(window.ACCOUNTS.profile?.role!=='grownup'){location.replace('../accounts/index.html');return;}
+  await window.ACCOUNTS.sync();
+  window.GROWN_UPS.settings=window.GROWN_UPS.load();
+}
 const G = window.GROWN_UPS, $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
 const WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
 const PRESETS = {all: G.ALL, starter: [...'SATPIN'], vowels: [...'AEIOU']};
@@ -95,8 +102,9 @@ function render() {
   const checked = [...$$('#hint input')].findIndex(input => input.checked);
   $('#hint .segments').style.setProperty('--index', Math.max(0, checked));
 }
-function commit(next, message = 'Saved.') {
-  const ok = G.save(next);
+async function commit(next, message = 'Saved.') {
+  let ok = G.save(next);
+  try { await G.whenSaved; } catch { ok = false; }
   render();
   const status = $('#save-status');
   // Alternate a trailing space so screen readers announce a repeated "Saved.".
@@ -166,4 +174,9 @@ async function playSample() {
 
 buildKeypad(); newChallenge(); bindSettings(); render();
 document.body.dataset.view = 'gate';
+if(window.ACCOUNTS?.profile?.role==='grownup'){
+  $('#title').textContent=window.ACCOUNTS.owner.id===window.ACCOUNTS.profile.id?'Grown-ups’ corner':window.ACCOUNTS.owner.display_name+'’s settings';
+  unlock();
+}
+window.ACCOUNTS?.subscribe(()=>{if(document.body.dataset.view==='settings')render();});
 })();

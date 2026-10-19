@@ -1,0 +1,19 @@
+{
+  "project_id": "ixjbgshhzeaosrzavssr",
+  "migration_file": "supabase/migrations/20261019060259_accounts_sync.sql",
+  "migration_applied": true,
+  "edge_function": "accounts",
+  "edge_version": 1,
+  "edge_status": "ACTIVE",
+  "verify_jwt": false,
+  "authentication": "Protected actions validate the bearer token through Auth /user and a stored grown-up profile.",
+  "security_advisor_lints": [
+    {
+      "name": "auth_leaked_password_protection",
+      "level": "WARN",
+      "resolution": "Intentionally disabled, as required by BUILD-JOB.md.",
+      "remediation": "https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection"
+    }
+  ],
+  "remote_migration_version": "20261019060259"
+}

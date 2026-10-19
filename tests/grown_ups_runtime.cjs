@@ -97,7 +97,7 @@ async function game(name, saved) {
     hint: noEffect, lucy: noEffect, exit: noEffect, correct: noEffect, reward: noEffect, weather: noEffect, evidence: {reduced: false}};
   const window = {Fun, scrollTo() {}};
   const localStorage = storage({'little-woof-grown-ups': JSON.stringify(saved)});
-  const context = vm.createContext({window, document, Audio, queueMicrotask, localStorage});
+  const context = vm.createContext({window, document, Audio, queueMicrotask, localStorage, location: {protocol: 'file:'}});
   const html = fs.readFileSync(path.join(root, name, 'index.html'), 'utf8');
   const scripts = [...html.matchAll(/<script src="([^"]+)"/g)].map(m => m[1]);
   assert(scripts.indexOf('../grown-ups/settings.js') > -1 && scripts.indexOf('../grown-ups/settings.js') < scripts.findIndex(s => s.endsWith('app.js')),

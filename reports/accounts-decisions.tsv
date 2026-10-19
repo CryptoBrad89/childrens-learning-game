@@ -1,0 +1,20 @@
+ts	phase	decision	why	evidence	result
+2026-10-19T01:00:00Z	frame	Require live two-profile sync before declaring complete	A local mock cannot prove deployed Auth and RLS	BUILD-JOB.md	open
+2026-10-19T01:00:01Z	design	Choose immutable round and per-field setting operations	Retry UUIDs preserve counts and original setting order	reports/accounts-work-plan.md	open
+2026-10-19T01:00:02Z	auth	Provision confirmed handle identities through an Edge Function	Use official Auth APIs without changing email confirmation or shipping secrets	supabase/functions/accounts/index.ts	open
+2026-10-19T06:07:09+00:00	audit	Supersede initial placeholder timestamps	The first three row timestamps identify design notes and were not measured wall times; this row uses the actual clock	reports/accounts-work-plan.md	corrected
+2026-10-19T06:07:09+00:00	authorization	Use connector only on ixjbgshhzeaosrzavssr	Owner updated BUILD-JOB to authorize direct migration and Edge deployment	BUILD-JOB.md	authorized
+2026-10-19T06:07:09+00:00	deploy	Apply SQL and deploy accounts version 1	Complete official Auth provisioning without changing confirmation settings	reports/accounts-deployment.json	verified
+2026-10-19T06:07:09+00:00	schema	Align local migration filename with remote migration version 20261019060259	Keep migration history reproducible and compatible with Supabase tooling	supabase/migrations/20261019060259_accounts_sync.sql	verified
+2026-10-19T06:07:09+00:00	review	Sort pending edits by local_order before upload	IndexedDB UUID key order can reverse two offline edits to the same field	tests/accounts_sync.cjs	regression passed
+2026-10-19T06:07:09+00:00	review	Check session identity after token refresh before persisting it	A delayed refresh must not undo an explicit sign-out	tests/accounts_sync.cjs	regression passed
+2026-10-19T06:07:09+00:00	review	Load shared settings after account scripts and await startup sync	Direct world navigation and the settings page must use current account choices	grown-ups/index.html	verified
+2026-10-19T06:07:09+00:00	live	Prove one offline round arrives exactly once on a separate browser profile	Local fixtures alone cannot validate deployed Auth and RLS	reports/accounts-live.log	verified
+2026-10-19T06:07:09+00:00	advisor	Retain disabled leaked-password check	The owner requires simple passwords with no common-password rejection	reports/accounts-deployment.json	expected warning
+2026-10-19T06:07:09+00:00	tests	Run the existing browser matrix as six parallel shards	The helper already supports independent game and viewport partitions; first serial attempt was stopped after three passed cases	reports/accounts-browser-shard-0.log	running
+2026-10-19T06:35:04+00:00	tests	Complete every original browser partition with exit zero	The six independent partitions cover the original full matrix	reports/accounts-browser-shard-0.log	18/18 passed
+2026-10-19T06:35:04+00:00	debug	Test the premise that clicking a child actually selects it	The navigation test revealed a missing guard declaration, not another network delay	tests/accounts_selection.cjs	failed before fix; passed after
+2026-10-19T06:35:04+00:00	tests	Click the visible radio label in the expanded settings journey	The styled input is transparent and its text span receives pointer events	reports/accounts-live-radio-attempt.log	test selector corrected
+2026-10-19T06:35:04+00:00	live	Verify the actual grown-ups corner writes the selected child account	API-only setting edits did not prove this navigation and permission path	reports/accounts-live.log	passed
+2026-10-19T06:35:04+00:00	audit	Record every test identity including interrupted verification attempts	A retained login list must account for all users created during tests	reports/accounts-test-logins.json	26 recorded
+2026-10-19T06:35:04+00:00	review	Complete independent final source and evidence review	Check report claims against actual source and logs using the available inherited model	reports/accounts-build.md	no blocking findings

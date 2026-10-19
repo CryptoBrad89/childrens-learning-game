@@ -85,7 +85,7 @@ function playwright() {
               const animation = piece?.getAnimations()[0];
               return animation && animation.currentTime >= animation.effect.getTiming().duration * .42;
             });
-            await page.screenshot({path: path.join(shots, `${prefix}-mid-fall.png`)});
+            if (!process.env.NO_SCREENSHOTS) await page.screenshot({path: path.join(shots, `${prefix}-mid-fall.png`)});
             const originalPieces = await page.locator('#confetti [data-paper]').elementHandles();
             await page.waitForTimeout(8100);
             assert((await Promise.all(originalPieces.map(piece => piece.evaluate(node => node.isConnected)))).every(Boolean),
@@ -137,6 +137,6 @@ function playwright() {
         }
       }
     }
-    console.log(`PASS ${cases} confetti cases; screenshots: ${shots}`);
+    console.log(`PASS ${cases} confetti cases; screenshots ${process.env.NO_SCREENSHOTS ? "disabled" : shots}`);
   } finally {await browser.close();}
 })().catch(error => {console.error(error); process.exitCode = 1;});

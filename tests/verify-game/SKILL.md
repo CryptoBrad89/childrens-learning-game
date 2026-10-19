@@ -5,7 +5,7 @@ description: Drive the Children's Learning Game child-facing Letter Post, Moonbo
 
 ## Launch
 
-From the repository root, run `CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/motion_smoke.cjs`. The harness launches isolated headless Chrome contexts and opens each game's `index.html` with `file://`; no server, package install, seed data, or credentials are needed. The first `PASS v1-letter-post-390-motion` line proves the first complete journey reached a usable reward. Use `PLAYWRIGHT_MODULE` for an existing Playwright install if necessary; the helper also checks the local pnpm installation.
+From the repository root, run `NO_SCREENSHOTS=1 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/motion_smoke.cjs`. The harness launches isolated headless Chrome contexts and opens each game's `index.html` with `file://`; no server, package install, seed data, or credentials are needed. The first `PASS v1-letter-post-390-motion` line proves the first complete journey reached a usable reward. Use `PLAYWRIGHT_MODULE` for an existing Playwright install if necessary; the helper also checks the local pnpm installation.
 
 ## Doctor
 
@@ -13,11 +13,13 @@ Run `python3 tests/run_tests.py` first. This read-only gate checks game assets, 
 
 ## Drive
 
-The feature map is [features/README.md](features/README.md). The motion helper drives both games at phone, tablet, and whiteboard sizes, with normal and reduced motion, through actual letter, replay, choice, reward, next, and Escape interactions. It toggles the real mute button for fast journeys; it does not stub learning state or audio. Run the broader existing journey too: `CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/browser_smoke.cjs`.
+The feature map is [features/README.md](features/README.md). The motion helper drives both games at phone, tablet, and whiteboard sizes, with normal and reduced motion, through actual letter, replay, choice, reward, next, and Escape interactions. It toggles the real mute button for fast journeys; it does not stub learning state or audio. Run the broader existing journey too: `NO_SCREENSHOTS=1 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/browser_smoke.cjs`.
 
 For focused investigation, reuse the helper's Playwright setup and `pathToFileURL` entry points. Use `[data-letter="B"]`, `.listen-letter`, `[data-action="match"]`, `[data-answer="B"]`, `[data-action="reward-replay"]`, and `[data-action="next"]`; await `document.body.dataset.screen` rather than a fixed delay. Do not call internal route or reward setters to claim a passing user journey.
 
 ## Evidence
+
+Set `NO_SCREENSHOTS=1` for every existing browser helper when screenshots are prohibited. The same interactions and assertions still run. Screenshot paths below apply only to runs that permit capture.
 
 Motion screenshots survive in `/tmp/lpmb-motion-shots/`, with game, viewport, preference, and screen in the filename. Broader screenshots survive in `/tmp/lpmb-shots/`. Keep the command's exit code and PASS output with the screenshots. A proof covers the actual actions and resulting state: collection count, wrong-choice feedback, route cancellation, animation keyframes, reduced-motion cancellation, page errors, and horizontal overflow. Both helpers reject HTTP(S); the motion helper also fails if any such request was attempted. This proves local runtime assets work without network access; it does not claim service-worker installation on a hosted origin.
 
@@ -29,4 +31,9 @@ Both helpers close their own contexts and browser in `finally`, including failed
 
 Invoke the JavaScript helpers with `node` using the commands above; they do not require executable permissions. Maintain this feature map alongside UI changes; `/maintain-verification-skill` provides the maintenance workflow. This skill lives under `tests/verify-game/` and is loaded by its explicit path.
 
-For Silk Thread, run `CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/silk_smoke.cjs`. For continuous confetti in all worlds, run `CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/confetti_smoke.cjs`. Check paper remains visible across multiple fall cycles and replay, then disappears on navigation or a live reduced-motion change.
+For Silk Thread, run `NO_SCREENSHOTS=1 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/silk_smoke.cjs`. For continuous confetti in all worlds, run `NO_SCREENSHOTS=1 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/confetti_smoke.cjs`. Check paper remains visible across multiple fall cycles and replay, then disappears on navigation or a live reduced-motion change.
+
+
+## Accounts
+
+Read [accounts](features/accounts.md) for hosted login, linked-child settings, lasting progress, offline reload and two-profile sync. `accounts_sync.cjs --live` is required to claim real Supabase verification. The default transport is a local fixture and its output is labelled accordingly.

@@ -2,6 +2,7 @@
 
 - [Home and letter shelf](home.md): all three worlds, themes, collection, A–Z keyboard navigation.
 - [Listen and picture matching](play.md): letter sounds, replay, wrong answers, hints, correct answers.
+- [Accounts and sync](accounts.md): person-owned settings, real login, classes, offline reload, lasting history and milestones.
 - [Reward and another sound](reward.md): visible reward, collection progress, replay, next, cancellation.
 
 Run `tests/motion_smoke.cjs` for motion and accessibility and `tests/browser_smoke.cjs` for the full B/J/X/Z, theme, keyboard, and hint matrix. Invoke with `node` from the repository root.

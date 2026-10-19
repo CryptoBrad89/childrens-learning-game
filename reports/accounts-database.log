@@ -1,0 +1,1 @@
+accounts_database: migration, RLS isolation, immutable events, idempotent retries, conflict rollback and class permissions passed

@@ -88,7 +88,7 @@ async function run() {
       const drawn = await page.locator('#paper').evaluate(n => Number(n.dataset.drawn || 0));
       assert(drawn >= 1, 'Paper band should render once');
       await fits(page, `${label} gate`, viewport.width >= 1600 ? 72 : 60);
-      await page.screenshot({path: path.join(shots, `${label}-gate.png`), fullPage: true});
+      if (!process.env.NO_SCREENSHOTS) await page.screenshot({path: path.join(shots, `${label}-gate.png`), fullPage: true});
 
       // A wrong code is refused and replaced; easy runs like 1-2-3 never appear.
       const first = await code(page);
@@ -109,7 +109,7 @@ async function run() {
       assert.equal(await page.locator('#letter-grid button[aria-pressed="true"]').count(), 26);
       assert.equal(await page.locator('[data-preset="all"]').getAttribute('aria-pressed'), 'true');
       assert.equal(await page.locator('.index').isVisible(), viewport.width >= 960, 'Section index only on wide screens');
-      await page.screenshot({path: path.join(shots, `${label}-settings.png`), fullPage: true});
+      if (!process.env.NO_SCREENSHOTS) await page.screenshot({path: path.join(shots, `${label}-settings.png`), fullPage: true});
 
       // Every control saves straight away.
       await page.locator('label.row:has([data-setting="voice"])').click();
@@ -144,7 +144,7 @@ async function run() {
       await page.locator('#reset').click();
       assert(await page.locator('#confirm').evaluate(n => n.open));
       await fits(page, `${label} dialog`);
-      await page.screenshot({path: path.join(shots, `${label}-reset.png`)});
+      if (!process.env.NO_SCREENSHOTS) await page.screenshot({path: path.join(shots, `${label}-reset.png`)});
       await page.locator('#confirm button[value="cancel"]').click();
       await page.waitForFunction(() => document.activeElement.id === 'reset');
       assert.deepEqual((await saved(page)).letters, ['S']);
@@ -210,7 +210,7 @@ async function run() {
       assert.equal(await page.locator('nav').evaluate(n => n.style.getPropertyValue('--worlds')), '2');
       assert(await page.evaluate(() => document.documentElement.hasAttribute('data-calm')));
       await fits(page, `${label} chooser`);
-      await page.screenshot({path: path.join(shots, `${label}-chooser.png`), fullPage: true});
+      if (!process.env.NO_SCREENSHOTS) await page.screenshot({path: path.join(shots, `${label}-chooser.png`), fullPage: true});
       for (const world of ['v1-letter-post', 'v3-moonboat', 'v4-silk-thread']) {
         await page.goto(url(`${world}/index.html`));
         await page.waitForFunction(() => document.body?.dataset.screen === 'home');
@@ -235,7 +235,7 @@ async function run() {
         await page.locator('[data-action="next"]').click();
         await page.waitForFunction(() => document.body?.dataset.screen === 'listen');
         assert((await page.locator('.listen-letter').getAttribute('aria-label')).includes('letter S '));
-        await page.screenshot({path: path.join(shots, `${label}-${world}-listen.png`)});
+        if (!process.env.NO_SCREENSHOTS) await page.screenshot({path: path.join(shots, `${label}-${world}-listen.png`)});
       }
       // Voice on: clips play at the chosen volume.
       await page.evaluate(([key, value]) => localStorage.setItem(key, value), [KEY, JSON.stringify({...settings, voice: true})]);
@@ -257,11 +257,11 @@ async function run() {
       await page.waitForFunction(() => getComputedStyle(document.querySelector('#settings')).opacity === '1');
       if (options.reducedMotion) assert.equal(await page.locator('.stamp').evaluate(n => getComputedStyle(n).display), 'none');
       else assert.equal(await page.evaluate(() => getComputedStyle(document.body).backgroundColor), 'rgb(20, 35, 58)');
-      await page.screenshot({path: path.join(shots, `${label}.png`), fullPage: true});
+      if (!process.env.NO_SCREENSHOTS) await page.screenshot({path: path.join(shots, `${label}.png`), fullPage: true});
       await done(label);
       console.log(`PASS ${label}: unlock and settings render`);
     }
-    console.log(`PASS grown-ups' corner; screenshots: ${shots}`);
+    console.log(`PASS grown-ups' corner; screenshots ${process.env.NO_SCREENSHOTS ? "disabled" : shots}`);
   } finally {await browser.close();}
 }
 

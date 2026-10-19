@@ -1,0 +1,14 @@
+PASS chooser-390: three usable world links and layout
+PASS chooser-1180: three usable world links and layout
+PASS chooser-1920: three usable world links and layout
+PASS Silk A–Z: 26 real listen/match/celebrate rounds, full collection, X ending, keyboard wrap
+PASS silk-390-pink: palette persistence, home/activity/reward, 60px targets, offline, reduced motion
+PASS silk-390-purple: palette persistence, home/activity/reward, 60px targets, offline, reduced motion
+PASS silk-390-yellow: palette persistence, home/activity/reward, 60px targets, offline, reduced motion
+PASS silk-1180-pink: palette persistence, home/activity/reward, 60px targets, offline, reduced motion
+PASS silk-1180-purple: palette persistence, home/activity/reward, 60px targets, offline, reduced motion
+PASS silk-1180-yellow: palette persistence, home/activity/reward, 60px targets, offline, reduced motion
+PASS silk-1920-pink: palette persistence, home/activity/reward, 60px targets, offline, reduced motion
+PASS silk-1920-purple: palette persistence, home/activity/reward, 60px targets, offline, reduced motion
+PASS silk-1920-yellow: palette persistence, home/activity/reward, 60px targets, offline, reduced motion
+PASS Silk Thread and chooser; screenshots disabled

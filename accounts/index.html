@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#faf2df">
+<meta name="robots" content="noindex">
+<title>Your account · Little Woof</title>
+<link rel="stylesheet" href="../grown-ups/grown-ups.css">
+<link rel="stylesheet" href="style.css">
+<script src="config.js" defer></script>
+<script src="accounts.js" defer></script>
+<script src="boot.js" defer></script>
+<script src="../grown-ups/settings.js" defer></script>
+<script src="../grown-ups/paper-shader.js" defer></script>
+<script src="ui.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#account-main">Skip to account</a>
+<div class="band" aria-hidden="true"><canvas id="paper"></canvas><span class="postmark"><b>YOUR NOTEBOOK</b><i>LITTLE WOOF POST</i><b>PLAY &amp; GROW</b></span></div>
+<div class="page">
+  <header class="masthead">
+    <div><p class="label">Little Woof</p><h1 class="title">Your notebook</h1></div>
+    <a class="fill-button" href="../index.html"><span class="fill-label">Back to the games</span><span class="fill-layer" aria-hidden="true"><span class="fill-label">Back to the games</span></span><span class="fill-dot" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
+  </header>
+  <main id="account-main" tabindex="-1">
+    <p id="account-status" class="notice" role="status" aria-live="polite">Opening your notebook…</p>
+    <div id="signed-out" hidden>
+      <div class="welcome"><h2>One login, every adventure.</h2><p>Children and grown-ups each have their own login. Your letters, settings and progress follow you from school to home.</p></div>
+      <div class="notebook-grid">
+        <section class="panel" aria-labelledby="signin-title">
+          <h2 id="signin-title"><span>01</span>Sign in</h2>
+          <form id="signin-form">
+            <label>Login name<input name="handle" autocomplete="username" autocapitalize="none" spellcheck="false" required></label>
+            <label>Password<input name="password" type="password" autocomplete="current-password" required></label>
+            <button class="solid-button" type="submit">Sign in</button>
+            <p class="form-result" role="status" aria-live="polite"></p>
+          </form>
+        </section>
+        <section class="panel" aria-labelledby="register-title">
+          <h2 id="register-title"><span>02</span>New grown-up?</h2>
+          <p class="help">Make your account here. Once you're signed in, you can make logins for children or link a child's existing account.</p>
+          <form id="register-form">
+            <label>Your name<input name="display_name" autocomplete="name" required></label>
+            <label>Choose a login name<input name="handle" autocomplete="username" autocapitalize="none" spellcheck="false" required></label>
+            <label>Choose a password<input name="password" type="password" minlength="6" autocomplete="new-password" aria-describedby="register-password-help" required></label>
+            <p id="register-password-help" class="help">At least 6 characters. That's the only password rule.</p>
+            <button class="quiet-button" type="submit">Create grown-up account</button>
+            <p class="form-result" role="status" aria-live="polite"></p>
+          </form>
+        </section>
+      </div>
+    </div>
+    <div id="signed-in" hidden>
+      <section class="identity panel" aria-labelledby="identity-title">
+        <div><p class="label">Signed in</p><h2 id="identity-title"></h2><p id="login-name" class="help"></p></div>
+        <div class="actions"><a class="solid-button" href="../index.html">Let's play</a><button id="sign-out" class="quiet-button" type="button">I'm done · sign out</button></div>
+        <p class="help full">On a shared device, choose “I'm done” before the next person plays. If anything is waiting to sync, it stays safe here for your next sign-in with this same login.</p>
+      </section>
+      <nav class="notebook-nav" aria-label="Your notebook"><a href="#progress">Progress</a><a href="../grown-ups/index.html" id="settings-link">Grown-ups' corner</a><a href="#people" data-adult>Children &amp; classes</a></nav>
+      <details class="password-panel"><summary>Change my password</summary><form id="own-password-form">
+        <label>New password<input name="password" type="password" minlength="6" autocomplete="new-password" required></label>
+        <p class="help">At least 6 characters. This changes your own password on every device.</p>
+        <button type="submit" class="quiet-button">Change my password</button><p class="form-result" role="status" aria-live="polite"></p>
+      </form></details>
+      <section id="progress" class="panel" aria-labelledby="progress-title">
+        <h2 id="progress-title"><span>01</span>Your progress</h2>
+        <div class="owner-line"><p id="owner-label"></p><button id="back-to-me" type="button" class="quiet-button" hidden>Back to my notebook</button></div>
+        <div class="totals"><p><strong id="round-count">0</strong><span>rounds completed</span></p><p><strong id="letter-total">0</strong><span>letters explored</span></p></div>
+        <ul id="world-progress" class="world-progress" aria-label="Rounds by world"></ul>
+        <h3>Little milestones</h3><ul id="achievements" class="milestones"></ul>
+        <div class="sync-row"><p id="sync-status" role="status" aria-live="polite"></p><button type="button" id="sync-now" class="quiet-button">Sync now</button></div>
+        <p class="help">Play keeps working offline after the first visit. New play is saved here and sent when you're online again. Sign in online first when using a new device.</p>
+      </section>
+      <section id="people" class="panel" data-adult aria-labelledby="people-title">
+        <h2 id="people-title"><span>02</span>Children &amp; classes</h2>
+        <p class="help">Open a child's notebook to see their progress or change their settings. Playing still uses the account signed in above.</p>
+        <p id="roster-status" role="status" aria-live="polite"></p>
+        <ul id="children-list" class="children-list"></ul>
+        <h3>Your classes</h3><ul id="classes-list" class="classes-list"></ul>
+        <div class="notebook-grid manage-grid">
+          <details><summary>Make a child's login</summary><form id="create-child-form">
+            <label>Child's name<input name="display_name" required autocomplete="off"></label>
+            <label>Choose their login name<input name="handle" required autocomplete="off" autocapitalize="none" spellcheck="false"></label>
+            <label>Choose their password<input name="password" type="password" minlength="6" autocomplete="new-password" required></label>
+            <p class="help">At least 6 characters. A four-digit PIN and two initials works, such as 7234ab. Keep their login for school and home.</p>
+            <label>Class (optional)<select name="class_id" class="class-choice"><option value="">No class yet</option></select></label>
+            <button class="solid-button" type="submit">Create child's account</button><p class="form-result" role="status" aria-live="polite"></p>
+          </form></details>
+          <details><summary>Link an existing child</summary><p class="help">Use the child's current login, from school or home. Their progress stays together in one account.</p><form id="link-child-form">
+            <label>Child's login name<input name="handle" required autocomplete="off" autocapitalize="none" spellcheck="false"></label>
+            <label>Child's password<input name="password" type="password" autocomplete="off" required></label>
+            <button class="solid-button" type="submit">Link child's account</button><p class="form-result" role="status" aria-live="polite"></p>
+          </form></details>
+          <details><summary>Create a class</summary><form id="create-class-form">
+            <label>Class name<input name="name" required autocomplete="off"></label>
+            <button class="solid-button" type="submit">Create class</button><p class="form-result" role="status" aria-live="polite"></p>
+          </form></details>
+          <details><summary>Add a child to a class</summary><form id="assign-class-form">
+            <label>Child<select name="child_id" class="child-choice" required><option value="">Choose a child</option></select></label>
+            <label>Class<select name="class_id" class="class-choice" required><option value="">Choose a class</option></select></label>
+            <button class="solid-button" type="submit">Add to class</button><p class="form-result" role="status" aria-live="polite"></p>
+          </form></details>
+          <details><summary>Reset a child's password</summary><p class="help">This changes the child's login password everywhere. Share the new one with the grown-ups who help them sign in.</p><form id="reset-password-form">
+            <label>Child<select name="child_id" class="child-choice" required><option value="">Choose a child</option></select></label>
+            <label>New password<input name="password" type="password" minlength="6" autocomplete="new-password" required></label>
+            <button class="quiet-button" type="submit">Set new password</button><p class="form-result" role="status" aria-live="polite"></p>
+          </form></details>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+<noscript><p class="noscript">Please turn on JavaScript to sign in and open your notebook.</p></noscript>
+</body>
+</html>

@@ -1,5 +1,5 @@
 /* Grown-up settings shared by the chooser, every world and the grown-ups' corner.
- * Stored on this device only; nothing about the child is recorded. */
+ * Account choices are projected into this synchronous renderer API. */
 (() => {
 'use strict';
 const KEY = 'little-woof-grown-ups';
@@ -26,6 +26,7 @@ function normalize(raw) {
   };
 }
 function load() {
+  if (window.ACCOUNTS?.owner && location.protocol !== 'file:') return normalize(window.ACCOUNTS.snapshot.settings);
   let saved = null;
   try { saved = localStorage.getItem(KEY); } catch (e) { storageOK = false; }
   try { return normalize(JSON.parse(saved)); } catch (e) { return normalize(null); }
@@ -33,7 +34,13 @@ function load() {
 function save(next) {
   const clean = normalize(next);
   api.settings = clean;
-  try { localStorage.setItem(KEY, JSON.stringify(clean)); storageOK = true; }
+  try {
+    if (window.ACCOUNTS?.owner && location.protocol !== 'file:') {
+      api.whenSaved = window.ACCOUNTS.setSettings(clean);
+      api.whenSaved.catch(() => { storageOK = false; });
+    } else localStorage.setItem(KEY, JSON.stringify(clean));
+    storageOK = true;
+  }
   catch (e) { storageOK = false; }
   apply(clean);
   return storageOK;
@@ -44,7 +51,12 @@ function apply(settings) {
   if (settings.calm) root.dataset.calm = ''; else delete root.dataset.calm;
 }
 const api = {KEY, ALL, GAMES, DEFAULTS, normalize, load, save,
-  settings: load(), get storageOK() { return storageOK; }};
+  whenSaved: Promise.resolve(), settings: load(), get storageOK() { return storageOK; }};
 apply(api.settings);
 window.GROWN_UPS = api;
+if (window.ACCOUNTS) {
+  const refresh = () => { api.settings = load(); apply(api.settings); };
+  window.ACCOUNTS.ready.then(refresh).catch(() => {});
+  window.ACCOUNTS.subscribe(refresh);
+}
 })();

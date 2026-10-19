@@ -1,0 +1,5 @@
+project_id = "little-woof"
+
+[functions.accounts]
+# Public registration; protected actions validate the bearer token with Auth /user.
+verify_jwt = false

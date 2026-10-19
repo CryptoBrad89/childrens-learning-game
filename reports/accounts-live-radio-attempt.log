@@ -1,0 +1,63 @@
+Accounts browser: creating grown-up and child through forms
+PASS LIVE SUPABASE: create class, assign child, second grown-up links existing child, lowercase six-character child password
+PASS LIVE SUPABASE: RLS rejects cross-child reads and unauthorized progress write
+Accounts browser: opening game and preparing offline cache
+Accounts browser: offline reload and actual B round
+Accounts browser: reconnecting both profiles
+PASS LIVE SUPABASE: two isolated profiles; offline game round, cache reload, settings, theme, milestone, concurrent fields, duplicate prevention
+locator.check: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator('[data-setting="hintAfter"][value="1"]')
+    - locator resolved to <input value="1" type="radio" name="hintAfter" data-setting="hintAfter"/>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <span>After 1 miss</span> intercepts pointer events
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <span>After 1 miss</span> intercepts pointer events
+    - retrying click action
+      - waiting 100ms
+    58 × waiting for element to be visible, enabled and stable
+       - element is visible, enabled and stable
+       - scrolling into view if needed
+       - done scrolling
+       - <span>After 1 miss</span> intercepts pointer events
+     - retrying click action
+       - waiting 500ms
+
+    at run (/workspace/clg-codex/tests/accounts_sync.cjs:234:64) {
+  log: [
+    `  - waiting for locator('[data-setting="hintAfter"][value="1"]')`,
+    '    - locator resolved to <input value="1" type="radio" name="hintAfter" data-setting="hintAfter"/>',
+    '  - attempting click action',
+    '    2 × waiting for element to be visible, enabled and stable',
+    '      - element is visible, enabled and stable',
+    '      - scrolling into view if needed',
+    '      - done scrolling',
+    '      - <span>After 1 miss</span> intercepts pointer events',
+    '    - retrying click action',
+    '    - waiting 20ms',
+    '    2 × waiting for element to be visible, enabled and stable',
+    '      - element is visible, enabled and stable',
+    '      - scrolling into view if needed',
+    '      - done scrolling',
+    '      - <span>After 1 miss</span> intercepts pointer events',
+    '    - retrying click action',
+    '      - waiting 100ms',
+    '    58 × waiting for element to be visible, enabled and stable',
+    '       - element is visible, enabled and stable',
+    '       - scrolling into view if needed',
+    '       - done scrolling',
+    '       - <span>After 1 miss</span> intercepts pointer events',
+    '     - retrying click action',
+    '       - waiting 500ms'
+  ],
+  name: 'TimeoutError'
+}

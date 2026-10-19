@@ -37,7 +37,7 @@ async function run() {
           const prefix = `${game}-${viewport.width}-theme${theme}`;
           const settle = () => page.waitForFunction(() => !document.body.dataset.effect && !document.body.classList.contains('talking'));
           const screen = value => page.waitForFunction(value => document.body.dataset.screen === value, value);
-          const capture = label => page.screenshot({path: path.join(shots, `${prefix}-${label}.png`), fullPage: true});
+          const capture = label => process.env.NO_SCREENSHOTS ? Promise.resolve() : page.screenshot({path: path.join(shots, `${prefix}-${label}.png`), fullPage: true});
           const fits = async () => {
             const failures = await page.evaluate(() => {
               const failures = [];
@@ -110,7 +110,7 @@ async function run() {
         }
       }
     }
-    console.log(`PASS ${cases} browser cases; screenshots: ${shots}`);
+    console.log(`PASS ${cases} browser cases; screenshots ${process.env.NO_SCREENSHOTS ? "disabled" : shots}`);
   } finally {await browser.close();}
 }
 
