@@ -49,6 +49,8 @@ CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/silk_smoke.cjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/confetti_smoke.cjs
 node tests/grown_ups_runtime.cjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/grown_ups_smoke.cjs
+node tests/accounts_merge.cjs
+CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/accounts_sync.cjs
 ```
 
 - `runtime_smoke.cjs` (no browser) plays 234 rounds (26 letters × 3 themes ×
@@ -106,6 +108,38 @@ assets through relative paths. Its `config.js` supplies the home view, title,
 palette labels, and asset base. Pink is the default, followed by Purple and
 Yellow. Each world keeps its own theme choice.
 
+## Accounts
+
+Serve the folder (`python3 -m http.server 8000`) to use real sign-ins. Opening
+the files directly keeps the local grown-up gate and device settings, which is
+what the offline checks cover.
+
+A shared Chromebook remembers a classroom code, not a child. The screen shows
+that class's pictures. A grown-up taps a child's picture and types a secret of
+at least 6 characters (a pin plus initials, such as `7234ab`, is enough). There
+are no capital, number or symbol rules. At home, a parent signs in with email
+from **For grown-ups**, links a child with that child's secret, then taps the
+child's picture. No second password.
+
+The number-word gate stays on `file://`. On the served game it is replaced by
+these accounts: a child session cannot open settings, and a teacher or parent
+session can. Settings, kept letters and stars are stored for the child and
+merged across devices. Letters and stars are add-only. Play counts add per
+device. Each setting keeps the newer edit, so an older change does not wipe a
+newer one. Offline play stays in the browser and merges when the network
+returns. The first sign-in on a device needs the network. After that, a refresh
+token keeps the session for later offline play.
+
+Demo sign-ins (created by `node tests/seed_accounts.mjs`, safe to run again):
+
+- Teacher `ada@littlewoof.test` / `sunnyday`, class Morning class, code `SUNNY2`
+- Child Maya, sign-in `maya` / `7234ab`, picture fox
+- Child Sam, sign-in `sam` / `8811sa`, picture owl
+- Parent `pat@littlewoof.test` / `homepup`, linked to Maya
+
+`accounts_sync.cjs` signs in a fresh child on two browsers, plays one letter
+offline and another online, and checks that both browsers show both letters.
+
 ## Grown-ups' corner
 
 The chooser's footer has a small **For grown-ups** button that opens
@@ -114,8 +148,10 @@ written as words ("seven, two, five"). Children of three or four can't read
 number words yet. Each miss brings new numbers, every third miss pauses the
 keypad for 10 seconds, and every visit starts locked again.
 
-Settings save as soon as they change, in this browser's local storage under
-`little-woof-grown-ups`, and apply the next time a world opens:
+Opening the files directly, settings save in this browser under
+`little-woof-grown-ups` and apply the next time a world opens. On the served
+game that key is only a copy of the child who is signed in, and the saved copy
+follows that child to the next machine:
 
 - **Sound:** Lucy's voice on or off at the start, voice volume (with a sample),
   and sound effects.

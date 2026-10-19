@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#faf2df">
   <title>Children's Learning Game · Play with Lucy</title>
+  <link rel="stylesheet" href="accounts/ui.css">
+  <script src="accounts/vendor/supabase.js"></script>
+  <script src="accounts/merge.js"></script>
+  <script src="accounts/avatars.js"></script>
+  <script src="accounts/store.js"></script>
+  <script src="accounts/config.js"></script>
+  <script src="accounts/client.js"></script>
+  <script src="accounts/chooser.js"></script>
+  <script src="accounts/boot.js"></script>
   <script src="grown-ups/settings.js"></script>
   <style>
     @font-face{font-family:Nunito;src:url(v1-letter-post/assets/NunitoSans-Black.woff2);font-weight:900;font-display:swap}
@@ -22,6 +31,33 @@
 </head>
 <body>
   <main>
+    <section id="player" class="player" hidden>
+      <div id="player-signed" hidden>
+        <div class="player-avatar" id="player-avatar"></div>
+        <p class="player-name" id="player-name"></p>
+        <p id="kept" data-letters="">Sounds kept: none yet</p>
+        <p id="stars" data-stars="" hidden></p>
+        <button type="button" id="all-done">All done</button>
+      </div>
+      <form id="class-form" hidden>
+        <h2>Who is playing?</h2>
+        <p class="player-lead">On a shared screen, enter the classroom code once. Then tap a picture. A grown-up types the secret.</p>
+        <label>Classroom code<input id="class-code" name="code" autocomplete="off" autocapitalize="characters" minlength="4" maxlength="10" required></label>
+        <button type="submit">Show our pictures</button>
+      </form>
+      <div id="roster" hidden>
+        <h2>Who is playing?</h2>
+        <p class="player-lead">Tap your picture. A grown-up types the secret. Six characters is enough, like 7234ab.</p>
+        <div id="pictures" class="pictures"></div>
+        <form id="secret-form" hidden>
+          <label>A grown-up types the secret<input id="secret" type="password" minlength="6" autocomplete="current-password" required></label>
+          <button type="button" class="quiet" id="show-secret" aria-pressed="false">Show</button>
+          <button type="submit">That's me</button>
+        </form>
+        <button type="button" class="quiet" id="change-class">Different classroom</button>
+      </div>
+      <p id="player-status" role="status"></p>
+    </section>
     <header><div class="hello"><img src="v1-letter-post/assets/lucy-default.jpg" width="180" height="180" alt="Lucy the golden retriever"></div><div><p class="brand">Children's Learning Game</p><h1>Play with Lucy</h1><p>Pick a little sound adventure.</p></div></header>
     <nav aria-label="Choose a game">
       <a data-world="post" href="v1-letter-post/index.html">
@@ -41,14 +77,16 @@
   </main>
   <script>
     // Grown-ups can choose which worlds appear here; at least one always stays.
-    (() => {
+    function applyWorlds() {
       const games = window.GROWN_UPS ? window.GROWN_UPS.settings.games : [];
       const worlds = [...document.querySelectorAll('nav a[data-world]')];
       worlds.forEach(a => { a.hidden = !games.includes(a.dataset.world); });
       const shown = worlds.filter(a => !a.hidden);
       if (!shown.length) worlds.forEach(a => { a.hidden = false; });
       document.querySelector('nav').style.setProperty('--worlds', shown.length || worlds.length);
-    })();
+    }
+    applyWorlds();
+    document.addEventListener('little-woof-applied', applyWorlds);
   </script>
 </body>
 </html>
