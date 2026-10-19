@@ -47,6 +47,8 @@ CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/browser_smoke.cjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/motion_smoke.cjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/silk_smoke.cjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/confetti_smoke.cjs
+node tests/grown_ups_runtime.cjs
+CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/grown_ups_smoke.cjs
 ```
 
 - `runtime_smoke.cjs` (no browser) plays 234 rounds (26 letters × 3 themes ×
@@ -65,6 +67,15 @@ CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/confetti_smoke.cjs
 - `confetti_smoke.cjs` checks continuous confetti in all three games and
   themes at phone and whiteboard sizes. Screenshots go to
   `/tmp/confetti-shots`.
+- `grown_ups_runtime.cjs` (no browser) checks that settings are validated and
+  saved, and that every world's real renderer obeys chosen letters, hint
+  timing, a quiet start, voice volume and hidden children's buttons.
+- `grown_ups_smoke.cjs` checks the grown-ups' corner at phone, tablet,
+  Chromebook and whiteboard sizes: the chooser door, gate refusal, the
+  three-miss pause and unlock, every setting, the last-world and last-letter
+  guards, reset, relocking, and the settings' effect on the chooser and all
+  three worlds. It also covers reduced motion and dark mode. Screenshots go to
+  `/tmp/grown-ups-shots`.
 
 Set `PLAYWRIGHT_MODULE` and/or `CHROMIUM_EXECUTABLE` if needed. The
 [verification skill](tests/verify-game/SKILL.md) documents repeatable home,
@@ -94,6 +105,37 @@ Silk Thread reuses Letter Post's engine, artwork, motion, fonts, and Lucy
 assets through relative paths. Its `config.js` supplies the home view, title,
 palette labels, and asset base. Pink is the default, followed by Purple and
 Yellow. Each world keeps its own theme choice.
+
+## Grown-ups' corner
+
+The chooser's footer has a small **For grown-ups** button that opens
+`grown-ups/index.html`. Before the settings appear, an adult taps three digits
+written as words ("seven, two, five"). Children of three or four can't read
+number words yet. Each miss brings new numbers, every third miss pauses the
+keypad for 10 seconds, and every visit starts locked again.
+
+Settings save as soon as they change, in this browser's local storage under
+`little-woof-grown-ups`, and apply the next time a world opens:
+
+- **Sound:** Lucy's voice on or off at the start, voice volume (with a sample),
+  and sound effects.
+- **Letters:** any set of letters, or quick sets (all 26, s a t p i n,
+  vowels). Pickers, collections, counts and "Another sound" use only the
+  chosen letters. Wrong-answer pictures can still come from any letter.
+- **Help:** the right picture is outlined after one miss, after two (the
+  default), or never.
+- **Motion:** *Calm motion* behaves exactly like a reduced-motion preference.
+- **Worlds and buttons:** which worlds the chooser shows (at least one), and
+  whether children see the sound and color buttons.
+
+`grown-ups/settings.js` is the shared, validated store. `grown-ups/in-game.css`
+mirrors the reduced-motion rules for calm motion. The defaults leave every
+world exactly as it was. The masthead band is Paper Shaders' static mesh
+gradient (Apache-2.0, see `grown-ups/paper-shaders/`), drawn once with WebGL2,
+with a CSS fallback. Design notes are in
+[grown-ups/DESIGN.md](grown-ups/DESIGN.md). Opened straight from `file://`,
+some browsers (Firefox, for example) may keep separate storage for each page. Serve the
+folder (see above) to share settings in every browser.
 
 ## Rules
 

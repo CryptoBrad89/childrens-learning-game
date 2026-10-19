@@ -1,0 +1,16 @@
+/* Grown-up settings inside the worlds. Calm motion mirrors the prefers-reduced-motion rules. */
+.controls[hidden]{display:none!important}
+html[data-calm]{scroll-behavior:auto}
+html[data-calm] *,html[data-calm] *::before,html[data-calm] *::after{animation:none!important;transition:none!important}
+html[data-calm] #confetti,html[data-calm] .silk .ambient{display:none}
+html[data-calm] button:active{transform:none!important}
+html[data-calm] .primary:hover,html[data-calm] .secondary:hover,html[data-calm] .replay-prompt:hover,html[data-calm] .choice:hover{translate:none}
+html[data-calm] .planets button:hover{scale:1}html[data-calm] .choice:hover .art{rotate:none}
+html[data-calm] .envelopes button:hover{transform:rotate(var(--tilt))}
+html[data-calm] .planets button:hover{transform:none}
+html[data-calm] .planets button:nth-child(2):hover,html[data-calm] .planets button:nth-child(5):hover{transform:translateY(-18px)}
+html[data-calm] .choice:hover{transform:none}
+html[data-calm] .post .choice:nth-child(2):hover{transform:rotate(3deg)}
+html[data-calm] .post .choice:nth-child(3):hover{transform:rotate(-2deg)}
+html[data-calm] .primary:hover,html[data-calm] .secondary:hover{transform:none}
+@media(max-width:650px){html[data-calm] .planets button:nth-child(2):hover,html[data-calm] .planets button:nth-child(5):hover{transform:translateY(-12px)}}
