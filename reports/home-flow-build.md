@@ -57,4 +57,6 @@ The repo's verification skill and home feature guide now describe the new entry 
 
 ## Open questions
 
+Owner review locks verified: grown-up kid management has no group, board or classroom code fields or flow. The picker has three direct layout choices and no separate bottom play button; Ribbon Road remains the default. Both already matched the shipped UI. Added browser regression checks for code fields, collapsed management forms and redundant picker play buttons; the focused home-flow suite passed again.
+
 None block this build. The real splash video remains a future owner-provided asset. No Supabase schema change was made, so no migration application is pending.

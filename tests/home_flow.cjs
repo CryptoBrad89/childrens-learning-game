@@ -20,6 +20,7 @@ async function run(){
       await page.waitForFunction(()=>document.body.dataset.homeStep==='layouts');
       assert.match(await page.locator('#saving-notice').innerText(),/Progress, achievements and settings will not be saved/);
       assert.deepEqual(await page.locator('#layout-picker a:visible strong').allTextContents(),['Ribbon Road','Letter Post','Moonboat']);
+      assert.equal(await page.locator('#layouts button:not(#change-player)').count(),0,'The three layout picks are sufficient; no separate play button');
       assert.equal(await page.locator('#layout-picker [aria-current=true]').getAttribute('data-world'),'silk');
       assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,'Home fits the viewport');
       await page.locator('[data-world=silk]').click();await settle(page);
@@ -73,6 +74,8 @@ async function run(){
     await form(page,'signin-form',{handle:'grown_demo',password:'7234ab'});
     assert(await page.locator('#people').isVisible());
     assert.match(await page.locator('#people-title').innerText(),/Kids & groups/);
+    assert(!/\bcode\b/i.test(await page.locator('#people').textContent()),'Kid management has no group, board or classroom code flow, including collapsed forms');
+    assert.equal(await page.locator('#account-main input').evaluateAll(inputs=>inputs.filter(input=>/code/i.test([input.name,input.id,input.placeholder,input.getAttribute('aria-label')].join(' '))).length),0,'Grown-up portal has no code fields');
     assert(!/teacher|student|classroom|parent|\bclasses\b|\bclass\b/i.test(await page.locator('#people').innerText()),'Grown-up management uses groups, not school roles');
     await page.evaluate(()=>ACCOUNTS.signOut());await page.goto(url+'/');await form(page,'child-signin-form',{handle:'kid_demo',password:'7234ab'});
     await page.goto(url+'/grown-ups/');await page.waitForURL('**/accounts/index.html');
@@ -82,7 +85,7 @@ async function run(){
     await page.locator('[data-world=silk]').click();await settle(page);await page.locator('#mute').click();await round(page,'C');
     assert.equal([...fixture.events.values()].filter(e=>e.kind==='round').length,1,'Guest never uploads a round to the previous child');
     assert.deepEqual(errors,[]);await context.close();
-    console.log('PASS account separation: child-first sign-in, grown-up-only groups, saved account play, cached child continuation and guest isolation');
+    console.log('PASS account separation: child-first sign-in, grown-up kid management without codes, saved account play, cached child continuation and guest isolation');
     const local=await browser.newContext({reducedMotion:'reduce'}),filePage=await local.newPage();
     await local.route(/^https?:/,route=>route.abort());
     await filePage.goto(require('node:url').pathToFileURL(require('node:path').resolve(__dirname,'../index.html')).href);
