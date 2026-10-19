@@ -26,6 +26,7 @@ function normalize(raw) {
   };
 }
 function load() {
+  if (window.ACCOUNTS?.guest) return normalize(null);
   if (window.ACCOUNTS?.owner && location.protocol !== 'file:') return normalize(window.ACCOUNTS.snapshot.settings);
   let saved = null;
   try { saved = localStorage.getItem(KEY); } catch (e) { storageOK = false; }
@@ -35,7 +36,8 @@ function save(next) {
   const clean = normalize(next);
   api.settings = clean;
   try {
-    if (window.ACCOUNTS?.owner && location.protocol !== 'file:') {
+    if (window.ACCOUNTS?.guest) api.whenSaved = Promise.resolve();
+    else if (window.ACCOUNTS?.owner && location.protocol !== 'file:') {
       api.whenSaved = window.ACCOUNTS.setSettings(clean);
       api.whenSaved.catch(() => { storageOK = false; });
     } else localStorage.setItem(KEY, JSON.stringify(clean));

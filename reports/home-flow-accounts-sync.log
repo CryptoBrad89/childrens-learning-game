@@ -1,0 +1,6 @@
+Accounts browser: creating grown-up and child through forms
+Accounts browser: opening game and preparing offline cache
+Accounts browser: offline reload and actual B round
+Accounts browser: reconnecting both profiles
+PASS MOCK TRANSPORT: two isolated profiles; offline game round, cache reload, settings, theme, milestone, concurrent fields, duplicate prevention
+PASS MOCK TRANSPORT: committed request response loss, safe retry, shared-device identity, durable child outbox, six-character-only password rule, ordered same-field edits, delayed-refresh sign-out

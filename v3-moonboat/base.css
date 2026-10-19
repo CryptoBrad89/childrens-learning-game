@@ -13,3 +13,7 @@
 @media(max-width:650px){#footer{padding-top:12px}#footer #storage{display:none}}
 /* Short browser windows scroll naturally; the learning controls retain their size. */
 @media(min-width:651px) and (max-height:500px){.app{padding:14px 20px}#header{padding-bottom:10px}.brand small{display:none}#main{padding-top:16px!important;padding-bottom:16px!important}#footer{padding-top:4px}.stepbar{margin-bottom:16px}.play-title{font-size:30px}.play-copy{font-size:15px}.eyebrow{font-size:9px;margin-bottom:10px}.steps-label{font-size:10px}}
+
+@media(max-width:650px){#header{flex-wrap:wrap}.brand{font-size:18px}.brand small{font-size:9px;letter-spacing:.03em}.controls{margin-left:auto}}
+
+.brand small{text-transform:none}

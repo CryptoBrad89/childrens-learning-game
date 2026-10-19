@@ -3,7 +3,7 @@
 const $ = id => document.getElementById(id);
 const A = window.ACCOUNTS;
 let roster = [], classes = [], memberships = [], rosterFor = null, rosterVersion = 0, switchingOwner = false;
-const worlds = {post: "Lucy's Letter Post", space: "Lucy's Moonboat", silk: "Lucy's Silk Thread"};
+const worlds = {post: "Lucy's Letter Post", space: "Lucy's Moonboat", silk: "Ribbon Road"};
 const notice = (message, error = false) => {
   $('account-status').textContent = message;
   $('account-status').classList.toggle('error', error);
@@ -76,7 +76,7 @@ function renderRoster() {
     });
     item.append(copy, open); list.append(item);
   }
-  $('roster-status').textContent = roster.length ? `${roster.length} linked ${roster.length === 1 ? 'child' : 'children'} · ${classes.length} ${classes.length === 1 ? 'class' : 'classes'}` : 'No children linked yet. Make a login below, or link one from school or home.';
+  $('roster-status').textContent = roster.length ? `${roster.length} linked ${roster.length === 1 ? 'child' : 'children'} · ${classes.length} ${classes.length === 1 ? 'group' : 'groups'}` : 'No children linked yet. Make a login below, or link one from another grown-up.';
   const classList = $('classes-list'); classList.replaceChildren();
   for (const classroom of classes) {
     const item = element('li');
@@ -84,13 +84,13 @@ function renderRoster() {
     item.append(element('strong', classroom.name), element('small', names.length ? names.join(' · ') : 'No children assigned yet.'));
     classList.append(item);
   }
-  if (!classes.length) classList.append(element('li', 'No classes yet. Create one below when you need it.'));
+  if (!classes.length) classList.append(element('li', 'No groups yet. Create one below when you need it.'));
 }
 async function loadRoster() {
   const profile = A.profile;
   if (!profile || profile.role !== 'grownup') return;
   const version = ++rosterVersion;
-  $('roster-status').textContent = 'Opening your children and classes…';
+  $('roster-status').textContent = 'Opening your kids and groups…';
   try {
     const [links, ownedClasses] = await Promise.all([
       A.rest(`guardians?adult_id=eq.${encodeURIComponent(profile.id)}&select=child_id`),
@@ -103,7 +103,7 @@ async function loadRoster() {
     roster = children; classes = ownedClasses; memberships = members;
     renderRoster();
   } catch (error) {
-    if (version === rosterVersion) $('roster-status').textContent = `Children and classes need a connection. ${errorText(error)}`;
+    if (version === rosterVersion) $('roster-status').textContent = `Kids and groups need a connection. ${errorText(error)}`;
   }
 }
 function render() {
@@ -140,21 +140,21 @@ function render() {
   notice(owner.id === profile.id ? `Welcome, ${profile.display_name}. Your notebook is ready.` : `Viewing ${owner.display_name}'s notebook. Playing uses ${profile.display_name}'s login.`);
 }
 if (!A) { notice('Accounts could not open. Reload this page when you are online.', true); return; }
-wireForm('signin-form', fields => A.signIn(fields.handle.trim(), fields.password), 'Signed in. Your notebook is ready.');
+wireForm('signin-form', fields => A.signIn(fields.handle.trim(), fields.password, {role:'grownup'}), 'Signed in. Your notebook is ready.');
 wireForm('register-form', fields => A.register({...fields, handle: fields.handle.trim()}), 'Your grown-up account is ready.');
 wireForm('create-child-form', async fields => {
   if (!fields.class_id) delete fields.class_id;
   fields.handle = fields.handle.trim();
   await A.manage('create-child', fields); await loadRoster();
-}, 'Child account created. Keep their login name and password for school and home.');
+}, 'Child account created. Keep their login name and password wherever they play.');
 wireForm('link-child-form', async fields => { await A.manage('link-child', {...fields, handle: fields.handle.trim()}); await loadRoster(); }, 'Child linked. Their existing progress stays in the same notebook.');
 wireForm('reset-password-form', fields => A.manage('reset-child-password', fields), 'Password changed. Use the new password next time this child signs in.');
 wireForm('own-password-form', fields => A.changePassword(fields.password), 'Your password changed. Use the new password next time you sign in.');
 wireForm('create-class-form', async fields => {
   await A.rest('classes', {method: 'POST', body: {id: crypto.randomUUID(), owner_id: A.profile.id, name: fields.name.trim()}});
   await loadRoster();
-}, 'Class created. You can add children to it below.');
-wireForm('assign-class-form', async fields => { await A.rest('class_children', {method: 'POST', body: fields}); await loadRoster(); }, 'Child added to the class.');
+}, 'Group created. You can add children to it below.');
+wireForm('assign-class-form', async fields => { await A.rest('class_children', {method: 'POST', body: fields}); await loadRoster(); }, 'Child added to the group.');
 $('sync-now').addEventListener('click', async () => {
   $('sync-now').disabled = true;
   try { await A.sync(); if (A.profile?.role === 'grownup') await loadRoster(); render(); }

@@ -4,7 +4,7 @@ import hashlib
 import json
 
 root = Path(__file__).resolve().parents[1]
-folders = ['accounts', 'grown-ups', 'audio', 'v1-letter-post', 'v3-moonboat', 'v4-silk-thread']
+folders = ['home', 'accounts', 'grown-ups', 'audio', 'v1-letter-post', 'v3-moonboat', 'v4-silk-thread']
 allowed = {'.html', '.js', '.css', '.woff2', '.jpg', '.png', '.svg', '.mp3', '.wav', '.ogg', '.m4a'}
 files = [root / 'index.html', root / 'audio-map.js']
 for folder in folders:

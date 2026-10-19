@@ -11,3 +11,5 @@ form{display:grid;gap:16px;margin-top:20px}form label{display:grid;gap:6px;font-
 @keyframes notebook-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @media(max-width:760px){.notebook-grid{grid-template-columns:1fr}.world-progress{grid-template-columns:1fr}.world-progress li{grid-template-columns:1fr auto;align-items:center}.world-progress strong{grid-column:2;grid-row:1}.world-progress span{grid-column:1}.identity .actions{width:100%}.panel{padding:20px}.notebook-nav a{flex:1 1 auto}.manage-grid details:last-child{grid-column:auto}}
 @media(prefers-reduced-motion:reduce){.panel{animation:none}button,a{transition:none}}
+
+.brand-tagline{display:block;font-size:12px;letter-spacing:.04em;text-transform:none;margin-top:5px}

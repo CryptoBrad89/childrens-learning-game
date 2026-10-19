@@ -77,7 +77,7 @@ async function run() {
       // The chooser keeps its three worlds and adds a separate grown-up door.
       await page.goto(url('index.html'));
       assert.equal(await page.locator('nav a').count(), 3);
-      const door = page.locator('footer a.grown');
+      const door = page.locator('#login-dialog a.grown');
       assert.equal(await door.getAttribute('href'), 'grown-ups/index.html');
       await fits(page, `${label} chooser`);
       await door.click();
@@ -159,6 +159,7 @@ async function run() {
 
       await page.locator('#leave').click();
       await page.waitForURL(/\/index\.html$/);
+      await page.locator('#play-unsaved').click();
       assert.equal(await page.locator('nav a:visible').count(), 3);
       await page.goto(url('grown-ups/index.html'));
       assert(await page.locator('#settings').isHidden(), 'Every visit starts locked');
@@ -206,9 +207,11 @@ async function run() {
         HTMLMediaElement.prototype.play = function () {setTimeout(() => this.dispatchEvent(new Event('ended')), 30); return Promise.resolve();};
       }, [KEY, JSON.stringify(settings)]);
       await page.goto(url('index.html'));
-      assert.deepEqual(await page.locator('nav a:visible').evaluateAll(n => n.map(a => a.dataset.world)), ['post', 'silk']);
-      assert.equal(await page.locator('nav').evaluate(n => n.style.getPropertyValue('--worlds')), '2');
-      assert(await page.evaluate(() => document.documentElement.hasAttribute('data-calm')));
+      await page.locator('#play-unsaved').click();
+      assert.deepEqual(await page.locator('#layout-picker a:visible').evaluateAll(n => n.map(a => a.dataset.world)), ['silk', 'post', 'space']);
+      assert.equal(await page.locator('#layout-picker').evaluate(n => n.style.getPropertyValue('--worlds')), '3');
+      assert.equal(await page.evaluate(() => document.documentElement.hasAttribute('data-calm')), false, 'Unsaved play does not inherit stored settings');
+      await page.evaluate(() => sessionStorage.removeItem('letters-with-lucy-guest'));
       await fits(page, `${label} chooser`);
       if (!process.env.NO_SCREENSHOTS) await page.screenshot({path: path.join(shots, `${label}-chooser.png`), fullPage: true});
       for (const world of ['v1-letter-post', 'v3-moonboat', 'v4-silk-thread']) {

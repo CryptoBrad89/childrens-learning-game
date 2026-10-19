@@ -1,0 +1,97 @@
+'use strict';
+const assert=require('node:assert/strict');
+const {staticServer,backend,playwright,form,round,settle}=require('./accounts_sync.cjs');
+async function run(){
+  const {server,url}=await staticServer(), fixture=backend();let browser;
+  try{
+    browser=await playwright().chromium.launch({headless:true,executablePath:process.env.CHROMIUM_EXECUTABLE||'/usr/bin/google-chrome',args:['--no-sandbox','--disable-dev-shm-usage']});
+    for(const viewport of [{width:390,height:844},{width:768,height:1024},{width:1440,height:1000}]){
+      const context=await browser.newContext({viewport,reducedMotion:'reduce'});await context.route('https://*.supabase.co/**',fixture.route);
+      const page=await context.newPage(),errors=[];page.on('pageerror',error=>errors.push(error.message));
+      await page.goto(url+'/');
+      await page.waitForFunction(()=>document.querySelector('#login-dialog').matches(':modal'));
+      assert(await page.locator('#layouts').isHidden(),'Login precedes the layout picker');
+      assert.equal(await page.locator('#account-strip a:visible').count(),0,'No account toolbar actions precede login');
+      assert.equal(await page.locator('#child-signin-form input').count(),2,'Username and password only');
+      assert(!/classroom|board code|group code|teacher|student|parent/i.test(await page.locator('#login-dialog').innerText()));
+      assert.match(await page.locator('.site-header').innerText(),/Letters with Lucy\s+Little Sounds Big Discovery/);
+      await page.evaluate(()=>{localStorage.setItem('little-woof-grown-ups',JSON.stringify({volume:5,calm:true,letters:['A'],games:['post']}));localStorage.setItem('little-woof-silk-theme','2');});
+      await page.locator('#play-unsaved').click();
+      await page.waitForFunction(()=>document.body.dataset.homeStep==='layouts');
+      assert.match(await page.locator('#saving-notice').innerText(),/Progress, achievements and settings will not be saved/);
+      assert.deepEqual(await page.locator('#layout-picker a:visible strong').allTextContents(),['Ribbon Road','Letter Post','Moonboat']);
+      assert.equal(await page.locator('#layout-picker [aria-current=true]').getAttribute('data-world'),'silk');
+      assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,'Home fits the viewport');
+      await page.locator('[data-world=silk]').click();await settle(page);
+      assert.equal(await page.evaluate(()=>ACCOUNTS.guest),true);
+      assert.equal(await page.locator('#theme').inputValue(),'0','Guest ignores saved theme');
+      assert.equal(await page.locator('[data-letter]').count(),26,'Guest ignores prior chosen letters');
+      assert.equal(await page.evaluate(()=>GROWN_UPS.settings.volume),100,'Guest ignores prior account/device volume');
+      assert.match(await page.locator('#header .brand').innerText(),/Letters with Lucy\s+Little Sounds Big Discovery/);
+      await page.locator('#mute').click();await page.selectOption('#theme','1');await round(page,'B');
+      await page.evaluate(async()=>{GROWN_UPS.save({...GROWN_UPS.settings,volume:20});await GROWN_UPS.whenSaved;await ACCOUNTS.setSetting('volume',10);await ACCOUNTS.recordRound('post','A',0);});
+      assert.equal(await page.evaluate(()=>ACCOUNTS.snapshot.count),0);
+      assert.deepEqual(await page.evaluate(()=>ACCOUNTS.snapshot.achievements),[]);
+      assert.equal(await page.evaluate(()=>ACCOUNTS.pending),0);
+      assert.equal(await page.evaluate(()=>JSON.parse(localStorage.getItem('little-woof-grown-ups')).volume),5,'Guest cannot overwrite stored preferences');
+      assert.equal(await page.evaluate(()=>localStorage.getItem('little-woof-silk-theme')),'2');
+      const rows=await page.evaluate(async()=>{await ACCOUNTS.ready;return new Promise((resolve,reject)=>{const request=indexedDB.open('little-woof-accounts');request.onsuccess=()=>{const db=request.result;const read=db.transaction('operations').objectStore('operations').getAll();read.onsuccess=()=>{db.close();resolve(read.result);};read.onerror=()=>reject(read.error);};});});
+      assert.deepEqual(rows,[],'No guest operations enter IndexedDB');
+      await page.waitForFunction(()=>Boolean(navigator.serviceWorker.controller));await context.setOffline(true);
+      await page.reload();await settle(page);
+      assert.equal(await page.locator('#theme').inputValue(),'0','Guest choices do not survive reload');
+      assert.equal(await page.evaluate(()=>ACCOUNTS.snapshot.count),0);
+      await page.getByRole('link',{name:'Choose a layout'}).click();
+      await page.waitForFunction(()=>document.body.dataset.homeStep==='layouts');
+      assert.equal(await page.locator('[aria-current=true]').getAttribute('data-world'),'silk');
+      for(const world of ['post','space']){
+        await page.locator('[data-world='+world+']').click();await settle(page);
+        assert.match(await page.title(),/Letters with Lucy/);
+        assert.match(await page.locator('#header .brand').innerText(),/Letters with Lucy\s+Little Sounds Big Discovery/);
+        assert(!/little\s*woof|ready[\s-]*set[\s-]*abc|silk (road|thread)/i.test(await page.locator('body').innerText()));
+        await page.getByRole('link',{name:'Choose a layout'}).click();await page.waitForFunction(()=>document.body.dataset.homeStep==='layouts');
+      }
+      assert.deepEqual(errors,[]);
+      await context.close();console.log(`PASS ${viewport.width}: login-first, default Ribbon Road, unsaved warning, no persisted play/preferences, cached offline reload, branding and fit`);
+    }
+    const context=await browser.newContext({reducedMotion:'reduce'});await context.route('https://*.supabase.co/**',fixture.route);
+    const page=await context.newPage(),errors=[];page.on('pageerror',error=>errors.push(error.message));
+    await page.goto(url+'/');await page.evaluate(()=>ACCOUNTS.ready);
+    await page.evaluate(async()=>{await ACCOUNTS.register({handle:'grown_demo',password:'7234ab',display_name:'A grown-up'});await ACCOUNTS.manage('create-child',{handle:'kid_demo',password:'7234ab',display_name:'A child'});await ACCOUNTS.signOut();});
+    await page.goto(url+'/');
+    await page.locator('#child-signin-form [name=handle]').fill('grown_demo');await page.locator('#child-signin-form [name=password]').fill('7234ab');await page.locator('#child-signin-form button').click();
+    await page.waitForFunction(()=>document.querySelector('#login-status').classList.contains('error'));
+    assert.equal(await page.evaluate(()=>ACCOUNTS.session),null,'Grown-up credentials do not enter through the child login');
+    await form(page,'child-signin-form',{handle:'kid_demo',password:'7234ab'});
+    assert.equal(await page.evaluate(()=>ACCOUNTS.profile.role),'child');
+    await page.locator('[data-world=silk]').click();await settle(page);await page.locator('#mute').click();await round(page,'B');await page.evaluate(()=>ACCOUNTS.sync());
+    assert.equal(await page.evaluate(()=>ACCOUNTS.snapshot.count),1,'Signed-in play continues to save');
+    await page.goto(url+'/');assert(await page.locator('#layouts').isHidden(),'An ordinary home entry still begins at login');
+    await page.locator('#continue-player').click();await page.waitForFunction(()=>document.body.dataset.homeStep==='layouts');
+    await page.locator('#change-player').click();await page.waitForFunction(()=>document.querySelector('#login-dialog').matches(':modal'));
+    await page.locator('#login-dialog .grown').click();await page.waitForURL('**/accounts/index.html');
+    await form(page,'signin-form',{handle:'grown_demo',password:'7234ab'});
+    assert(await page.locator('#people').isVisible());
+    assert.match(await page.locator('#people-title').innerText(),/Kids & groups/);
+    assert(!/teacher|student|classroom|parent|\bclasses\b|\bclass\b/i.test(await page.locator('#people').innerText()),'Grown-up management uses groups, not school roles');
+    await page.evaluate(()=>ACCOUNTS.signOut());await page.goto(url+'/');await form(page,'child-signin-form',{handle:'kid_demo',password:'7234ab'});
+    await page.goto(url+'/grown-ups/');await page.waitForURL('**/accounts/index.html');
+    assert(await page.locator('#people').isHidden(),'Child cannot enter grown-up management');
+    assert.equal(await page.evaluate(()=>ACCOUNTS.snapshot.count),1,'Changing player/guest flow cannot erase account progress');
+    await page.goto(url+'/');await page.locator('#play-unsaved').click();assert.equal(await page.evaluate(()=>ACCOUNTS.snapshot.count),0,'Guest cannot inherit cached account achievements/history');
+    await page.locator('[data-world=silk]').click();await settle(page);await page.locator('#mute').click();await round(page,'C');
+    assert.equal([...fixture.events.values()].filter(e=>e.kind==='round').length,1,'Guest never uploads a round to the previous child');
+    assert.deepEqual(errors,[]);await context.close();
+    console.log('PASS account separation: child-first sign-in, grown-up-only groups, saved account play, cached child continuation and guest isolation');
+    const local=await browser.newContext({reducedMotion:'reduce'}),filePage=await local.newPage();
+    await local.route(/^https?:/,route=>route.abort());
+    await filePage.goto(require('node:url').pathToFileURL(require('node:path').resolve(__dirname,'../index.html')).href);
+    await filePage.locator('#child-signin-form [name=handle]').fill('kid_demo');await filePage.locator('#child-signin-form [name=password]').fill('7234ab');await filePage.locator('#child-signin-form button').click();
+    await filePage.waitForFunction(()=>document.querySelector('#login-status').textContent.includes('web address'));
+    assert.match(await filePage.evaluate(async()=>{try{await ACCOUNTS.register({handle:'local_signup',password:'7234ab',display_name:'Local'});return 'unexpected account';}catch(error){return error.message;}}),/web address/);
+    await filePage.locator('#play-unsaved').click();await filePage.locator('[data-world=silk]').click();await settle(filePage);
+    await filePage.locator('#mute').click();await round(filePage,'B');assert.equal(await filePage.evaluate(()=>ACCOUNTS.snapshot.count),0);
+    await local.close();console.log('PASS local file: clear sign-in guidance and fully playable unsaved Ribbon Road');
+  }finally{await browser?.close();await new Promise(resolve=>server.close(resolve));}
+}
+run().catch(error=>{console.error(error);process.exitCode=1;});

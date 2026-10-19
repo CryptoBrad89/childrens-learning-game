@@ -190,3 +190,5 @@ dialog p{margin:0 0 24px;color:var(--muted)}
 html[data-calm]{scroll-behavior:auto}
 html[data-calm] *,html[data-calm] *::before,html[data-calm] *::after{animation:none!important;transition:none!important}
 html[data-calm] .stamp{display:none}
+
+.brand-tagline{display:block;font-size:12px;letter-spacing:.04em;text-transform:none;margin-top:5px}

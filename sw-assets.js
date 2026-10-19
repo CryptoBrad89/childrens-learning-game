@@ -1,5 +1,5 @@
 self.OFFLINE_MANIFEST = {
-  "version": "121b329c7c8e1cc2",
+  "version": "5101a30c8e9b19a6",
   "files": [
     "./accounts/accounts.js",
     "./accounts/boot.js",
@@ -87,6 +87,8 @@ self.OFFLINE_MANIFEST = {
     "./grown-ups/index.html",
     "./grown-ups/paper-shader.js",
     "./grown-ups/settings.js",
+    "./home/home.css",
+    "./home/home.js",
     "./index.html",
     "./v1-letter-post/app.js",
     "./v1-letter-post/art.js",

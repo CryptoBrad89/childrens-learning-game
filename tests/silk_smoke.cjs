@@ -44,12 +44,13 @@ async function run() {
       try {
         const page = await context.newPage();
         await page.goto(pathToFileURL(path.join(root, 'index.html')).href);
-        assert.deepEqual(await page.locator('nav a').evaluateAll(nodes => nodes.map(node => node.getAttribute('href'))),
-          ['v1-letter-post/index.html', 'v3-moonboat/index.html', 'v4-silk-thread/index.html']);
+        await page.locator('#play-unsaved').click();
+        assert.deepEqual(await page.locator('#layout-picker a').evaluateAll(nodes => nodes.map(node => node.dataset.world)), ['silk','post','space']);
+        assert.equal(await page.locator('[aria-current=true]').getAttribute('data-world'),'silk');
         await fits(page, `chooser ${viewport.width}`);
         await page.evaluate(() => document.fonts.ready);
         if (!process.env.NO_SCREENSHOTS) await page.screenshot({path: path.join(shots, `chooser-${viewport.width}.png`), fullPage: true});
-        await page.locator('a[href="v4-silk-thread/index.html"]').click();
+        await page.locator('[data-world="silk"]').click();
         await page.waitForFunction(() => document.body.dataset.screen === 'home');
         console.log(`PASS chooser-${viewport.width}: three usable world links and layout`);
       } finally {await context.close();}
@@ -121,7 +122,7 @@ async function run() {
         } finally {await context.close();}
       }
     }
-    console.log(`PASS Silk Thread and chooser; screenshots ${process.env.NO_SCREENSHOTS ? "disabled" : shots}`);
+    console.log(`PASS Ribbon Road and chooser; screenshots ${process.env.NO_SCREENSHOTS ? "disabled" : shots}`);
   } finally {await browser.close();}
 }
 run().catch(error => {console.error(error); process.exitCode = 1;});

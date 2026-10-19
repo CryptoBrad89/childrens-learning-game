@@ -89,9 +89,10 @@ async function form(page,id,values) {
   assert.deepEqual(error,[],`${id}: ${error.join(' ')}`);
 }
 async function signin(page,url,handle,password) {
-  await page.goto(url+'/accounts/');
-  await form(page,'signin-form',{handle,password});
+  await page.goto(url+'/index.html');
+  await form(page,'child-signin-form',{handle,password});
   await page.waitForFunction(()=>Boolean(window.ACCOUNTS?.profile));
+  await page.goto(url+'/accounts/');
 }
 async function settle(page) {
   await page.waitForFunction(()=>!document.body.dataset.effect&&!document.body.classList.contains('talking'));
@@ -120,18 +121,18 @@ async function run() {
     await form(a,'create-child-form',{handle:child,password,display_name:'Sync test child'});
     const childId=await a.evaluate(async()=>{const links=await ACCOUNTS.rest('/guardians?select=child_id');return links[0].child_id;});
     if(live) {
-      await form(a,'create-class-form',{name:'Sync class '+suffix});
+      await form(a,'create-class-form',{name:'Sync group '+suffix});
       await a.waitForFunction(()=>document.querySelector('#assign-class-form [name=class_id]').options.length>1);
       const classId=await a.locator('#assign-class-form [name=class_id] option').nth(1).getAttribute('value');
       await form(a,'assign-class-form',{child_id:childId,class_id:classId});
       await form(a,'create-child-form',{handle:otherChild,password:'aaaaaa',display_name:'Sync other child'});
       otherChildId=await a.evaluate(async id=>(await ACCOUNTS.rest('/guardians?select=child_id')).find(link=>link.child_id!==id).child_id,childId);
       await b.goto(url+'/accounts/');
-      await form(b,'register-form',{handle:parent,password,display_name:'Sync test parent'});
+      await form(b,'register-form',{handle:parent,password,display_name:'Sync test grown-up'});
       await form(b,'link-child-form',{handle:child,password});
       await b.waitForFunction(handle=>document.querySelector('#children-list').textContent.includes(handle),child);
       await b.locator('#sign-out').click();
-      console.log('PASS LIVE SUPABASE: create class, assign child, second grown-up links existing child, lowercase six-character child password');
+      console.log('PASS LIVE SUPABASE: create group, assign child, second grown-up links existing child, lowercase six-character child password');
     }
     await a.locator('#sign-out').click();
     await signin(a,url,child,password);await signin(b,url,child,password);
@@ -225,7 +226,7 @@ async function run() {
       console.log('PASS MOCK TRANSPORT: committed request response loss, safe retry, shared-device identity, durable child outbox, six-character-only password rule, ordered same-field edits, delayed-refresh sign-out');
     } else {
       await a.goto(url+'/accounts/');await a.locator('#sign-out').click();
-      await signin(a,url,adult,password);
+      await a.goto(url+'/accounts/');await form(a,'signin-form',{handle:adult,password});
       await a.locator('#children-list li').filter({hasText:child}).locator('button').click();
       await a.waitForFunction(handle=>ACCOUNTS.owner.handle===handle&&!document.querySelector('#settings-link').inert,child);
       await a.locator('#settings-link').click();
@@ -245,11 +246,12 @@ async function run() {
       console.log('PASS LIVE SUPABASE: grown-up edits linked child through existing corner; second child profile renders the one-miss hint');
       const loginReport={created_at:new Date().toISOString(),grownup:{handle:adult,password},child:{handle:child,password},linked_grownup:{handle:parent,password},other_child:{handle:otherChild,password:'aaaaaa'}};
       fs.mkdirSync(path.join(root,'reports'),{recursive:true});
-      const loginPath=path.join(root,'reports/accounts-test-logins.json');
+      const loginPath=path.join(root,process.env.ACCOUNTS_LOGIN_REPORT||'reports/accounts-test-logins.json');
       if(fs.existsSync(loginPath)) {const prior=JSON.parse(fs.readFileSync(loginPath,'utf8'));const history=prior.previous_runs||[];delete prior.previous_runs;loginReport.previous_runs=[...history,prior];}
       fs.writeFileSync(loginPath,JSON.stringify(loginReport,null,2)+'\n');
       console.log('LIVE test logins: '+JSON.stringify(loginReport));
     }
   } finally {if(browser)await browser.close();await new Promise(resolve=>server.close(resolve));}
 }
-run().catch(error=>{console.error(error);process.exitCode=1;});
+module.exports={staticServer,backend,playwright,form,signin,round,settle};
+if(require.main===module)run().catch(error=>{console.error(error);process.exitCode=1;});

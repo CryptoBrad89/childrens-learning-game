@@ -7,4 +7,4 @@
 
 Run `tests/motion_smoke.cjs` for motion and accessibility and `tests/browser_smoke.cjs` for the full B/J/X/Z, theme, keyboard, and hint matrix. Invoke with `node` from the repository root.
 
-Run `tests/silk_smoke.cjs` for Silk Thread and chooser screenshots in `/tmp/silk-shots/`. Run `tests/confetti_smoke.cjs` for continuous rain, bounded piece reuse, palette changes, and cleanup in all three worlds.
+Run `tests/silk_smoke.cjs` for Ribbon Road and chooser screenshots in `/tmp/silk-shots/`. Run `tests/confetti_smoke.cjs` for continuous rain, bounded piece reuse, palette changes, and cleanup in all three worlds.

@@ -1,4 +1,10 @@
-# Children's Learning Game · Letter Post, Moonboat, and Silk Thread
+# Letters with Lucy
+
+Little Sounds Big Discovery.
+
+The home page opens a child-first sign-in dialog. Sign in, continue a previously signed-in child, or choose **Play without saving**. Then choose **Ribbon Road**, highlighted first by default, **Letter Post**, or **Moonboat**. The small **Are you a grown-up?** link opens the separate grown-up area. Grown-ups manage any number of kids and groups.
+
+Unsaved play never reads or changes saved preferences and never records rounds or achievements. Its colors and sound choices last only for the current page. The warning stays visible while playing. Existing grown-up layout visibility choices still apply to signed-in accounts; unsaved play always offers all three layouts.
 
 Open [index.html](index.html) directly, or serve the repository root with
 `python3 -m http.server 8000` and visit `/`.
@@ -61,7 +67,7 @@ CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/grown_ups_smoke.cjs
 - `motion_smoke.cjs` drives both worlds at phone, tablet, and whiteboard
   sizes with real interactions, normal and reduced motion, and no network.
   Screenshots go to `/tmp/lpmb-motion-shots`.
-- `silk_smoke.cjs` checks all 26 Silk Thread rounds, palette persistence,
+- `silk_smoke.cjs` checks all 26 Ribbon Road rounds, palette persistence,
   60px touch targets, reduced motion and offline resources at widths 390,
   1180 and 1920. Screenshots go to `/tmp/silk-shots`.
 - `confetti_smoke.cjs` checks continuous confetti in all three games and
@@ -94,14 +100,14 @@ fading soft red glow.
 Rewards recycle twenty-four SVG paper cut-outs continuously until the route
 changes; replay keeps the same pieces falling and reduced motion removes them.
 Letter Post scatters envelopes, stamps, hearts, and paper curls; Moonboat
-scatters stars, crescents, ringed planets, and curls; Silk Thread scatters
+scatters stars, crescents, ringed planets, and curls; Ribbon Road scatters
 hearts, curls, and stars. Separate transform layers handle descent, flutter,
 and tumble, with no per-frame JavaScript or SVG filters. Colors use the
 world palette.
 
-## Silk Thread
+## Ribbon Road
 
-Silk Thread reuses Letter Post's engine, artwork, motion, fonts, and Lucy
+Ribbon Road reuses Letter Post's engine, artwork, motion, fonts, and Lucy
 assets through relative paths. Its `config.js` supplies the home view, title,
 palette labels, and asset base. Pink is the default, followed by Purple and
 Yellow. Each world keeps its own theme choice.
@@ -144,7 +150,7 @@ folder (see above) to share settings in every browser.
 
 ## Accounts and offline sync
 
-Serve the repository on HTTPS, or use `python3 -m http.server 8000` for localhost testing. Open `/accounts/` to create a grown-up login, then make child logins or link an existing child's account. Everyone signs in with a unique login name and a password of at least six characters. A child uses the same login at school and home. The notebook manages classes and child settings, shows lasting rounds and milestones, and offers an explicit **I'm done** sign-out for shared computers.
+Serve the repository on HTTPS, or use `python3 -m http.server 8000` for localhost testing. Start at `/` for child sign-in. The grown-up link opens `/accounts/` through the protected settings area; create a grown-up login there, then make child logins or link an existing child's account. Everyone signs in with a unique login name and a password of at least six characters. A child uses the same login wherever they play. The notebook manages groups and child settings, shows lasting rounds and milestones, and offers an explicit **I'm done** sign-out for shared computers.
 
 The header says **Games ready for offline play** after the whole game is cached. A previously signed-in person can reopen and play offline. A new sign-in requires a connection. Completed rounds and field-level setting edits wait in IndexedDB until reconnecting; repeated delivery cannot count a round twice. Settings include every grown-up option, sound choice and each world's theme. Opening a new world uses the latest synchronized choices. The in-world strip remains a collection for this visit; the notebook is permanent history.
 
@@ -163,3 +169,10 @@ CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/accounts_selection.cjs
 ```
 
 The SQL checks need the pinned local test tools documented in `supabase/README.md`. The default browser account test uses a labelled protocol fixture. `--live` creates test users only in the configured project `ixjbgshhzeaosrzavssr` and saves their logins to `reports/accounts-test-logins.json`. It proves actual Supabase Auth, sync and row permissions with two isolated browser profiles. All account tests avoid screenshots. Add `NO_SCREENSHOTS=1` when running the older browser checks.
+
+
+## Verify the home flow
+
+Run `CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/home_flow.cjs` for login-first behavior, role separation, the Ribbon Road default, the unsaved warning, guest isolation, offline reload and branding at phone, tablet and desktop sizes. It uses a labelled protocol fixture; the separate account helper's `--live` mode still verifies the real project.
+
+The old database world identifier `silk`, existing asset URLs and storage identifiers stay stable so prior logins, offline outboxes, progress and themes continue to work. These are compatibility identifiers; the visible layout is Ribbon Road. Historical account-build reports remain an audit record.

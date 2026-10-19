@@ -1,11 +1,11 @@
 'use strict';
 importScripts('./sw-assets.js');
-const CACHE = 'little-woof-'+self.OFFLINE_MANIFEST.version;
+const CACHE = 'letters-with-lucy-'+self.OFFLINE_MANIFEST.version;
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(self.OFFLINE_MANIFEST.files)).then(()=>self.skipWaiting()));
 });
 self.addEventListener('activate',event=>{
-  event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith('little-woof-')&&key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim()));
+  event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>(key.startsWith('little-woof-')||key.startsWith('letters-with-lucy-'))&&key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim()));
 });
 self.addEventListener('fetch',event=>{
   const url = new URL(event.request.url);

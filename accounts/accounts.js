@@ -3,6 +3,12 @@
 const config = window.ACCOUNT_CONFIG;
 const SESSION_KEY = 'little-woof-session-v1', TARGET_KEY = 'little-woof-target-v1';
 const listeners = new Set();
+function requireHostedAccounts(){
+  if(location.protocol==='file:')throw new Error('Open Letters with Lucy from a web address to sign in. You can play without saving here.');
+}
+const GUEST_KEY = 'letters-with-lucy-guest';
+let guest = new URL(location.href).searchParams.get('mode') === 'guest';
+try { guest ||= sessionStorage.getItem(GUEST_KEY) === '1'; } catch {}
 let db, records = [], session = read(SESSION_KEY), self = session?.profile || null;
 let owner = self, status = 'Sign in to keep your adventures.', syncing = null, refreshPromise = null;
 let lastOrder = Date.now();
@@ -38,7 +44,7 @@ function transaction(mode, action) {
 }
 async function reloadRecords() { records = await transaction('readonly', store => store.getAll()); }
 function snapshotFor(id) {
-  const own = records.filter(r => r.user_id === id);
+  const own = guest ? [] : records.filter(r => r.user_id === id);
   const accepted = own.filter(r => !r.pending).sort((a,b) => Number(a.seq)-Number(b.seq));
   const pending = own.filter(r => r.pending).sort((a,b) => a.local_order-b.local_order || a.id.localeCompare(b.id));
   const settings = {}, themes = {post:0,space:0,silk:0}, rounds = [];
@@ -53,7 +59,7 @@ function snapshotFor(id) {
   if (rounds.length) achievements.push('First sound');
   if (letters.size >= 5) achievements.push('Five different sounds');
   if (letters.size === 26) achievements.push('All 26 sounds');
-  for (const [world,label] of Object.entries({post:'Letter Post',space:'Moonboat',silk:'Silk Thread'})) {
+  for (const [world,label] of Object.entries({post:'Letter Post',space:'Moonboat',silk:'Ribbon Road'})) {
     if (new Set(rounds.filter(r=>r.world===world).map(r=>r.letter)).size === 26) achievements.push(label+' explorer');
   }
   return {settings:window.GROWN_UPS ? window.GROWN_UPS.normalize(settings) : settings, themes, rounds, achievements, count:rounds.length};
@@ -73,7 +79,7 @@ async function network(path, {method='GET', body, token, headers={}} = {}) {
   } finally { clearTimeout(timeout); }
 }
 async function token() {
-  if (!session) throw new Error('Sign in first.');
+  if (guest || !session) throw new Error('Sign in first.');
   const latest = read(SESSION_KEY);
   if (!latest || latest.user.id !== session.user.id) throw new Error('Sign in again to sync. Your saved play is waiting.');
   session = latest;
@@ -100,22 +106,27 @@ async function rest(path, options={}) {
 async function manage(action, fields={}) {
   return network('/functions/v1/accounts',{method:'POST',body:{action,...fields},...(action==='register'?{}:{token:await token()})});
 }
-async function signIn(handle, password) {
+async function signIn(handle, password, {role} = {}) {
+  requireHostedAccounts();
   await ready;
   await syncing;
   if (!/^[a-z0-9][a-z0-9_-]{2,31}$/.test(handle.trim().toLowerCase())) throw new Error('Use your username, with 3 to 32 letters, numbers, underscores or hyphens.');
   const result = await network('/auth/v1/token?grant_type=password',{method:'POST',body:{email:handle.trim().toLowerCase()+'@accounts.littlewoof.invalid',password}});
   const profiles = await network('/rest/v1/profiles?id=eq.'+result.user.id+'&select=*',{token:result.access_token});
   if (!profiles.length) throw new Error('This account is not ready. Ask your grown-up for help.');
+  if (role && profiles[0].role !== role) throw new Error(role === 'child' ? 'This is a grown-up login. Use Are you a grown-up? below.' : 'This is a child login. Sign in from the game home page.');
+  guest=false;try { sessionStorage.removeItem(GUEST_KEY); } catch {}
   persistSession({...result,expires_at:Date.now()/1000+result.expires_in,profile:profiles[0]});
   owner=self; sessionStorage.removeItem(TARGET_KEY); emit();
   await sync();
 }
 async function register(fields) {
+  requireHostedAccounts();
   await manage('register',fields);
   await signIn(fields.handle,fields.password);
 }
 async function signOut() {
+  guest=false;try { sessionStorage.removeItem(GUEST_KEY); } catch {}
   const previous = session;
   persistSession(null); owner=null; sessionStorage.removeItem(TARGET_KEY); message('Signed out. Saved play stays with its account.');
   if (previous && navigator.onLine) {
@@ -125,7 +136,7 @@ async function signOut() {
 async function selectOwner(profile) {
   await ready;
   await syncing;
-  if (!session) throw new Error('Sign in first.');
+  if (guest || !session) throw new Error('Sign in first.');
   if (profile.id !== self.id) {
     if (self.role !== 'grownup') throw new Error('A grown-up needs to choose this child.');
     const allowed = await rest('/guardians?adult_id=eq.'+self.id+'&child_id=eq.'+profile.id+'&select=child_id');
@@ -134,6 +145,7 @@ async function selectOwner(profile) {
   owner=profile; sessionStorage.setItem(TARGET_KEY,JSON.stringify({actor:self.id,profile})); emit(); await sync();
 }
 async function append(kind, payload, id=crypto.randomUUID(), user=owner?.id) {
+  if (guest) return false;
   await ready;
   if (!user) return false;
   const event = {id,user_id:user,kind,payload,pending:true,local_order:lastOrder=Math.max(Date.now(),lastOrder+1,...records.filter(r=>r.pending).map(r=>r.local_order+1))};
@@ -161,7 +173,7 @@ async function setSettings(next) {
 }
 async function recordRound(world, letter, misses, id) { return append('round',{world,letter,misses},id); }
 async function sync() {
-  if (!session || !owner || !db) return;
+  if (guest || !session || !owner || !db) return;
   if (syncing) return syncing;
   if (!navigator.onLine) { message('Offline. Your play is saved here and will sync when connected.'); return; }
   const account = owner.id, actor = self.id;
@@ -199,10 +211,16 @@ const ready = (async()=>{
     emit();
   } catch (error) { message('Account storage is unavailable. Open a normal browser window before playing.'); throw error; }
 })();
-window.ACCOUNTS = {ready, signIn,register,signOut,selectOwner,setSetting,setSettings,recordRound,sync,rest,manage,
+window.ACCOUNTS = {ready,
+  startGuest(){
+    if(session)void signOut().catch(()=>{});guest=true;
+    try { sessionStorage.setItem(GUEST_KEY,'1'); } catch {}
+    emit();
+  },
+  get guest(){return guest;}, signIn,register,signOut,selectOwner,setSetting,setSettings,recordRound,sync,rest,manage,
   async changePassword(password) { if([...password].length<6)throw new Error('Use at least 6 characters.'); return network('/auth/v1/user',{method:'PUT',token:await token(),body:{password}}); },
-  get session(){return session;},get profile(){return self;},get owner(){return owner;},get status(){return status;},
-  get snapshot(){return snapshotFor(owner?.id);},get pending(){return records.filter(r=>r.pending && r.user_id===owner?.id).length;},
+  get session(){return guest?null:session;},get profile(){return guest?null:self;},get owner(){return guest?null:owner;},get status(){return status;},
+  get snapshot(){return snapshotFor(guest?null:owner?.id);},get pending(){if(guest)return 0;return records.filter(r=>r.pending && r.user_id===owner?.id).length;},
   subscribe(fn){listeners.add(fn);return()=>listeners.delete(fn);}
 };
 channel && (channel.onmessage=async()=>{if(db){await reloadRecords();emit();}});
