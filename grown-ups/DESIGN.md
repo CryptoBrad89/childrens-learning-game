@@ -103,5 +103,9 @@ on a 1–9 keypad. Three- and four-year-olds can't read number words yet. A rand
 tapper has a 1 in 504 chance per attempt, every miss brings a new set of
 numbers, and every third miss pauses the keypad for 10 seconds. Easy runs like
 1-2-3 or 9-8-7 are never asked. Physical number keys also work, for
-Chromebooks. This is child-proofing, not security: settings are ordinary local
+Chromebooks. This is child-proofing, not security: on `file://` the settings are ordinary local
 storage.
+
+## 5. Accounts, when the game is served
+
+The reading gate stays for the file prototype. A served copy replaces it with real sign-ins, using the same paper, ink, masthead and settings sheet. The new screen is pictures first (a child cannot type), then one labelled secret field with a show control. The panel uses the same 16px / 400ms reveal as the gate, and calm motion removes it. Settings, kept letters and stars follow the child. The merge is add-only for letters and stars, so two devices cannot wipe a sound the child already earned.

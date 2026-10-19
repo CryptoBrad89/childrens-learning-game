@@ -43,7 +43,12 @@ function apply(settings) {
   const root = document.documentElement;
   if (settings.calm) root.dataset.calm = ''; else delete root.dataset.calm;
 }
-const api = {KEY, ALL, GAMES, DEFAULTS, normalize, load, save,
+function reload() {
+  api.settings = load();
+  apply(api.settings);
+  return api.settings;
+}
+const api = {KEY, ALL, GAMES, DEFAULTS, normalize, load, save, reload,
   settings: load(), get storageOK() { return storageOK; }};
 apply(api.settings);
 window.GROWN_UPS = api;
