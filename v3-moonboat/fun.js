@@ -2,7 +2,9 @@
 (() => {
 'use strict';
 const post=window.CONCEPT.kind==='post', $=s=>document.querySelector(s);
-const reduce=matchMedia('(prefers-reduced-motion: reduce)');
+const grown=window.GROWN_UPS?.settings||{};
+// Grown-up calm motion behaves exactly like a reduced-motion preference.
+const reduce=grown.calm?{matches:true,addEventListener(){}}:matchMedia('(prefers-reduced-motion: reduce)');
 let active=null, epoch=0, muted=false, speaking=false, audio=null;
 const sources=new Set(), gains=new Set();
 const stats={effects:0,maxEffects:0,maxParticles:0,sfxStarted:0,sfxWhileMuted:0,sfxDuringVoice:0};
@@ -11,7 +13,7 @@ function unlock(){if(muted)return;try{audio??=new (window.AudioContext||window.w
 document.addEventListener('pointerdown',unlock,{capture:true});
 document.addEventListener('keydown',e=>{if(['Enter',' ','ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key))unlock();},{capture:true});
 function sound(kind){
- if(muted||speaking||document.hidden||!audio||audio.state!=='running')return;
+ if(muted||speaking||grown.effects===false||document.hidden||!audio||audio.state!=='running')return;
  hush();
  const now=audio.currentTime, gain=audio.createGain();gain.connect(audio.destination);gains.add(gain);
  const sequence=kind==='reward'?[392,494,587]:kind==='weather'?[440,554]:kind==='open'?[post?170:360,post?230:540]:[post?250:620];

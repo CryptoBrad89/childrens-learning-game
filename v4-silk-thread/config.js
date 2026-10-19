@@ -4,7 +4,7 @@ window.CONCEPT = {
   themes: ['Pink', 'Purple', 'Yellow'],
   slug: 'v4-silk-thread',
   assetBase: '../v1-letter-post/assets',
-  home: ({ pic, pickers, collection }) => `
+  home: ({ pic, pickers, collection, count = 26 }) => `
     <section class="screen home silk-home">
       <div class="silk-welcome">
         <div class="home-copy">
@@ -17,7 +17,7 @@ window.CONCEPT = {
         <div class="lucy-stage">${pic('default', 'Let’s follow the sounds!')}<span class="stage-spark one" aria-hidden="true">✦</span><span class="stage-spark two" aria-hidden="true">✧</span><p class="mascot-caption">YOUR LITTLE LEARNING FRIEND</p></div>
       </div>
       <div class="silk-trail" aria-labelledby="trail-title">
-        <div class="trail-heading"><div><p class="eyebrow">OUR LITTLE LETTER ADVENTURE</p><h2 id="trail-title">Follow the sounds.</h2></div><p>Tap a letter. Lucy will come along!<small>Scroll for all 26 letters ↓</small></p></div>
+        <div class="trail-heading"><div><p class="eyebrow">OUR LITTLE LETTER ADVENTURE</p><h2 id="trail-title">Follow the sounds.</h2></div><p>Tap a letter. Lucy will come along!<small>${count === 26 ? 'Scroll for all 26 letters ↓' : count === 1 ? 'One letter chosen for today' : `${count} letters chosen for today ↓`}</small></p></div>
         ${pickers('pearls')}
       </div>
       ${collection()}
