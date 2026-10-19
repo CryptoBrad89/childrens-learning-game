@@ -85,8 +85,7 @@ async function run() {
       await page.evaluate(() => document.fonts.ready);
       assert(await page.locator('#settings').isHidden(), 'Settings stay hidden behind the gate');
       assert.equal((await code(page)).length, 3);
-      const drawn = await page.locator('#paper').evaluate(n => Number(n.dataset.drawn || 0));
-      assert(drawn >= 1, 'Paper band should render once');
+      assert.equal(await page.evaluate(() => getComputedStyle(document.body).backgroundColor), 'rgb(250, 242, 223)', 'Grown-up entry uses the same cream as child login');
       await fits(page, `${label} gate`, viewport.width >= 1600 ? 72 : 60);
       if (!process.env.NO_SCREENSHOTS) await page.screenshot({path: path.join(shots, `${label}-gate.png`), fullPage: true});
 
@@ -259,7 +258,7 @@ async function run() {
       await unlock(page);
       await page.waitForFunction(() => getComputedStyle(document.querySelector('#settings')).opacity === '1');
       if (options.reducedMotion) assert.equal(await page.locator('.stamp').evaluate(n => getComputedStyle(n).display), 'none');
-      else assert.equal(await page.evaluate(() => getComputedStyle(document.body).backgroundColor), 'rgb(20, 35, 58)');
+      else assert.equal(await page.evaluate(() => getComputedStyle(document.body).backgroundColor), 'rgb(250, 242, 223)');
       if (!process.env.NO_SCREENSHOTS) await page.screenshot({path: path.join(shots, `${label}.png`), fullPage: true});
       await done(label);
       console.log(`PASS ${label}: unlock and settings render`);

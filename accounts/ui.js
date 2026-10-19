@@ -2,7 +2,7 @@
 'use strict';
 const $ = id => document.getElementById(id);
 const A = window.ACCOUNTS;
-let roster = [], classes = [], memberships = [], rosterFor = null, rosterVersion = 0, switchingOwner = false;
+let roster = [], rosterFor = null, rosterVersion = 0, switchingOwner = false;
 const worlds = {post: "Lucy's Letter Post", space: "Lucy's Moonboat", silk: "Ribbon Road"};
 const notice = (message, error = false) => {
   $('account-status').textContent = message;
@@ -30,6 +30,7 @@ function wireForm(id, action, success) {
       await action(fields);
       output.textContent = success;
       form.reset();
+      if (id === 'create-child-form') $('avatar-preview').hidden = true;
     } catch (error) {
       output.textContent = errorText(error);
       output.classList.add('error');
@@ -52,7 +53,6 @@ function choices(selector, records, label) {
   });
 }
 function renderRoster() {
-  choices('.class-choice', classes, item => item.name);
   choices('.child-choice', roster, child => `${child.display_name} (${child.handle})`);
   const list = $('children-list'); list.replaceChildren();
   for (const child of roster) {
@@ -66,7 +66,7 @@ function renderRoster() {
       switchingOwner = true; open.disabled = true;
       $('settings-link').inert = true;
       $('settings-link').setAttribute('aria-disabled', 'true');
-      try { await A.selectOwner(child); $('progress').scrollIntoView({block: 'start'}); notice(`Opened ${child.display_name}'s notebook. You are still signed in as ${A.profile.display_name}.`); }
+      try { await A.selectOwner(child); $('progress').scrollIntoView({block: 'start'}); notice(`Opened ${child.display_name}'s notebook.`); }
       catch (error) { notice(errorText(error), true); }
       finally {
         switchingOwner = false; open.disabled = false;
@@ -74,36 +74,26 @@ function renderRoster() {
         $('settings-link').removeAttribute('aria-disabled');
       }
     });
-    item.append(copy, open); list.append(item);
+    const avatar = element('span', child.avatar || '🐶', 'child-avatar');
+    if (child.avatar?.startsWith('data:image/')) { const picture = element('img'); picture.src = child.avatar; picture.alt = ''; avatar.replaceChildren(picture); }
+    item.append(avatar, copy, open); list.append(item);
   }
-  $('roster-status').textContent = roster.length ? `${roster.length} linked ${roster.length === 1 ? 'child' : 'children'} · ${classes.length} ${classes.length === 1 ? 'group' : 'groups'}` : 'No children linked yet. Make a login below, or link one from another grown-up.';
-  const classList = $('classes-list'); classList.replaceChildren();
-  for (const classroom of classes) {
-    const item = element('li');
-    const names = memberships.filter(member => member.class_id === classroom.id).map(member => roster.find(child => child.id === member.child_id)?.display_name).filter(Boolean);
-    item.append(element('strong', classroom.name), element('small', names.length ? names.join(' · ') : 'No children assigned yet.'));
-    classList.append(item);
-  }
-  if (!classes.length) classList.append(element('li', 'No groups yet. Create one below when you need it.'));
+  $('roster-status').textContent = roster.length ? `${roster.length} linked ${roster.length === 1 ? 'child' : 'children'}` : 'No children linked yet. Make a login below, or link an existing child.';
 }
 async function loadRoster() {
   const profile = A.profile;
   if (!profile || profile.role !== 'grownup') return;
   const version = ++rosterVersion;
-  $('roster-status').textContent = 'Opening your kids and groups…';
+  $('roster-status').textContent = 'Opening your kids…';
   try {
-    const [links, ownedClasses] = await Promise.all([
-      A.rest(`guardians?adult_id=eq.${encodeURIComponent(profile.id)}&select=child_id`),
-      A.rest(`classes?owner_id=eq.${encodeURIComponent(profile.id)}&select=id,name,owner_id&order=name`)
-    ]);
+    const links = await A.rest(`guardians?adult_id=eq.${encodeURIComponent(profile.id)}&select=child_id`);
     const ids = links.map(link => link.child_id);
     const children = ids.length ? await A.rest(`profiles?id=in.(${ids.map(encodeURIComponent).join(',')})&select=*&order=display_name`) : [];
-    const members = ownedClasses.length ? await A.rest(`class_children?class_id=in.(${ownedClasses.map(item => encodeURIComponent(item.id)).join(',')})&select=class_id,child_id`) : [];
     if (version !== rosterVersion || A.profile?.id !== profile.id) return;
-    roster = children; classes = ownedClasses; memberships = members;
+    roster = children;
     renderRoster();
   } catch (error) {
-    if (version === rosterVersion) $('roster-status').textContent = `Kids and groups need a connection. ${errorText(error)}`;
+    if (version === rosterVersion) $('roster-status').textContent = `Kids need a connection. ${errorText(error)}`;
   }
 }
 function render() {
@@ -113,11 +103,18 @@ function render() {
   $('signed-in').hidden = !signedIn;
   document.querySelectorAll('[data-adult]').forEach(node => { node.hidden = !signedIn || profile.role !== 'grownup'; });
   if (!signedIn) {
-    rosterFor = null; roster = []; classes = []; rosterVersion++;
-    notice('Sign in to open your notebook.');
+    rosterFor = null; roster = []; rosterVersion++;
+    document.querySelector('.title').textContent = 'Grown-up portal';
+    notice('Sign in to manage your kids.');
     return;
   }
   const owner = A.owner || profile;
+  const adult = profile.role === 'grownup';
+  document.querySelectorAll('[data-child]').forEach(node => { node.hidden = adult; });
+  document.querySelector('.title').textContent = adult ? 'Grown-up portal' : 'Your notebook';
+  $('progress').hidden = adult && owner.id === profile.id;
+  $('progress-link').hidden = adult && owner.id === profile.id;
+  $('back-to-me').textContent = adult ? 'Close child notebook' : 'Back to my notebook';
   const snapshot = A.snapshot || {};
   const rounds = snapshot.rounds || [];
   $('identity-title').textContent = profile.display_name;
@@ -137,24 +134,43 @@ function render() {
   (snapshot.achievements?.length ? snapshot.achievements : ['Your first milestone is waiting. Play a round to begin.']).forEach(text => achievements.append(element('li', text)));
   $('sync-status').textContent = A.status || 'Your notebook is open.';
   if (rosterFor !== profile.id && profile.role === 'grownup') { rosterFor = profile.id; loadRoster(); }
-  notice(owner.id === profile.id ? `Welcome, ${profile.display_name}. Your notebook is ready.` : `Viewing ${owner.display_name}'s notebook. Playing uses ${profile.display_name}'s login.`);
+  notice(owner.id === profile.id ? `Welcome, ${profile.display_name}. ${adult ? 'Manage your kids below.' : 'Your notebook is ready.'}` : `Viewing ${owner.display_name}'s notebook.`);
 }
 if (!A) { notice('Accounts could not open. Reload this page when you are online.', true); return; }
+async function avatarPicture(file) {
+  const url = URL.createObjectURL(file);
+  try {
+    const image = new Image(); image.src = url;
+    try { await image.decode(); } catch { throw new Error('Choose a picture this browser can open.'); }
+    const canvas = document.createElement('canvas');
+    const ratio = Math.min(1, 256 / Math.max(image.width, image.height));
+    canvas.width = Math.max(1, Math.round(image.width * ratio)); canvas.height = Math.max(1, Math.round(image.height * ratio));
+    const context = canvas.getContext('2d');
+    context.fillStyle = '#fff8e5'; context.fillRect(0, 0, canvas.width, canvas.height);
+    context.drawImage(image, 0, 0, canvas.width, canvas.height);
+    return canvas.toDataURL('image/jpeg', .85);
+  } finally { URL.revokeObjectURL(url); }
+}
+$('avatar-upload').addEventListener('change', async () => {
+  const preview = $('avatar-preview'); preview.hidden = true;
+  if (!$('avatar-upload').files.length) return;
+  try { preview.src = await avatarPicture($('avatar-upload').files[0]); preview.hidden = false; }
+  catch (error) { $('avatar-upload').value = ''; notice(errorText(error), true); }
+});
+document.querySelectorAll('[name="avatar"]').forEach(input => input.addEventListener('change', () => {
+  $('avatar-upload').value = ''; $('avatar-preview').hidden = true;
+}));
 wireForm('signin-form', fields => A.signIn(fields.handle.trim(), fields.password, {role:'grownup'}), 'Signed in. Your notebook is ready.');
-wireForm('register-form', fields => A.register({...fields, handle: fields.handle.trim()}), 'Your grown-up account is ready.');
+wireForm('create-grownup-form', fields => A.manage('create-grownup', {...fields, handle: fields.handle.trim()}), 'Grown-up account created. Share their login with them.');
 wireForm('create-child-form', async fields => {
-  if (!fields.class_id) delete fields.class_id;
+  delete fields.avatar_file;
+  if ($('avatar-upload').files.length) fields.avatar = await avatarPicture($('avatar-upload').files[0]);
   fields.handle = fields.handle.trim();
   await A.manage('create-child', fields); await loadRoster();
 }, 'Child account created. Keep their login name and password wherever they play.');
 wireForm('link-child-form', async fields => { await A.manage('link-child', {...fields, handle: fields.handle.trim()}); await loadRoster(); }, 'Child linked. Their existing progress stays in the same notebook.');
 wireForm('reset-password-form', fields => A.manage('reset-child-password', fields), 'Password changed. Use the new password next time this child signs in.');
 wireForm('own-password-form', fields => A.changePassword(fields.password), 'Your password changed. Use the new password next time you sign in.');
-wireForm('create-class-form', async fields => {
-  await A.rest('classes', {method: 'POST', body: {id: crypto.randomUUID(), owner_id: A.profile.id, name: fields.name.trim()}});
-  await loadRoster();
-}, 'Group created. You can add children to it below.');
-wireForm('assign-class-form', async fields => { await A.rest('class_children', {method: 'POST', body: fields}); await loadRoster(); }, 'Child added to the group.');
 $('sync-now').addEventListener('click', async () => {
   $('sync-now').disabled = true;
   try { await A.sync(); if (A.profile?.role === 'grownup') await loadRoster(); render(); }

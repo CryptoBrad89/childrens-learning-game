@@ -7,9 +7,19 @@ form{display:grid;gap:16px;margin-top:20px}form label{display:grid;gap:6px;font-
 .notebook-nav{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 28px}.notebook-nav a{display:flex;align-items:center;justify-content:center;min-height:60px;border:2px solid var(--line-strong);border-radius:999px;padding:8px 22px;color:var(--ink);text-decoration:none;transition:background 300ms var(--ease-emph),color 150ms}.notebook-nav a:hover,.notebook-nav a:focus-visible{background:var(--ink);color:var(--paper)}
 .owner-line,.sync-row{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}.owner-line p{font-weight:900}.totals{display:flex;gap:clamp(24px,6vw,80px);flex-wrap:wrap}.totals p{display:grid;margin:16px 0}.totals strong{font-size:clamp(2.6rem,5vw,4rem);font-weight:900;line-height:1.1;color:var(--accent);font-variant-numeric:tabular-nums}.totals span{color:var(--muted)}.world-progress{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:0;list-style:none}.world-progress li{border:2px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:6px}.world-progress strong{font-size:1.8rem}.world-progress span{font-size:.9rem;color:var(--muted)}h3{font-size:1.15rem;margin:28px 0 12px}.milestones{display:flex;gap:10px;flex-wrap:wrap;padding:0;list-style:none}.milestones li{padding:10px 16px;border:2px dashed var(--line-strong);border-radius:12px;font-size:.93rem}.sync-row{border-top:1px solid var(--line);margin-top:28px;padding-top:16px}.sync-row p{max-width:60ch}
 .children-list{list-style:none;padding:0;margin:20px 0 28px;display:grid;gap:12px}.children-list li{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;border-bottom:1px solid var(--line);padding:12px 0}.children-list small{display:block;color:var(--muted)}.manage-grid{gap:16px}details{border:2px solid var(--line);border-radius:14px;padding:0 18px 18px}summary{min-height:60px;padding:16px 0 0;cursor:pointer;font-weight:900}details[open] summary{color:var(--accent)}details form{margin-top:12px}details .help{font-size:.86rem}.manage-grid details:last-child{grid-column:1/-1}
-.password-panel{margin-bottom:28px;background:var(--sheet)}.password-panel form{max-width:34rem}.classes-list{list-style:none;padding:0;margin:16px 0 28px;display:grid;gap:12px}.classes-list li{padding:14px 0;border-bottom:1px solid var(--line)}.classes-list small{display:block;color:var(--muted)}
+.password-panel{margin-bottom:28px;background:var(--sheet)}.password-panel form{max-width:34rem}
 @keyframes notebook-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @media(max-width:760px){.notebook-grid{grid-template-columns:1fr}.world-progress{grid-template-columns:1fr}.world-progress li{grid-template-columns:1fr auto;align-items:center}.world-progress strong{grid-column:2;grid-row:1}.world-progress span{grid-column:1}.identity .actions{width:100%}.panel{padding:20px}.notebook-nav a{flex:1 1 auto}.manage-grid details:last-child{grid-column:auto}}
 @media(prefers-reduced-motion:reduce){.panel{animation:none}button,a{transition:none}}
 
 .brand-tagline{display:block;font-size:12px;letter-spacing:.04em;text-transform:none;margin-top:5px}
+
+#signed-out .notebook-grid{grid-template-columns:minmax(0,540px)}
+.avatar-options{display:flex;gap:12px;flex-wrap:wrap;border:2px solid var(--line);border-radius:14px;padding:12px}
+.avatar-options label{position:relative;display:grid;place-items:center;min-width:60px;min-height:60px}
+.avatar-options input[type=radio]{position:absolute;inset:0;opacity:0;min-height:0;cursor:pointer}
+.avatar-options span:not(.sr-only){font-size:32px;padding:8px;border:2px solid transparent;border-radius:12px}
+.avatar-options input:checked+span{border-color:var(--accent);background:var(--paper)}
+.avatar-options input:focus-visible+span{outline:4px solid var(--focus)}
+.child-avatar{width:64px;height:64px;object-fit:cover;border-radius:50%;display:grid;place-items:center;font-size:36px;flex:none;overflow:hidden}
+.child-avatar img{width:100%;height:100%;object-fit:cover}.children-list li>div{flex:1}

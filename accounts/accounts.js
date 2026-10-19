@@ -104,7 +104,9 @@ async function rest(path, options={}) {
   return network('/rest/v1/'+path.replace(/^\//,''),{...options,token:access,headers:{Prefer:'return=representation',...options.headers}});
 }
 async function manage(action, fields={}) {
-  return network('/functions/v1/accounts',{method:'POST',body:{action,...fields},...(action==='register'?{}:{token:await token()})});
+  requireHostedAccounts();
+  if (!self || self.role !== 'grownup') throw new Error('Sign in as a grown-up administrator first.');
+  return network('/functions/v1/accounts',{method:'POST',body:{...fields,action},token:await token()});
 }
 async function signIn(handle, password, {role} = {}) {
   requireHostedAccounts();
@@ -119,11 +121,6 @@ async function signIn(handle, password, {role} = {}) {
   persistSession({...result,expires_at:Date.now()/1000+result.expires_in,profile:profiles[0]});
   owner=self; sessionStorage.removeItem(TARGET_KEY); emit();
   await sync();
-}
-async function register(fields) {
-  requireHostedAccounts();
-  await manage('register',fields);
-  await signIn(fields.handle,fields.password);
 }
 async function signOut() {
   guest=false;try { sessionStorage.removeItem(GUEST_KEY); } catch {}
@@ -217,7 +214,7 @@ window.ACCOUNTS = {ready,
     try { sessionStorage.setItem(GUEST_KEY,'1'); } catch {}
     emit();
   },
-  get guest(){return guest;}, signIn,register,signOut,selectOwner,setSetting,setSettings,recordRound,sync,rest,manage,
+  get guest(){return guest;}, signIn,signOut,selectOwner,setSetting,setSettings,recordRound,sync,rest,manage,
   async changePassword(password) { if([...password].length<6)throw new Error('Use at least 6 characters.'); return network('/auth/v1/user',{method:'PUT',token:await token(),body:{password}}); },
   get session(){return guest?null:session;},get profile(){return guest?null:self;},get owner(){return guest?null:owner;},get status(){return status;},
   get snapshot(){return snapshotFor(guest?null:owner?.id);},get pending(){if(guest)return 0;return records.filter(r=>r.pending && r.user_id===owner?.id).length;},

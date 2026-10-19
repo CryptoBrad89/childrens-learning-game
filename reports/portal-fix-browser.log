@@ -1,0 +1,35 @@
+Shard 0
+PASS v1-letter-post-390-theme0: B/J/X/Z flow, hints, replay, collection, wrap, keyboard and layout
+PASS v1-letter-post-390-theme1: B/J/X/Z flow, hints, replay, collection, wrap, keyboard and layout
+PASS v1-letter-post-390-theme2: B/J/X/Z flow, hints, replay, collection, wrap, keyboard and layout
+PASS 3 browser cases; screenshots disabled
+
+Shard 1
+PASS v1-letter-post-768-theme0: B/J/X/Z flow, hints, replay, collection, wrap, keyboard and layout
+PASS v1-letter-post-768-theme1: B/J/X/Z flow, hints, replay, collection, wrap, keyboard and layout
+PASS v1-letter-post-768-theme2: B/J/X/Z flow, hints, replay, collection, wrap, keyboard and layout
+PASS 3 browser cases; screenshots disabled
+
+Shard 2
+PASS v1-letter-post-1440-theme0: B/J/X/Z flow, hints, replay, collection, wrap, keyboard and layout
+PASS v1-letter-post-1440-theme1: B/J/X/Z flow, hints, replay, collection, wrap, keyboard and layout
+PASS v1-letter-post-1440-theme2: B/J/X/Z flow, hints, replay, collection, wrap, keyboard and layout
+PASS 3 browser cases; screenshots disabled
+
+Shard 3
+PASS v3-moonboat-390-theme0: B/J/X/Z flow, hints, replay, collection, wrap, keyboard and layout
+PASS v3-moonboat-390-theme1: B/J/X/Z flow, hints, replay, collection, wrap, keyboard and layout
+PASS v3-moonboat-390-theme2: B/J/X/Z flow, hints, replay, collection, wrap, keyboard and layout
+PASS 3 browser cases; screenshots disabled
+
+Shard 4
+PASS v3-moonboat-768-theme0: B/J/X/Z flow, hints, replay, collection, wrap, keyboard and layout
+PASS v3-moonboat-768-theme1: B/J/X/Z flow, hints, replay, collection, wrap, keyboard and layout
+PASS v3-moonboat-768-theme2: B/J/X/Z flow, hints, replay, collection, wrap, keyboard and layout
+PASS 3 browser cases; screenshots disabled
+
+Shard 5
+PASS v3-moonboat-1440-theme0: B/J/X/Z flow, hints, replay, collection, wrap, keyboard and layout
+PASS v3-moonboat-1440-theme1: B/J/X/Z flow, hints, replay, collection, wrap, keyboard and layout
+PASS v3-moonboat-1440-theme2: B/J/X/Z flow, hints, replay, collection, wrap, keyboard and layout
+PASS 3 browser cases; screenshots disabled

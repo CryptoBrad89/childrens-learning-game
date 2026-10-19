@@ -1,0 +1,19 @@
+$ python3 tests/run_tests.py
+PASS approved audio: 53 approved clips, exact hashes, no extras
+PASS trim metadata: 54 metadata items / 53 clips (soft G aliases J): duration, slash, voice/model and stored name STT valid
+PASS wiring: both games: A-Z approved maps, long I, playback sites and local audio paths valid
+PASS voice: 91 audio files inventoried with matching hashes
+PASS alphabet: both games: 26 ordered letters, supplied words, Lucy/eleven_v4 clips and valid explicit SVGs
+PASS themes: Letter Post and Moonboat themes retained, with dark and light backgrounds
+6/6 checks passed (strict)
+PASS (exit 0)
+$ node tests/accounts_database.cjs
+accounts_database: migration, RLS isolation, immutable events, idempotent retries, conflict rollback and class permissions passed
+PASS (exit 0)
+$ node tests/accounts_database_edge.cjs
+accounts_database_edge: admin-only creation (including legacy register), anonymous/child denial, avatars, password preservation, guardian checks, cleanup and interrupted retry passed
+PASS (exit 0)
+$ .job/db-tools/node_modules/.bin/tsc --noEmit --strict --target ES2022 --module ESNext --lib ES2022,DOM .job/db-tools/deno.d.ts supabase/functions/accounts/index.ts
+PASS (exit 0)
+$ git diff --check
+PASS (exit 0)

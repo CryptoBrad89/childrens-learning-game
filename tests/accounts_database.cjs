@@ -32,7 +32,18 @@ const assert = require('node:assert/strict');
   async function sync(owner, events) {
     return (await db.query('select public.sync_batch($1,$2) result', [owner, JSON.stringify(events)])).rows[0].result;
   }
+  await db.query("update public.profiles set avatar='data:image/jpeg;base64,YWJj' where id=$1",[child]);
+  await assert.rejects(db.query("update public.profiles set avatar='data:image/svg+xml;base64,YWJj' where id=$1",[child]),/check constraint/);
+  const another='10000000-0000-0000-0000-000000000004';
+  await db.exec('reset role');
+  await db.query('insert into auth.users values($1)',[another]);
+  await db.exec('set role service_role');
+  await db.query("select public.provision_account($1,'new_adult','New adult','grownup',$2)",[another,adult]);
+  assert.equal((await db.query('select count(*)::int n from public.guardians where child_id=$1',[another])).rows[0].n,0,'Grown-up creation never links a grown-up as a child');
   await caller(child);
+  await assert.rejects(db.query("update public.profiles set avatar='⭐' where id=$1",[child]),/permission denied/);
+  await assert.rejects(db.query("select public.provision_account($1,'new_adult','New adult','grownup',$2)",[another,child]),/permission denied/);
+
   assert.deepEqual((await db.query('select handle from public.profiles')).rows, [{ handle: 'child' }]);
   assert.deepEqual(await sync(child, batch), { acknowledged:[event] });
   await sync(child, batch);

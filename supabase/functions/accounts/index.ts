@@ -31,6 +31,13 @@ function uuid(value: unknown, label = 'Child ID'): string {
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(result)) throw new RequestError(`Invalid ${label.toLowerCase()}.`);
   return result;
 }
+function childAvatar(value: unknown): string {
+  if (value === undefined) return '🐶';
+  const avatar = string(value, 'Avatar');
+  if (['🐶', '🐱', '🐰', '🦊', '🐼', '⭐'].includes(avatar)) return avatar;
+  if (avatar.length <= 150000 && /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/]+={0,2}$/.test(avatar)) return avatar;
+  throw new RequestError('Choose a profile icon or upload a smaller picture.');
+}
 function env(name: string): string {
   const value = Deno.env.get(name);
   if (!value) throw new RequestError('Accounts are not configured yet.', 503);
@@ -62,26 +69,20 @@ export async function serve(request: Request): Promise<Response> {
     }
     const input = object(await request.json());
     const action = string(input.action, 'Action');
-    let adult: string | null = null;
-    if (action !== 'register') {
-      const bearer = request.headers.get('Authorization')?.replace(/^Bearer\s+/i, '');
-      if (!bearer) throw new RequestError('Sign in as a grown-up first.', 401);
-      const user = object(await api('/auth/v1/user', {}, bearer, publicKey));
-      adult = string(user.id, 'User ID');
-      const rows = await api(`/rest/v1/profiles?id=eq.${adult}&role=eq.grownup&select=id`);
-      if (!Array.isArray(rows) || rows.length !== 1) throw new RequestError('A grown-up account is required.', 403);
-    }
-    if (action === 'register' || action === 'create-child') {
+    const bearer = request.headers.get('Authorization')?.replace(/^Bearer\s+/i, '');
+    if (!bearer) throw new RequestError('Sign in as a grown-up first.', 401);
+    const authenticated = object(await api('/auth/v1/user', {}, bearer, publicKey));
+    const adult = string(authenticated.id, 'User ID');
+    const rows = await api(`/rest/v1/profiles?id=eq.${adult}&role=eq.grownup&select=id`);
+    if (!Array.isArray(rows) || rows.length !== 1) throw new RequestError('A grown-up account is required.', 403);
+    if (action === 'register' || action === 'create-grownup' || action === 'create-child') {
       const name = handle(input.handle);
       const secret = password(input.password);
       const display = string(input.display_name, 'Name').trim();
       if (!display || [...display].length > 60) throw new RequestError('Use a name of 1–60 characters.');
-      const role = action === 'register' ? 'grownup' : 'child';
-      const classId = action === 'create-child' && input.class_id ? uuid(input.class_id, 'Class ID') : null;
-      if (classId) {
-        const classes = await api(`/rest/v1/classes?id=eq.${classId}&owner_id=eq.${adult}&select=id`);
-        if (!Array.isArray(classes) || classes.length !== 1) throw new RequestError('Choose a class that belongs to you.', 403);
-      }
+      const role = action === 'create-child' ? 'child' : 'grownup';
+      const avatar = role === 'child' ? childAvatar(input.avatar) : null;
+      if (input.class_id) throw new RequestError('Groups are no longer supported.');
       let user: Fields;
       let created = false;
       try {
@@ -109,7 +110,7 @@ export async function serve(request: Request): Promise<Response> {
       const id = string(user.id, 'User ID');
       try {
         await api('/rest/v1/rpc/provision_account', { method: 'POST', body: JSON.stringify({
-          p_id: id, p_handle: name, p_display_name: display, p_role: role, p_adult: adult, p_class: classId,
+          p_id: id, p_handle: name, p_display_name: display, p_role: role, p_adult: adult, p_class: null,
         }) });
       } catch (error) {
         // A lost HTTP response may hide a committed transaction: inspect before compensating.
@@ -121,6 +122,7 @@ export async function serve(request: Request): Promise<Response> {
         }
         throw error;
       }
+      if (avatar !== null) await api(`/rest/v1/profiles?id=eq.${id}`, { method: 'PATCH', body: JSON.stringify({ avatar }) });
       const profiles = await api(`/rest/v1/profiles?id=eq.${id}&select=*`);
       return response({ profile: Array.isArray(profiles) ? profiles[0] : null });
     }

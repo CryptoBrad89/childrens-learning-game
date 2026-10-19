@@ -1,5 +1,7 @@
 # Home flow and Ribbon Road build
 
+**Portal update (2026-10-19):** [Portal fix report](portal-fix.md) supersedes the signup, groups, grown-up chrome and backend-deployment details below.
+
 Letters with Lucy now opens with child sign-in, followed by a layout picker with Ribbon Road highlighted first. Play without saving is isolated from account history and preferences. Existing accounts, groups, offline caching and cross-device sync remain working. Art and audio are unchanged. No database migration or backend deployment was needed.
 
 ## What changed

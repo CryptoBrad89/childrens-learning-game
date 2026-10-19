@@ -1,0 +1,4 @@
+PASS LIVE portal 390 light: matching chrome, admin-only entry, no play banner/groups/codes, icon + uploaded avatar persistence, additional administrator, child denial
+PASS LIVE portal 390 dark: matching chrome, admin-only entry, no play banner/groups/codes, icon + uploaded avatar persistence, additional administrator, child denial
+PASS LIVE portal 1440 light: matching chrome, admin-only entry, no play banner/groups/codes, icon + uploaded avatar persistence, additional administrator, child denial
+PASS LIVE portal 1440 dark: matching chrome, admin-only entry, no play banner/groups/codes, icon + uploaded avatar persistence, additional administrator, child denial

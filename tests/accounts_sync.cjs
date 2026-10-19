@@ -35,11 +35,12 @@ function backend() {
     let result = [], status = 200;
     const actor = users.get((request.headers().authorization || '').replace('Bearer ',''));
     if (url.pathname.endsWith('/accounts')) {
-      if (data.action === 'register' || data.action === 'create-child') {
+      if (!actor || actor.profile.role !== 'grownup') {status=403;result={error:'A grown-up account is required.'};}
+      else if (data.action === 'register' || data.action === 'create-grownup' || data.action === 'create-child') {
         if (data.password.length < 6) {status=400;result={message:'Use at least 6 characters.'};}
         else {
-          const id = crypto.randomUUID(), item={password:data.password,profile:{id,handle:data.handle,display_name:data.display_name,role:data.action==='register'?'grownup':'child'}};
-          users.set(id,item); if(actor)links.push({adult_id:actor.profile.id,child_id:id}); result=item.profile;
+          const id = crypto.randomUUID(), item={password:data.password,profile:{id,handle:data.handle,display_name:data.display_name,role:data.action==='create-child'?'child':'grownup',avatar:data.avatar||'🐶'}};
+          users.set(id,item); if(actor && data.action==='create-child')links.push({adult_id:actor.profile.id,child_id:id}); result=item.profile;
         }
       }
     } else if (url.pathname.endsWith('/token') && url.searchParams.get('grant_type')==='refresh_token') {
@@ -70,7 +71,7 @@ function backend() {
     } else {status=404;result={message:'Unimplemented fixture route '+url.pathname};}
     await requestRoute.fulfill({status,contentType:'application/json',body:status===204?'':JSON.stringify(result)});
   }
-  return {route,events,loseNextResponse(){loseResponse=true;},holdRefresh(){
+  return {route,events,seed(handle,password,display_name='Test administrator') { const id=crypto.randomUUID();users.set(id,{password,profile:{id,handle,display_name,role:'grownup'}}); },loseNextResponse(){loseResponse=true;},holdRefresh(){
     let arrived,release;const started=new Promise(resolve=>{arrived=resolve;});const wait=new Promise(resolve=>{release=resolve;});
     refreshHold={arrived,wait};return {started,release};
   }};
@@ -113,26 +114,29 @@ async function run() {
     for(const context of contexts)if(!live)await context.route('https://*.supabase.co/**',fixture.route);
     const [a,b]=await Promise.all(contexts.map(c=>c.newPage()));
     const errors=[];for(const p of [a,b])p.on('pageerror',e=>errors.push(e.message));
-    console.log('Accounts browser: creating grown-up and child through forms');
+    console.log('Accounts browser: signed-in administrator creates grown-up and child through forms');
+    if(!live)fixture.seed('admin_seed',password);
     await a.goto(url+'/accounts/');
     assert.equal(await a.evaluate(()=>ACCOUNT_CONFIG.url),'https://ixjbgshhzeaosrzavssr.supabase.co','Tests may only touch the authorized project');
-    try {await form(a,'register-form',{handle:adult,password,display_name:'Sync test grown-up'});}
-    catch(error){if(live)throw new Error('LIVE DEPLOYMENT REQUIRED: configured Supabase needs the checked-in migrations and accounts Edge Function applied. '+error.message);throw error;}
+    const seed=live?JSON.parse(fs.readFileSync(process.env.ACCOUNTS_SEED_REPORT||'reports/home-flow-test-logins.json','utf8')):null;
+    const seedAdult=live?seed.grownup.handle:'admin_seed';
+    const seedPassword=live?seed.grownup.password:password;
+    await form(a,'signin-form',{handle:seedAdult,password:seedPassword});
+    await form(a,'create-grownup-form',{handle:adult,password,display_name:'Sync test grown-up'});
+    await a.locator('#sign-out').click();
+    await form(a,'signin-form',{handle:adult,password});
     await form(a,'create-child-form',{handle:child,password,display_name:'Sync test child'});
     const childId=await a.evaluate(async()=>{const links=await ACCOUNTS.rest('/guardians?select=child_id');return links[0].child_id;});
     if(live) {
-      await form(a,'create-class-form',{name:'Sync group '+suffix});
-      await a.waitForFunction(()=>document.querySelector('#assign-class-form [name=class_id]').options.length>1);
-      const classId=await a.locator('#assign-class-form [name=class_id] option').nth(1).getAttribute('value');
-      await form(a,'assign-class-form',{child_id:childId,class_id:classId});
       await form(a,'create-child-form',{handle:otherChild,password:'aaaaaa',display_name:'Sync other child'});
       otherChildId=await a.evaluate(async id=>(await ACCOUNTS.rest('/guardians?select=child_id')).find(link=>link.child_id!==id).child_id,childId);
+      await form(a,'create-grownup-form',{handle:parent,password,display_name:'Sync test grown-up'});
       await b.goto(url+'/accounts/');
-      await form(b,'register-form',{handle:parent,password,display_name:'Sync test grown-up'});
+      await form(b,'signin-form',{handle:parent,password});
       await form(b,'link-child-form',{handle:child,password});
       await b.waitForFunction(handle=>document.querySelector('#children-list').textContent.includes(handle),child);
       await b.locator('#sign-out').click();
-      console.log('PASS LIVE SUPABASE: create group, assign child, second grown-up links existing child, lowercase six-character child password');
+      console.log('PASS LIVE SUPABASE: administrator creates second grown-up, who links existing child, lowercase six-character child password');
     }
     await a.locator('#sign-out').click();
     await signin(a,url,child,password);await signin(b,url,child,password);

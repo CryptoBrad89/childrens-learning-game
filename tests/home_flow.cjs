@@ -58,7 +58,8 @@ async function run(){
     const context=await browser.newContext({reducedMotion:'reduce'});await context.route('https://*.supabase.co/**',fixture.route);
     const page=await context.newPage(),errors=[];page.on('pageerror',error=>errors.push(error.message));
     await page.goto(url+'/');await page.evaluate(()=>ACCOUNTS.ready);
-    await page.evaluate(async()=>{await ACCOUNTS.register({handle:'grown_demo',password:'7234ab',display_name:'A grown-up'});await ACCOUNTS.manage('create-child',{handle:'kid_demo',password:'7234ab',display_name:'A child'});await ACCOUNTS.signOut();});
+    fixture.seed('grown_demo','7234ab','A grown-up');
+    await page.evaluate(async()=>{await ACCOUNTS.signIn('grown_demo','7234ab');await ACCOUNTS.manage('create-child',{handle:'kid_demo',password:'7234ab',display_name:'A child'});await ACCOUNTS.signOut();});
     await page.goto(url+'/');
     await page.locator('#child-signin-form [name=handle]').fill('grown_demo');await page.locator('#child-signin-form [name=password]').fill('7234ab');await page.locator('#child-signin-form button').click();
     await page.waitForFunction(()=>document.querySelector('#login-status').classList.contains('error'));
@@ -73,10 +74,10 @@ async function run(){
     await page.locator('#login-dialog .grown').click();await page.waitForURL('**/accounts/index.html');
     await form(page,'signin-form',{handle:'grown_demo',password:'7234ab'});
     assert(await page.locator('#people').isVisible());
-    assert.match(await page.locator('#people-title').innerText(),/Kids & groups/);
+    assert.match(await page.locator('#people-title').innerText(),/Kids/);
     assert(!/\bcode\b/i.test(await page.locator('#people').textContent()),'Kid management has no group, board or classroom code flow, including collapsed forms');
     assert.equal(await page.locator('#account-main input').evaluateAll(inputs=>inputs.filter(input=>/code/i.test([input.name,input.id,input.placeholder,input.getAttribute('aria-label')].join(' '))).length),0,'Grown-up portal has no code fields');
-    assert(!/teacher|student|classroom|parent|\bclasses\b|\bclass\b/i.test(await page.locator('#people').innerText()),'Grown-up management uses groups, not school roles');
+    assert(!/teacher|student|classroom|parent|\bclasses\b|\bclass\b/i.test(await page.locator('#people').innerText()),'Grown-up management has no school roles');
     await page.evaluate(()=>ACCOUNTS.signOut());await page.goto(url+'/');await form(page,'child-signin-form',{handle:'kid_demo',password:'7234ab'});
     await page.goto(url+'/grown-ups/');await page.waitForURL('**/accounts/index.html');
     assert(await page.locator('#people').isHidden(),'Child cannot enter grown-up management');
@@ -91,7 +92,7 @@ async function run(){
     await filePage.goto(require('node:url').pathToFileURL(require('node:path').resolve(__dirname,'../index.html')).href);
     await filePage.locator('#child-signin-form [name=handle]').fill('kid_demo');await filePage.locator('#child-signin-form [name=password]').fill('7234ab');await filePage.locator('#child-signin-form button').click();
     await filePage.waitForFunction(()=>document.querySelector('#login-status').textContent.includes('web address'));
-    assert.match(await filePage.evaluate(async()=>{try{await ACCOUNTS.register({handle:'local_signup',password:'7234ab',display_name:'Local'});return 'unexpected account';}catch(error){return error.message;}}),/web address/);
+    assert.match(await filePage.evaluate(async()=>{try{await ACCOUNTS.manage('create-grownup',{handle:'local_signup',password:'7234ab',display_name:'Local'});return 'unexpected account';}catch(error){return error.message;}}),/web address/);
     await filePage.locator('#play-unsaved').click();await filePage.locator('[data-world=silk]').click();await settle(filePage);
     await filePage.locator('#mute').click();await round(filePage,'B');assert.equal(await filePage.evaluate(()=>ACCOUNTS.snapshot.count),0);
     await local.close();console.log('PASS local file: clear sign-in guidance and fully playable unsaved Ribbon Road');

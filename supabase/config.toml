@@ -1,5 +1,5 @@
 project_id = "little-woof"
 
 [functions.accounts]
-# Public registration; protected actions validate the bearer token with Auth /user.
+# Every action validates the bearer token with Auth /user and checks the grown-up role.
 verify_jwt = false

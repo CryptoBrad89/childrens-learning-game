@@ -2,7 +2,7 @@
 
 Little Sounds Big Discovery.
 
-The home page opens a child-first sign-in dialog. Sign in, continue a previously signed-in child, or choose **Play without saving**. Then choose **Ribbon Road**, highlighted first by default, **Letter Post**, or **Moonboat**. The small **Are you a grown-up?** link opens the separate grown-up area. Grown-ups manage any number of kids and groups.
+The home page opens a child-first sign-in dialog. Sign in, continue a previously signed-in child, or choose **Play without saving**. Then choose **Ribbon Road**, highlighted first by default, **Letter Post**, or **Moonboat**. The small **Are you a grown-up?** link opens the separate grown-up area. Grown-ups manage kids; additional administrator accounts require an existing grown-up to sign in.
 
 Unsaved play never reads or changes saved preferences and never records rounds or achievements. Its colors and sound choices last only for the current page. The warning stays visible while playing. Existing grown-up layout visibility choices still apply to signed-in accounts; unsaved play always offers all three layouts.
 
@@ -135,9 +135,8 @@ Signed-in settings save to the selected person's account and sync across devices
 
 `grown-ups/settings.js` is the shared, validated store. `grown-ups/in-game.css`
 mirrors the reduced-motion rules for calm motion. The defaults leave every
-world exactly as it was. The masthead band is Paper Shaders' static mesh
-gradient (Apache-2.0, see `grown-ups/paper-shaders/`), drawn once with WebGL2,
-with a CSS fallback. Design notes are in
+world exactly as it was. Grown-up pages use the same cream background, ink and
+dotted texture as child sign-in, including on devices that prefer dark mode. Design notes are in
 [grown-ups/DESIGN.md](grown-ups/DESIGN.md). Opened straight from `file://`,
 some browsers (Firefox, for example) may keep separate storage for each page. Serve the
 folder (see above) to share settings in every browser.
@@ -150,7 +149,7 @@ folder (see above) to share settings in every browser.
 
 ## Accounts and offline sync
 
-Serve the repository on HTTPS, or use `python3 -m http.server 8000` for localhost testing. Start at `/` for child sign-in. The grown-up link opens `/accounts/` through the protected settings area; create a grown-up login there, then make child logins or link an existing child's account. Everyone signs in with a unique login name and a password of at least six characters. A child uses the same login wherever they play. The notebook manages groups and child settings, shows lasting rounds and milestones, and offers an explicit **I'm done** sign-out for shared computers.
+Serve the repository on HTTPS, or use `python3 -m http.server 8000` for localhost testing. Start at `/` for child sign-in. The grown-up link opens `/accounts/` through the protected settings area; sign in with an existing grown-up account, then make child logins or link an existing child's account. Everyone signs in with a unique login name and a password of at least six characters. A child uses the same login wherever they play. The portal manages kids, offers profile icons or picture uploads when creating a child, and manages child settings. The notebook shows lasting rounds and milestones, and offers an explicit **I'm done** sign-out for shared computers.
 
 The header says **Games ready for offline play** after the whole game is cached. A previously signed-in person can reopen and play offline. A new sign-in requires a connection. Completed rounds and field-level setting edits wait in IndexedDB until reconnecting; repeated delivery cannot count a round twice. Settings include every grown-up option, sound choice and each world's theme. Opening a new world uses the latest synchronized choices. The in-world strip remains a collection for this visit; the notebook is permanent history.
 

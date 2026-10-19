@@ -4,7 +4,9 @@ if (location.protocol === 'file:') return;
 const base=new URL('../',document.currentScript.src), A=window.ACCOUNTS;
 const isHome=document.body.dataset.page==='home';
 let offline=document.getElementById('offline-status');
-if(!isHome){
+const isAdmin=location.pathname.includes('/accounts/')||location.pathname.includes('/grown-ups/');
+if(!offline&&isAdmin){offline=document.createElement('p');offline.id='offline-status';offline.setAttribute('role','status');document.querySelector('main')?.append(offline);}
+if(!isHome&&!isAdmin){
   const style=document.createElement('style');
   style.textContent='#account-strip{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:center;margin:16px auto 24px;padding:12px;max-width:1040px;background:#fff8e5;color:#253f65;border:2px solid #253f65;border-radius:16px;font:700 16px/1.5 system-ui,sans-serif}#account-strip a,#account-strip button{display:inline-flex;align-items:center;justify-content:center;min-height:60px;padding:8px 18px;border:2px solid #253f65;border-radius:14px;background:#b9dce6;color:#253f65;box-shadow:none;text-decoration:none;font:inherit;cursor:pointer}#account-strip small{display:block;flex-basis:100%;text-align:center;font-size:14px}#account-strip :focus-visible{outline:3px solid #007a95;outline-offset:4px}';
   document.head.append(style);
