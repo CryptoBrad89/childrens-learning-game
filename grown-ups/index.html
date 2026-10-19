@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#faf2df">
+  <title>Grown-ups · Little Woof</title>
+  <link rel="stylesheet" href="page.css">
+  <script src="settings.js"></script>
+  <script>try { GrownUps.applyMotion(document); } catch (error) {}</script>
+</head>
+<body data-screen="gate">
+  <a class="skip" href="#hold">Skip to the question</a>
+  <canvas id="paper" width="160" height="160" hidden></canvas>
+  <div class="wrap">
+    <header class="mast">
+      <div>
+        <p class="brand">Little Woof</p>
+        <h1>Grown-ups</h1>
+        <p class="lead">Change the game for this device. Any adult can do it. The adventures stay as they are until you change them.</p>
+      </div>
+      <nav aria-label="On this page">
+        <ol>
+          <li><a href="#sound">01 Sound</a></li>
+          <li><a href="#motion">02 Motion</a></li>
+          <li><a href="#letters">03 Letters</a></li>
+          <li><a href="#adventures">04 Adventures</a></li>
+          <li><a href="#help">05 Help</a></li>
+        </ol>
+      </nav>
+      <span id="cursor-dot" hidden></span>
+    </header>
+    <p id="status" role="status"></p>
+    <div id="gate">
+      <section aria-labelledby="gate-title">
+        <h2 id="gate-title">Read this first</h2>
+        <p>Hold the button until the bar fills, then answer the question. A quick tap will not open this page. This keeps little hands from changing the game. It is not a password.</p>
+        <button type="button" id="hold">Hold to continue</button>
+        <div class="meter" aria-hidden="true"><span id="hold-bar"></span></div>
+        <div id="gate-question" hidden>
+          <h3 id="gate-prompt" tabindex="-1"></h3>
+          <div id="gate-choices" role="group" aria-labelledby="gate-prompt"></div>
+        </div>
+      </section>
+      <p class="back-row"><a href="../index.html">Back to the adventures</a></p>
+    </div>
+    <form id="sheet" hidden>
+      <section id="sound" aria-labelledby="sound-title">
+        <h2 id="sound-title"><span>01</span> Sound</h2>
+        <p>Lucy speaks the letter sounds. Turn sound off for a quiet room.</p>
+        <div role="radiogroup" aria-labelledby="sound-title">
+          <label><input type="radio" name="sound" value="on" checked> Sound on</label>
+          <label><input type="radio" name="sound" value="off"> Sound off</label>
+        </div>
+      </section>
+      <section id="motion" aria-labelledby="motion-title">
+        <h2 id="motion-title"><span>02</span> Motion</h2>
+        <p>Follow this device uses the browser’s motion setting. Keep it calm stops the movement. Allow motion plays it even when the device asks for less.</p>
+        <div role="radiogroup" aria-labelledby="motion-title">
+          <label><input type="radio" name="motion" value="device" checked> Follow this device</label>
+          <label><input type="radio" name="motion" value="calm"> Keep it calm</label>
+          <label><input type="radio" name="motion" value="full"> Allow motion</label>
+        </div>
+      </section>
+      <section id="letters" aria-labelledby="letters-title">
+        <h2 id="letters-title"><span>03</span> Letters</h2>
+        <p>Choose the letters on today’s shelf. They stay in A to Z order. A round can still show other pictures as the other choices.</p>
+        <div class="presets">
+          <button type="button" id="letters-all" aria-pressed="true">All 26 letters</button>
+          <button type="button" id="letters-first" aria-pressed="false">First eight, S A T P I N M D</button>
+        </div>
+        <div id="letter-grid" role="group" aria-label="Letters on the shelf"></div>
+      </section>
+      <section id="adventures" aria-labelledby="adventures-title">
+        <h2 id="adventures-title"><span>04</span> Adventures</h2>
+        <p>Choose which adventures appear on the first page. Leave at least one.</p>
+        <div role="group" aria-labelledby="adventures-title">
+          <label><input type="checkbox" name="game" value="post" checked> Lucy’s Letter Post</label>
+          <label><input type="checkbox" name="game" value="space" checked> Lucy’s Moonboat</label>
+          <label><input type="checkbox" name="game" value="silk" checked> Lucy’s Silk Thread</label>
+        </div>
+      </section>
+      <section id="help" aria-labelledby="help-title">
+        <h2 id="help-title"><span>05</span> Help</h2>
+        <p>After two misses, the game outlines the picture. Choose one miss when a child needs that picture sooner.</p>
+        <div role="radiogroup" aria-labelledby="help-title">
+          <label><input type="radio" name="hint" value="2" checked> Outline the picture after two misses</label>
+          <label><input type="radio" name="hint" value="1"> Outline the picture after one miss</label>
+        </div>
+      </section>
+      <div class="close-row">
+        <button type="button" id="hand-back" class="accent">Hand this back</button>
+        <a href="../index.html">Back to the adventures</a>
+        <p>Hand this back closes Grown-ups until the question is answered again.</p>
+      </div>
+    </form>
+  </div>
+  <script src="page.js"></script>
+  <noscript>This page needs JavaScript. The adventures still open from the first page.</noscript>
+</body>
+</html>
