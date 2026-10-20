@@ -31,7 +31,7 @@ function scopeValues(){
   render();
 }
 function renderScope(){
-  if(!hosted)return;
+  if(!hosted||A.profile?.role!=='grownup')return;
   const custom=targets.filter(id=>Object.keys(A.childOverrides[id]||{}).length).length;
   $('#scope-state').textContent=targets.length?`Editing: ${children.filter(child=>targets.includes(child.id)).map(child=>child.display_name+' ('+child.handle+')').join(', ')} · ${targets.length} ${targets.length===1?'child':'children'} · ${custom===0?'Using game defaults':custom===targets.length?'Custom for '+(targets.length===1?'this child':'these children'):`${custom} custom; ${targets.length-custom} using game defaults`}`:(A.profile.is_master?'Editing: Game defaults (everyone)':'Choose linked kids in Kids. Only the master grown-up can change game defaults.');
   const remaining=[...mixed].filter(key=>!(key in patch));
@@ -195,5 +195,5 @@ try{await setupScope();}catch(error){$('#save-status').textContent='Settings cou
 render();
 unlock();
 $('#title').textContent='Game settings';
-window.ACCOUNTS?.subscribe(()=>{if(document.body.dataset.view==='settings'&&!Object.keys(patch).length&&!applying){draft=G.normalize(targets.length?A.effectiveSettings(targets[0]):A.gameDefaults);render();}});
+window.ACCOUNTS?.subscribe(()=>{if(A.profile?.role!=='grownup')return;if(document.body.dataset.view==='settings'&&!Object.keys(patch).length&&!applying){draft=G.normalize(targets.length?A.effectiveSettings(targets[0]):A.gameDefaults);render();}});
 })();

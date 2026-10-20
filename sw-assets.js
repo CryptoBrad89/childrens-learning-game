@@ -1,5 +1,5 @@
 self.OFFLINE_MANIFEST = {
-  "version": "c9138f8b0212dfe2",
+  "version": "1b62d2dd6039472a",
   "files": [
     "./accounts/client.js",
     "./accounts/config.js",
