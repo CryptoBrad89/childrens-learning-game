@@ -16,7 +16,7 @@ def batch(items,workers=2):
  with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as pool:
   return list(pool.map(lambda x:run(*x),items))
 results+=batch([('static',['python3','tests/run_tests.py'])]+[(n,['node','tests/'+n+'.cjs']) for n in ['runtime_smoke','grown_ups_runtime','accounts_database','accounts_database_edge','child_settings_database','child_settings_edge','session_limits_database','portal_master_edit_edge','portal_review_database','portal_review_edge']],3)
-results+=batch([('browser_smoke_'+str(shard),['node','tests/browser_smoke.cjs'],{'BROWSER_SMOKE_SHARD':str(shard)}) for shard in range(6)],3)
+results+=batch([('browser_smoke_'+str(shard),['node','tests/browser_smoke.cjs'],{'BROWSER_SMOKE_SHARD':str(shard)}) for shard in range(6)],6)
 results+=batch([(n,['node','tests/'+n+'.cjs']) for n in ['motion_smoke','silk_smoke','confetti_smoke','grown_ups_smoke','home_flow','accounts_sync','portal_flow','fixlist','portal_review_browser']],3)
 for n,args in [('portal_master',[]),('portal_master_edit',[]),('portal_round2',[]),('portal_flow',['--live']),('accounts_sync',['--live']),('child_settings_browser',[]),('accounts_selection',[]),('child_settings_hosted',[]),('fixlist_live',[]),('portal_review_live',[])]:
  results.append(run(n+('-live' if args else ''),['node','tests/'+n+'.cjs',*args]))

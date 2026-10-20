@@ -99,7 +99,7 @@ const {staticServer,playwright,form,round}=require('./accounts_sync.cjs');
       await a.locator('#child-management').evaluate(el=>el.open=true);await a.locator('#delete-child').click();await a.locator('#cancel-child').click();
       assert.equal(await a.locator('#children-list li').filter({hasText:kid}).count(),1);
       await a.locator('#delete-child').click();await a.locator('#confirm-child-count').fill('1');await a.locator('#confirm-child-action').click();await a.locator('#confirm-child').waitFor({state:'hidden'});
-      assert.equal(await a.locator('#children-list li').filter({hasText:kid}).count(),0);
+      await a.locator('#children-list li').filter({hasText:kid}).waitFor({state:'detached'});assert.equal(await a.locator('#children-list li').filter({hasText:kid}).count(),0);
       const remains=await a.evaluate(async id=>({profile:await ACCOUNTS.rest('profiles?id=eq.'+id),links:await ACCOUNTS.rest('guardians?child_id=eq.'+id),progress:await ACCOUNTS.rest('operations?user_id=eq.'+id)}),childId);
       assert.deepEqual(remains,{profile:[],links:[],progress:[]});
       const deletedLogin=await a.evaluate(async({handle,password})=>(await fetch(ACCOUNT_CONFIG.url+'/auth/v1/token?grant_type=password',{method:'POST',headers:{apikey:ACCOUNT_CONFIG.key,'Content-Type':'application/json'},body:JSON.stringify({email:handle+'@accounts.littlewoof.invalid',password})})).status,{handle:kid,password});assert.equal(deletedLogin,400);

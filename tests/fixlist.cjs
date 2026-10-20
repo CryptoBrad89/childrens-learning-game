@@ -49,7 +49,7 @@ const {staticServer,backend,playwright,form,round}=require('./accounts_sync.cjs'
  await Promise.all([p.waitForNavigation(),p.locator('#sign-out').click()]);await form(p,'signin-form',{handle:'fix_admin',password:'7234ab'});
  await p.waitForFunction(()=>document.querySelectorAll('#link-child-choice option').length>=2);
  const ids=await p.locator('#link-child-choice option').evaluateAll(nodes=>nodes.slice(0,2).map(n=>n.value));
- await p.locator('#link-grownup-choice').selectOption(await p.evaluate(async()=>(await ACCOUNTS.manage('list-grownups')).grownups.find(p=>p.handle==='fix_linker').id));await form(p,'link-child-form',{child_id:ids});
+ await p.locator('#link-child-form').locator('xpath=ancestor::details').evaluate(node=>{node.open=true;});await p.locator('#link-grownup-choice').selectOption(await p.evaluate(async()=>(await ACCOUNTS.manage('list-grownups')).grownups.find(p=>p.handle==='fix_linker').id));await form(p,'link-child-form',{child_id:ids});
  await Promise.all([p.waitForNavigation(),p.locator('#sign-out').click()]);await form(p,'signin-form',{handle:'fix_linker',password:'7234ab'});await p.locator('#select-kids').click();await p.locator('#edit-selected-kids').click();await p.waitForFunction(()=>document.body.dataset.view==='settings');assert.match(await p.locator('#scope-state').innerText(),/2 children/);
  console.log('PASS multi-select linking and direct batch settings for two children; stale cached master metadata recovers read-only');await context.close();
  }finally{await browser.close();server.close();}

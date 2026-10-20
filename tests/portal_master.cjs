@@ -34,7 +34,7 @@ const master=require('./master_login.cjs');
       }
       const unconfirmed=await call(a,'delete-grownup',{grownup_id:victimId});assert.equal(unconfirmed.status,400,JSON.stringify({unconfirmed,victimId,masterId,width}));
       await a.locator('#grownups-list li').filter({hasText:regular.handle}).getByRole('button',{name:/^Edit /}).click();
-      await form(a,'reset-grownup-password-form',{grownup_id:regularId,password:'8345bc'});
+      await form(a,'reset-grownup-password-form',{password:'8345bc'});
       await a.locator('#close-edit-grownup').click();regular.password='8345bc';
       await b.goto(url+'/accounts/');await form(b,'signin-form',regular);
       assert.equal(await b.evaluate(()=>ACCOUNTS.profile.is_master),false);
