@@ -81,11 +81,11 @@ export async function serve(request: Request): Promise<Response> {
     const rows = await api(`/rest/v1/profiles?id=eq.${adult}&role=eq.grownup&select=id,is_master`);
     if (!Array.isArray(rows) || rows.length !== 1) throw new RequestError('A grown-up account is required.', 403);
     const master = object(rows[0]).is_master === true;
-    if (['register', 'create-grownup', 'list-grownups', 'delete-grownup', 'reset-grownup-password'].includes(action) && !master) {
+    if (['register', 'create-grownup', 'list-grownups', 'delete-grownup', 'reset-grownup-password', 'edit-grownup-profile'].includes(action) && !master) {
       throw new RequestError('Only the master can manage grown-up accounts.', 403);
     }
     if (action === 'list-grownups') {
-      return response({ grownups: await api('/rest/v1/profiles?role=eq.grownup&select=id,handle,display_name,is_master&order=display_name') });
+      return response({ grownups: await api('/rest/v1/profiles?role=eq.grownup&select=id,handle,display_name,avatar,is_master&order=display_name') });
     }
     if (action === 'delete-grownup' || action === 'reset-grownup-password') {
       const id = uuid(input.grownup_id, 'Grown-up ID');
@@ -199,15 +199,20 @@ export async function serve(request: Request): Promise<Response> {
       const profiles = await api(`/rest/v1/profiles?id=eq.${id}&select=*`);
       return response({ profile: Array.isArray(profiles) ? profiles[0] : null });
     }
-    if (action === 'edit-profile') {
+    if (action === 'edit-profile' || action === 'edit-grownup-profile') {
+      const target = action === 'edit-profile' ? adult : uuid(input.grownup_id, 'Grown-up ID');
+      if (action === 'edit-grownup-profile') {
+        const targets = await api(`/rest/v1/profiles?id=eq.${target}&role=eq.grownup&select=id`);
+        if (!Array.isArray(targets) || targets.length !== 1) throw new RequestError('Choose a grown-up account.', 403);
+      }
       const name = handle(input.handle);
       const display = string(input.display_name, 'Name').trim();
       if (!display || [...display].length > 60) throw new RequestError('Use a name of 1–60 characters.');
       const avatar = childAvatar(input.avatar);
-      const taken = await api(`/rest/v1/profiles?handle=eq.${name}&id=neq.${adult}&select=id`);
+      const taken = await api(`/rest/v1/profiles?handle=eq.${name}&id=neq.${target}&select=id`);
       if (Array.isArray(taken) && taken.length) throw new RequestError('That handle is taken. Choose another handle.', 409);
-      await api('/rest/v1/rpc/edit_grownup_profile', { method: 'POST', body: JSON.stringify({p_adult: adult, p_handle: name, p_display_name: display, p_avatar: avatar}) });
-      const profiles = await api(`/rest/v1/profiles?id=eq.${adult}&select=*`);
+      await api('/rest/v1/rpc/edit_other_grownup_profile', { method: 'POST', body: JSON.stringify({p_actor: adult, p_target: target, p_handle: name, p_display_name: display, p_avatar: avatar}) });
+      const profiles = await api(`/rest/v1/profiles?id=eq.${target}&select=*`);
       return response({ profile: Array.isArray(profiles) ? profiles[0] : null });
     }
     if (action === 'delete-child' || action === 'reset-child-progress') {

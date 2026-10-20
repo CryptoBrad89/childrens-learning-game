@@ -3,7 +3,7 @@
 const $ = id => document.getElementById(id);
 const A = window.ACCOUNTS;
 let roster = [], rosterFor = null, rosterVersion = 0, switchingOwner = false, rosterRequest = null;
-let grownupsFor = null, pendingGrownup = null;
+let grownupsFor = null, pendingGrownup = null, editingGrownup = null;
 let freshness = 'checking', pendingAction = null, profileFor = null;
 const cacheKey = id => 'lwl-portal-progress-'+id;
 const worlds = {post: "Lucy's Letter Post", space: "Lucy's Moonboat", silk: "Ribbon Road"};
@@ -32,7 +32,7 @@ function wireForm(id, action, success) {
     try {
       await action(fields);
       output.textContent = success;
-      if(!['profile-form','child-profile-form'].includes(id)) form.reset();
+      if(!['profile-form','child-profile-form','grownup-profile-form'].includes(id)) form.reset();
       if (id === 'create-child-form') $('avatar-preview').hidden = true;
     } catch (error) {
       output.textContent = errorText(error);
@@ -246,6 +246,7 @@ wireForm('profile-form',async fields=>{
   delete fields.avatar_file;
   if(!$('profile-avatar-preview').hidden)fields.avatar=$('profile-avatar-preview').src;
   await A.editProfile(fields);
+  await loadGrownups();
 },'Profile saved. Use this username next time you sign in.');
 async function loadGrownups() {
   if (A.profile?.is_master !== true) return;
@@ -258,7 +259,23 @@ async function loadGrownups() {
     for (const person of grownups) {
       const item = element('li'), copy = element('div');
       copy.append(element('strong', person.display_name), element('small', `Login: ${person.handle}${person.is_master ? ' · Master' : ''}`));
-      item.append(copy);
+      const avatar = element('span', person.avatar || '🐶', 'child-avatar');
+      if(person.avatar?.startsWith('data:image/')){const img=element('img');img.src=person.avatar;img.alt='';avatar.replaceChildren(img);}
+      const edit=element('button',person.id===A.profile.id?'Edit my profile':'Edit profile','quiet-button');edit.type='button';
+      edit.setAttribute('aria-label',`Edit ${person.display_name} (${person.handle})`);
+      edit.addEventListener('click',()=>{
+        if(person.id===A.profile.id){const panel=$('profile-form').closest('details');panel.open=true;panel.scrollIntoView({block:'start'});$('profile-form').elements.display_name.focus();return;}
+        editingGrownup=person;
+        const form=$('grownup-profile-form');form.reset();
+        form.elements.handle.value=person.handle;form.elements.display_name.value=person.display_name;
+        for(const input of form.querySelectorAll('[name=avatar]'))input.checked=input.value===(person.avatar||'🐶');
+        $('grownup-avatar-preview').hidden=!person.avatar?.startsWith('data:image/');
+        if(!$('grownup-avatar-preview').hidden)$('grownup-avatar-preview').src=person.avatar;
+        form.querySelector('.form-result').textContent='';
+        $('edit-grownup-title').textContent=`Edit ${person.display_name} (${person.handle})`;
+        $('edit-grownup').showModal();form.elements.display_name.focus();
+      });
+      item.append(avatar,copy,edit);
       if (!person.is_master) {
         const button = element('button', 'Delete grown-up…', 'quiet-button'); button.type = 'button';
         button.setAttribute('aria-label', `Delete ${person.display_name} (${person.handle})`);
@@ -275,6 +292,24 @@ async function loadGrownups() {
     $('grownups-status').textContent = '';
   } catch (error) { $('grownups-status').textContent = errorText(error); }
 }
+$('grownup-avatar-upload').addEventListener('change',async()=>{
+  const upload=$('grownup-avatar-upload'),preview=$('grownup-avatar-preview');
+  if(!upload.files.length)return;
+  try{preview.src=await avatarPicture(upload.files[0]);preview.hidden=false;}
+  catch(error){upload.value='';const output=$('grownup-profile-form').querySelector('.form-result');output.textContent=errorText(error);output.classList.add('error');}
+});
+document.querySelectorAll('#grownup-profile-form [name=avatar]').forEach(input=>input.addEventListener('change',()=>{
+  $('grownup-avatar-upload').value='';$('grownup-avatar-preview').hidden=true;
+}));
+wireForm('grownup-profile-form',async fields=>{
+  if(!editingGrownup)throw new Error('Choose a grown-up first.');
+  delete fields.avatar_file;
+  if(!$('grownup-avatar-preview').hidden)fields.avatar=$('grownup-avatar-preview').src;
+  const {profile}=await A.manage('edit-grownup-profile',{...fields,grownup_id:editingGrownup.id});
+  editingGrownup=profile;await loadGrownups();
+},'Profile saved. Use the new username next time.');
+$('close-edit-grownup').addEventListener('click',()=>$('edit-grownup').close());
+$('edit-grownup').addEventListener('close',()=>{editingGrownup=null;});
 wireForm('reset-grownup-password-form', fields => A.manage('reset-grownup-password', fields), 'Password changed. Share the new password with this grown-up.');
 $('cancel-grownup').addEventListener('click', () => { $('confirm-grownup').close(); pendingGrownup = null; });
 $('confirm-grownup').addEventListener('close', () => { pendingGrownup = null; });

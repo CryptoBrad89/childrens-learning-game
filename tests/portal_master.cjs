@@ -68,7 +68,7 @@ const master={handle:'test',password:'ABCD1234'};
       const orphanId=await b.evaluate(async handle=>(await ACCOUNTS.rest('profiles?handle=eq.'+handle))[0].id,orphan.handle);
       await b.locator(`#link-child-choice option[value="${childId}"]`).waitFor({state:'attached'});
       await form(b,'link-child-form',{child_id:childId});
-      const deletion=a.locator('#grownups-list li').filter({hasText:victim.handle}).locator('button');
+      const deletion=a.locator('#grownups-list li').filter({hasText:victim.handle}).getByRole('button',{name:/^Delete /});
       await deletion.click();assert.match(await a.locator('#confirm-grownup-title').innerText(),new RegExp(victim.handle));
       assert.equal(await a.evaluate(()=>document.activeElement.id),'cancel-grownup');
       assert.equal(await a.locator('#confirm-grownup').evaluate(el=>el.scrollWidth>el.clientWidth),false,'Named confirmation wraps long usernames');

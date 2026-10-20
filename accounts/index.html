@@ -81,7 +81,7 @@
       </form></details>
       <section id="grownups" class="panel" data-master hidden aria-labelledby="grownups-title">
         <h2 id="grownups-title">Grown-ups</h2>
-        <p class="help">Manage other grown-ups here. Your master account is protected.</p>
+        <p class="help">Edit your profile or another grown-up here. Your master status stays with your account when you rename it.</p>
         <p id="grownups-status" role="status"></p>
         <ul id="grownups-list" class="children-list"></ul>
         <details><summary>Reset a grown-up's password</summary><form id="reset-grownup-password-form">
@@ -90,6 +90,13 @@
           <button type="submit" class="quiet-button">Set new password</button><p class="form-result" role="status" aria-live="polite"></p>
         </form></details>
       </section>
+      <dialog id="edit-grownup" aria-labelledby="edit-grownup-title"><h2 id="edit-grownup-title">Edit grown-up</h2><form id="grownup-profile-form">
+        <label>Display name<input name="display_name" maxlength="60" required autocomplete="name"></label>
+        <label>Username<input name="handle" required autocomplete="username" autocapitalize="none" spellcheck="false"></label>
+            <fieldset class="avatar-options"><legend>Choose a profile icon</legend><label><input type="radio" name="avatar" value="🐶" checked><span>🐶</span><span class="sr-only">Dog</span></label><label><input type="radio" name="avatar" value="🐱"><span>🐱</span><span class="sr-only">Cat</span></label><label><input type="radio" name="avatar" value="🐰"><span>🐰</span><span class="sr-only">Rabbit</span></label><label><input type="radio" name="avatar" value="🦊"><span>🦊</span><span class="sr-only">Fox</span></label><label><input type="radio" name="avatar" value="🐼"><span>🐼</span><span class="sr-only">Panda</span></label><label><input type="radio" name="avatar" value="⭐"><span>⭐</span><span class="sr-only">Star</span></label></fieldset>
+            <label>Or upload a picture<input id="grownup-avatar-upload" name="avatar_file" type="file" accept="image/*" aria-describedby="grownup-avatar-help"></label><p id="grownup-avatar-help" class="help">Choose a photo or any picture. We save a small profile copy.</p><img id="grownup-avatar-preview" class="child-avatar" alt="Chosen picture" hidden>
+        <button type="submit" class="quiet-button">Save grown-up profile</button><p class="form-result" role="status" aria-live="polite"></p>
+      </form><button id="close-edit-grownup" type="button" class="quiet-button">Close</button></dialog>
       <section id="people" class="panel" data-adult aria-labelledby="people-title">
         <h2 id="people-title"><span>02</span>Kids</h2>
         <p class="help">Open a child's progress page to see their progress or change their settings.</p>
