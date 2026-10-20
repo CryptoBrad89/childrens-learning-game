@@ -81,8 +81,80 @@ export async function serve(request: Request): Promise<Response> {
     const rows = await api(`/rest/v1/profiles?id=eq.${adult}&role=eq.grownup&select=id,is_master`);
     if (!Array.isArray(rows) || rows.length !== 1) throw new RequestError('A grown-up account is required.', 403);
     const master = object(rows[0]).is_master === true;
-    if (['register', 'create-grownup', 'list-grownups', 'delete-grownup', 'reset-grownup-password', 'edit-grownup-profile'].includes(action) && !master) {
+    if (['register', 'create-grownup', 'list-grownups', 'delete-grownup', 'reset-grownup-password', 'edit-grownup-profile', 'delete-grownups', 'patch-game-settings', 'list-linkable-children', 'link-child', 'transfer-children', 'transfer-child', 'reset-grownup-progress'].includes(action) && !master) {
       throw new RequestError('Only the master can manage grown-up accounts.', 403);
+    }
+    if (action === 'delete-children' || action === 'delete-grownups') {
+      const values = action === 'delete-children' ? input.child_ids : input.grownup_ids;
+      if (!Array.isArray(values) || values.length < 1 || values.length > 100) throw new RequestError('Choose 1 to 100 accounts.');
+      const ids = values.map(value => uuid(value, 'Account ID').toLowerCase());
+      if (new Set(ids).size !== ids.length) throw new RequestError('Choose each account only once.');
+      if (input.confirm !== action) throw new RequestError('Confirm this action first.');
+      const deletingKids = action === 'delete-children';
+      const verdicts = await Promise.all(ids.map(async id => {
+        const rows = await api(`/rest/v1/profiles?id=eq.${id}&select=id,role,is_master`);
+        if (!Array.isArray(rows) || rows.length !== 1) return {id, reason: 'not-found'};
+        const target = object(rows[0]);
+        if (target.is_master === true) return {id, reason: 'is-master'};
+        if (id === adult) return {id, reason: 'is-self'};
+        if (target.role !== (deletingKids ? 'child' : 'grownup')) return {id, reason: 'wrong-role'};
+        if (deletingKids && !master) {
+          const links = await api(`/rest/v1/guardians?adult_id=eq.${adult}&child_id=eq.${id}&select=child_id`);
+          if (!Array.isArray(links) || links.length !== 1) return {id, reason: 'not-linked'};
+        }
+        return {id, reason: null};
+      }));
+      const results = [];
+      // Sequential Auth deletes avoid contention in the orphan-link trigger.
+      for (const verdict of verdicts) {
+        if (verdict.reason) { results.push({id: verdict.id, ok: false, reason: verdict.reason}); continue; }
+        try {
+          await api(`/auth/v1/admin/users/${verdict.id}`, {method: 'DELETE'});
+          results.push({id: verdict.id, ok: true});
+        } catch { results.push({id: verdict.id, ok: false, reason: 'error'}); }
+      }
+      return response({results});
+    }
+    async function requireChild(id: string) {
+      const children = await api(`/rest/v1/profiles?id=eq.${id}&role=eq.child&select=id`);
+      if (!Array.isArray(children) || children.length !== 1) throw new RequestError('Choose an accessible child account.', 403);
+      if (!master) {
+        const links = await api(`/rest/v1/guardians?adult_id=eq.${adult}&child_id=eq.${id}&select=child_id`);
+        if (!Array.isArray(links) || links.length !== 1) throw new RequestError('This child is not linked to your account.', 403);
+      }
+    }
+    if (action === 'transfer-child' || action === 'transfer-children') {
+      const values = action === 'transfer-child' ? [input.child_id] : input.child_ids;
+      if (!Array.isArray(values) || values.length < 1 || values.length > 100) throw new RequestError('Choose 1 to 100 children.');
+      const ids = values.map(value => uuid(value).toLowerCase());
+      if (new Set(ids).size !== ids.length) throw new RequestError('Choose each child only once.');
+      const source = uuid(input.source_id, 'Source grown-up ID');
+      const destination = uuid(input.destination_id, 'Destination grown-up ID');
+      if (source === destination) throw new RequestError('Choose a different destination.');
+      if (input.confirm !== action) throw new RequestError('Confirm this action first.');
+      return response(await api('/rest/v1/rpc/transfer_children', {method: 'POST', body: JSON.stringify({p_actor: adult, p_children: ids, p_source: source, p_destination: destination})}));
+    }
+    if (action === 'reset-grownup-progress') {
+      const id = uuid(input.grownup_id, 'Grown-up ID');
+      if (input.confirm !== action) throw new RequestError('Confirm this action first.');
+      const targets = await api(`/rest/v1/profiles?id=eq.${id}&role=eq.grownup&is_master=eq.false&select=id`);
+      if (id === adult || !Array.isArray(targets) || targets.length !== 1) throw new RequestError('Choose another regular grown-up account.', 403);
+      await api('/rest/v1/rpc/reset_grownup_progress', {method: 'POST', body: JSON.stringify({p_actor: adult, p_target: id})});
+      return response({ok: true});
+    }
+    if (action === 'list-child-grownups' || action === 'unlink-child') {
+      const child = uuid(input.child_id);
+      await requireChild(child);
+      if (action === 'unlink-child') {
+        const target = input.grownup_id === undefined ? adult : uuid(input.grownup_id, 'Grown-up ID');
+        if (target !== adult && !master) throw new RequestError('Only the master can unlink another grown-up.', 403);
+        const result = await api('/rest/v1/rpc/unlink_child', {method: 'POST', body: JSON.stringify({p_actor: adult, p_child: child, p_grownup: target})});
+        return response(result);
+      }
+      const guardians = await api(`/rest/v1/guardians?child_id=eq.${child}&select=adult_id`);
+      if (!Array.isArray(guardians)) throw new RequestError('Linked grown-ups could not load.', 503);
+      const ids = guardians.map(row => uuid(object(row).adult_id, 'Grown-up ID'));
+      return response({grownups: ids.length ? await api(`/rest/v1/profiles?id=in.(${ids.join(',')})&select=id,handle,display_name`) : []});
     }
     if (action === 'list-grownups') {
       return response({ grownups: await api('/rest/v1/profiles?role=eq.grownup&select=id,handle,display_name,avatar,is_master&order=display_name') });
@@ -153,22 +225,18 @@ export async function serve(request: Request): Promise<Response> {
       return response({ profile: Array.isArray(profiles) ? profiles[0] : null });
     }
     if (action === 'list-linkable-children' || action === 'link-child') {
-      const links = await api('/rest/v1/guardians?select=adult_id,child_id');
-      if (!Array.isArray(links)) throw new RequestError('Children could not load.', 503);
-      const others = new Set(links.filter(link => object(link).adult_id !== adult).map(link => string(object(link).child_id, 'Child ID')));
-      const mine = new Set(links.filter(link => object(link).adult_id === adult).map(link => string(object(link).child_id, 'Child ID')));
       if (action === 'list-linkable-children') {
-        const ids = [...others].filter(id => !mine.has(id));
-        const profiles = ids.length ? await api(`/rest/v1/profiles?id=in.(${ids.join(',')})&role=eq.child&select=id,handle,display_name&order=display_name`) : [];
-        return response({ children: profiles });
+        return response({children: await api('/rest/v1/profiles?role=eq.child&select=id,handle,display_name&order=display_name')});
       }
       const id = uuid(input.child_id);
-      if (!others.has(id) && !mine.has(id)) throw new RequestError('Choose a child already linked to a grown-up.', 403);
+      const target = input.grownup_id === undefined ? adult : uuid(input.grownup_id, 'Grown-up ID');
+      const adults = await api(`/rest/v1/profiles?id=eq.${target}&role=eq.grownup&select=id`);
+      if (!Array.isArray(adults) || adults.length !== 1) throw new RequestError('Choose a grown-up account.');
       const profiles = await api(`/rest/v1/profiles?id=eq.${id}&role=eq.child&select=*`);
       if (!Array.isArray(profiles) || profiles.length !== 1) throw new RequestError('Choose a child account.');
       await api('/rest/v1/guardians?on_conflict=adult_id,child_id', {
         method: 'POST', headers: { Prefer: 'resolution=ignore-duplicates' },
-        body: JSON.stringify({ adult_id: adult, child_id: id }),
+        body: JSON.stringify({ adult_id: target, child_id: id }),
       });
       return response({ profile: profiles[0] });
     }
@@ -181,8 +249,7 @@ export async function serve(request: Request): Promise<Response> {
       const children = [...new Set(input.child_ids.map(value => uuid(value)))];
       if (input.reset !== undefined && typeof input.reset !== 'boolean') throw new RequestError('Invalid reset choice.');
       for (const id of children) {
-        const links = await api(`/rest/v1/guardians?adult_id=eq.${adult}&child_id=eq.${id}&select=child_id`);
-        if (!Array.isArray(links) || links.length !== 1) throw new RequestError('This child is not linked to your account.', 403);
+        await requireChild(id);
       }
       return response(await api('/rest/v1/rpc/patch_child_settings', { method: 'POST', body: JSON.stringify({p_adult: adult, p_children: children, p_patch: patch, p_reset: input.reset === true}) }));
     }
@@ -191,11 +258,12 @@ export async function serve(request: Request): Promise<Response> {
       const name = handle(input.handle);
       const display = string(input.display_name, 'Name').trim();
       if (!display || [...display].length > 60) throw new RequestError('Use a name of 1–60 characters.');
-      const links = await api(`/rest/v1/guardians?adult_id=eq.${adult}&child_id=eq.${id}&select=child_id`);
-      if (!Array.isArray(links) || links.length !== 1) throw new RequestError('This child is not linked to your account.', 403);
+      await requireChild(id);
       const taken = await api(`/rest/v1/profiles?handle=eq.${name}&id=neq.${id}&select=id`);
       if (Array.isArray(taken) && taken.length) throw new RequestError('That handle is taken. Choose another handle.', 409);
+      const avatar = input.avatar === undefined ? undefined : childAvatar(input.avatar);
       await api('/rest/v1/rpc/edit_child_profile', { method: 'POST', body: JSON.stringify({p_adult: adult, p_child: id, p_handle: name, p_display_name: display}) });
+      if (avatar !== undefined) await api(`/rest/v1/profiles?id=eq.${id}`, {method: 'PATCH', body: JSON.stringify({avatar})});
       const profiles = await api(`/rest/v1/profiles?id=eq.${id}&select=*`);
       return response({ profile: Array.isArray(profiles) ? profiles[0] : null });
     }
@@ -217,9 +285,7 @@ export async function serve(request: Request): Promise<Response> {
     }
     if (action === 'delete-child' || action === 'reset-child-progress') {
       const id = uuid(input.child_id);
-      const links = await api(`/rest/v1/guardians?adult_id=eq.${adult}&child_id=eq.${id}&select=child_id`);
-      const children = await api(`/rest/v1/profiles?id=eq.${id}&role=eq.child&select=id`);
-      if (!Array.isArray(links) || links.length !== 1 || !Array.isArray(children) || children.length !== 1) throw new RequestError('This child is not linked to your account.', 403);
+      await requireChild(id);
       if (input.confirm !== action) throw new RequestError('Confirm this action first.');
       if (action === 'delete-child') await api(`/auth/v1/admin/users/${id}`, { method: 'DELETE' });
       else await api('/rest/v1/rpc/reset_child_progress', {method: 'POST', body: JSON.stringify({p_adult: adult, p_child: id})});
@@ -228,8 +294,7 @@ export async function serve(request: Request): Promise<Response> {
     if (action === 'reset-child-password') {
       const id = uuid(input.child_id);
       const secret = password(input.password);
-      const rows = await api(`/rest/v1/guardians?adult_id=eq.${adult}&child_id=eq.${id}&select=child_id`);
-      if (!Array.isArray(rows) || rows.length !== 1) throw new RequestError('This child is not linked to your account.', 403);
+      await requireChild(id);
       await api(`/auth/v1/admin/users/${id}`, { method: 'PUT', body: JSON.stringify({ password: secret }) });
       return response({ ok: true });
     }

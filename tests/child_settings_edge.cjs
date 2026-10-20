@@ -31,7 +31,7 @@ const send=(body,token='valid')=>handler(new Request('https://project.invalid/fu
   for(const body of requests){
     for(const actor of ['anonymous','child','grownup']){
       role=actor;calls=[];const result=await send(body,actor==='anonymous'?null:'valid');
-      assert.equal(result.status,actor==='anonymous'?401:actor==='child'?403:200,actor+' '+body.action);
+      assert.equal(result.status,actor==='anonymous'?401:actor==='child'||body.action==='patch-game-settings'?403:200,actor+' '+body.action);
       if(actor!=='grownup')assert.equal(calls.some(c=>c.url.includes('/rpc/')&&!c.url.endsWith('/rpc/session_status')),false);
     }
   }
