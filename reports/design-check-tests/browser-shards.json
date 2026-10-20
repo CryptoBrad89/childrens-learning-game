@@ -1,0 +1,32 @@
+[
+  {
+    "shard": 0,
+    "exit_code": 0,
+    "log": "browser-shard-0.log"
+  },
+  {
+    "shard": 1,
+    "exit_code": 0,
+    "log": "browser-shard-1.log"
+  },
+  {
+    "shard": 2,
+    "exit_code": 0,
+    "log": "browser-shard-2.log"
+  },
+  {
+    "shard": 3,
+    "exit_code": 0,
+    "log": "browser-shard-3.log"
+  },
+  {
+    "shard": 4,
+    "exit_code": 0,
+    "log": "browser-shard-4.log"
+  },
+  {
+    "shard": 5,
+    "exit_code": 0,
+    "log": "browser-shard-5.log"
+  }
+]

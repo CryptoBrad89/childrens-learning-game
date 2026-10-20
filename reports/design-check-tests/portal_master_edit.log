@@ -1,0 +1,4 @@
+PASS 390: master edits own name, username, icon and upload; list refreshes; new login retains master ID/status; old login refused
+PASS 390: master edits other grown-up name, unique username, icon/upload; old login refused; regular self-only; child/anonymous/forged RPC denied; no overflow/errors; master restored exactly
+PASS 1440: master edits own name, username, icon and upload; list refreshes; new login retains master ID/status; old login refused
+PASS 1440: master edits other grown-up name, unique username, icon/upload; old login refused; regular self-only; child/anonymous/forged RPC denied; no overflow/errors; master restored exactly

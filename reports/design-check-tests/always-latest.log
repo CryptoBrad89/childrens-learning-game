@@ -1,0 +1,4 @@
+Branch preview HTTP status: 200
+v1-letter-post/app.js MATCH
+v3-moonboat/app.js MATCH
+PASS: always-latest home loads and both branch game engines exactly match pushed source

@@ -1,0 +1,7 @@
+PASS 390: master, rename through management, old handle rejected, child and unlinked adult denied
+PASS 390: eight settings, clear custom state, mixed bulk changes letters only, cross-device precedence
+PASS 390: defaults/reset/guest, visible adult and child signout, offline progress recovery, six-hour child and inactive adult expiry
+PASS 1440: master, rename through management, old handle rejected, child and unlinked adult denied
+PASS 1440: eight settings, clear custom state, mixed bulk changes letters only, cross-device precedence
+PASS 1440: defaults/reset/guest, visible adult and child signout, offline progress recovery, six-hour child and inactive adult expiry
+PASS child_settings_browser: phone and desktop live contracts; retained logins reports/portal-child-settings-test-logins.json

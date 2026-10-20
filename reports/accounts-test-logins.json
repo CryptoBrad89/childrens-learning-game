@@ -1,19 +1,19 @@
 {
-  "created_at": "2026-10-19T06:33:33.741Z",
+  "created_at": "2026-10-20T02:51:39.542Z",
   "grownup": {
-    "handle": "test_adult_mvevohar",
+    "handle": "test_adult_mvg36ta0",
     "password": "7234ab"
   },
   "child": {
-    "handle": "test_child_mvevohar",
+    "handle": "test_child_mvg36ta0",
     "password": "7234ab"
   },
   "linked_grownup": {
-    "handle": "test_parent_mvevohar",
+    "handle": "test_parent_mvg36ta0",
     "password": "7234ab"
   },
   "other_child": {
-    "handle": "test_other_mvevohar",
+    "handle": "test_other_mvg36ta0",
     "password": "aaaaaa"
   },
   "previous_runs": [
@@ -106,138 +106,157 @@
         "handle": "test_other_mveumgwi",
         "password": "aaaaaa"
       }
-    }
-  ],
-  "all_created_accounts": [
-    {
-      "handle": "test_adult_mveuloaz",
-      "role": "grownup",
-      "password": "7234ab"
     },
     {
-      "handle": "test_adult_mveumgwi",
-      "role": "grownup",
-      "password": "7234ab"
-    },
-    {
-      "handle": "test_adult_mveuugbw",
-      "role": "grownup",
-      "password": "7234ab"
-    },
-    {
-      "handle": "test_adult_mvevil8u",
-      "role": "grownup",
-      "password": "7234ab"
-    },
-    {
-      "handle": "test_adult_mvevk15s",
-      "role": "grownup",
-      "password": "7234ab"
-    },
-    {
-      "handle": "test_adult_mvevn0zu",
-      "role": "grownup",
-      "password": "7234ab"
-    },
-    {
-      "handle": "test_adult_mvevohar",
-      "role": "grownup",
-      "password": "7234ab"
-    },
-    {
-      "handle": "test_child_mveuloaz",
-      "role": "child",
-      "password": "7234ab"
-    },
-    {
-      "handle": "test_child_mveumgwi",
-      "role": "child",
-      "password": "7234ab"
-    },
-    {
-      "handle": "test_child_mveuugbw",
-      "role": "child",
-      "password": "7234ab"
-    },
-    {
-      "handle": "test_child_mvevil8u",
-      "role": "child",
-      "password": "7234ab"
-    },
-    {
-      "handle": "test_child_mvevk15s",
-      "role": "child",
-      "password": "7234ab"
-    },
-    {
-      "handle": "test_child_mvevn0zu",
-      "role": "child",
-      "password": "7234ab"
-    },
-    {
-      "handle": "test_child_mvevohar",
-      "role": "child",
-      "password": "7234ab"
-    },
-    {
-      "handle": "test_other_mveumgwi",
-      "role": "child",
-      "password": "aaaaaa"
-    },
-    {
-      "handle": "test_other_mveuugbw",
-      "role": "child",
-      "password": "aaaaaa"
-    },
-    {
-      "handle": "test_other_mvevil8u",
-      "role": "child",
-      "password": "aaaaaa"
-    },
-    {
-      "handle": "test_other_mvevk15s",
-      "role": "child",
-      "password": "aaaaaa"
-    },
-    {
-      "handle": "test_other_mvevn0zu",
-      "role": "child",
-      "password": "aaaaaa"
-    },
-    {
-      "handle": "test_other_mvevohar",
-      "role": "child",
-      "password": "aaaaaa"
-    },
-    {
-      "handle": "test_parent_mveumgwi",
-      "role": "grownup",
-      "password": "7234ab"
-    },
-    {
-      "handle": "test_parent_mveuugbw",
-      "role": "grownup",
-      "password": "7234ab"
-    },
-    {
-      "handle": "test_parent_mvevil8u",
-      "role": "grownup",
-      "password": "7234ab"
-    },
-    {
-      "handle": "test_parent_mvevk15s",
-      "role": "grownup",
-      "password": "7234ab"
-    },
-    {
-      "handle": "test_parent_mvevn0zu",
-      "role": "grownup",
-      "password": "7234ab"
-    },
-    {
-      "handle": "test_parent_mvevohar",
-      "role": "grownup",
-      "password": "7234ab"
+      "created_at": "2026-10-19T06:33:33.741Z",
+      "grownup": {
+        "handle": "test_adult_mvevohar",
+        "password": "7234ab"
+      },
+      "child": {
+        "handle": "test_child_mvevohar",
+        "password": "7234ab"
+      },
+      "linked_grownup": {
+        "handle": "test_parent_mvevohar",
+        "password": "7234ab"
+      },
+      "other_child": {
+        "handle": "test_other_mvevohar",
+        "password": "aaaaaa"
+      },
+      "all_created_accounts": [
+        {
+          "handle": "test_adult_mveuloaz",
+          "role": "grownup",
+          "password": "7234ab"
+        },
+        {
+          "handle": "test_adult_mveumgwi",
+          "role": "grownup",
+          "password": "7234ab"
+        },
+        {
+          "handle": "test_adult_mveuugbw",
+          "role": "grownup",
+          "password": "7234ab"
+        },
+        {
+          "handle": "test_adult_mvevil8u",
+          "role": "grownup",
+          "password": "7234ab"
+        },
+        {
+          "handle": "test_adult_mvevk15s",
+          "role": "grownup",
+          "password": "7234ab"
+        },
+        {
+          "handle": "test_adult_mvevn0zu",
+          "role": "grownup",
+          "password": "7234ab"
+        },
+        {
+          "handle": "test_adult_mvevohar",
+          "role": "grownup",
+          "password": "7234ab"
+        },
+        {
+          "handle": "test_child_mveuloaz",
+          "role": "child",
+          "password": "7234ab"
+        },
+        {
+          "handle": "test_child_mveumgwi",
+          "role": "child",
+          "password": "7234ab"
+        },
+        {
+          "handle": "test_child_mveuugbw",
+          "role": "child",
+          "password": "7234ab"
+        },
+        {
+          "handle": "test_child_mvevil8u",
+          "role": "child",
+          "password": "7234ab"
+        },
+        {
+          "handle": "test_child_mvevk15s",
+          "role": "child",
+          "password": "7234ab"
+        },
+        {
+          "handle": "test_child_mvevn0zu",
+          "role": "child",
+          "password": "7234ab"
+        },
+        {
+          "handle": "test_child_mvevohar",
+          "role": "child",
+          "password": "7234ab"
+        },
+        {
+          "handle": "test_other_mveumgwi",
+          "role": "child",
+          "password": "aaaaaa"
+        },
+        {
+          "handle": "test_other_mveuugbw",
+          "role": "child",
+          "password": "aaaaaa"
+        },
+        {
+          "handle": "test_other_mvevil8u",
+          "role": "child",
+          "password": "aaaaaa"
+        },
+        {
+          "handle": "test_other_mvevk15s",
+          "role": "child",
+          "password": "aaaaaa"
+        },
+        {
+          "handle": "test_other_mvevn0zu",
+          "role": "child",
+          "password": "aaaaaa"
+        },
+        {
+          "handle": "test_other_mvevohar",
+          "role": "child",
+          "password": "aaaaaa"
+        },
+        {
+          "handle": "test_parent_mveumgwi",
+          "role": "grownup",
+          "password": "7234ab"
+        },
+        {
+          "handle": "test_parent_mveuugbw",
+          "role": "grownup",
+          "password": "7234ab"
+        },
+        {
+          "handle": "test_parent_mvevil8u",
+          "role": "grownup",
+          "password": "7234ab"
+        },
+        {
+          "handle": "test_parent_mvevk15s",
+          "role": "grownup",
+          "password": "7234ab"
+        },
+        {
+          "handle": "test_parent_mvevn0zu",
+          "role": "grownup",
+          "password": "7234ab"
+        },
+        {
+          "handle": "test_parent_mvevohar",
+          "role": "grownup",
+          "password": "7234ab"
+        }
+      ]
     }
   ]
 }

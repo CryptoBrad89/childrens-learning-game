@@ -51,7 +51,7 @@ Captured the real app in Chrome at these CSS viewport sizes:
 
 Each width has 21 states: child login, focused login, layout picker, each game's home/listen/match/reward, grown-up entry, portal, profile editor, child creation, child management, and per-child settings. There are 105 captures before the fix and 105 after. These use the labelled local Supabase protocol fixture and real app rendering. They do not prove live backend behavior.
 
-[The matrix](design-check-matrix.json) records the states and element counts. The heading-spacing assertion fails on all ten affected before captures and passes on all ten after captures. The local geometry check finds no horizontally off-screen non-radio, non-checkbox, non-range controls in those captures. Scrollable letter and collection regions remain intentional. This local check is not a Better Design measurement or visual approval.
+[The matrix](design-check-matrix.json) records the states and element counts. The heading-spacing assertion fails on all ten affected before captures and passes on all ten after captures. A separate real-browser comparison serves the rollback commit's original JavaScript without changing working files: nine of thirteen text checks reproduce the bug before the fix, and all thirteen pass afterward. See [copy-before-after.log](design-check-tests/copy-before-after.log). The local geometry check finds no horizontally off-screen non-radio, non-checkbox, non-range controls in those captures. Scrollable letter and collection regions remain intentional. This local check is not a Better Design measurement or visual approval.
 
 Representative screenshots:
 
@@ -69,22 +69,37 @@ Matching comparisons use the same viewport and B round. Distractors are randomiz
 
 ## Verification
 
-Full suite results are recorded in `design-check-tests/`. Final results and hosted checks are added below after completion.
+All 22 existing CJS test entry points pass, including both fixture and live modes of the account and portal suites. Static checks pass 6/6. The strict Edge TypeScript check also passes. [Final results](design-check-tests/final-results.json) link each check to its log.
+
+| Checks | Evidence and result |
+| --- | --- |
+| Static assets, audio hashes, content, themes | [6/6 strict checks](design-check-tests/static-final.log) pass. |
+| Runtime and grown-up setting renderers | [Game runtime](design-check-tests/runtime_smoke-final.log) and [settings runtime](design-check-tests/grown_ups_runtime-final.log) pass. |
+| Broad game journeys | [All six shards](design-check-tests/browser-shards.json) pass all 18 game, viewport, and theme cases, including the new text assertions. |
+| Motion, Ribbon Road, confetti, grown-up controls | [Motion](design-check-tests/motion_smoke.log), [Ribbon Road](design-check-tests/silk_smoke.log), [confetti](design-check-tests/confetti_smoke.log), and [grown-up browser](design-check-tests/grown_ups_smoke.log) suites pass. |
+| Home, child selection, fixture portal and sync | [Home](design-check-tests/home_flow.log), [selection](design-check-tests/accounts_selection.log), [portal](design-check-tests/portal_flow.log), and [sync](design-check-tests/accounts_sync.log) pass. |
+| SQL, session limits, Edge permissions, strict types | All six database and Edge suites and strict TypeScript pass. Individual logs are in the final results. |
+| Live permissions, profile editing, portal, sync, child settings | [Master](design-check-tests/portal_master.log), [profile editor](design-check-tests/portal_master_edit.log), [portal regression](design-check-tests/portal_round2.log), [live portal](design-check-tests/portal_flow-live.log), [live sync](design-check-tests/accounts_sync-live.log), and [child settings](design-check-tests/child_settings_browser.log) pass. |
+| Pushed hosted implementation | [Account checks](design-check-tests/child_settings_hosted.log) pass at 390 and 1440. [Copy checks](design-check-tests/hosted-copy.log) pass at 390 and 1920 in all three games, including X. |
+
+The [final hosted audit](design-check-tests/final-master.json) at 2026-10-20 02:52:59 UTC confirms that `test` / `ABCD1234` signs in, exactly one grown-up is the master, and portal chrome stays cream with a dark device preference. Live profile tests restore the master's complete original profile. No migrations or Edge deployment were needed.
 
 The first broad browser run began before the copy fix and test changes. It was stopped and superseded by all six existing browser shards on the final source. Its partial log is retained, not counted as a passing run. Local SQL and Edge suites do not mutate the remote database. The existing live suites create test accounts and exercise permissions, sync, profile editing, and child settings on the authorized project.
 
 ## Logins and always-latest links
 
-The required master login is **`test` / `ABCD1234`**. Existing retained child and regular grown-up logins are in [portal-child-settings-test-logins.json](portal-child-settings-test-logins.json) and [portal-master-test-logins.json](portal-master-test-logins.json). The live suites refresh their test-login reports.
+The required master login is **`test` / `ABCD1234`**. Existing retained child and regular grown-up logins are in [portal-child-settings-test-logins.json](portal-child-settings-test-logins.json) and [portal-master-test-logins.json](portal-master-test-logins.json). The live suites refresh their test-login reports. Newly verified child logins, all with password `7234ab`, are `settings_renamed_mvg37ajm390`, `settings_jane_mvg37ajm390`, `settings_renamed_mvg3822l1440`, and `settings_jane_mvg3822l1440`. The master can open their progress and settings.
 
-These preview URLs follow the working branch and show the latest pushed version. If the host shows its external-content notice, choose **Open the page**.
+[The verified implementation commit](https://github.com/CryptoBrad89/childrens-learning-game/commit/d47f43308e253254b96ebefcadd154ceb93e7ec0) contains the two text repairs. A [pinned preview](https://raw.githack.com/CryptoBrad89/childrens-learning-game/d47f43308e253254b96ebefcadd154ceb93e7ec0/index.html) preserves that implementation.
 
-- [Child login and layout picker](https://raw.githack.com/CryptoBrad89/childrens-learning-game/codex/home-flow-ribbon/index.html)
-- [Grown-up portal and profile editor](https://raw.githack.com/CryptoBrad89/childrens-learning-game/codex/home-flow-ribbon/accounts/index.html)
-- [Per-child settings](https://raw.githack.com/CryptoBrad89/childrens-learning-game/codex/home-flow-ribbon/grown-ups/index.html)
-- [Ribbon Road](https://raw.githack.com/CryptoBrad89/childrens-learning-game/codex/home-flow-ribbon/v4-silk-thread/index.html)
-- [Letter Post](https://raw.githack.com/CryptoBrad89/childrens-learning-game/codex/home-flow-ribbon/v1-letter-post/index.html)
-- [Moonboat](https://raw.githack.com/CryptoBrad89/childrens-learning-game/codex/home-flow-ribbon/v3-moonboat/index.html)
+These preview URLs follow the working branch. The shorter branch URLs served cached old JavaScript during verification. The explicit `refs/heads` URLs below load successfully, and [both game engines match the pushed source byte for byte](design-check-tests/always-latest.json). The host advertises a 60-second cache, so branch previews can briefly lag a push. The pinned preview above identifies the verified build. If the host shows its external-content notice, choose **Open the page**.
+
+- [Child login and layout picker](https://raw.githack.com/CryptoBrad89/childrens-learning-game/refs/heads/codex/home-flow-ribbon/index.html)
+- [Grown-up portal and profile editor](https://raw.githack.com/CryptoBrad89/childrens-learning-game/refs/heads/codex/home-flow-ribbon/accounts/index.html)
+- [Per-child settings](https://raw.githack.com/CryptoBrad89/childrens-learning-game/refs/heads/codex/home-flow-ribbon/grown-ups/index.html)
+- [Ribbon Road](https://raw.githack.com/CryptoBrad89/childrens-learning-game/refs/heads/codex/home-flow-ribbon/v4-silk-thread/index.html)
+- [Letter Post](https://raw.githack.com/CryptoBrad89/childrens-learning-game/refs/heads/codex/home-flow-ribbon/v1-letter-post/index.html)
+- [Moonboat](https://raw.githack.com/CryptoBrad89/childrens-learning-game/refs/heads/codex/home-flow-ribbon/v3-moonboat/index.html)
 - [Always-latest report](https://github.com/CryptoBrad89/childrens-learning-game/blob/codex/home-flow-ribbon/reports/design-check.md)
 
 ## Remaining limitation

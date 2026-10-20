@@ -1,0 +1,38 @@
+Branch preview HTTP status: 200
+AssertionError [ERR_ASSERTION]: v1-letter-post/app.js matches local source
++ actual - expected ... Lines skipped
+
+  '(async () => {\n' +
+    "'use strict';\n" +
+...
+    ' if(C.home)return C.home({pic,pickers,collection,ico,count:pool.length});\n' +
+    ' if(C.kind===\'post\')return `<section class="screen home post-home"><div class="post-intro"><p class="eyebrow"><span class="tiny-star">✳</span> A special delivery of sounds</p><h1>Lucy’s<br>Letter <em>Post.</em></h1><p class="lead">Little letters.<br>Very big adventures.</p><div class="post-sticker" aria-hidden="true">SOUND<br>MAIL ${ico(\'paw\')}</div><div class="route-card"><span>YOUR LITTLE MISSION</span><p>${ico(\'sound\')} Listen <b>→</b> ${ico(\'star\')} Find <b>→</b> ${ico(\'check\')} Deliver</p></div></div><div class="post-office"><div class="office-top"><div class="open-sign">OPEN FOR<br><strong>PLAY!</strong></div>${pic(\'default\',\'A letter for you!\')}<span class="office-number" aria-hidden="true">№ 01<br>✳</span></div><div class="sorting-shelf"><div class="shelf-title"><span>Pick a letter to open</span>${ico(\'back\')}</div>${pickers(\'envelopes\')}</div></div>${collection()}<div class="post-bottom"><span>LETTERS WITH LUCY POST</span><span>Every sound goes somewhere lovely. ${ico(\'star\')}</span></div></section>`;\n' +
++   ' if(C.kind===\'garden\')return `<section class="screen home garden-home"><div class="garden-heading"><p class="eyebrow">A little wonder, every day</p><h1>Lucy’s<br><em>Sound Garden</em></h1><p class="lead">Pick a seed. Hear a sound.<br>See what grows.</p></div><div class="garden-lucy">${pic'... 10863 more characters
+-   ' if(C.kind===\'garden\')return `<section class="screen home garden-home"><div class="garden-heading"><p class="eyebrow">A little wonder, every day</p><h1>Lucy’s<br><em>Sound Garden</em></h1><p class="lead">Pick a seed. Hear a sound.<br>See what grows.</p></div><div class="garden-lucy">${pic'... 10865 more characters
+    at [stdin]:10:10 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: '(async () => {\n' +
+    "'use strict';\n" +
+    "if (location.protocol !== 'file:') {\n" +
+    "  if (!window.ACCOUNTS) { location.replace('../index.html'); return; }\n" +
+    "  try { await window.ACCOUNTS.ready; } catch { if(!window.ACCOUNTS.guest){ location.replace('../index.html'); return; } }\n" +
+    "  if (!window.ACCOUNTS.session && !window.ACCOUNTS.guest) { location.replace('../index.html'); return; }\n" +
+    '  await window.ACCOUNTS.sync();\n' +
+    '  if(!window.ACCOUNTS.guest && window.ACCOUNTS.owner.id!==window.ACCOUNTS.profile.id)await window.ACCOUNTS.selectOwner(window.ACCOUNTS.profile);\n' +
+    '  window.GROWN_UPS.settings = window.GROWN_UPS.load();\n' +
+    '}\n' +
+    '...',
+  expected: '(async () => {\n' +
+    "'use strict';\n" +
+    "if (location.protocol !== 'file:') {\n" +
+    "  if (!window.ACCOUNTS) { location.replace('../index.html'); return; }\n" +
+    "  try { await window.ACCOUNTS.ready; } catch { if(!window.ACCOUNTS.guest){ location.replace('../index.html'); return; } }\n" +
+    "  if (!window.ACCOUNTS.session && !window.ACCOUNTS.guest) { location.replace('../index.html'); return; }\n" +
+    '  await window.ACCOUNTS.sync();\n' +
+    '  if(!window.ACCOUNTS.guest && window.ACCOUNTS.owner.id!==window.ACCOUNTS.profile.id)await window.ACCOUNTS.selectOwner(window.ACCOUNTS.profile);\n' +
+    '  window.GROWN_UPS.settings = window.GROWN_UPS.load();\n' +
+    '}\n' +
+    '...',
+  operator: 'strictEqual'
+}

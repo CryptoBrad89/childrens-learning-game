@@ -1,0 +1,10 @@
+PASS grown-ups-phone: chooser door, gate refusal and unlock, every setting, guards, reset, relock, layout and offline
+PASS grown-ups-tablet: chooser door, gate refusal and unlock, every setting, guards, reset, relock, layout and offline
+PASS grown-ups-chromebook: chooser door, gate refusal and unlock, every setting, guards, reset, relock, layout and offline
+PASS grown-ups-whiteboard: chooser door, gate refusal and unlock, every setting, guards, reset, relock, layout and offline
+PASS gate pause: three misses pause the keypad for 10 seconds, then a new code works
+PASS worlds-phone: hidden world, chosen letters, quiet start, hidden buttons, calm motion, one-miss hint and volume
+PASS worlds-whiteboard: hidden world, chosen letters, quiet start, hidden buttons, calm motion, one-miss hint and volume
+PASS grown-ups-reduced: unlock and settings render
+PASS grown-ups-dark: unlock and settings render
+PASS grown-ups' corner; screenshots disabled

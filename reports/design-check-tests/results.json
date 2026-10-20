@@ -1,0 +1,238 @@
+[
+  {
+    "name": "static",
+    "command": [
+      "python3",
+      "tests/run_tests.py"
+    ],
+    "exit_code": 0,
+    "seconds": 0.3
+  },
+  {
+    "name": "runtime_smoke",
+    "command": [
+      "node",
+      "tests/runtime_smoke.cjs"
+    ],
+    "exit_code": 0,
+    "seconds": 0.3
+  },
+  {
+    "name": "grown_ups_runtime",
+    "command": [
+      "node",
+      "tests/grown_ups_runtime.cjs"
+    ],
+    "exit_code": 0,
+    "seconds": 0.2
+  },
+  {
+    "name": "accounts_database",
+    "command": [
+      "node",
+      "tests/accounts_database.cjs"
+    ],
+    "exit_code": 0,
+    "seconds": 1.7
+  },
+  {
+    "name": "accounts_database_edge",
+    "command": [
+      "node",
+      "tests/accounts_database_edge.cjs"
+    ],
+    "exit_code": 0,
+    "seconds": 0.6
+  },
+  {
+    "name": "child_settings_database",
+    "command": [
+      "node",
+      "tests/child_settings_database.cjs"
+    ],
+    "exit_code": 0,
+    "seconds": 1.6
+  },
+  {
+    "name": "child_settings_edge",
+    "command": [
+      "node",
+      "tests/child_settings_edge.cjs"
+    ],
+    "exit_code": 0,
+    "seconds": 0.6
+  },
+  {
+    "name": "session_limits_database",
+    "command": [
+      "node",
+      "tests/session_limits_database.cjs"
+    ],
+    "exit_code": 0,
+    "seconds": 1.4
+  },
+  {
+    "name": "portal_master_edit_edge",
+    "command": [
+      "node",
+      "tests/portal_master_edit_edge.cjs"
+    ],
+    "exit_code": 0,
+    "seconds": 0.5
+  },
+  {
+    "name": "browser_smoke",
+    "command": [
+      "node",
+      "tests/browser_smoke.cjs"
+    ],
+    "exit_code": 1,
+    "seconds": 165.3
+  },
+  {
+    "name": "motion_smoke",
+    "command": [
+      "node",
+      "tests/motion_smoke.cjs"
+    ],
+    "exit_code": 0,
+    "seconds": 119.8
+  },
+  {
+    "name": "silk_smoke",
+    "command": [
+      "node",
+      "tests/silk_smoke.cjs"
+    ],
+    "exit_code": 0,
+    "seconds": 95.0
+  },
+  {
+    "name": "confetti_smoke",
+    "command": [
+      "node",
+      "tests/confetti_smoke.cjs"
+    ],
+    "exit_code": 0,
+    "seconds": 260.7
+  },
+  {
+    "name": "grown_ups_smoke",
+    "command": [
+      "node",
+      "tests/grown_ups_smoke.cjs"
+    ],
+    "exit_code": 0,
+    "seconds": 17.9
+  },
+  {
+    "name": "home_flow",
+    "command": [
+      "node",
+      "tests/home_flow.cjs"
+    ],
+    "exit_code": 0,
+    "seconds": 9.1
+  },
+  {
+    "name": "accounts_selection",
+    "command": [
+      "node",
+      "tests/accounts_selection.cjs"
+    ],
+    "exit_code": 0,
+    "seconds": 3.7
+  },
+  {
+    "name": "accounts_sync",
+    "command": [
+      "node",
+      "tests/accounts_sync.cjs"
+    ],
+    "exit_code": 0,
+    "seconds": 9.5
+  },
+  {
+    "name": "portal_flow",
+    "command": [
+      "node",
+      "tests/portal_flow.cjs"
+    ],
+    "exit_code": 0,
+    "seconds": 9.5
+  },
+  {
+    "name": "portal_master",
+    "command": [
+      "node",
+      "tests/portal_master.cjs"
+    ],
+    "exit_code": 0,
+    "seconds": 49.8
+  },
+  {
+    "name": "portal_master_edit",
+    "command": [
+      "node",
+      "tests/portal_master_edit.cjs"
+    ],
+    "exit_code": 0,
+    "seconds": 34.5
+  },
+  {
+    "name": "portal_round2",
+    "command": [
+      "node",
+      "tests/portal_round2.cjs"
+    ],
+    "exit_code": 0,
+    "seconds": 51.6
+  },
+  {
+    "name": "portal_flow-live",
+    "command": [
+      "node",
+      "tests/portal_flow.cjs",
+      "--live"
+    ],
+    "exit_code": 0,
+    "seconds": 69.6
+  },
+  {
+    "name": "accounts_sync-live",
+    "command": [
+      "node",
+      "tests/accounts_sync.cjs",
+      "--live"
+    ],
+    "exit_code": 0,
+    "seconds": 21.7
+  },
+  {
+    "name": "child_settings_browser",
+    "command": [
+      "node",
+      "tests/child_settings_browser.cjs"
+    ],
+    "exit_code": 0,
+    "seconds": 63.8
+  },
+  {
+    "name": "edge-typescript",
+    "command": [
+      ".job/db-tools/node_modules/.bin/tsc",
+      "--noEmit",
+      "--strict",
+      "--target",
+      "ES2022",
+      "--module",
+      "ESNext",
+      "--lib",
+      "ES2022,DOM",
+      ".job/db-tools/deno.d.ts",
+      "supabase/functions/accounts/index.ts"
+    ],
+    "exit_code": 0,
+    "seconds": 1.2
+  }
+]

@@ -1,0 +1,280 @@
+{
+  "all_completed_checks_pass": true,
+  "existing_cjs_entry_points": 22,
+  "checks": [
+    {
+      "name": "static",
+      "command": [
+        "python3",
+        "tests/run_tests.py"
+      ],
+      "exit_code": 0,
+      "evidence": "static-final.log"
+    },
+    {
+      "name": "runtime_smoke",
+      "command": [
+        "node",
+        "tests/runtime_smoke.cjs"
+      ],
+      "exit_code": 0,
+      "evidence": "runtime_smoke-final.log"
+    },
+    {
+      "name": "grown_ups_runtime",
+      "command": [
+        "node",
+        "tests/grown_ups_runtime.cjs"
+      ],
+      "exit_code": 0,
+      "evidence": "grown_ups_runtime-final.log"
+    },
+    {
+      "name": "accounts_database",
+      "command": [
+        "node",
+        "tests/accounts_database.cjs"
+      ],
+      "exit_code": 0,
+      "evidence": "accounts_database.log"
+    },
+    {
+      "name": "accounts_database_edge",
+      "command": [
+        "node",
+        "tests/accounts_database_edge.cjs"
+      ],
+      "exit_code": 0,
+      "evidence": "accounts_database_edge.log"
+    },
+    {
+      "name": "child_settings_database",
+      "command": [
+        "node",
+        "tests/child_settings_database.cjs"
+      ],
+      "exit_code": 0,
+      "evidence": "child_settings_database.log"
+    },
+    {
+      "name": "child_settings_edge",
+      "command": [
+        "node",
+        "tests/child_settings_edge.cjs"
+      ],
+      "exit_code": 0,
+      "evidence": "child_settings_edge.log"
+    },
+    {
+      "name": "session_limits_database",
+      "command": [
+        "node",
+        "tests/session_limits_database.cjs"
+      ],
+      "exit_code": 0,
+      "evidence": "session_limits_database.log"
+    },
+    {
+      "name": "portal_master_edit_edge",
+      "command": [
+        "node",
+        "tests/portal_master_edit_edge.cjs"
+      ],
+      "exit_code": 0,
+      "evidence": "portal_master_edit_edge.log"
+    },
+    {
+      "name": "browser_smoke",
+      "exit_code": 0,
+      "coverage": "All 6 shards, 18 cases",
+      "evidence": "browser-shards.json"
+    },
+    {
+      "name": "motion_smoke",
+      "command": [
+        "node",
+        "tests/motion_smoke.cjs"
+      ],
+      "exit_code": 0,
+      "evidence": "motion_smoke.log"
+    },
+    {
+      "name": "silk_smoke",
+      "command": [
+        "node",
+        "tests/silk_smoke.cjs"
+      ],
+      "exit_code": 0,
+      "evidence": "silk_smoke.log"
+    },
+    {
+      "name": "confetti_smoke",
+      "command": [
+        "node",
+        "tests/confetti_smoke.cjs"
+      ],
+      "exit_code": 0,
+      "evidence": "confetti_smoke.log"
+    },
+    {
+      "name": "grown_ups_smoke",
+      "command": [
+        "node",
+        "tests/grown_ups_smoke.cjs"
+      ],
+      "exit_code": 0,
+      "evidence": "grown_ups_smoke.log"
+    },
+    {
+      "name": "home_flow",
+      "command": [
+        "node",
+        "tests/home_flow.cjs"
+      ],
+      "exit_code": 0,
+      "evidence": "home_flow.log"
+    },
+    {
+      "name": "accounts_selection",
+      "command": [
+        "node",
+        "tests/accounts_selection.cjs"
+      ],
+      "exit_code": 0,
+      "evidence": "accounts_selection.log"
+    },
+    {
+      "name": "accounts_sync",
+      "command": [
+        "node",
+        "tests/accounts_sync.cjs"
+      ],
+      "exit_code": 0,
+      "evidence": "accounts_sync.log"
+    },
+    {
+      "name": "portal_flow",
+      "command": [
+        "node",
+        "tests/portal_flow.cjs"
+      ],
+      "exit_code": 0,
+      "evidence": "portal_flow.log"
+    },
+    {
+      "name": "portal_master",
+      "command": [
+        "node",
+        "tests/portal_master.cjs"
+      ],
+      "exit_code": 0,
+      "evidence": "portal_master.log"
+    },
+    {
+      "name": "portal_master_edit",
+      "command": [
+        "node",
+        "tests/portal_master_edit.cjs"
+      ],
+      "exit_code": 0,
+      "evidence": "portal_master_edit.log"
+    },
+    {
+      "name": "portal_round2",
+      "command": [
+        "node",
+        "tests/portal_round2.cjs"
+      ],
+      "exit_code": 0,
+      "evidence": "portal_round2.log"
+    },
+    {
+      "name": "portal_flow-live",
+      "command": [
+        "node",
+        "tests/portal_flow.cjs",
+        "--live"
+      ],
+      "exit_code": 0,
+      "evidence": "portal_flow-live.log"
+    },
+    {
+      "name": "accounts_sync-live",
+      "command": [
+        "node",
+        "tests/accounts_sync.cjs",
+        "--live"
+      ],
+      "exit_code": 0,
+      "evidence": "accounts_sync-live.log"
+    },
+    {
+      "name": "child_settings_browser",
+      "command": [
+        "node",
+        "tests/child_settings_browser.cjs"
+      ],
+      "exit_code": 0,
+      "evidence": "child_settings_browser.log"
+    },
+    {
+      "name": "edge-typescript",
+      "command": [
+        ".job/db-tools/node_modules/.bin/tsc",
+        "--noEmit",
+        "--strict",
+        "--target",
+        "ES2022",
+        "--module",
+        "ESNext",
+        "--lib",
+        "ES2022,DOM",
+        ".job/db-tools/deno.d.ts",
+        "supabase/functions/accounts/index.ts"
+      ],
+      "exit_code": 0,
+      "evidence": "edge-typescript.log"
+    },
+    {
+      "name": "child_settings_hosted",
+      "exit_code": 0,
+      "evidence": "child_settings_hosted.log"
+    },
+    {
+      "name": "hosted-copy",
+      "exit_code": 0,
+      "evidence": "hosted-copy.log"
+    },
+    {
+      "name": "copy-before-after",
+      "exit_code": 0,
+      "evidence": "copy-before-after.log"
+    },
+    {
+      "name": "final-master-hosted",
+      "exit_code": 0,
+      "evidence": "final-master.log",
+      "snapshot": "final-master.json"
+    },
+    {
+      "name": "always-latest-links",
+      "exit_code": 0,
+      "evidence": "always-latest.log",
+      "snapshot": "always-latest.json"
+    }
+  ],
+  "superseded_runs": [
+    {
+      "name": "browser_smoke initial sweep",
+      "exit_code": 1,
+      "reason": "Stopped after source/test edits and replaced by all 6 complete final-source shards.",
+      "evidence": "browser_smoke.log"
+    },
+    {
+      "name": "short-form branch preview",
+      "exit_code": 1,
+      "reason": "Preview host served cached old game JavaScript. Replaced report links with verified explicit refs/heads URLs.",
+      "evidence": "always-latest-stale.log"
+    }
+  ]
+}

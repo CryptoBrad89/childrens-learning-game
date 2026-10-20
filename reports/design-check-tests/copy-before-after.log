@@ -1,0 +1,28 @@
+before silk 390 B: "What startswith /b/?" FAIL
+before silk 390 X: "What endswith /ks/?" FAIL
+before post 390 B: "What starts\nwith /b/?" PASS
+before post 390 X: "What ends\nwith /ks/?" PASS
+before Moonboat introduction: "A whole skyof little sounds." FAIL
+before space 390 B: "What startswith /b/?" FAIL
+before space 390 X: "What endswith /ks/?" FAIL
+before silk 1920 B: "What startswith /b/?" FAIL
+before silk 1920 X: "What endswith /ks/?" FAIL
+before post 1920 B: "What starts\nwith /b/?" PASS
+before post 1920 X: "What ends\nwith /ks/?" PASS
+before space 1920 B: "What startswith /b/?" FAIL
+before space 1920 X: "What endswith /ks/?" FAIL
+PASS before: 9 word-spacing failures from 13 real rendered checks; expected 9
+after silk 390 B: "What starts with /b/?" PASS
+after silk 390 X: "What ends with /ks/?" PASS
+after post 390 B: "What starts\nwith /b/?" PASS
+after post 390 X: "What ends\nwith /ks/?" PASS
+after Moonboat introduction: "A whole sky of little sounds." PASS
+after space 390 B: "What starts with /b/?" PASS
+after space 390 X: "What ends with /ks/?" PASS
+after silk 1920 B: "What starts with /b/?" PASS
+after silk 1920 X: "What ends with /ks/?" PASS
+after post 1920 B: "What starts\nwith /b/?" PASS
+after post 1920 X: "What ends\nwith /ks/?" PASS
+after space 1920 B: "What starts with /b/?" PASS
+after space 1920 X: "What ends with /ks/?" PASS
+PASS after: 0 word-spacing failures from 13 real rendered checks; expected 0

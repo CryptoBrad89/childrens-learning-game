@@ -1,0 +1,3 @@
+Before click: {"profile":"test_adult_mvevk15s","owner":"test_adult_mvevk15s","notice":"Welcome, Sync test grown-up. Manage your kids below.","inert":false,"guardians":[{"child_id":"918bc03b-de9c-46e9-aa96-0f524c0b31ce"},{"child_id":"644c0c08-2064-4269-a40c-19be71d4a0ce"}],"child":{"id":"918bc03b-de9c-46e9-aa96-0f524c0b31ce","handle":"test_child_mvevk15s"}}
+After click: {"profile":"test_adult_mvevk15s","owner":"test_child_mvevk15s","notice":"Opened Sync test child's progress page.","inert":false,"pageerrors":[]}
+PASS LIVE: linked child button selects progress page and settings navigation preserves adult identity and selected child

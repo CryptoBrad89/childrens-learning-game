@@ -1,0 +1,16 @@
+[
+  {
+    "url": "https://raw.githack.com/CryptoBrad89/childrens-learning-game/refs/heads/codex/home-flow-ribbon/v1-letter-post/app.js",
+    "sha256": "7210956eb4f898be627e8d53cedf8fe3d273c77d36fa0b504e26d0324cc213d8",
+    "expectedSha256": "7210956eb4f898be627e8d53cedf8fe3d273c77d36fa0b504e26d0324cc213d8",
+    "matches_local": true,
+    "cacheControl": "max-age=60, public, stale-while-revalidate=60, stale-if-error=604800"
+  },
+  {
+    "url": "https://raw.githack.com/CryptoBrad89/childrens-learning-game/refs/heads/codex/home-flow-ribbon/v3-moonboat/app.js",
+    "sha256": "7210956eb4f898be627e8d53cedf8fe3d273c77d36fa0b504e26d0324cc213d8",
+    "expectedSha256": "7210956eb4f898be627e8d53cedf8fe3d273c77d36fa0b504e26d0324cc213d8",
+    "matches_local": true,
+    "cacheControl": "max-age=60, public, stale-while-revalidate=60, stale-if-error=604800"
+  }
+]
