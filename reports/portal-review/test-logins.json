@@ -1,0 +1,150 @@
+{
+  "previous_runs": [
+    {
+      "project": "ixjbgshhzeaosrzavssr",
+      "created_at": "2026-10-20T16:49:41.527Z",
+      "accounts": [
+        {
+          "handle": "review_source_mvgx51lo",
+          "password": "7234ab",
+          "display_name": "Portal review source",
+          "id": "9503549a-ef88-4598-bd27-01d5d8c7f0f9",
+          "role": "grownup"
+        },
+        {
+          "handle": "review_destination_mvgx51lo",
+          "password": "7234ab",
+          "display_name": "Portal review destination",
+          "id": "a810cae5-b5a1-4b0b-8077-f04ef248614c",
+          "role": "grownup"
+        },
+        {
+          "handle": "review_ava_mvgx51lo",
+          "password": "7234ab",
+          "display_name": "Portal review ava",
+          "id": "3563dca7-10a1-46ca-8b80-f6de4dc8ee0b",
+          "role": "child"
+        },
+        {
+          "handle": "review_leo_mvgx51lo",
+          "password": "7234ab",
+          "display_name": "Portal review leo",
+          "id": "46c64ded-a61e-41c5-9783-d7030c5cf8f8",
+          "role": "child"
+        }
+      ],
+      "results": [
+        "All four recorded disposable IDs deleted; partial not-found results verified."
+      ]
+    },
+    {
+      "project": "ixjbgshhzeaosrzavssr",
+      "created_at": "2026-10-20T16:53:01.110Z",
+      "accounts": [
+        {
+          "handle": "review_source_mvgx9d59",
+          "password": "7234ab",
+          "display_name": "Portal review source",
+          "id": "6e825087-f69b-4649-837d-2fe54eb79f97",
+          "role": "grownup"
+        },
+        {
+          "handle": "review_destination_mvgx9d59",
+          "password": "7234ab",
+          "display_name": "Portal review destination",
+          "id": "3c2191bd-5034-434f-98e5-5ba3850fcabd",
+          "role": "grownup"
+        },
+        {
+          "handle": "review_ava_mvgx9d59",
+          "password": "7234ab",
+          "display_name": "Portal review ava",
+          "id": "61cef024-fa1a-4ec4-a8b3-a98f192bf18d",
+          "role": "child"
+        },
+        {
+          "handle": "review_leo_mvgx9d59",
+          "password": "7234ab",
+          "display_name": "Portal review leo",
+          "id": "3e02943b-c3d3-455c-a3ff-89ec416f802b",
+          "role": "child"
+        }
+      ],
+      "results": [
+        "All four recorded disposable IDs deleted; partial not-found results verified."
+      ]
+    },
+    {
+      "project": "ixjbgshhzeaosrzavssr",
+      "created_at": "2026-10-20T16:55:57.466Z",
+      "accounts": [
+        {
+          "handle": "review_source_mvgxd5cb",
+          "password": "7234ab",
+          "display_name": "Portal review source",
+          "id": "9f408844-01b4-45ec-bff5-9460ebf89753",
+          "role": "grownup"
+        },
+        {
+          "handle": "review_destination_mvgxd5cb",
+          "password": "7234ab",
+          "display_name": "Portal review destination",
+          "id": "f5ea22e0-1981-4dbf-9dad-48a28e30e359",
+          "role": "grownup"
+        },
+        {
+          "handle": "review_ava_mvgxd5cb",
+          "password": "7234ab",
+          "display_name": "Portal review ava",
+          "id": "a75acf2e-a103-4387-a599-3e5dccc1a581",
+          "role": "child"
+        },
+        {
+          "handle": "review_leo_mvgxd5cb",
+          "password": "7234ab",
+          "display_name": "Portal review leo",
+          "id": "5da3c220-c60c-4286-a9dd-25ba8e2244a1",
+          "role": "child"
+        }
+      ],
+      "results": [
+        "All four recorded disposable IDs deleted; partial not-found results verified."
+      ]
+    }
+  ],
+  "project": "ixjbgshhzeaosrzavssr",
+  "created_at": "2026-10-20T17:15:45.489Z",
+  "accounts": [
+    {
+      "handle": "review_source_mvgy2qzq",
+      "password": "7234ab",
+      "display_name": "Portal review source",
+      "id": "77686a6c-1bd3-4c27-a7be-ec7783e6a9cc",
+      "role": "grownup"
+    },
+    {
+      "handle": "review_destination_mvgy2qzq",
+      "password": "7234ab",
+      "display_name": "Portal review destination",
+      "id": "1668ca68-7c2a-4e73-85a7-524998ee8996",
+      "role": "grownup"
+    },
+    {
+      "handle": "review_ava_mvgy2qzq",
+      "password": "7234ab",
+      "display_name": "Portal review ava",
+      "id": "8209d673-84cd-4c16-92b3-acf4aa7c942e",
+      "role": "child"
+    },
+    {
+      "handle": "review_leo_mvgy2qzq",
+      "password": "7234ab",
+      "display_name": "Portal review leo",
+      "id": "800b00f6-ffd1-40ab-993d-21ac8f61f262",
+      "role": "child"
+    }
+  ],
+  "results": [
+    "All four recorded disposable IDs deleted; partial not-found results verified."
+  ]
+}

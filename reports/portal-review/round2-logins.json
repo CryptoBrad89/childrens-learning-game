@@ -1,0 +1,40 @@
+{
+  "created_at": "2026-10-20T17:10:44.045Z",
+  "project": "ixjbgshhzeaosrzavssr",
+  "cases": [
+    {
+      "width": 390,
+      "grownup": {
+        "handle": "r2_adult_mvgxw2a5390_new",
+        "password": "8345bc"
+      },
+      "second_grownup": {
+        "handle": "r2_parent_mvgxw2a5390",
+        "password": "7234ab"
+      },
+      "child": {
+        "handle": "r2_play_mvgxw2a5390",
+        "password": "7234ab",
+        "id": "8fdb7048-ebaf-4578-b071-155ed71fcdbd"
+      },
+      "deleted_child_id": "5c218e19-29f8-407f-8638-0a793a112169"
+    },
+    {
+      "width": 1440,
+      "grownup": {
+        "handle": "r2_adult_mvgxwq0w1440_new",
+        "password": "8345bc"
+      },
+      "second_grownup": {
+        "handle": "r2_parent_mvgxwq0w1440",
+        "password": "7234ab"
+      },
+      "child": {
+        "handle": "r2_play_mvgxwq0w1440",
+        "password": "7234ab",
+        "id": "e568faf1-c3c7-4322-92f2-50a4ee796ca1"
+      },
+      "deleted_child_id": "44a1b847-be19-42a5-be53-d5da0c0f27ec"
+    }
+  ]
+}

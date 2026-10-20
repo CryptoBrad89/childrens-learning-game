@@ -1,0 +1,6 @@
+PASS v1-letter-post-390-theme0: B/J/X/Z flow, hints, replay, collection, wrap, keyboard and layout
+page.waitForFunction: Target page, context or browser has been closed
+    at screen (/workspace/clg-codex/tests/browser_smoke.cjs:39:40)
+    at run (/workspace/clg-codex/tests/browser_smoke.cjs:89:19) {
+  log: []
+}

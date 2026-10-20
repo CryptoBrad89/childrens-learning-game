@@ -1,0 +1,9 @@
+PASS grown-ups-phone: portal door, no keypad, every setting, guards, reset, layout and offline
+PASS grown-ups-tablet: portal door, no keypad, every setting, guards, reset, layout and offline
+PASS grown-ups-chromebook: portal door, no keypad, every setting, guards, reset, layout and offline
+PASS grown-ups-whiteboard: portal door, no keypad, every setting, guards, reset, layout and offline
+PASS worlds-phone: hidden world, chosen letters, quiet start, hidden buttons, calm motion, one-miss hint and volume
+PASS worlds-whiteboard: hidden world, chosen letters, quiet start, hidden buttons, calm motion, one-miss hint and volume
+PASS grown-ups-reduced: unlock and settings render
+PASS grown-ups-dark: unlock and settings render
+PASS grown-ups' corner; screenshots disabled

@@ -1,34 +1,33 @@
 {
   "master": {
-    "handle": "test",
-    "password": "ABCD1234"
+    "handle": "brandy"
   },
-  "base": "http://127.0.0.1:38501/",
+  "base": "http://127.0.0.1:8770/",
   "runs": [
     {
       "width": 390,
       "regular": {
-        "handle": "edit_regular_mvg33m2d390_n",
+        "handle": "edit_regular_mvgxvhiv390_n",
         "password": "7234ab",
-        "id": "4f955083-820d-43b7-8760-72c217ec3580"
+        "id": "a870f069-65de-484b-adc9-fc567b943b73"
       },
       "kid": {
-        "handle": "edit_kid_mvg33m2d390",
+        "handle": "edit_kid_mvgxvhiv390",
         "password": "7234ab",
-        "id": "eeade450-feef-4f9c-a14b-48be8b985cdd"
+        "id": "18f4a10f-3714-4149-9def-8aec77eecf9d"
       }
     },
     {
       "width": 1440,
       "regular": {
-        "handle": "edit_regular_mvg33zp31440_n",
+        "handle": "edit_regular_mvgxvs7n1440_n",
         "password": "7234ab",
-        "id": "80da7a82-ec2b-407b-9bf0-46afce5f76c4"
+        "id": "e65a2cb6-581a-46de-bf19-e8805619fa54"
       },
       "kid": {
-        "handle": "edit_kid_mvg33zp31440",
+        "handle": "edit_kid_mvgxvs7n1440",
         "password": "7234ab",
-        "id": "81850e15-5499-437f-986f-2eecddaf9e7a"
+        "id": "6566ea36-925b-4a53-81d9-07f4311af11c"
       }
     }
   ]

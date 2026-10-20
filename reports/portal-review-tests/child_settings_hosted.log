@@ -1,0 +1,3 @@
+PASS HOSTED 390: pinned preview, master login, child name fields, own profile fields, child overrides, visible header signout, picker/game child signout, no overflow/errors
+TypeError: Cannot read properties of undefined (reading 'children')
+    at /workspace/clg-codex/tests/child_settings_hosted.cjs:16:52

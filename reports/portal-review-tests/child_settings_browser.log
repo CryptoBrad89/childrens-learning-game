@@ -1,0 +1,16 @@
+PASS 390: master, rename through management, old handle rejected, child and unlinked adult denied
+PASS 390: eight settings, clear custom state, mixed bulk changes letters only, cross-device precedence
+AssertionError [ERR_ASSERTION]: No browser exceptions
++ actual - expected
+
++ [
++   "Cannot read properties of null (reading 'is_master')"
++ ]
+- []
+    at run (/workspace/clg-codex/tests/child_settings_browser.cjs:176:14) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: [Array],
+  expected: [],
+  operator: 'deepStrictEqual'
+}

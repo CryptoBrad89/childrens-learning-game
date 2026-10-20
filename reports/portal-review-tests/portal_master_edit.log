@@ -1,0 +1,4 @@
+PASS master login checked read-only; master profile is never edited
+PASS 390: master edits other grown-up name, unique username, icon/upload; old login refused; regular self-only; child/anonymous/forged RPC denied; no overflow/errors; master remained untouched
+PASS master login checked read-only; master profile is never edited
+PASS 1440: master edits other grown-up name, unique username, icon/upload; old login refused; regular self-only; child/anonymous/forged RPC denied; no overflow/errors; master remained untouched

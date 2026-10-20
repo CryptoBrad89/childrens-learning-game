@@ -1,0 +1,41 @@
+PASS 390: unified login, portal persistence/views, direct batch settings, no PIN, page-flow pickers/collections, compact profile and guest controls, consistent sign-out
+PASS 768: unified login, portal persistence/views, direct batch settings, no PIN, page-flow pickers/collections, compact profile and guest controls, consistent sign-out
+PASS 1440: unified login, portal persistence/views, direct batch settings, no PIN, page-flow pickers/collections, compact profile and guest controls, consistent sign-out
+locator.selectOption: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator('#link-grownup-choice')
+    - locator resolved to <select required="" id="link-grownup-choice">…</select>
+  - attempting select option action
+    2 × waiting for element to be visible and enabled
+      - element is not visible
+    - retrying select option action
+    - waiting 20ms
+    2 × waiting for element to be visible and enabled
+      - element is not visible
+    - retrying select option action
+      - waiting 100ms
+    59 × waiting for element to be visible and enabled
+       - element is not visible
+     - retrying select option action
+       - waiting 500ms
+
+    at /workspace/clg-codex/tests/fixlist.cjs:52:42 {
+  log: [
+    "  - waiting for locator('#link-grownup-choice')",
+    '    - locator resolved to <select required="" id="link-grownup-choice">…</select>',
+    '  - attempting select option action',
+    '    2 × waiting for element to be visible and enabled',
+    '      - element is not visible',
+    '    - retrying select option action',
+    '    - waiting 20ms',
+    '    2 × waiting for element to be visible and enabled',
+    '      - element is not visible',
+    '    - retrying select option action',
+    '      - waiting 100ms',
+    '    59 × waiting for element to be visible and enabled',
+    '       - element is not visible',
+    '     - retrying select option action',
+    '       - waiting 500ms'
+  ],
+  name: 'TimeoutError'
+}

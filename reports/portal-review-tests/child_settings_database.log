@@ -1,0 +1,1 @@
+PASS child settings database: legacy migration, all eight settings, defaults/override/reset precedence, atomic touched-key bulk, linked-only rename + Auth uniqueness, child/unlinked/RLS denial

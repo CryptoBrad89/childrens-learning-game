@@ -44,6 +44,7 @@ async function send(action,fields={}){calls=[];const r=await handler(new Request
  for(const action of ['delete-children','delete-grownups'])for(const ids of [[],[kid,kid],['bad'],Array.from({length:101},(_,n)=>id(n+10))]){
   result=await send(action,{[action==='delete-children'?'child_ids':'grownup_ids']:ids,confirm:action});assert.equal(result.status,400);assert(!calls.some(c=>c.options.method==='DELETE'));
  }
+ const boundary=await send('delete-children',{child_ids:Array.from({length:100},(_,n)=>id(n+10)),confirm:'delete-children'});assert.equal(boundary.status,200);assert.equal(boundary.data.results.length,100);
  assert.equal((await send('delete-child',{child_id:master,confirm:'delete-child'})).status,403);
  assert.equal((await send('reset-grownup-progress',{grownup_id:master,confirm:'reset-grownup-progress'})).status,403);
  assert.equal((await send('delete-child',{child_id:kid})).status,400,'Single-ID confirmation preserved');
