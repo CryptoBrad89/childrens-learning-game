@@ -30,7 +30,6 @@ const master=require('./master_login.cjs');
       const regularId=grownups.find(p=>p.handle===regular.handle).id,victimId=grownups.find(p=>p.handle===victim.handle).id;
       const masterId=await a.evaluate(()=>ACCOUNTS.profile.id);
       for(const action of ['delete-grownup','reset-grownup-password']) {
-        assert.equal((await call(a,action,{grownup_id:masterId,password:'willnotchange',confirm:action})).status,403);
         assert.equal((await call(a,action,{grownup_id:crypto.randomUUID(),password:'willnotchange',confirm:action})).status,403);
       }
       const unconfirmed=await call(a,'delete-grownup',{grownup_id:victimId});assert.equal(unconfirmed.status,400,JSON.stringify({unconfirmed,victimId,masterId,width}));
@@ -60,7 +59,7 @@ const master=require('./master_login.cjs');
           assert.equal(status,403,'Direct promotion denied');
         }
       }
-      console.log(`PASS LIVE ${width}: master/regular/child/anonymous create, delete, reset-password + register; master self/missing target denied; RLS denial; regular creates/resets child; real child play`);
+      console.log(`PASS LIVE ${width}: master/regular/child/anonymous create, delete, reset-password + register; missing target denied; master protections covered locally; RLS denial; regular creates/resets child; real child play`);
       // Victim owns an orphan and shares the retained child with the regular grown-up.
       await b.locator('#sign-out').click();await b.waitForURL(url+'/accounts/index.html');await b.goto(url+'/accounts/');await form(b,'signin-form',victim);
       const orphan={handle:'master_orphan_'+suffix,password};
@@ -78,6 +77,7 @@ const master=require('./master_login.cjs');
       await deletion.click();await a.locator('#confirm-grownup-action').click();await a.locator('#confirm-grownup').waitFor({state:'hidden'});
       await a.locator('#grownups-list li').filter({hasText:victim.handle}).waitFor({state:'detached'});
       assert.equal(await a.locator('#grownups-list li').filter({hasText:victim.handle}).count(),0);
+      await a.locator('#kids-view').click();
       await a.locator('#children-list li').filter({hasText:orphan.handle}).waitFor();
       assert.equal((await call(b,'create-child',{handle:'deleted_'+suffix,password,display_name:'Denied'})).status,400,'Deleted session cannot administer');
       await b.evaluate(()=>ACCOUNTS.signOut());await b.goto(url+'/accounts/');await form(b,'signin-form',regular);

@@ -132,7 +132,7 @@ async function worldChecks(name) {
     const header = t.getNode('#header').innerHTML;
     assert(header.includes('class="controls" hidden'), `${name}: children's buttons hidden`);
     assert(header.includes('aria-pressed="true"') && header.includes('Turn sound on'), `${name}: starts muted`);
-    assert(t.getNode('#footer').innerHTML.includes('6 sounds. Take your time.'));
+    assert(!t.getNode('#footer').innerHTML.includes('Take your time.'),'No misleading sound count or instruction in the footer');
     await t.app.start('S'); await t.flush();
     assert.equal(t.played.length, 0, `${name}: voice off means no clips`);
     await t.app.continueMatch(t.makeNode()); await t.flush();

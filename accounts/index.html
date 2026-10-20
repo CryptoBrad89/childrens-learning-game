@@ -44,7 +44,7 @@
         <p class="help full">On a shared device, choose “Sign out” before the next person plays. If anything is waiting to sync, it stays safe here for your next sign-in with this same login.</p>
       </section>
       <nav class="portal-views" aria-label="Portal views" data-adult><button type="button" id="kids-view" aria-pressed="true">Kids</button><button type="button" id="adults-view" aria-pressed="false">Grown-ups</button></nav>
-      <nav class="progress-nav" aria-label="Your progress page"><a href="#progress" id="progress-link">Progress</a><a href="../grown-ups/index.html" id="settings-link">Grown-ups' corner</a><a href="#people" data-adult>Kids</a></nav>
+      <nav class="progress-nav" aria-label="Your progress page"><a href="#progress" id="progress-link">Progress</a><a href="../grown-ups/index.html" id="settings-link">Grown-ups' corner</a></nav>
       <details data-adult class="password-panel"><summary>Edit my profile</summary><form id="profile-form">
         <label>Display name<input name="display_name" maxlength="60" required autocomplete="name"></label>
         <label>Username<input name="handle" required autocomplete="username" autocapitalize="none" spellcheck="false"></label>
@@ -109,7 +109,7 @@
             <label>Child's name<input name="display_name" required autocomplete="off"></label>
             <label>Choose their login name<input name="handle" required autocomplete="off" autocapitalize="none" spellcheck="false"></label>
             <label>Choose their password<input name="password" type="password" minlength="6" autocomplete="new-password" required></label>
-            <p class="help">At least 6 characters. A four-digit PIN and two initials works, such as 7234ab. Keep their login wherever they play.</p>
+            <p class="help">At least 6 characters. Keep their login name and password wherever they play.</p>
             <fieldset class="avatar-options"><legend>Choose a profile icon</legend><label><input type="radio" name="avatar" value="🐶" checked><span>🐶</span><span class="sr-only">Dog</span></label><label><input type="radio" name="avatar" value="🐱"><span>🐱</span><span class="sr-only">Cat</span></label><label><input type="radio" name="avatar" value="🐰"><span>🐰</span><span class="sr-only">Rabbit</span></label><label><input type="radio" name="avatar" value="🦊"><span>🦊</span><span class="sr-only">Fox</span></label><label><input type="radio" name="avatar" value="🐼"><span>🐼</span><span class="sr-only">Panda</span></label><label><input type="radio" name="avatar" value="⭐"><span>⭐</span><span class="sr-only">Star</span></label></fieldset>
             <label>Or upload a picture<input id="avatar-upload" name="avatar_file" type="file" accept="image/*" aria-describedby="avatar-help"></label><p id="avatar-help" class="help">Choose a photo or any picture. We save a small profile copy.</p><img id="avatar-preview" class="child-avatar" alt="Child’s chosen picture" hidden>
             <button class="solid-button" type="submit">Create child's account</button><p class="form-result" role="status" aria-live="polite"></p>

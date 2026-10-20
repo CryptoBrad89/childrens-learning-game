@@ -18,6 +18,9 @@ const {staticServer,backend,playwright,form,round}=require('./accounts_sync.cjs'
  assert(await p.locator('#signed-in').isVisible());assert.equal(await p.locator('#adults-view').getAttribute('aria-pressed'),'false');
  await p.screenshot({path:`${shots}/portal-${width}.png`,fullPage:true});
  await p.locator('#adults-view').click();assert(await p.locator('#profile-form').locator('xpath=ancestor::details').isVisible());assert(await p.locator('#create-grownup-form').locator('xpath=ancestor::details').isVisible());assert(await p.locator('#people').isHidden());
+ await p.evaluate(()=>{const saved=JSON.parse(localStorage.getItem('little-woof-session-v1'));saved.profile.is_master=false;localStorage.setItem('little-woof-session-v1',JSON.stringify(saved));});
+ await p.reload();await p.waitForFunction(()=>ACCOUNTS.profile?.is_master===true);
+ await p.locator('#adults-view').click();assert(await p.locator('#create-grownup-form').locator('xpath=ancestor::details').isVisible());
  await p.locator('#kids-view').click();await p.locator('#children-list button').first().click();await p.locator('#settings-link').click();await p.waitForFunction(()=>document.body.dataset.view==='settings');
  await p.screenshot({path:`${shots}/settings-${width}.png`,fullPage:true});
  await p.locator('#portal-link').click();await p.waitForFunction(()=>document.querySelector('#identity-title').textContent==='Grown-up');
@@ -33,7 +36,21 @@ const {staticServer,backend,playwright,form,round}=require('./accounts_sync.cjs'
  await p.locator('#mute').click();await round(p,'B');await p.locator('#account-strip summary').click();assert(await p.getByRole('button',{name:'👋 Sign out',exact:true}).isVisible());await p.locator('#account-strip summary').click();
  }
  await p.locator('#account-strip summary').click();await p.getByRole('button',{name:'👋 Sign out',exact:true}).click();await p.waitForURL('**/index.html');assert.equal(await p.locator('#child-signin-form [name=handle]').inputValue(),'');
- await p.locator('#play-unsaved').click();await p.locator('[data-world=silk]').click();await p.locator('#account-strip a').filter({hasText:'Sign in to save'}).waitFor();assert(await p.locator('#account-strip details').isHidden());
+ await p.locator('#play-unsaved').click();await p.locator('[data-world=silk]').click();await p.locator('#account-strip a').filter({hasText:'Sign in to save'}).waitFor();await p.screenshot({path:`${shots}/guest-ribbon-${width}.png`,fullPage:true});assert(await p.locator('#account-strip details').isHidden());
  assert.deepEqual(errors,[]);console.log('PASS '+width+': unified login, portal persistence/views, direct batch settings, no PIN, page-flow pickers/collections, compact profile and guest controls, consistent sign-out');await context.close();
- }}finally{await browser.close();server.close();}
+ }
+ const context=await browser.newContext({viewport:{width:390,height:844},reducedMotion:'reduce'});await context.route('https://*.supabase.co/**',fixture.route);const p=await context.newPage();
+ await p.goto(url+'/accounts/');await form(p,'signin-form',{handle:'fix_admin',password:'7234ab'});
+ await form(p,'create-grownup-form',{handle:'fix_linker',password:'7234ab',display_name:'Linking grown-up with a long display name'});
+ await p.locator('#grownups-list li').filter({hasText:'fix_linker'}).getByRole('button',{name:/^Edit /}).click();
+ const close=await p.locator('#close-edit-grownup').boundingBox();assert(close.y>=0&&close.y+close.height<=844,'Cancel stays inside the phone viewport');
+ assert.equal(await p.locator('#edit-grownup').evaluate(e=>e.scrollWidth>e.clientWidth),false);
+ await p.screenshot({path:shots+'/edit-grownup-390.png',fullPage:true});await p.locator('#close-edit-grownup').click();
+ await Promise.all([p.waitForNavigation(),p.locator('#sign-out').click()]);await form(p,'signin-form',{handle:'fix_linker',password:'7234ab'});
+ await p.waitForFunction(()=>document.querySelectorAll('#link-child-choice option').length>=2);
+ const ids=await p.locator('#link-child-choice option').evaluateAll(nodes=>nodes.slice(0,2).map(n=>n.value));
+ await form(p,'link-child-form',{child_id:ids});assert.equal(await p.locator('#children-list li').count(),2);
+ await p.locator('#select-all-kids').click();await p.locator('#edit-selected-kids').click();await p.waitForFunction(()=>document.body.dataset.view==='settings');assert.match(await p.locator('#scope-state').innerText(),/Editing 2 children/);
+ console.log('PASS multi-select linking and direct batch settings for two children; stale cached master metadata recovers read-only');await context.close();
+ }finally{await browser.close();server.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

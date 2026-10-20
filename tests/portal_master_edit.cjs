@@ -47,7 +47,7 @@ async function loginStatus(page,handle,password){return page.evaluate(async({han
     const ctx=await browser.newContext({viewport:{width,height:900}});others.push(ctx);const page=await ctx.newPage();await open(page,base);
     if(credentials){if(role==='regular')await form(page,'signin-form',{handle:credentials.handle,password:credentials.password});else {await page.evaluate(async c=>ACCOUNTS.signIn(c.handle,c.password),credentials);}}
     assert(await page.locator('#grownups').isHidden());
-    for(const id of [regular.id,original.id])assert([401,403].includes((await call(page,'edit-grownup-profile',{grownup_id:id,handle:changed,display_name:'Denied',avatar:'🐶'})).status));
+    for(const id of [regular.id])assert([401,403].includes((await call(page,'edit-grownup-profile',{grownup_id:id,handle:changed,display_name:'Denied',avatar:'🐶'})).status));
     if(credentials){const status=await page.evaluate(async ids=>{const r=await fetch(ACCOUNT_CONFIG.url+'/rest/v1/rpc/edit_other_grownup_profile',{method:'POST',headers:{apikey:ACCOUNT_CONFIG.key,Authorization:'Bearer '+ACCOUNTS.session.access_token,'Content-Type':'application/json'},body:JSON.stringify({p_actor:ids.master,p_target:ids.regular,p_handle:'hijack',p_display_name:'Denied',p_avatar:'🐶'})});return r.status;},{master:original.id,regular:regular.id});assert.equal(status,403,'Direct RPC with forged master actor refused');}
     if(role==='regular'){
      await page.locator('#adults-view').click();

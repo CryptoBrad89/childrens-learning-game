@@ -12,26 +12,6 @@ no network resources.
 
 ## 1. Layout (Superdesign workflow, step 1)
 
-Gate (first screen; the settings stay hidden until it is passed):
-
-```
-┌───────────────────────────────────────────────────────────────┐
-│ ░░ static paper-shader band ░░░░░░░░░░░░░░░░░░░░░░░ (postmark) │
-│ FOR GROWN-UPS                                                 │
-│ Grown-ups' corner                                             │
-├──────────────────────────────┬────────────────────────────────┤
-│ A quick check that a         │   ┌────┐┌────┐┌────┐  slots    │
-│ grown-up is here.            │   └────┘└────┘└────┘           │
-│                              │   ┌────┬────┬────┐             │
-│ Tap the numbers              │   │ 1  │ 2  │ 3  │  80px keys  │
-│  seven · two · five          │   │ 4  │ 5  │ 6  │             │
-│                              │   │ 7  │ 8  │ 9  │             │
-│ Why the check? …             │   └────┴────┴────┘             │
-│ [← Back to the games]        │   status line (aria-live)      │
-└──────────────────────────────┴────────────────────────────────┘
- Phone: one column, with full-row settings controls.
-```
-
 Settings:
 
 ```
@@ -82,7 +62,7 @@ gradient.
 
 | Moment | Spec | Source |
 | --- | --- | --- |
-| Gate → settings | translateY 16px + opacity, 400ms `cubic-bezier(.22,1,.36,1)` | Better Design `panel-reveal` (no blur on large surfaces, per taste-motion) |
+| Open settings | translateY 16px + opacity, 400ms `cubic-bezier(.22,1,.36,1)` | Better Design `panel-reveal` (no blur on large surfaces, per taste-motion) |
 | Digit fills a slot | 8px pop-in, 300ms `cubic-bezier(.34,1.45,.64,1)` | Better Design `number-pop-in` |
 | Wrong code | 480ms side wiggle, same curve as the game's wrong-card wiggle | game |
 | Switch thumb | 200ms `cubic-bezier(.4,0,.2,1)` | Better Design `switch` |

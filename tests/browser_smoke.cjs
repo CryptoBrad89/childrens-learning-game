@@ -61,8 +61,8 @@ async function run() {
           await page.selectOption('#theme', String(theme));
           await settle(); await page.evaluate(() => document.fonts.ready);
           assert.deepEqual(await page.locator('[data-letter]').evaluateAll(nodes => nodes.map(n => n.dataset.letter)), alphabet);
-          assert(await page.locator('.picker-shelf').evaluate(n => n.scrollHeight > n.clientHeight), 'Letter shelf must scroll');
-          assert(await page.locator('.collection-slots').evaluate(n => n.scrollWidth > n.clientWidth), 'Collection must scroll');
+          assert(await page.locator('.picker-shelf').evaluate(n => n.scrollHeight <= n.clientHeight+2), 'Letter shelf grows with the page');
+          assert(await page.locator('.collection-slots').evaluate(n => n.scrollWidth <= n.clientWidth+2 && n.scrollHeight <= n.clientHeight+2), 'All collection rows fit without an inner scroller');
           if (game === 'v3-moonboat') assert.match(await page.locator('.captain-panel .lead').innerText(), /A whole sky\s+of little sounds\./, 'Introduction keeps spaces on phones');
           await fits(); await capture('home');
           let count = 0;
@@ -102,8 +102,8 @@ async function run() {
           }
           await page.locator('[data-letter="Z"]').focus(); await page.keyboard.press('ArrowRight');
           assert.equal(await page.locator(':focus').getAttribute('data-letter'), 'A');
-          await page.locator('.picker-shelf').evaluate(n => {n.scrollTop = n.scrollHeight;});
-          await page.locator('.collection-slots').evaluate(n => {n.scrollLeft = n.scrollWidth;});
+          await page.locator('[data-letter=Z]').scrollIntoViewIfNeeded();
+          await page.locator('.collection-slot').last().scrollIntoViewIfNeeded();
           await fits(); await capture('home-end-of-alphabet');
           assert.deepEqual(errors, [], `${prefix}: browser errors`);
           await context.close(); cases++;
