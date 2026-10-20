@@ -1,0 +1,7 @@
+PASS approved audio: 53 approved clips, exact hashes, no extras
+PASS trim metadata: 54 metadata items / 53 clips (soft G aliases J): duration, slash, voice/model and stored name STT valid
+PASS wiring: both games: A-Z approved maps, long I, playback sites and local audio paths valid
+PASS voice: 91 audio files inventoried with matching hashes
+PASS alphabet: both games: 26 ordered letters, supplied words, Lucy/eleven_v4 clips and valid explicit SVGs
+PASS themes: Letter Post and Moonboat themes retained, with dark and light backgrounds
+6/6 checks passed (strict)

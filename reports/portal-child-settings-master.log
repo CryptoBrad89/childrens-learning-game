@@ -1,0 +1,4 @@
+PASS LIVE 390: master/regular/child/anonymous create, delete, reset-password + register; master self/missing target denied; RLS denial; regular creates/resets child; real child play
+PASS LIVE 390: named delete, Cancel focused + cancel preserves login; confirmed deletion denies old login/session, preserves shared child + progress and rehomes orphan to master; no page errors/overflow
+PASS LIVE 1440: master/regular/child/anonymous create, delete, reset-password + register; master self/missing target denied; RLS denial; regular creates/resets child; real child play
+PASS LIVE 1440: named delete, Cancel focused + cancel preserves login; confirmed deletion denies old login/session, preserves shared child + progress and rehomes orphan to master; no page errors/overflow

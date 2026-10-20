@@ -1,0 +1,19 @@
+{
+  "created_at": "2026-10-20T01:29:15.798Z",
+  "grownup": {
+    "handle": "test_adult_mvg06yzt",
+    "password": "7234ab"
+  },
+  "child": {
+    "handle": "test_child_mvg06yzt",
+    "password": "7234ab"
+  },
+  "linked_grownup": {
+    "handle": "test_parent_mvg06yzt",
+    "password": "7234ab"
+  },
+  "other_child": {
+    "handle": "test_other_mvg06yzt",
+    "password": "aaaaaa"
+  }
+}
