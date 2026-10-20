@@ -20,12 +20,8 @@ async function signoutVisible(page){
   assert.match(await button.innerText(),/Sign out/);
 }
 async function choose(page,ids){
-  await page.locator('[name=scope][value=children]').check();
-  for(const input of await page.locator('#settings-child-list input').all()){
-    const wanted=ids.includes(await input.inputValue());
-    if(wanted)await input.check();else await input.uncheck();
-  }
-  await page.waitForFunction(n=>document.querySelector('#scope-state').textContent.includes('Editing '+n),ids.length);
+  await page.goto(new URL('index.html?'+ids.map(id=>'child='+id).join('&'),page.url()).href);
+  await page.waitForFunction(n=>document.querySelector('#scope-state').textContent.includes(n+' '),ids.length);
 }
 async function range(page,value){
   await page.locator('#volume').evaluate((node,value)=>{node.value=value;node.dispatchEvent(new Event('input',{bubbles:true}));node.dispatchEvent(new Event('change',{bubbles:true}));},String(value));
@@ -54,7 +50,7 @@ async function queued(page,id){return page.evaluate(id=>new Promise((resolve,rej
   const req=indexedDB.open('little-woof-accounts',1);req.onsuccess=()=>{const db=req.result;const read=db.transaction('operations').objectStore('operations').getAll();read.onsuccess=()=>{db.close();resolve(read.result.filter(row=>row.user_id===id&&row.pending).length);};read.onerror=()=>reject(read.error);};req.onerror=()=>reject(req.error);
 }),id);}
 async function run(){
-  const {server,url}=await staticServer();let browser;const logins={project:config,master:require('./master_login.cjs'),runs:[]};
+  const {server,url}=await staticServer();let browser;const logins={project:config,master:{handle:require('./master_login.cjs').handle},runs:[]};
   if(fs.existsSync(reportPath))logins.previous_runs=[JSON.parse(fs.readFileSync(reportPath,'utf8'))];
   const save=()=>fs.writeFileSync(reportPath,JSON.stringify(logins,null,2)+'\n');
   try{
@@ -83,7 +79,7 @@ async function run(){
       sally.old_handle=sally.handle;sally.handle='settings_renamed_'+suffix;sally.display_name='Sally renamed '+width;
       await form(admin,'child-profile-form',{handle:sally.handle,display_name:sally.display_name});save();
       assert.equal(await admin.evaluate(()=>ACCOUNTS.owner.handle),sally.handle);
-      await admin.locator('#profile-form').evaluate(node=>node.closest('details').open=true);
+      await admin.locator('#my-account').click();await admin.locator('#profile-form').evaluate(node=>node.closest('details').open=true);
       await signoutVisible(admin);
       const oldRejected=await admin.evaluate(async({handle,password})=>{
         const result=await fetch(ACCOUNT_CONFIG.url+'/auth/v1/token?grant_type=password',{method:'POST',headers:{apikey:ACCOUNT_CONFIG.key,'Content-Type':'application/json'},body:JSON.stringify({email:handle+'@accounts.littlewoof.invalid',password})});return result.status;

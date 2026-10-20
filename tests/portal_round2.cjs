@@ -5,7 +5,7 @@ const fs=require('node:fs');
 const {staticServer,playwright,form,round}=require('./accounts_sync.cjs');
 (async()=>{
   const {server,url}=await staticServer(); let browser;
-  const seed=JSON.parse(fs.readFileSync('reports/portal-master-test-logins.json')).grownup;
+  const seed=require('./master_login.cjs');
   const logins={created_at:new Date().toISOString(),project:'ixjbgshhzeaosrzavssr',cases:[]};
   try {
     browser=await playwright().chromium.launch({headless:true,executablePath:process.env.CHROMIUM_EXECUTABLE||'/usr/bin/google-chrome',args:['--no-sandbox']});
@@ -49,11 +49,13 @@ const {staticServer,playwright,form,round}=require('./accounts_sync.cjs');
         const status=await b.evaluate(async({action,child_id})=>{try{await ACCOUNTS.manage(action,{child_id,confirm:action,password:'1111aa'});return 200;}catch(e){return e.status;}},{action,child_id:childId});
         assert.equal(status,403,'Unlinked grown-up denied');
       }
-      await b.locator(`#link-child-choice option[value="${childId}"]`).waitFor({state:'attached'});
-      assert.equal(await b.locator('#link-child-form input').count(),0,'Linking requires no credentials');
-      await form(b,'link-child-form',{child_id:childId});
-      await b.locator('#children-list li').filter({hasText:kid}).waitFor();
-      await b.evaluate(async id=>{await ACCOUNTS.manage('link-child',{child_id:id});},childId);
+      // Sharing is master-only; the regular recipient cannot browse other kids.
+      assert.equal(await b.locator('#link-child-form').isVisible(),false);
+      const adminContext=await browser.newContext(),admin=await adminContext.newPage();
+      await admin.goto(url+'/accounts/');await form(admin,'signin-form',seed);
+      const parentId=await b.evaluate(()=>ACCOUNTS.profile.id);
+      for(let retry=0;retry<2;retry++)await admin.evaluate(async ids=>ACCOUNTS.manage('link-child',ids),{child_id:childId,grownup_id:parentId});
+      await adminContext.close();await b.reload();await b.locator('#children-list li').filter({hasText:kid}).waitFor();
       assert.equal(await b.evaluate(async id=>(await ACCOUNTS.rest('guardians?adult_id=eq.'+ACCOUNTS.profile.id+'&child_id=eq.'+id)).length,childId),1);
       console.log(`PASS LIVE ${width}: dropdown shares existing child without password, idempotent link, unlinked destructive actions denied`);
       await c.goto(url+'/');await c.locator('#play-unsaved').click();
@@ -81,8 +83,8 @@ const {staticServer,playwright,form,round}=require('./accounts_sync.cjs');
       const missingConfirm=await a.evaluate(async id=>{try{await ACCOUNTS.manage('reset-child-progress',{child_id:id});return 200;}catch(e){return e.status;}},childId);assert.equal(missingConfirm,400);
       // Keep an offline round pending across the server reset.
       await contexts[2].setOffline(true);await c.evaluate(()=>ACCOUNTS.recordRound('post','C',0));
-      await a.locator('#reset-progress').click();await a.locator('#confirm-child-action').click();await a.locator('#confirm-child').waitFor({state:'hidden'});
-      assert.equal(await a.locator('#round-count').innerText(),'0');
+      await a.locator('#reset-progress').click();await a.locator('#confirm-child-count').fill('1');await a.locator('#confirm-child-action').click();await a.locator('#confirm-child').waitFor({state:'hidden'});
+      assert.equal(await a.evaluate(async id=>(await ACCOUNTS.readProgress(id)).snapshot.count,childId),0);
       await contexts[2].setOffline(false);await c.evaluate(()=>ACCOUNTS.sync());
       assert.equal(await c.evaluate(()=>ACCOUNTS.snapshot.count),0,'Offline rounds from before reset are discarded');
       assert.equal(await c.evaluate(()=>ACCOUNTS.snapshot.settings.volume),35,'Settings survive reset');
@@ -96,7 +98,7 @@ const {staticServer,playwright,form,round}=require('./accounts_sync.cjs');
       await a.locator('#children-list li').filter({hasText:kid}).locator('button').click();await a.waitForFunction(()=>!document.getElementById('settings-link').inert);
       await a.locator('#child-management').evaluate(el=>el.open=true);await a.locator('#delete-child').click();await a.locator('#cancel-child').click();
       assert.equal(await a.locator('#children-list li').filter({hasText:kid}).count(),1);
-      await a.locator('#delete-child').click();await a.locator('#confirm-child-action').click();await a.locator('#confirm-child').waitFor({state:'hidden'});
+      await a.locator('#delete-child').click();await a.locator('#confirm-child-count').fill('1');await a.locator('#confirm-child-action').click();await a.locator('#confirm-child').waitFor({state:'hidden'});
       assert.equal(await a.locator('#children-list li').filter({hasText:kid}).count(),0);
       const remains=await a.evaluate(async id=>({profile:await ACCOUNTS.rest('profiles?id=eq.'+id),links:await ACCOUNTS.rest('guardians?child_id=eq.'+id),progress:await ACCOUNTS.rest('operations?user_id=eq.'+id)}),childId);
       assert.deepEqual(remains,{profile:[],links:[],progress:[]});

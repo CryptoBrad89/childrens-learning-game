@@ -3,8 +3,10 @@
 const $ = id => document.getElementById(id);
 const A = window.ACCOUNTS;
 let roster = [], rosterFor = null, rosterVersion = 0, switchingOwner = false, rosterRequest = null;
-let grownupsFor = null, pendingGrownup = null, editingGrownup = null;
-let portalView='kids';
+let grownupsFor = null, editingGrownup = null;
+let portalView=location.hash.slice(1)||'kids';
+let grownupRoster=[];
+const selectedGrownups=new Set();
 const selectedKids=new Set();
 let freshness = 'checking', pendingAction = null, profileFor = null;
 const cacheKey = id => 'lwl-portal-progress-'+id;
@@ -34,7 +36,7 @@ function wireForm(id, action, success) {
     try {
       await action(fields);
       output.textContent = success;
-      if(!['profile-form','child-profile-form','grownup-profile-form'].includes(id)) form.reset();
+      if(!['profile-form','child-profile-form','grownup-profile-form','reset-password-form','reset-grownup-password-form'].includes(id)) form.reset();
       if (id === 'create-child-form') $('avatar-preview').hidden = true;
     } catch (error) {
       output.textContent = errorText(error);
@@ -57,16 +59,20 @@ function choices(selector, records, label) {
     if (records.some(record => record.id === selected)) select.value = selected;
   });
 }
+function profileLabel(){return A.profile?.is_master?'':'linked ';}
 function renderRoster() {
   choices('.child-choice', roster, child => `${child.display_name} (${child.handle})`);
+  for(const id of selectedKids)if(!roster.some(child=>child.id===id))selectedKids.delete(id);
+  updateBatch();
   const list = $('children-list'); list.replaceChildren();
-  for (const child of roster) {
+  for (const child of roster.filter(child=>matches(child,'kid-search'))) {
     const item = element('li');
     const select=element('input');select.type='checkbox';select.value=child.id;select.checked=selectedKids.has(child.id);select.setAttribute('aria-label','Select '+child.display_name);
     select.addEventListener('change',()=>{if(select.checked)selectedKids.add(child.id);else selectedKids.delete(child.id);updateBatch();});
     item.append(select);
     const copy = element('div');
     copy.append(element('strong', child.display_name), element('small', `Login: ${child.handle}`));
+    if(A.profile.is_master)copy.append(element('p','Linked to: '+assignment(child.grownups||[]),'assignments'));
     copy.append(element('small', child.progress ? `${child.progress.snapshot.count} rounds · ${new Set(child.progress.snapshot.rounds.map(r=>r.letter)).size} letters · ${freshness === 'live' ? 'Last activity synced at '+new Date(child.progress.checkedAt).toLocaleString() : 'Last known · offline or connection unavailable'}` : 'Progress unavailable · connection needed'));
     const open = element('button', 'Open progress page', 'quiet-button');
     open.type = 'button'; open.setAttribute('aria-label', `Open ${child.display_name}'s progress page`);
@@ -75,7 +81,7 @@ function renderRoster() {
       switchingOwner = true; open.disabled = true;
       $('settings-link').inert = true;
       $('settings-link').setAttribute('aria-disabled', 'true');
-      try { await loadRoster({fresh:true}); await A.selectOwner(child); $('progress').scrollIntoView({block: 'start'}); notice(`Opened ${child.display_name}'s progress page.`); }
+      try { await loadRoster({fresh:true}); await A.selectOwner(child); portalView='kids'; location.hash='kids'; render(); await loadChildGrownups(); $('progress').scrollIntoView({block: 'start'}); notice(`Opened ${child.display_name}'s progress page.`); }
       catch (error) { notice(errorText(error), true); }
       finally {
         switchingOwner = false; open.disabled = false;
@@ -87,7 +93,7 @@ function renderRoster() {
     if (child.avatar?.startsWith('data:image/')) { const picture = element('img'); picture.src = child.avatar; picture.alt = ''; avatar.replaceChildren(picture); }
     item.append(avatar, copy, open); list.append(item);
   }
-  $('roster-status').textContent = roster.length ? `${roster.length} linked ${roster.length === 1 ? 'child' : 'children'}` : 'No children linked yet. Make a login below, or link an existing child.';
+  $('roster-status').textContent = roster.length ? `${roster.length} ${profileLabel()}${roster.length === 1 ? 'child' : 'children'}` : 'No children linked yet. Make a login below, or link an existing child.';
 }
 function loadRoster({fresh=false}={}) {
   if(rosterRequest)return fresh ? rosterRequest.then(()=>loadRoster({fresh:true})) : rosterRequest;
@@ -100,17 +106,19 @@ async function fetchRoster() {
   const version = ++rosterVersion;
   $('roster-status').textContent = 'Opening your kids…';
   try {
-    const links = await A.rest(`guardians?adult_id=eq.${encodeURIComponent(profile.id)}&select=child_id`);
+    const links = await A.rest(profile.is_master?'guardians?select=adult_id,child_id':`guardians?adult_id=eq.${encodeURIComponent(profile.id)}&select=adult_id,child_id`);
     const ids = links.map(link => link.child_id);
-    const children = ids.length ? await A.rest(`profiles?id=in.(${ids.map(encodeURIComponent).join(',')})&select=*&order=display_name`) : [];
+    const children = profile.is_master?await A.rest('profiles?role=eq.child&select=*&order=display_name'):ids.length?await A.rest(`profiles?id=in.(${ids.map(encodeURIComponent).join(',')})&select=*&order=display_name`):[];
+    const adults=profile.is_master?(await A.manage('list-grownups')).grownups:[profile];
     if (version !== rosterVersion || A.profile?.id !== profile.id) return;
     const progress = await Promise.all(children.map(child => A.readProgress(child.id)));
     if (version !== rosterVersion || A.profile?.id !== profile.id) return;
-    roster = children.map((child,index)=>({...child,progress:progress[index]}));
+    roster = children.map((child,index)=>({...child,progress:progress[index],grownups:adults.filter(adult=>links.some(link=>link.child_id===child.id&&link.adult_id===adult.id))}));
     freshness = 'live';
     try {localStorage.setItem(cacheKey(profile.id),JSON.stringify(roster));} catch {}
     renderRoster(); render();
     try {
+      if(!profile.is_master)return;
       const available = await A.manage('list-linkable-children');
       if(version===rosterVersion)choices('#link-child-choice',available.children,child=>`${child.display_name} (${child.handle})`);
     } catch { const option=element('option','Connection needed to choose a child');option.value='';$('link-child-choice').replaceChildren(option); }
@@ -132,22 +140,23 @@ function render() {
   document.querySelectorAll('[data-master]').forEach(node => { node.hidden = !signedIn || profile.role !== 'grownup' || profile.is_master !== true; });
   if (!signedIn) {
     grownupsFor = null; $('grownups-list').replaceChildren();
+    selectedKids.clear();selectedGrownups.clear();
     rosterFor = null; profileFor = null; roster = []; rosterVersion++; freshness='checking';
     document.querySelector('.title').textContent = 'Grown-up portal';
     notice('Sign in to manage your kids.');
     return;
   }
   const owner = A.owner || profile;
-  if(owner.role==='child' && $('child-profile-form').dataset.childProfile!==owner.id+':'+owner.handle){const form=$('child-profile-form');form.dataset.childProfile=owner.id+':'+owner.handle;form.elements.handle.value=owner.handle;form.elements.display_name.value=owner.display_name;}
+  if(owner.role==='child' && $('child-profile-form').dataset.childProfile!==owner.id+':'+owner.handle){const form=$('child-profile-form');form.dataset.childProfile=owner.id+':'+owner.handle;form.elements.handle.value=owner.handle;form.elements.display_name.value=owner.display_name;for(const input of form.querySelectorAll('[name=avatar]'))input.checked=input.value===(owner.avatar||'🐶');$('child-avatar-upload').value='';$('child-avatar-preview').hidden=!owner.avatar?.startsWith('data:image/');if(!$('child-avatar-preview').hidden)$('child-avatar-preview').src=owner.avatar;void loadChildGrownups();}
   const adult = profile.role === 'grownup';
   if (profile.is_master === true && grownupsFor !== profile.id) { grownupsFor = profile.id; void loadGrownups(); }
   document.querySelectorAll('[data-child]').forEach(node => { node.hidden = adult; });
   document.querySelector('.title').textContent = adult ? 'Grown-up portal' : 'Your progress page';
   $('progress').hidden = adult && owner.id === profile.id;
-  $('progress-link').hidden = adult && owner.id === profile.id;
-  $('back-to-me').textContent = adult ? 'Close child progress page' : 'Back to my progress page';
+  $('child-settings-link').href='../grown-ups/index.html?child='+encodeURIComponent(owner.id);
+  $('back-to-me').textContent = adult ? '← Back to Kids' : 'Back to my progress page';
   const child = roster.find(child=>child.id===owner.id);
-  const snapshot = adult ? child?.progress?.snapshot || {} : A.snapshot || {};
+  const snapshot = adult && owner.id!==profile.id ? child?.progress?.snapshot || {} : A.snapshot || {};
   $('child-management').hidden = !adult || owner.id===profile.id;
   $('management-child').textContent = `Manage ${owner.display_name} (${owner.handle})`;
   if(adult && profileFor!==profile.handle){
@@ -163,22 +172,23 @@ function render() {
   if(profile.avatar?.startsWith('data:image/')){const img=element('img');img.src=profile.avatar;img.alt='';identityAvatar.append(img);}else identityAvatar.textContent=profile.avatar||'🐶';
   $('login-name').textContent = `Login: ${profile.handle} · ${profile.role === 'child' ? 'Child' : 'Grown-up'}`;
   $('owner-label').textContent = owner.id === profile.id ? `This progress page belongs to ${profile.display_name}.` : `Viewing ${owner.display_name}'s progress page · login ${owner.handle}`;
-  $('progress-title').lastChild.textContent = owner.id === profile.id ? 'Your progress' : `${owner.display_name}'s progress`;
+  $('progress-title').textContent = owner.id === profile.id ? 'Your progress' : `${owner.display_name}'s progress`;
   $('back-to-me').hidden = owner.id === profile.id;
-  $('round-count').textContent = adult && !child?.progress ? '—' : String(snapshot.count ?? rounds.length);
-  $('letter-total').textContent = adult && !child?.progress ? '—' : String(new Set(rounds.map(round => round.letter).filter(Boolean)).size);
+  $('round-count').textContent = adult && owner.id!==profile.id && !child?.progress ? '—' : String(snapshot.count ?? rounds.length);
+  $('letter-total').textContent = adult && owner.id!==profile.id && !child?.progress ? '—' : String(new Set(rounds.map(round => round.letter).filter(Boolean)).size);
   const worldList = $('world-progress'); worldList.replaceChildren();
   for (const [key, name] of Object.entries(worlds)) {
     const item = element('li');
-    item.append(element('b', name), element('strong', adult && !child?.progress ? '—' : String(rounds.filter(round => round.world === key).length)), element('span', 'rounds completed'));
+    item.append(element('b', name), element('strong', adult && owner.id!==profile.id && !child?.progress ? '—' : String(rounds.filter(round => round.world === key).length)), element('span', 'rounds completed'));
     worldList.append(item);
   }
   const achievements = $('achievements'); achievements.replaceChildren();
-  (snapshot.achievements?.length ? snapshot.achievements : [adult && !child?.progress ? 'Checking milestones…' : 'Your first milestone is waiting. Play a round to begin.']).forEach(text => achievements.append(element('li', text)));
-  $('sync-status').textContent = adult ? (child?.progress ? `${freshness === 'live' ? 'Last activity synced at' : 'Last-known activity · connection unavailable · synced at'} ${new Date(child.progress.checkedAt).toLocaleString()}. Updates automatically.` : 'Checking server progress…') : A.status || 'Your progress page is open.';
+  (snapshot.achievements?.length ? snapshot.achievements : [adult && owner.id!==profile.id && !child?.progress ? 'Checking milestones…' : 'Your first milestone is waiting. Play a round to begin.']).forEach(text => achievements.append(element('li', text)));
+  $('sync-status').textContent = adult && owner.id!==profile.id ? (child?.progress ? `${freshness === 'live' ? 'Last activity synced at' : 'Last-known activity · connection unavailable · synced at'} ${new Date(child.progress.checkedAt).toLocaleString()}. Updates automatically.` : 'Checking server progress…') : A.status || 'Your progress page is open.';
   if (rosterFor !== profile.id && profile.role === 'grownup') { rosterFor = profile.id; loadRoster({fresh:true}); }
+  const passwordChild=$('reset-password-form').elements.child_id;if(passwordChild&&owner.role==='child')passwordChild.value=owner.id;
   applyView();
-  notice(owner.id === profile.id ? `Welcome, ${profile.display_name}. ${adult ? 'Manage your kids below.' : 'Your progress page is ready.'}` : `Viewing ${owner.display_name}'s progress page.`);
+  if(['Sign in to manage your kids.','Opening the portal…','Signed in. Your progress page is ready.'].includes($('account-status').textContent))notice('');
 }
 if (!A) { notice('Accounts could not open. Reload this page when you are online.', true); return; }
 async function avatarPicture(file) {
@@ -214,7 +224,7 @@ wireForm('create-child-form', async fields => {
 }, 'Child account created. Keep their login name and password wherever they play.');
 wireForm('link-child-form', async () => {
   const ids=[...$('link-child-choice').selectedOptions].map(option=>option.value).filter(Boolean);
-  for(const child_id of ids)await A.manage('link-child',{child_id});
+  for(const child_id of ids)await A.manage('link-child',{child_id,grownup_id:$('link-grownup-choice').value});
   await loadRoster({fresh:true});
 }, 'Child linked. Their existing progress stays together.');
 wireForm('reset-password-form', fields => A.manage('reset-child-password', fields), 'Password changed. Use the new password next time this child signs in.');
@@ -242,6 +252,8 @@ document.querySelectorAll('#profile-form [name=avatar]').forEach(input=>input.ad
 wireForm('child-profile-form',async fields=>{
   const child=A.owner;
   if(child?.role!=='child')throw new Error('Open a child first.');
+  delete fields.avatar_file;
+  if(!$('child-avatar-preview').hidden)fields.avatar=$('child-avatar-preview').src;
   const {profile}=await A.manage('edit-child-profile',{...fields,child_id:child.id});
   await A.selectOwner(profile);await loadRoster({fresh:true});
 },'Child profile saved. Use the new username next time.');
@@ -258,8 +270,17 @@ async function loadGrownups() {
     const {grownups} = await A.manage('list-grownups');
     if (A.profile?.id !== actor) return;
     choices('#grownup-choice', grownups.filter(person => !person.is_master), person => `${person.display_name} (${person.handle})`);
+    grownupRoster=grownups;
+    for(const id of ['link-grownup-choice','transfer-source','transfer-destination'])choices('#'+id,grownups,person=>`${person.display_name} (${person.handle})`);
+    if(!$('link-grownup-choice').value)$('link-grownup-choice').value=A.profile.id;
+    for(const id of selectedGrownups)if(!grownups.some(person=>person.id===id))selectedGrownups.delete(id);
+    renderGrownups();
+    $('grownups-status').textContent = '';
+  } catch (error) { $('grownups-status').textContent = errorText(error); }
+}
+function renderGrownups(){
     const list = $('grownups-list'); list.replaceChildren();
-    for (const person of grownups) {
+    for (const person of grownupRoster.filter(person=>matches(person,'grownup-search'))) {
       const item = element('li'), copy = element('div');
       copy.append(element('strong', person.display_name), element('small', `Login: ${person.handle}${person.is_master ? ' · Master' : ''}`));
       const avatar = element('span', person.avatar || '🐶', 'child-avatar');
@@ -267,7 +288,7 @@ async function loadGrownups() {
       const edit=element('button',person.id===A.profile.id?'Edit my profile':'Edit profile','quiet-button');edit.type='button';
       edit.setAttribute('aria-label',`Edit ${person.display_name} (${person.handle})`);
       edit.addEventListener('click',()=>{
-        if(person.id===A.profile.id){const panel=$('profile-form').closest('details');panel.open=true;panel.scrollIntoView({block:'start'});$('profile-form').elements.display_name.focus();return;}
+        if(person.id===A.profile.id){portalView='account';location.hash='account';render();const panel=$('profile-form').closest('details');panel.open=true;panel.scrollIntoView({block:'start'});$('profile-form').elements.display_name.focus();return;}
         editingGrownup=person;
         const form=$('grownup-profile-form');form.reset();
         form.elements.handle.value=person.handle;form.elements.display_name.value=person.display_name;
@@ -275,25 +296,24 @@ async function loadGrownups() {
         $('grownup-avatar-preview').hidden=!person.avatar?.startsWith('data:image/');
         if(!$('grownup-avatar-preview').hidden)$('grownup-avatar-preview').src=person.avatar;
         form.querySelector('.form-result').textContent='';
-        $('edit-grownup-title').textContent=`Edit ${person.display_name} (${person.handle})`;
+        $('edit-grownup-title').textContent=person.display_name;
+        $('edit-grownup-login').textContent='Login: '+person.handle;
+        $('grownup-choice').value=person.id;
+        $('reset-grownup-progress').hidden=person.is_master;
+        $('grownup-linked-kids').textContent='Linked kids: '+(roster.filter(child=>child.grownups?.some(adult=>adult.id===person.id)).map(child=>child.display_name+' ('+child.handle+')').join(', ')||'None');
         $('edit-grownup').showModal();form.elements.display_name.focus();
       });
-      item.append(avatar,copy,edit);
-      if (!person.is_master) {
-        const button = element('button', 'Delete grown-up…', 'quiet-button'); button.type = 'button';
-        button.setAttribute('aria-label', `Delete ${person.display_name} (${person.handle})`);
-        button.addEventListener('click', () => {
-          pendingGrownup = person;
-          $('confirm-grownup-title').textContent = `Delete ${person.display_name} (${person.handle})?`;
-          $('confirm-grownup-result').textContent = '';
-          $('confirm-grownup').showModal(); $('cancel-grownup').focus();
-        });
-        item.append(button);
+      item.append(avatar,copy);
+      if(person.id!==A.profile.id)item.append(edit);
+      if (!person.is_master && person.id!==A.profile.id) {
+        const check=element('input');check.type='checkbox';check.checked=selectedGrownups.has(person.id);
+        check.setAttribute('aria-label',`Select ${person.display_name} (${person.handle})`);
+        check.addEventListener('change',()=>{check.checked?selectedGrownups.add(person.id):selectedGrownups.delete(person.id);updateBatch();});
+        item.prepend(check);
       }
       list.append(item);
     }
-    $('grownups-status').textContent = '';
-  } catch (error) { $('grownups-status').textContent = errorText(error); }
+  updateBatch();
 }
 $('grownup-avatar-upload').addEventListener('change',async()=>{
   const upload=$('grownup-avatar-upload'),preview=$('grownup-avatar-preview');
@@ -314,76 +334,154 @@ wireForm('grownup-profile-form',async fields=>{
 $('close-edit-grownup').addEventListener('click',()=>$('edit-grownup').close());
 $('edit-grownup').addEventListener('close',()=>{editingGrownup=null;});
 wireForm('reset-grownup-password-form', fields => A.manage('reset-grownup-password', fields), 'Password changed. Share the new password with this grown-up.');
-$('cancel-grownup').addEventListener('click', () => { $('confirm-grownup').close(); pendingGrownup = null; });
-$('confirm-grownup').addEventListener('close', () => { pendingGrownup = null; });
-$('confirm-grownup-action').addEventListener('click', async () => {
-  if (!pendingGrownup) return;
-  $('confirm-grownup-action').disabled = true; $('cancel-grownup').disabled = true;
-  try {
-    await A.manage('delete-grownup', {grownup_id: pendingGrownup.id, confirm: 'delete-grownup'});
-    $('confirm-grownup').close(); pendingGrownup = null;
-    await loadGrownups(); await loadRoster({fresh:true});
-    notice('Grown-up account deleted. Kids and their progress are kept.');
-  } catch (error) { $('confirm-grownup-result').textContent = errorText(error); }
-  finally { $('confirm-grownup-action').disabled = false; $('cancel-grownup').disabled = false; }
-});
-function confirmChild(action) {
-  const child=A.owner;
-  if(!child || child.id===A.profile.id)return;
-  pendingAction={action,child};
-  const deleting=action==='delete-child';
-  $('confirm-title').textContent=deleting?`Delete ${child.display_name}'s account?`:`Reset ${child.display_name}'s progress?`;
-  $('confirm-copy').textContent=deleting?'This permanently deletes their login, picture, progress and links for every grown-up. This cannot be undone.':'This erases every completed round and milestone for every grown-up. Their login, picture and play settings stay. This cannot be undone.';
-  $('confirm-child-action').textContent=deleting?'Permanently delete child':'Reset all progress';
-  $('confirm-result').textContent='';$('confirm-child').showModal();$('cancel-child').focus();
+function confirmPeople(kind, people, reset=false) {
+  if(!people.length)return;
+  if(people.length>100){notice('Choose at most 100 accounts per action.',true);return;}
+  const kid=kind==='child', dialog=$(kid?'confirm-child':'confirm-grownup');
+  pendingAction={kind,people,reset};
+  const title=$(kid?'confirm-title':'confirm-grownup-title');
+  title.textContent=`${reset?'Reset progress for':'Delete'} ${people.length} ${kid?'kid':'grown-up'}${people.length===1?'':'s'}?`;
+  $(kid?'confirm-copy':'confirm-grownup-copy').textContent=reset?'Completed rounds and milestones are erased for every linked grown-up. Logins and game settings stay. This cannot be undone.':kid?'Their logins, pictures and all progress are deleted for every linked grown-up. This cannot be undone.':'Their logins are deleted. Kids and progress stay; kids with no other grown-up are linked to the master.';
+  const names=$(kid?'confirm-child-names':'confirm-grownup-names');names.replaceChildren();
+  people.forEach(person=>names.append(element('li',`${person.display_name} · Login: ${person.handle}`)));
+  const input=$(kid?'confirm-child-count':'confirm-grownup-count');input.value='';
+  const button=$(kid?'confirm-child-action':'confirm-grownup-action');button.disabled=true;button.textContent=reset?'Reset all progress':'Permanently delete';
+  $(kid?'confirm-result':'confirm-grownup-result').textContent='';
+  dialog.showModal();$(kid?'cancel-child':'cancel-grownup').focus();
 }
-$('delete-child').addEventListener('click',()=>confirmChild('delete-child'));
-$('reset-progress').addEventListener('click',()=>confirmChild('reset-child-progress'));
-$('cancel-child').addEventListener('click',()=>{$('confirm-child').close();pendingAction=null;});
-$('confirm-child-action').addEventListener('click',async()=>{
-  if(!pendingAction)return;
-  const {action,child}=pendingAction;
-  $('confirm-child-action').disabled=true;$('cancel-child').disabled=true;
-  try {
-    await A.manage(action,{child_id:child.id,confirm:action});
-    if(action==='delete-child')await A.selectOwner(A.profile);else await A.sync();
-    await loadRoster({fresh:true});
-    $('confirm-child').close();pendingAction=null;
-    notice(action==='delete-child'?'Child account permanently deleted.':'Progress reset. The account and settings are kept.');
-  }catch(error){$('confirm-result').textContent=errorText(error);}
-  finally{$('confirm-child-action').disabled=false;$('cancel-child').disabled=false;}
-});
+for(const kind of ['child','grownup']){
+  const prefix='confirm-'+kind;
+  $(prefix+'-count').addEventListener('input',()=>{$(prefix+'-action').disabled=!pendingAction||$(prefix+'-count').value!==String(pendingAction.people.length);});
+  $('cancel-'+kind).addEventListener('click',()=>$(prefix).close());
+  $(prefix).addEventListener('close',()=>{pendingAction=null;});
+  $(prefix+'-action').addEventListener('click',async()=>{
+    if(!pendingAction||$(prefix+'-count').value!==String(pendingAction.people.length))return;
+    const {people,reset}=pendingAction;$(prefix+'-action').disabled=true;
+    try{
+      let results;
+      if(reset){results=[];for(const person of people){try{const action=kind==='child'?'reset-child-progress':'reset-grownup-progress';await A.manage(action,{[kind==='child'?'child_id':'grownup_id']:person.id,confirm:action});results.push({id:person.id,ok:true});}catch(error){results.push({id:person.id,ok:false,reason:errorText(error)});}}}
+      else {
+        const action=kind==='child'?'delete-children':'delete-grownups';
+        ({results}=await A.manage(action,{[kind==='child'?'child_ids':'grownup_ids']:people.map(person=>person.id),confirm:action}));
+      }
+      const message=results.map(result=>{const person=people.find(p=>p.id===result.id);return `${person.display_name} (${person.handle}): ${result.ok?(reset?'progress reset':'deleted'):result.reason}`;}).join('; ');
+      selectedKids.clear();selectedGrownups.clear();
+      $(prefix).close();if($('edit-grownup').open)$('edit-grownup').close();
+      await A.selectOwner(A.profile);await loadRoster({fresh:true});await loadGrownups();
+      notice(message,results.some(result=>!result.ok));
+    }catch(error){$(kind==='child'?'confirm-result':'confirm-grownup-result').textContent=errorText(error);}
+    finally{$(prefix+'-action').disabled=false;}
+  });
+}
+$('delete-child').addEventListener('click',()=>confirmPeople('child',[A.owner]));
+$('reset-progress').addEventListener('click',()=>confirmPeople('child',[A.owner],true));
+$('delete-edit-grownup').addEventListener('click',()=>{const person=editingGrownup;$('edit-grownup').close();confirmPeople('grownup',[person]);});
 const refreshRoster=()=>{if(A.profile?.role==='grownup'&&!document.hidden)void loadRoster();};
 window.addEventListener('online',refreshRoster);
 window.addEventListener('offline',()=>{freshness='offline';renderRoster();render();});
 window.addEventListener('focus',refreshRoster);
 document.addEventListener('visibilitychange',refreshRoster);
 setInterval(refreshRoster,15000);
+function assignment(people){return people.length?people.map(person=>person.id===A.profile.id?'You':`${person.display_name} (${person.handle})`).join(' · '):'No grown-up assigned';}
+function matches(person,id){const term=$(id).value.trim().toLocaleLowerCase();return `${person.display_name} ${person.handle} ${(person.grownups||[]).map(adult=>adult.display_name+' '+adult.handle).join(' ')}`.toLocaleLowerCase().includes(term);}
 function updateBatch(){
+  $('kid-batch').hidden=!selectedKids.size;$('grownup-batch').hidden=!selectedGrownups.size;
+  $('kid-selected-count').textContent=selectedKids.size+' selected';$('grownup-selected-count').textContent=selectedGrownups.size+' selected';
   $('edit-selected-kids').disabled=!selectedKids.size;
   $('edit-selected-kids').textContent=selectedKids.size?'Settings for '+selectedKids.size+' selected kids':'Settings for selected kids';
 }
-$('select-all-kids').addEventListener('click',()=>{
-  const all=roster.every(child=>selectedKids.has(child.id));selectedKids.clear();
-  if(!all)for(const child of roster)selectedKids.add(child.id);
-  renderRoster();updateBatch();
-});
+function selectKids(){for(const child of roster.filter(c=>matches(c,'kid-search')))selectedKids.add(child.id);renderRoster();updateBatch();}
+for(const id of ['select-all-kids','select-kids'])$(id).addEventListener('click',selectKids);
+function selectGrownups(){for(const person of grownupRoster.filter(p=>!p.is_master&&p.id!==A.profile.id&&matches(p,'grownup-search')))selectedGrownups.add(person.id);renderGrownups();}
+for(const id of ['select-all-grownups','select-grownups'])$(id).addEventListener('click',selectGrownups);
+$('clear-kids').addEventListener('click',()=>{selectedKids.clear();renderRoster();updateBatch();});
+$('clear-grownups').addEventListener('click',()=>{selectedGrownups.clear();renderGrownups();});
+$('kid-search').addEventListener('input',renderRoster);$('grownup-search').addEventListener('input',renderGrownups);
+$('delete-selected-kids').addEventListener('click',()=>confirmPeople('child',roster.filter(p=>selectedKids.has(p.id))));
+$('reset-selected-kids').addEventListener('click',()=>confirmPeople('child',roster.filter(p=>selectedKids.has(p.id)),true));
+$('delete-selected-grownups').addEventListener('click',()=>confirmPeople('grownup',grownupRoster.filter(p=>selectedGrownups.has(p.id))));
 $('edit-selected-kids').addEventListener('click',()=>{
   const target=new URL('../grown-ups/index.html',location.href);
   for(const id of selectedKids)target.searchParams.append('child',id);
   location.href=target.href;
 });
-const adultPanels=[$('profile-form').closest('details'),$('own-password-form').closest('details'),$('create-grownup-form').closest('details'),$('grownups')];
+const createAdult=$('create-grownup-form').closest('details');
 function applyView(){
-  if(A.profile?.role!=='grownup')return;
-  for(const panel of adultPanels)panel.hidden=portalView!=='adults'||(panel.hasAttribute('data-master')&&!A.profile.is_master);
-  $('people').hidden=portalView!=='kids';
+  const adult=A.profile?.role==='grownup', child=adult&&A.owner?.id!==A.profile.id;
+  $('delete-child-shortcut').hidden=!adult||!child;
+  $('transfer-child').hidden=!A.profile?.is_master||!child;
+  $('share-child').hidden=!A.profile?.is_master||!child;
+  if(portalView==='adults'&&!A.profile?.is_master)portalView='kids';
+  $('my-account-page').hidden=adult?portalView!=='account':true;
+  $('people').hidden=!adult||portalView!=='kids'||child;
+  $('progress').hidden=adult?!((portalView==='kids'&&child)||portalView==='account'):false;
+  $('child-management').hidden=!adult||!child||portalView!=='kids';
+  createAdult.hidden=!A.profile?.is_master||portalView!=='adults';
+  $('grownups').hidden=!A.profile?.is_master||portalView!=='adults';
   $('kids-view').setAttribute('aria-pressed',String(portalView==='kids'));
   $('adults-view').setAttribute('aria-pressed',String(portalView==='adults'));
+  $('my-account').hidden=!adult;
 }
-for(const [id,view] of [['kids-view','kids'],['adults-view','adults']])$(id).addEventListener('click',()=>{portalView=view;render();});
+async function navigate(view){
+  document.querySelectorAll('dialog[open]').forEach(dialog=>dialog.close());
+  portalView=view;location.hash=view;
+  if(view==='account')await A.selectOwner(A.profile);
+  render();
+}
+for(const [id,view] of [['kids-view','kids'],['adults-view','adults'],['my-account','account']])$(id).addEventListener('click',()=>void navigate(view));
+window.addEventListener('hashchange',()=>{portalView=location.hash.slice(1)||'kids';if(portalView==='account'&&A.profile)void A.selectOwner(A.profile).then(render);else render();});
+// Password actions live inside the person's editor; the selected ID stays explicit.
+$('child-password-slot').append($('reset-password-form').closest('details'));
+$('grownup-password-slot').append($('reset-grownup-password-form').closest('details'));
+for(const id of ['child-choice','grownup-choice']){const node=$(id)||document.querySelector('.child-choice');if(node)node.closest('label').hidden=true;}
+$('child-avatar-upload').addEventListener('change',async()=>{
+  const upload=$('child-avatar-upload'),preview=$('child-avatar-preview');
+  if(!upload.files.length)return;
+  try{preview.src=await avatarPicture(upload.files[0]);preview.hidden=false;}catch(error){upload.value='';notice(errorText(error),true);}
+});
+document.querySelectorAll('#child-profile-form [name=avatar]').forEach(input=>input.addEventListener('change',()=>{$('child-avatar-upload').value='';$('child-avatar-preview').hidden=true;}));
+async function loadChildGrownups(){
+  const child=A.owner;if(child?.role!=='child')return;
+  try{
+    const {grownups}=await A.manage('list-child-grownups',{child_id:child.id});
+    if(A.owner.id!==child.id)return;
+    $('child-grownups').replaceChildren();
+    for(const person of grownups){
+      const row=element('li',assignment([person]));
+      if(A.profile.is_master||person.id===A.profile.id){
+        const unlink=element('button','Unlink…','quiet-button');unlink.type='button';
+        unlink.addEventListener('click',async()=>{
+          if(!window.confirm(`Unlink ${person.display_name} (${person.handle}) from ${child.display_name}? Their login and progress stay. A last link is kept with the master.`))return;
+          try{const result=await A.manage('unlink-child',{child_id:child.id,grownup_id:person.id});await A.selectOwner(A.profile);await loadRoster({fresh:true});notice(result.kept_with_master?'This is the last link. The child stays with the master.':result.rehomed?'Link removed. The child and progress are kept with the master.':'Link removed. The child and progress are kept.');}catch(error){notice(errorText(error),true);}
+        });row.append(unlink);
+      }
+      $('child-grownups').append(row);
+    }
+  }catch(error){$('child-grownups').textContent=errorText(error);}
+}
+$('delete-child-shortcut').addEventListener('click',()=>confirmPeople('child',[A.owner]));
+$('reset-grownup-progress').addEventListener('click',()=>{const person=editingGrownup;$('edit-grownup').close();confirmPeople('grownup',[person],true);});
+let transferPeople=[];
+function openTransfer(people){
+  if(!people.length||people.length>100){notice('Choose 1 to 100 kids.',true);return;}
+  transferPeople=people;
+  $('transfer-names').textContent=people.map(child=>`${child.display_name} (${child.handle})`).join(', ');
+  $('transfer-form').querySelector('.form-result').textContent='';
+  $('transfer-dialog').showModal();$('cancel-transfer').focus();
+}
+$('transfer-selected-kids').addEventListener('click',()=>openTransfer(roster.filter(child=>selectedKids.has(child.id))));
+$('transfer-child').addEventListener('click',()=>openTransfer([A.owner]));
+$('cancel-transfer').addEventListener('click',()=>$('transfer-dialog').close());
+wireForm('transfer-form',async fields=>{
+  const {results}=await A.manage('transfer-children',{...fields,child_ids:transferPeople.map(child=>child.id),confirm:'transfer-children'});
+  const message=results.map(result=>{const child=transferPeople.find(child=>child.id===result.id);return `${child.display_name} (${child.handle}): ${result.ok?'transferred':result.reason}`;}).join('; ');
+  $('transfer-dialog').close();selectedKids.clear();await A.selectOwner(A.profile);await loadRoster({fresh:true});notice(message,results.some(result=>!result.ok));
+},'Transfer finished.');
+$('share-child').addEventListener('click',async()=>{
+  const child=A.owner;await A.selectOwner(A.profile);render();const details=$('link-child-form').closest('details');details.open=true;$('link-child-choice').value=child.id;details.scrollIntoView({block:'start'});
+});
 A.subscribe(render);
-Promise.resolve(A.ready).then(render).catch(error => {
+Promise.resolve(A.ready).then(async()=>{if(portalView==='account'&&A.profile)await A.selectOwner(A.profile);render();}).catch(error => {
   render(); notice(errorText(error), true);
 });
 })();

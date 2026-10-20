@@ -222,7 +222,7 @@ async function selectOwner(profile) {
   await ready;
   await syncing;
   if (guest || !session) throw new Error('Sign in first.');
-  if (profile.id !== self.id) {
+  if (profile.id !== self.id && !self.is_master) {
     if (self.role !== 'grownup') throw new Error('A grown-up needs to choose this child.');
     const allowed = await rest('/guardians?adult_id=eq.'+self.id+'&child_id=eq.'+profile.id+'&select=child_id');
     if (!allowed.length) throw new Error('Link this child to your account first.');

@@ -7,8 +7,9 @@ const fs = require('node:fs');
 const path = require('node:path');
 const root = path.resolve(__dirname, '..');
 const playwright = require(process.env.PLAYWRIGHT_MODULE || '/usr/local/lib/pnpm/5/.pnpm/node_modules/playwright');
-const adult = process.env.SELECTION_ADULT || 'test_adult_mvevk15s';
-const child = process.env.SELECTION_CHILD || 'test_child_mvevk15s';
+const recent=JSON.parse(fs.readFileSync('reports/accounts-test-logins.json','utf8'));
+const adult = process.env.SELECTION_ADULT || recent.grownup.handle;
+const child = process.env.SELECTION_CHILD || recent.child.handle;
 const password = process.env.SELECTION_PASSWORD || '7234ab';
 async function run() {
   const server = http.createServer((req, res) => {
@@ -54,7 +55,7 @@ async function run() {
     assert.equal(after.owner, child, 'Click must select the linked child');
     assert.equal(after.profile, adult, 'Selection keeps the adult signed in');
     assert.equal(after.inert, false, 'Settings navigation unlocks after selection');
-    await page.locator('#settings-link').click();
+    await page.locator('#child-settings-link').click();
     await page.waitForFunction(handle => ACCOUNTS.owner?.handle === handle, child);
     assert.equal(await page.evaluate(() => ACCOUNTS.profile.handle), adult);
     console.log('PASS LIVE: linked child button selects progress page and settings navigation preserves adult identity and selected child');

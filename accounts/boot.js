@@ -27,7 +27,7 @@ if(!isHome&&!isAdmin){
   avatar.setAttribute('aria-label','Open your profile');
   const name=document.createElement('strong'),link=document.createElement('a'),settings=document.createElement('a'),done=document.createElement('button');
   link.href=new URL('accounts/index.html',base).href;link.textContent='Profile and progress';
-  settings.href=new URL('grown-ups/index.html',base).href;settings.textContent='Settings';done.type='button';done.textContent='👋 Sign out';
+  settings.href=new URL('grown-ups/index.html',base).href;settings.textContent='Game settings';done.type='button';done.textContent='👋 Sign out';
   items.append(name,link,settings,done);menu.append(avatar,items);
   const guestLink=document.createElement('a');guestLink.href=new URL('index.html',base).href;guestLink.textContent='Sign in to save';
   strip.append(menu,guestLink);

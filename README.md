@@ -112,11 +112,11 @@ assets through relative paths. Its `config.js` supplies the home view, title,
 palette labels, and asset base. Pink is the default, followed by Purple and
 Yellow. Each world keeps its own theme choice.
 
-## Grown-ups' corner
+## Game settings
 
-The chooser’s **For grown-ups** link opens the portal. Hosted settings require a grown-up login. Select children using the Kids view checkboxes, then choose **Settings for selected kids**. The settings header has a direct **Grown-up portal** link. Local-file settings open directly; there is no PIN or keypad.
+The chooser's **Are you a grown-up?** link opens the portal. Hosted settings require a grown-up login. Select children using the Kids view checkboxes, then choose **Settings for selected kids**. The settings header has a direct **Grown-up portal** link. Local-file settings open directly; there is no PIN or keypad.
 
-Signed-in settings save to the selected person's account and sync across devices. They apply the next time a world opens. Local-file settings use this browser's `little-woof-grown-ups` storage:
+Game settings always shows its target. Only the master can change game defaults. Child settings use explicit selections from the portal and sync across devices. They apply the next time a world opens. Local-file settings use this browser's `little-woof-grown-ups` storage:
 
 - **Sound:** Lucy's voice on or off at the start, voice volume (with a sample),
   and sound effects.
@@ -147,7 +147,7 @@ folder (see above) to share settings in every browser.
 
 Serve the repository on HTTPS, or use `python3 -m http.server 8000` for localhost testing. Start at `/` for child sign-in. The grown-up link opens `/accounts/` through the protected settings area; sign in with an existing grown-up account, then make child logins or link an existing child's account. Everyone signs in with a unique login name and a password of at least six characters. A child uses the same login wherever they play. The portal manages kids, offers profile icons or picture uploads when creating a child, and manages child settings. The progress page shows lasting rounds and milestones, and offers an explicit **Sign out** for shared computers.
 
-Grown-ups can edit their display name, unique username, password, and profile icon or uploaded picture. **Link an existing child** offers children already linked to other grown-ups, without asking for a child's password. Each linked child has an **Open progress page** button. The portal reads server progress on entry and refreshes automatically; connection failures show labelled last-known data. **Manage this child**, inside their progress page, contains confirmed progress reset and permanent account deletion. Reset keeps the child's login and settings, and prevents older offline rounds from returning.
+Grown-ups manage their own profile, password and game progress through **My account**. The master sees every kid and every grown-up. Kid rows show every linked grown-up, and search matches their names and logins. Other grown-ups see only their linked kids. Open a person to manage their profile, password, settings or progress. Deletion requires a named confirmation and the account count. Select kids for bulk settings, progress reset or deletion; select regular grown-ups for bulk deletion. Only the master can share existing kids, transfer links between grown-ups, or reset another grown-up's game progress. A transfer preserves other grown-up links, the kid's login and progress. Unlinking the last regular grown-up rehomes the kid to the master. The master cannot remove the last link to themselves.
 
 The header says **Games ready for offline play** after the whole game is cached. A previously signed-in person can reopen and play offline. A new sign-in requires a connection. Completed rounds and field-level setting edits wait in IndexedDB until reconnecting; repeated delivery cannot count a round twice. Settings include every grown-up option, sound choice and each world's theme. Opening a new world uses the latest synchronized choices. The in-world letter collection remains a collection for this visit; the progress page is permanent history.
 

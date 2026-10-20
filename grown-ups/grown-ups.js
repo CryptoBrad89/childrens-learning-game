@@ -33,7 +33,7 @@ function scopeValues(){
 function renderScope(){
   if(!hosted)return;
   const custom=targets.filter(id=>Object.keys(A.childOverrides[id]||{}).length).length;
-  $('#scope-state').textContent=targets.length?`Editing ${targets.length} ${targets.length===1?'child':'children'} · ${custom===0?'Using game defaults':custom===targets.length?'Custom for '+(targets.length===1?'this child':'these children'):`${custom} custom; ${targets.length-custom} using game defaults`}`:'Editing game defaults';
+  $('#scope-state').textContent=targets.length?`Editing: ${children.filter(child=>targets.includes(child.id)).map(child=>child.display_name+' ('+child.handle+')').join(', ')} · ${targets.length} ${targets.length===1?'child':'children'} · ${custom===0?'Using game defaults':custom===targets.length?'Custom for '+(targets.length===1?'this child':'these children'):`${custom} custom; ${targets.length-custom} using game defaults`}`:(A.profile.is_master?'Editing: Game defaults (everyone)':'Choose linked kids in Kids. Only the master grown-up can change game defaults.');
   const remaining=[...mixed].filter(key=>!(key in patch));
   $('#mixed-summary').textContent=remaining.length?'Mixed: '+remaining.map(key=>LABELS[key]).join(', ')+'. Only settings you change will be applied.':'';
   $('#apply-children').hidden=!targets.length;$('#apply-children').disabled=!Object.keys(patch).length||applying;
@@ -47,27 +47,24 @@ async function setupScope(){
   $('#settings-scope').hidden=false;
   const links=await A.rest('guardians?adult_id=eq.'+A.profile.id+'&select=child_id');
   const ids=links.map(row=>row.child_id);
-  children=ids.length?await A.rest('profiles?id=in.('+ids.join(',')+')&select=id,display_name,handle&order=display_name'):[];
-  for(const child of children){
-    const label=document.createElement('label');label.className='child-chip';
-    const input=document.createElement('input');input.type='checkbox';input.value=child.id;
-    const span=document.createElement('span');span.textContent=child.display_name+' ('+child.handle+')';label.append(input,span);$('#settings-child-list').append(label);
-    input.addEventListener('change',()=>{targets=$$('#settings-child-list input:checked').map(n=>n.value);scopeValues();});
-  }
-  $$('[name=scope]').forEach(input=>input.addEventListener('change',()=>{
-    const selecting=$('[name=scope]:checked').value==='children';$('#settings-children').hidden=!selecting;
-    if(selecting&&!targets.length&&children.length){$('#settings-child-list input').checked=true;targets=[children[0].id];}
-    if(!selecting){targets=[];$$('#settings-child-list input').forEach(n=>{n.checked=false;});}
-    scopeValues();
-  }));
+  children=A.profile.is_master?await A.rest('profiles?role=eq.child&select=id,display_name,handle&order=display_name'):ids.length?await A.rest('profiles?id=in.('+ids.join(',')+')&select=id,display_name,handle&order=display_name'):[];
   const requested=new URL(location.href).searchParams.getAll('child');
-  if(requested.length){
-    $('[name=scope][value=children]').checked=true;$('#settings-children').hidden=false;
-    for(const input of $$('#settings-child-list input'))input.checked=requested.includes(input.value);
-    targets=$$('#settings-child-list input:checked').map(n=>n.value);
-  }else if(A.owner?.role==='child'){
-    $('[name=scope][value=children]').checked=true;$('#settings-children').hidden=false;
-    const input=$$('#settings-child-list input').find(n=>n.value===A.owner.id);if(input){input.checked=true;targets=[input.value];}
+  targets=children.filter(child=>requested.includes(child.id)).map(child=>child.id);
+  if(requested.some(id=>!targets.includes(id)))throw new Error('A requested child is not linked to you. Return to Kids and choose again.');
+  $('[name=scope][value=children]').checked=Boolean(targets.length)||!A.profile.is_master;
+  $('[name=scope][value=defaults]').checked=!targets.length&&A.profile.is_master;
+  $('[name=scope][value=defaults]').closest('label').hidden=!A.profile.is_master;
+  $('#settings-children').hidden=!targets.length;
+  $('#settings-child-list').textContent=children.filter(child=>targets.includes(child.id)).map(child=>child.display_name+' ('+child.handle+')').join(', ');
+  $$('[name=scope]').forEach(input=>input.addEventListener('change',()=>{
+    if(input.value==='children'){location.href='../accounts/index.html#kids';return;}
+    location.href='index.html';
+  }));
+  const noTarget=!targets.length&&!A.profile.is_master;
+  if(noTarget){
+    $('#scope-state').textContent='Choose linked kids in the Kids view. Only the master grown-up can change game defaults.';
+    $$('#sheet button, #sheet input').forEach(node=>{node.disabled=true;});
+    $('[name=scope][value=children]').disabled=false;
   }
   $('#discard-settings').addEventListener('click',scopeValues);
   $('#apply-children').addEventListener('click',()=>{
@@ -109,6 +106,7 @@ function render() {
 }
 async function commit(next, message = 'Saved.', touched=Object.keys(LABELS)) {
   if(hosted){
+    if(!targets.length&&!A.profile.is_master){refuse('Choose linked kids in the Kids view.');return;}
     if($('[name=scope]:checked').value==='children'&&!targets.length){refuse('Choose at least one child first.');return;}
     const changes=Object.fromEntries(touched.map(key=>[key,next[key]]));
     if(targets.length){draft=G.normalize(next);Object.assign(patch,changes);render();$('#save-status').textContent='Changes ready. Review and apply to save.';return;}
@@ -193,11 +191,9 @@ async function playSample() {
 }
 
 bindSettings();
-try{await setupScope();}catch(error){$('#save-status').textContent='Settings could not load: '+error.message;}
+try{await setupScope();}catch(error){$('#save-status').textContent='Settings could not load: '+error.message;$$('#sheet input,#sheet button').forEach(node=>{node.disabled=true;});}
 render();
 unlock();
-if(window.ACCOUNTS?.profile?.role==='grownup'){
-  $('#title').textContent=window.ACCOUNTS.owner.id===window.ACCOUNTS.profile.id?'Grown-ups’ corner':window.ACCOUNTS.owner.display_name+'’s settings';
-}
+$('#title').textContent='Game settings';
 window.ACCOUNTS?.subscribe(()=>{if(document.body.dataset.view==='settings'&&!Object.keys(patch).length&&!applying){draft=G.normalize(targets.length?A.effectiveSettings(targets[0]):A.gameDefaults);render();}});
 })();

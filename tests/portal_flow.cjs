@@ -5,7 +5,7 @@ const {staticServer,backend,playwright,form}=require('./accounts_sync.cjs');
 const live=process.argv.includes('--live');
 (async()=>{
   const {server,url}=await staticServer(),fixture=backend();let browser;
-  const seed=live?JSON.parse(fs.readFileSync('reports/portal-master-test-logins.json','utf8')).grownup:{handle:'portal_admin',password:'7234ab'};
+  const seed=live?require('./master_login.cjs'):{handle:'portal_admin',password:'7234ab'};
   if(!live)fixture.seed(seed.handle,seed.password);
   try {
     browser=await playwright().chromium.launch({headless:true,executablePath:process.env.CHROMIUM_EXECUTABLE||'/usr/bin/google-chrome',args:['--no-sandbox']});

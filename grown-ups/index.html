@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#faf2df">
 <meta name="robots" content="noindex">
-<title>Grown-ups' corner · Letters with Lucy</title>
+<title>Game settings · Letters with Lucy</title>
 <link rel="stylesheet" href="grown-ups.css">
 <script src="../accounts/config.js" defer></script><script src="../accounts/accounts.js" defer></script><script src="../accounts/boot.js" defer></script><script src="settings.js" defer></script>
 <script src="../audio-map.js" defer></script>
@@ -16,7 +16,7 @@
   <header class="masthead">
     <div>
       <p class="label">Letters with Lucy<small class="brand-tagline">Little Sounds Big Discovery</small></p>
-      <h1 class="title" id="title">Grown-ups' corner</h1>
+      <h1 class="title" id="title">Game settings</h1>
     </div>
     <a class="fill-button" id="leave" href="../index.html"><span class="fill-label">Back to the games</span><span class="fill-layer" aria-hidden="true"><span class="fill-label">Back to the games</span></span><span class="fill-dot" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
     <a class="quiet-button" id="portal-link" href="../accounts/index.html">Grown-up portal</a>
@@ -33,12 +33,12 @@
         <li><a href="#about"><span>06</span>About the game</a></li>
       </ol>
     </nav>
-    <main class="sheet" id="sheet" tabindex="-1" aria-label="Grown-up settings">
+    <main class="sheet" id="sheet" tabindex="-1" aria-label="Game settings">
       <section id="settings-scope" hidden aria-labelledby="scope-title">
-        <h2 id="scope-title">Who are these settings for?</h2>
+        <h2 id="scope-title">Who are these settings for?</h2><a class="quiet-button" href="../accounts/index.html#kids">Choose kids in the portal</a>
         <label class="row"><span class="row-text"><strong>Game defaults</strong><small>For children using defaults and play without saving.</small></span><input type="radio" name="scope" value="defaults" checked></label>
         <label class="row"><span class="row-text"><strong>Choose children</strong><small>Choose one child or apply a change to several at once.</small></span><input type="radio" name="scope" value="children"></label>
-        <fieldset id="settings-children" hidden><legend>Linked children</legend><div id="settings-child-list"></div></fieldset>
+        <fieldset id="settings-children" hidden><legend>Selected children</legend><div id="settings-child-list"></div></fieldset>
         <p id="scope-state" role="status"></p><p id="mixed-summary"></p>
         <div class="scope-actions"><button id="apply-children" class="solid-button" type="button" hidden>Review changes</button><button id="discard-settings" class="quiet-button" type="button" hidden>Discard changes</button></div>
       </section>
@@ -137,6 +137,6 @@
     <button value="reset" class="solid-button" id="confirm-reset">Reset settings</button>
   </form>
 </dialog>
-<noscript><p class="noscript">The grown-ups' corner needs JavaScript enabled in your browser.</p></noscript>
+<noscript><p class="noscript">Game settings needs JavaScript enabled in your browser.</p></noscript>
 </body>
 </html>

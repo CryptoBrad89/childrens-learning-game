@@ -13,7 +13,7 @@ async function loginStatus(page,handle,password){return page.evaluate(async({han
 (async()=>{
  const local=process.env.PORTAL_PREVIEW?null:await staticServer(),base=process.env.PORTAL_PREVIEW||local.url+'/';
  const browser=await playwright().chromium.launch({headless:true,executablePath:'/usr/bin/google-chrome',args:['--no-sandbox','--disable-dev-shm-usage']});
- const logins={master,base,runs:[]};
+ const logins={master:{handle:master.handle},base,runs:[]};
  try{for(const width of [390,1440]){
   const context=await browser.newContext({viewport:{width,height:900},reducedMotion:'reduce'}),a=await context.newPage();
   const errors=[];a.on('pageerror',e=>errors.push(e.message));
@@ -50,7 +50,7 @@ async function loginStatus(page,handle,password){return page.evaluate(async({han
     for(const id of [regular.id])assert([401,403].includes((await call(page,'edit-grownup-profile',{grownup_id:id,handle:changed,display_name:'Denied',avatar:'🐶'})).status));
     if(credentials){const status=await page.evaluate(async ids=>{const r=await fetch(ACCOUNT_CONFIG.url+'/rest/v1/rpc/edit_other_grownup_profile',{method:'POST',headers:{apikey:ACCOUNT_CONFIG.key,Authorization:'Bearer '+ACCOUNTS.session.access_token,'Content-Type':'application/json'},body:JSON.stringify({p_actor:ids.master,p_target:ids.regular,p_handle:'hijack',p_display_name:'Denied',p_avatar:'🐶'})});return r.status;},{master:original.id,regular:regular.id});assert.equal(status,403,'Direct RPC with forged master actor refused');}
     if(role==='regular'){
-     await page.locator('#adults-view').click();
+     await page.locator('#my-account').click();
      assert.equal(await page.evaluate(()=>ACCOUNTS.profile.display_name),'Edited by master');assert.match(await page.evaluate(()=>ACCOUNTS.profile.avatar),/^data:image\/jpeg/);
      await page.locator('#profile-form').locator('xpath=ancestor::details').locator('summary').click();
      await form(page,'profile-form',{handle:regular.handle,display_name:'Regular edits self'});assert.equal(await page.locator('#identity-title').innerText(),'Regular edits self');
