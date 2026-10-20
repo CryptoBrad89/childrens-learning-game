@@ -6,6 +6,18 @@ const isHome=document.body.dataset.page==='home';
 let offline=document.getElementById('offline-status');
 const isAdmin=location.pathname.includes('/accounts/')||location.pathname.includes('/grown-ups/');
 if(!offline&&isAdmin){offline=document.createElement('p');offline.id='offline-status';offline.setAttribute('role','status');document.querySelector('main')?.append(offline);}
+if(isAdmin){
+  const existing=document.getElementById('sign-out');
+  const button=existing||document.createElement('button');
+  button.id='sign-out';button.type='button';button.className='quiet-button auth-signout';button.textContent='Sign out';
+  document.querySelector('.masthead')?.append(button);
+  const update=()=>{button.hidden=!A.profile;};
+  if(!existing)button.addEventListener('click',async()=>{button.disabled=true;await A.signOut();location.href=new URL('index.html',base).href;});
+  A.subscribe(update);A.ready.then(update).catch(()=>{});update();
+  if(new URL(location.href).searchParams.has('expired')){
+    const note=document.createElement('p');note.className='notice';note.setAttribute('role','status');note.textContent='Signed out for safety. Please sign in again.';document.querySelector('main')?.prepend(note);
+  }
+}
 if(!isHome&&!isAdmin){
   const style=document.createElement('style');
   style.textContent='#account-strip{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:center;margin:16px auto 24px;padding:12px;max-width:1040px;background:#fff8e5;color:#253f65;border:2px solid #253f65;border-radius:16px;font:700 16px/1.5 system-ui,sans-serif}#account-strip a,#account-strip button{display:inline-flex;align-items:center;justify-content:center;min-height:60px;padding:8px 18px;border:2px solid #253f65;border-radius:14px;background:#b9dce6;color:#253f65;box-shadow:none;text-decoration:none;font:inherit;cursor:pointer}#account-strip small{display:block;flex-basis:100%;text-align:center;font-size:14px}#account-strip :focus-visible{outline:3px solid #007a95;outline-offset:4px}';
@@ -20,7 +32,7 @@ if(!isHome&&!isAdmin){
   function render(){
     name.textContent=A.guest?'Playing without saving':A.profile?'Playing as '+A.profile.display_name:'Keep your discoveries.';
     link.href=new URL(A.profile?'accounts/index.html':'index.html',base).href;link.textContent=A.profile?'Your progress page':'Sign in';
-    done.hidden=!A.profile&&!A.guest;done.textContent=A.guest?'Finish playing':"I'm done";
+    done.hidden=!A.profile&&!A.guest;done.textContent=A.guest?'Finish playing':"👋 Sign out";
     progress.textContent=A.profile?A.snapshot.count+' rounds completed'+(A.snapshot.achievements.length?' · '+A.snapshot.achievements.join(' · '):''):'';
     status.textContent=A.guest?'Progress, achievements and settings will not be saved.':A.status+(A.pending?' '+A.pending+' waiting to sync.':'');
   }

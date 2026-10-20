@@ -72,6 +72,11 @@ export async function serve(request: Request): Promise<Response> {
     const bearer = request.headers.get('Authorization')?.replace(/^Bearer\s+/i, '');
     if (!bearer) throw new RequestError('Sign in as a grown-up first.', 401);
     const authenticated = object(await api('/auth/v1/user', {}, bearer, publicKey));
+    try {
+      await api('/rest/v1/rpc/session_status', {method:'POST', body:JSON.stringify({p_touch:false})}, bearer, publicKey);
+    } catch {
+      throw new RequestError('Signed out for safety. Please sign in again.', 401);
+    }
     const adult = string(authenticated.id, 'User ID');
     const rows = await api(`/rest/v1/profiles?id=eq.${adult}&role=eq.grownup&select=id,is_master`);
     if (!Array.isArray(rows) || rows.length !== 1) throw new RequestError('A grown-up account is required.', 403);
@@ -166,6 +171,33 @@ export async function serve(request: Request): Promise<Response> {
         body: JSON.stringify({ adult_id: adult, child_id: id }),
       });
       return response({ profile: profiles[0] });
+    }
+    if (action === 'patch-game-settings' || action === 'patch-child-settings') {
+      const patch = object(input.patch);
+      if (action === 'patch-game-settings') {
+        return response(await api('/rest/v1/rpc/patch_game_settings', { method: 'POST', body: JSON.stringify({p_adult: adult, p_patch: patch}) }));
+      }
+      if (!Array.isArray(input.child_ids) || input.child_ids.length < 1 || input.child_ids.length > 100) throw new RequestError('Choose 1 to 100 children.');
+      const children = [...new Set(input.child_ids.map(value => uuid(value)))];
+      if (input.reset !== undefined && typeof input.reset !== 'boolean') throw new RequestError('Invalid reset choice.');
+      for (const id of children) {
+        const links = await api(`/rest/v1/guardians?adult_id=eq.${adult}&child_id=eq.${id}&select=child_id`);
+        if (!Array.isArray(links) || links.length !== 1) throw new RequestError('This child is not linked to your account.', 403);
+      }
+      return response(await api('/rest/v1/rpc/patch_child_settings', { method: 'POST', body: JSON.stringify({p_adult: adult, p_children: children, p_patch: patch, p_reset: input.reset === true}) }));
+    }
+    if (action === 'edit-child-profile') {
+      const id = uuid(input.child_id);
+      const name = handle(input.handle);
+      const display = string(input.display_name, 'Name').trim();
+      if (!display || [...display].length > 60) throw new RequestError('Use a name of 1–60 characters.');
+      const links = await api(`/rest/v1/guardians?adult_id=eq.${adult}&child_id=eq.${id}&select=child_id`);
+      if (!Array.isArray(links) || links.length !== 1) throw new RequestError('This child is not linked to your account.', 403);
+      const taken = await api(`/rest/v1/profiles?handle=eq.${name}&id=neq.${id}&select=id`);
+      if (Array.isArray(taken) && taken.length) throw new RequestError('That handle is taken. Choose another handle.', 409);
+      await api('/rest/v1/rpc/edit_child_profile', { method: 'POST', body: JSON.stringify({p_adult: adult, p_child: id, p_handle: name, p_display_name: display}) });
+      const profiles = await api(`/rest/v1/profiles?id=eq.${id}&select=*`);
+      return response({ profile: Array.isArray(profiles) ? profiles[0] : null });
     }
     if (action === 'edit-profile') {
       const name = handle(input.handle);

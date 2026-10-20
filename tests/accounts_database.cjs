@@ -9,10 +9,11 @@ const assert = require('node:assert/strict');
   const db = new PGlite();
   await db.exec(`create role anon; create role authenticated; create role service_role bypassrls;
     create schema auth; create table auth.users(id uuid primary key,email text unique,updated_at timestamptz);
+    create table auth.sessions(id uuid primary key default gen_random_uuid(),user_id uuid references auth.users(id) on delete cascade,created_at timestamptz not null default now(),not_after timestamptz,refreshed_at timestamptz);
     create table auth.identities(user_id uuid references auth.users(id) on delete cascade,provider text,identity_data jsonb,updated_at timestamptz);
     create function auth.uid() returns uuid language sql stable as $$ select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid $$;
     grant usage on schema auth to authenticated; grant execute on function auth.uid() to authenticated;`);
-  for (const filename of fs.readdirSync('supabase/migrations').filter(x => x.endsWith('.sql') && !x.endsWith('_portal_master.sql')).sort()) {
+  for (const filename of fs.readdirSync('supabase/migrations').filter(x => x.endsWith('.sql') && x < '20261019201539_portal_master.sql').sort()) {
     await db.exec(fs.readFileSync(`supabase/migrations/${filename}`, 'utf8'));
   }
   const adult = '10000000-0000-0000-0000-000000000001';
@@ -27,10 +28,13 @@ const assert = require('node:assert/strict');
   await db.exec('reset role');
   await db.query("update public.profiles set handle='test' where id=$1",[adult]);
   await db.exec(fs.readFileSync('supabase/migrations/20261019201539_portal_master.sql','utf8'));
+  for (const filename of fs.readdirSync('supabase/migrations').filter(x => x.endsWith('.sql') && x > '20261019201539_portal_master.sql').sort()) await db.exec(fs.readFileSync(`supabase/migrations/${filename}`, 'utf8'));
   await db.exec('set role service_role');
   async function caller(id) {
     await db.exec('reset role');
-    await db.query("select set_config('request.jwt.claim.sub',$1,false)", [id]);
+    const sessions = await db.query('select id from auth.sessions where user_id=$1',[id]);
+    const sid = sessions.rows[0]?.id || (await db.query('insert into auth.sessions(user_id) values($1) returning id',[id])).rows[0].id;
+    await db.query("select set_config('request.jwt.claim.sub',$1,false),set_config('request.jwt.claims',$2,false)", [id,JSON.stringify({sub:id,session_id:sid})]);
     await db.exec('set role authenticated');
   }
   const batch = [{ id: event, kind: 'round', payload: {world:'post',letter:'A',misses:0} }];

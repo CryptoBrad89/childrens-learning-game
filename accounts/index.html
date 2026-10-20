@@ -65,6 +65,8 @@
         <div class="sync-row"><p id="sync-status" role="status" aria-live="polite"></p><button type="button" id="sync-now" class="quiet-button">Refresh progress</button></div>
         <details id="child-management" data-adult class="child-management" hidden><summary>Manage this child</summary>
           <p id="management-child" class="help"></p>
+          <form id="child-profile-form"><label>Child's display name<input name="display_name" maxlength="60" required></label><label>Child's username<input name="handle" minlength="3" maxlength="32" required autocapitalize="none" spellcheck="false"></label><p class="help">The old username stops working when you save. Their progress stays with them.</p><button class="quiet-button" type="submit">Save child's name and username</button><p class="form-result" role="status"></p></form>
+          <a class="quiet-button" href="../grown-ups/index.html">Settings for this child</a>
           <p class="help">These actions affect this child for every linked grown-up.</p>
           <div class="actions"><button type="button" id="reset-progress" class="quiet-button">Reset all progress…</button><button type="button" id="delete-child" class="quiet-button">Delete child account…</button></div>
           <p id="management-result" role="status"></p>

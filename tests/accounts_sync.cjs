@@ -28,15 +28,19 @@ function staticServer() {
   return new Promise(resolve => server.listen(0,'127.0.0.1',() => resolve({server,url:'http://127.0.0.1:'+server.address().port})));
 }
 function backend() {
-  const users = new Map(), events = new Map(), links = []; let seq = 0, loseResponse = false, refreshHold = null;
+  const users = new Map(), events = new Map(), links = [], overrides = new Map();
+  let defaults={voice:true,volume:100,effects:true,calm:false,letters:[...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'],hintAfter:2,games:['post','space','silk'],kidControls:true}; let seq = 0, loseResponse = false, refreshHold = null;
   const profile = handle => [...users.values()].find(u => u.profile.handle === handle);
   async function route(requestRoute) {
     const request = requestRoute.request(), url = new URL(request.url()), data = request.postDataJSON() || {};
     let result = [], status = 200;
     const actor = users.get((request.headers().authorization || '').replace('Bearer ',''));
-    if (url.pathname.endsWith('/accounts')) {
+    if(url.pathname.endsWith('/game_settings')) result=[{settings:defaults}];
+    else if (url.pathname.endsWith('/accounts')) {
       if (!actor || actor.profile.role !== 'grownup') {status=403;result={error:'A grown-up account is required.'};}
       else if(['create-grownup','register','delete-grownup','reset-grownup-password','list-grownups'].includes(data.action)&&!actor.profile.is_master){status=403;result={error:'Master required'};}
+      else if(data.action==='patch-game-settings'){defaults={...defaults,...data.patch};result={settings:defaults};}
+      else if(data.action==='patch-child-settings'){for(const id of data.child_ids)overrides.set(id,data.reset?{}:{...overrides.get(id),...data.patch});result={children:data.child_ids.map(child_id=>({child_id,overrides:overrides.get(child_id)}))};}
       else if(data.action==='list-grownups')result={grownups:[...users.values()].map(u=>u.profile).filter(p=>p.role==='grownup')};
       else if(data.action==='list-linkable-children')result={children:[...users.values()].map(u=>u.profile).filter(p=>p.role==='child' && links.some(l=>l.child_id===p.id&&l.adult_id!==actor.profile.id)&&!links.some(l=>l.child_id===p.id&&l.adult_id===actor.profile.id))};
       else if(data.action==='link-child'){links.push({adult_id:actor.profile.id,child_id:data.child_id});result={ok:true};}
@@ -57,6 +61,8 @@ function backend() {
       else result={access_token:user.profile.id,refresh_token:user.profile.id,user:{id:user.profile.id},expires_in:3600};
     } else if (url.pathname.endsWith('/logout')) {status=204;result=null;}
     else if (!actor) {status=401;result={message:'Sign in required'};}
+    else if(url.pathname.endsWith('/session_status')) result={expires_at:Date.now()/1000+(actor.profile.role==='child'?21600:1800),server_now:Date.now()/1000,role:actor.profile.role};
+    else if(url.pathname.endsWith('/child_settings')) result=[...overrides].map(([child_id,overrides])=>({child_id,overrides}));
     else if (url.pathname.endsWith('/profiles')) {
       const query=url.searchParams.get('id');result=[...users.values()].map(u=>u.profile).filter(p=>query===null || query==='eq.'+p.id || query.includes(p.id));
     } else if (url.pathname.endsWith('/user') && request.method()==='PUT') {actor.password=data.password;result={id:actor.profile.id};}
@@ -66,7 +72,7 @@ function backend() {
       const allowed=data.p_owner===actor.profile.id || links.some(l=>l.adult_id===actor.profile.id&&l.child_id===data.p_owner);
       if(!allowed) {status=403;result={message:'Not your progress page'};}
       else {
-        for(const event of data.p_events) if(!events.has(event.id))events.set(event.id,{...event,user_id:data.p_owner,seq:++seq});
+        for(const event of data.p_events) if(!events.has(event.id)){events.set(event.id,{...event,user_id:data.p_owner,seq:++seq});if(event.kind==='setting'&&event.payload.field in defaults)overrides.set(data.p_owner,{...overrides.get(data.p_owner),[event.payload.field]:event.payload.value});}
         if(loseResponse) {loseResponse=false;await requestRoute.abort('failed');return;}
         result=null;
       }
@@ -128,7 +134,7 @@ async function run() {
     await form(a,'signin-form',{handle:seedAdult,password:seedPassword});
     await form(a,'create-grownup-form',{handle:adult,password,display_name:'Sync test grown-up'});
     if(live)await form(a,'create-grownup-form',{handle:parent,password,display_name:'Sync test grown-up'});
-    await a.locator('#sign-out').click();
+    await a.locator('#sign-out').click();await a.waitForURL(url+'/index.html');await a.goto(url+'/accounts/');
     await form(a,'signin-form',{handle:adult,password});
     await form(a,'create-child-form',{handle:child,password,display_name:'Sync test child'});
     const childId=await a.evaluate(async()=>{const links=await ACCOUNTS.rest('/guardians?select=child_id');return links[0].child_id;});
@@ -179,6 +185,7 @@ async function run() {
     console.log('Accounts browser: reconnecting both profiles');
     await contexts[0].setOffline(false);await a.evaluate(()=>ACCOUNTS.sync());await b.locator('#sync-now').click();
     await b.waitForFunction(()=>ACCOUNTS.snapshot.count===1 && ACCOUNTS.snapshot.settings.calm===true && ACCOUNTS.snapshot.settings.volume===35 && ACCOUNTS.snapshot.themes.post===2);
+    await b.waitForFunction(()=>document.getElementById('round-count').textContent==='1');
     assert.equal(await b.locator('#round-count').textContent(),'1');
     assert.match(await b.locator('#achievements').textContent(),/First sound/);
     assert.equal(await a.evaluate(()=>ACCOUNTS.snapshot.settings.volume),35,'Different setting fields survive simultaneous device changes');
@@ -234,7 +241,7 @@ async function run() {
       assert.equal(await a.evaluate(()=>JSON.parse(localStorage.getItem('little-woof-session-v1'))),null,'Sign-out remains durable after delayed refresh');
       console.log('PASS MOCK TRANSPORT: committed request response loss, safe retry, shared-device identity, durable child outbox, six-character-only password rule, ordered same-field edits, delayed-refresh sign-out');
     } else {
-      await a.goto(url+'/accounts/');await a.locator('#sign-out').click();
+      await a.goto(url+'/accounts/');await a.locator('#sign-out').click();await a.waitForURL(url+'/index.html');
       await a.goto(url+'/accounts/');await form(a,'signin-form',{handle:adult,password});
       await a.locator('#children-list li').filter({hasText:child}).locator('button').click();
       await a.waitForFunction(handle=>ACCOUNTS.owner.handle===handle&&!document.querySelector('#settings-link').inert,child);
@@ -242,7 +249,7 @@ async function run() {
       await a.waitForFunction(()=>document.body.dataset.view==='settings');
       assert.equal(await a.evaluate(()=>ACCOUNTS.owner.handle),child,'Selected child survives navigation into grown-ups corner');
       await a.locator('#hint label').filter({hasText:'After 1 miss'}).click();
-      await a.evaluate(()=>GROWN_UPS.whenSaved);await a.evaluate(()=>ACCOUNTS.sync());
+      await a.locator('#apply-children').click();await a.locator('#confirm-settings-action').click();await a.locator('#confirm-settings').waitFor({state:'hidden'});await a.evaluate(()=>ACCOUNTS.sync());
       await b.evaluate(()=>ACCOUNTS.sync());
       assert.equal(await b.evaluate(()=>ACCOUNTS.snapshot.settings.hintAfter),1,'Grown-up edit arrives in the child account on another profile');
       await b.goto(url+'/v1-letter-post/');await settle(b);

@@ -11,9 +11,9 @@ function openLogin(){
 }
 function showLayouts(){
   if(!A?.guest && !A?.session)return openLogin();
-  document.getElementById('change-player').textContent=A.session?'Change player':'Sign in to save';
+  document.getElementById('change-player').textContent=A.session?'👋 Not me? Sign out':'Sign in to save';
   layouts.hidden=false;dialog.close();document.body.dataset.homeStep='layouts';
-  const games=A.guest?['silk','post','space']:window.GROWN_UPS.load().games;
+  const games=window.GROWN_UPS.load().games;
   const cards=[...document.querySelectorAll('[data-world]')];
   const defaultLayout=games.includes('silk')?'silk':games[0];
   for(const card of cards){
@@ -35,9 +35,11 @@ form.addEventListener('submit',async event=>{
   catch(error){status.textContent=error.message;status.classList.add('error');}
   finally{button.disabled=false;form.removeAttribute('aria-busy');form.elements.password.value='';}
 });
-document.getElementById('play-unsaved').addEventListener('click',()=>{A.startGuest();showLayouts();});
+document.getElementById('play-unsaved').addEventListener('click',async()=>{await A.startGuest();showLayouts();});
 again.addEventListener('click',async()=>{try{await A.selectOwner(A.profile);showLayouts();}catch(error){status.textContent=error.message;}});
 document.getElementById('change-player').addEventListener('click',async()=>{await A.signOut();status.textContent='';openLogin();});
 openLogin();
+if(new URL(location.href).searchParams.has('expired'))status.textContent='Signed out for safety. Your saved play is waiting for your next sign-in.';
+A.subscribe(()=>{if(!A.session&&!A.guest)openLogin();});
 A.ready.then(()=>{if(document.body.dataset.homeStep==='login')openLogin();if(new URL(location.href).searchParams.has('layouts')&&(A.session||A.guest))showLayouts();}).catch(()=>{status.textContent='Sign-in storage is unavailable. You can still play without saving.';});
 })();

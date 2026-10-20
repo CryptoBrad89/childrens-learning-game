@@ -32,7 +32,7 @@ function wireForm(id, action, success) {
     try {
       await action(fields);
       output.textContent = success;
-      if(id !== 'profile-form') form.reset();
+      if(!['profile-form','child-profile-form'].includes(id)) form.reset();
       if (id === 'create-child-form') $('avatar-preview').hidden = true;
     } catch (error) {
       output.textContent = errorText(error);
@@ -134,6 +134,7 @@ function render() {
     return;
   }
   const owner = A.owner || profile;
+  if(owner.role==='child' && $('child-profile-form').dataset.childProfile!==owner.id+':'+owner.handle){const form=$('child-profile-form');form.dataset.childProfile=owner.id+':'+owner.handle;form.elements.handle.value=owner.handle;form.elements.display_name.value=owner.display_name;}
   const adult = profile.role === 'grownup';
   if (profile.is_master === true && grownupsFor !== profile.id) { grownupsFor = profile.id; void loadGrownups(); }
   document.querySelectorAll('[data-child]').forEach(node => { node.hidden = adult; });
@@ -222,9 +223,7 @@ $('back-to-me').addEventListener('click', async () => {
 $('sign-out').addEventListener('click', async () => {
   $('sign-out').disabled = true;
   try {
-    await A.signOut(); render();
-    notice('Signed out. Anything waiting to sync is kept for this same login. The next person can sign in now.');
-    $('signin-form').elements.handle.focus();
+    await A.signOut(); location.href='../index.html';
   } catch (error) { notice(errorText(error), true); }
   finally { $('sign-out').disabled = false; }
 });
@@ -237,6 +236,12 @@ $('profile-avatar-upload').addEventListener('change',async()=>{
 document.querySelectorAll('#profile-form [name=avatar]').forEach(input=>input.addEventListener('change',()=>{
   $('profile-avatar-upload').value='';$('profile-avatar-preview').hidden=true;
 }));
+wireForm('child-profile-form',async fields=>{
+  const child=A.owner;
+  if(child?.role!=='child')throw new Error('Open a child first.');
+  const {profile}=await A.manage('edit-child-profile',{...fields,child_id:child.id});
+  await A.selectOwner(profile);await loadRoster({fresh:true});
+},'Child profile saved. Use the new username next time.');
 wireForm('profile-form',async fields=>{
   delete fields.avatar_file;
   if(!$('profile-avatar-preview').hidden)fields.avatar=$('profile-avatar-preview').src;

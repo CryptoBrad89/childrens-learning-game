@@ -26,8 +26,8 @@ function normalize(raw) {
   };
 }
 function load() {
-  if (window.ACCOUNTS?.guest) return normalize(null);
-  if (window.ACCOUNTS?.owner && location.protocol !== 'file:') return normalize(window.ACCOUNTS.snapshot.settings);
+  if (window.ACCOUNTS && location.protocol !== 'file:') return normalize(window.ACCOUNTS.effectiveSettings(window.ACCOUNTS.guest?null:window.ACCOUNTS.owner?.role==='child'?window.ACCOUNTS.owner.id:null));
+  if(window.ACCOUNTS?.guest)return normalize(null);
   let saved = null;
   try { saved = localStorage.getItem(KEY); } catch (e) { storageOK = false; }
   try { return normalize(JSON.parse(saved)); } catch (e) { return normalize(null); }

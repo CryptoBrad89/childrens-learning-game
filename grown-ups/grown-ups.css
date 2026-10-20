@@ -191,3 +191,14 @@ html[data-calm] .stamp{display:none}
 body{background-image:radial-gradient(#29466b18 1px,transparent 1px);background-size:18px 18px}
 .masthead{min-height:0;padding:24px 0;border-bottom:2px solid var(--line);align-items:center}
 .title{font-size:clamp(28px,4vw,40px)}
+
+/* Account controls stay reachable while managing a child or editing settings. */
+.auth-signout{position:fixed;top:10px;right:clamp(16px,4vw,64px);z-index:40;background:#fff8e5;box-shadow:0 2px 8px #253f6520;min-height:48px}
+body:has(.auth-signout:not([hidden])) .masthead{padding-top:72px}
+#settings-scope{margin-bottom:28px;border-bottom:2px solid var(--line);padding-bottom:24px}
+#settings-scope input[type=radio],.child-chip input{min-width:24px;min-height:24px;width:24px;height:24px;accent-color:#253f65;flex-shrink:0}
+#settings-child-list{display:flex;flex-wrap:wrap;align-content:start;gap:12px;margin:16px 0;max-height:320px;overflow-y:auto;padding:4px}
+.child-chip{display:flex;align-items:center;gap:12px;border:2px solid #253f65;border-radius:14px;padding:12px;min-height:60px;max-width:100%;overflow-wrap:anywhere;cursor:pointer}
+.child-chip:has(input:checked){background:#b9dce6}
+.scope-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:16px}
+#mixed-summary{font-size:16px}#settings-confirm-copy{overflow-wrap:anywhere}

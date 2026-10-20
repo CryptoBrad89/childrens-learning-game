@@ -19,7 +19,7 @@ const {staticServer,playwright,form,round}=require('./accounts_sync.cjs');
       assert.equal(await a.evaluate(()=>ACCOUNT_CONFIG.url),'https://ixjbgshhzeaosrzavssr.supabase.co');
       await form(a,'signin-form',seed);
       for(const [handle,name] of [[adult,'Round two grown-up'],[parent,'Second grown-up']])await form(a,'create-grownup-form',{handle,password,display_name:name});
-      await a.locator('#sign-out').click();await form(a,'signin-form',{handle:adult,password});
+      await a.locator('#sign-out').click();await a.waitForURL(url+'/index.html');await a.goto(url+'/accounts/');await form(a,'signin-form',{handle:adult,password});
       const adultId=await a.evaluate(()=>ACCOUNTS.profile.id);
       await form(a,'profile-form',{handle:newAdult,display_name:'Updated grown-up'});
       assert.equal(await a.locator('#identity-title').innerText(),'Updated grown-up');
@@ -33,7 +33,7 @@ const {staticServer,playwright,form,round}=require('./accounts_sync.cjs');
       const duplicate=await a.evaluate(async handle=>{try{await ACCOUNTS.editProfile({handle,display_name:'Bad duplicate',avatar:'🐶'});return 200;}catch(e){return e.status;}},parent);
       assert.equal(duplicate,409);
       await form(a,'own-password-form',{password:'8345bc'});
-      await a.locator('#sign-out').click();
+      await a.locator('#sign-out').click();await a.waitForURL(url+'/index.html');await a.goto(url+'/accounts/');
       const oldStatus=await a.evaluate(async({handle,password})=>(await fetch(ACCOUNT_CONFIG.url+'/auth/v1/token?grant_type=password',{method:'POST',headers:{apikey:ACCOUNT_CONFIG.key,'Content-Type':'application/json'},body:JSON.stringify({email:handle+'@accounts.littlewoof.invalid',password})})).status,{handle:adult,password:'8345bc'});
       assert.equal(oldStatus,400);
       await form(a,'signin-form',{handle:newAdult,password:'8345bc'});
@@ -60,7 +60,7 @@ const {staticServer,playwright,form,round}=require('./accounts_sync.cjs');
       assert.equal(await c.locator('#change-player').innerText(),'Sign in to save');
       assert.equal(await c.locator('[data-world=silk]').evaluate(el=>getComputedStyle(el,':before').content),'none');
       await c.locator('#change-player').click();await form(c,'child-signin-form',{handle:kid,password});
-      assert.equal(await c.locator('#change-player').innerText(),'Change player');
+      assert.match(await c.locator('#change-player').innerText(),/Sign out/);
       const actions=['list-linkable-children','link-child','edit-profile','delete-child','reset-child-progress'];
       for(const authenticated of [true,false]){
         const statuses=await c.evaluate(async({actions,authenticated,child_id})=>{

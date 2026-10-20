@@ -48,7 +48,7 @@ const live=process.argv.includes('--live');
       await form(page,'create-grownup-form',{handle:adult,password:'7234ab',display_name:'Additional administrator'});
       assert.equal(await page.evaluate(()=>ACCOUNTS.profile.id),actor,'Creating a grown-up keeps the administrator signed in');
       assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
-      await page.locator('#sign-out').click();await form(page,'signin-form',{handle:adult,password:'7234ab'});
+      await page.locator('#sign-out').click();await page.waitForURL(url+'/index.html');await page.goto(url+'/accounts/');await form(page,'signin-form',{handle:adult,password:'7234ab'});
       assert.equal(await page.evaluate(()=>ACCOUNTS.profile.role),'grownup');
       await page.evaluate(()=>ACCOUNTS.signOut());await page.goto(url+'/');
       await form(page,'child-signin-form',{handle:photoKid,password:'7234ab'});

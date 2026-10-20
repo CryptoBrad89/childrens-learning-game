@@ -12,6 +12,75 @@ try { guest ||= sessionStorage.getItem(GUEST_KEY) === '1'; } catch {}
 let db, records = [], session = read(SESSION_KEY), self = session?.profile || null;
 let owner = self, status = 'Sign in to keep your adventures.', syncing = null, refreshPromise = null;
 let lastOrder = Date.now();
+const DEFAULTS_KEY='lwl-game-defaults', OVERRIDES_KEY='lwl-child-overrides';
+let gameDefaults=read(DEFAULTS_KEY)||{}, childOverrides=read(OVERRIDES_KEY)||{};
+let ending=false, sessionCheck=null, lastTouch=0, settingsRevision=0;
+const writes=new Set();
+const base=new URL('../',document.currentScript.src);
+function cacheSettings(){
+  localStorage.setItem(DEFAULTS_KEY,JSON.stringify(gameDefaults));
+  localStorage.setItem(OVERRIDES_KEY,JSON.stringify(childOverrides));
+}
+function effectiveSettings(id){
+  const result={...gameDefaults,...(id?childOverrides[id]||{}:{})};
+  if(id)for(const event of records.filter(r=>r.user_id===id&&r.pending&&r.kind==='setting').sort((a,b)=>a.local_order-b.local_order)){
+    if(Object.hasOwn(result,event.payload.field))result[event.payload.field]=event.payload.value;
+  }
+  return result;
+}
+async function refreshSettings(){
+  const revision=settingsRevision;
+  const rows=await network('/rest/v1/game_settings?select=settings');
+  if(revision!==settingsRevision)return;
+  if(rows[0])gameDefaults=rows[0].settings;
+  if(session&&!guest){
+    const actor=self.id;
+    const children=await rest('child_settings?select=child_id,overrides');
+    if(revision!==settingsRevision)return;
+    if(self?.id===actor){childOverrides={};for(const row of children)childOverrides[row.child_id]=row.overrides;}
+  }
+  cacheSettings();emit();
+}
+async function applySettings(childIds,patch,{reset=false}={}){
+  settingsRevision++;
+  const result=await manage(childIds.length?'patch-child-settings':'patch-game-settings',childIds.length?{child_ids:childIds,patch,reset}:{patch});
+  if(childIds.length)for(const row of result.children)childOverrides[row.child_id]=row.overrides;
+  else gameDefaults=result.settings;
+  cacheSettings();emit();return result;
+}
+function localDeadline(){
+  if(session?.safety_expires_at)return session.safety_expires_at*1000;
+  // Old saved credentials are rechecked at the server before use.
+  return ((session?.expires_at||0)-(session?.expires_in||3600)+(self?.role==='child'?21600:1800))*1000;
+}
+async function expireSession(){
+  if(ending||!session)return;
+  ending=true;
+  const role=self?.role;
+  await signOut({expired:true});
+  location.replace(new URL(role==='grownup'?'accounts/index.html?expired=1':'index.html?expired=1',base).href);
+}
+async function sessionStatus({touch=false}={}){
+  if(!session||guest)return;
+  if(Date.now()>=localDeadline()){void expireSession();throw new Error('Signed out for safety. Your saved play is waiting.');}
+  if(sessionCheck){await sessionCheck;if(!touch)return;}
+  const actor=self.id;
+  sessionCheck=(async()=>{
+    const result=await network('/rest/v1/rpc/session_status',{method:'POST',body:{p_touch:touch},token:await token()});
+    if(self?.id!==actor)return;
+    persistSession({...session,safety_expires_at:result.expires_at});
+    if(Date.now()>=localDeadline())void expireSession();
+    return result;
+  })().catch(error=>{if([401,403].includes(error.status))void expireSession();throw error;}).finally(()=>{sessionCheck=null;});
+  return sessionCheck;
+}
+function activity(){
+  if(!session||guest)return;
+  if(Date.now()>=localDeadline()){void expireSession();return;}
+  if(self.role==='grownup'&&Date.now()-lastTouch>30000){lastTouch=Date.now();void sessionStatus({touch:true}).catch(()=>{});}
+}
+for(const event of ['pointerdown','keydown','touchstart','scroll'])window.addEventListener(event,activity,{passive:true});
+setInterval(()=>{if(session&&!guest&&Date.now()>=localDeadline())void expireSession();},1000);
 const channel = typeof BroadcastChannel === 'function' ? new BroadcastChannel('little-woof-accounts') : null;
 function read(key, storage) {
   try { return JSON.parse((storage || localStorage).getItem(key)); } catch { return null; }
@@ -62,7 +131,8 @@ function snapshotFor(id, source = records) {
   for (const [world,label] of Object.entries({post:'Letter Post',space:'Moonboat',silk:'Ribbon Road'})) {
     if (new Set(rounds.filter(r=>r.world===world).map(r=>r.letter)).size === 26) achievements.push(label+' explorer');
   }
-  return {settings:window.GROWN_UPS ? window.GROWN_UPS.normalize(settings) : settings, themes, rounds, achievements, count:rounds.length};
+  const resolved=effectiveSettings(id);
+  return {settings:window.GROWN_UPS ? window.GROWN_UPS.normalize(resolved) : resolved, themes, rounds, achievements, count:rounds.length};
 }
 async function network(path, {method='GET', body, token, headers={}} = {}) {
   const controller = new AbortController(), timeout = setTimeout(()=>controller.abort(), 12000);
@@ -80,6 +150,7 @@ async function network(path, {method='GET', body, token, headers={}} = {}) {
 }
 async function token() {
   if (guest || !session) throw new Error('Sign in first.');
+  if(!ending&&Date.now()>=localDeadline()){void expireSession();throw new Error('Signed out for safety.');}
   const latest = read(SESSION_KEY);
   if (!latest || latest.user.id !== session.user.id) throw new Error('Sign in again to sync. Your saved play is waiting.');
   session = latest;
@@ -92,7 +163,7 @@ async function token() {
       const refreshProfile = self;
       const result = await network('/auth/v1/token?grant_type=refresh_token',{method:'POST',body:{refresh_token:saved.refresh_token}});
       if (!session || session.user.id!==saved.user.id || read(SESSION_KEY)?.user?.id!==saved.user.id) throw new Error('Signed out. Your saved play is waiting.');
-      persistSession({...result,expires_at:Date.now()/1000+result.expires_in,profile:refreshProfile});
+      persistSession({...saved,...result,expires_at:Date.now()/1000+result.expires_in,profile:refreshProfile});
       return result.access_token;
     };
     refreshPromise = (navigator.locks ? navigator.locks.request('little-woof-token', refresh) : refresh()).finally(()=>{refreshPromise=null;});
@@ -133,10 +204,13 @@ async function signIn(handle, password, {role} = {}) {
   if (role && profiles[0].role !== role) throw new Error(role === 'child' ? 'This is a grown-up login. Use Are you a grown-up? below.' : 'This is a child login. Sign in from the game home page.');
   guest=false;try { sessionStorage.removeItem(GUEST_KEY); } catch {}
   persistSession({...result,expires_at:Date.now()/1000+result.expires_in,profile:profiles[0]});
-  owner=self; sessionStorage.removeItem(TARGET_KEY); emit();
+  owner=self; ending=false; sessionStorage.removeItem(TARGET_KEY);
+  await sessionStatus({touch:true});emit();
   await sync();
 }
-async function signOut() {
+async function signOut({expired=false}={}) {
+  await Promise.allSettled([...writes]);
+  if(!expired)await Promise.race([sync(),new Promise(resolve=>setTimeout(resolve,2500))]);
   guest=false;try { sessionStorage.removeItem(GUEST_KEY); } catch {}
   const previous = session;
   persistSession(null); owner=null; sessionStorage.removeItem(TARGET_KEY); message('Signed out. Saved play stays with its account.');
@@ -155,7 +229,10 @@ async function selectOwner(profile) {
   }
   owner=profile; sessionStorage.setItem(TARGET_KEY,JSON.stringify({actor:self.id,profile})); emit(); await sync();
 }
-async function append(kind, payload, id=crypto.randomUUID(), user=owner?.id) {
+function append(...args){
+  const write=appendOperation(...args);writes.add(write);write.finally(()=>writes.delete(write)).catch(()=>{});return write;
+}
+async function appendOperation(kind, payload, id=crypto.randomUUID(), user=owner?.id) {
   if (guest) return false;
   await ready;
   if (!user) return false;
@@ -176,11 +253,9 @@ async function append(kind, payload, id=crypto.randomUUID(), user=owner?.id) {
 }
 async function setSetting(field,value) { return append('setting',{field,value}); }
 async function setSettings(next) {
-  const user=owner?.id;
-  const before = snapshotFor(user).settings;
-  for (const [field,value] of Object.entries(next)) {
-    if (JSON.stringify(before[field]) !== JSON.stringify(value)) await append('setting',{field,value},crypto.randomUUID(),user);
-  }
+  const before=window.GROWN_UPS.normalize(effectiveSettings(owner?.role==='child'?owner.id:null));
+  const patch=Object.fromEntries(Object.entries(next).filter(([key,value])=>JSON.stringify(value)!==JSON.stringify(before[key])));
+  if(Object.keys(patch).length)await applySettings(owner?.role==='child'?[owner.id]:[],patch);
 }
 async function recordRound(world, letter, misses, id) { return append('round',{world,letter,misses},id); }
 async function sync() {
@@ -195,6 +270,8 @@ async function sync() {
   syncing = (async()=>{
     try {
       message('Syncing your adventures…');
+      await sessionStatus();
+      await refreshSettings();
       await reloadRecords();
       const profiles = await rest('/profiles?id=eq.'+account+'&select=*');
       if (!profiles.length) throw new Error('This account is no longer available.');
@@ -219,7 +296,7 @@ async function sync() {
         for (const event of records) if(event.user_id===account && (!event.pending || pending.some(p=>p.id===event.id))) store.delete(event.id);
         for (const event of remote) store.put({...event,pending:false});
       });
-      await reloadRecords(); channel?.postMessage('changed');
+      await reloadRecords(); await refreshSettings(); channel?.postMessage('changed');
       const remaining = records.filter(r=>r.user_id===account && r.pending).length;
       message(remaining ? remaining+' changes saved here. Syncing again shortly.' : 'All adventures are synced.');
     } catch (error) {
@@ -234,15 +311,18 @@ const ready = (async()=>{
     db=await openDB(); await reloadRecords();
     const target=read(TARGET_KEY,sessionStorage);
     if (self && target?.actor===self.id) owner=target.profile;
+    if(session)try{await sessionStatus();}catch(error){if([401,403].includes(error.status))throw error;}
+    try{await refreshSettings();}catch{}
     emit();
   } catch (error) { message('Account storage is unavailable. Open a normal browser window before playing.'); throw error; }
 })();
 window.ACCOUNTS = {ready,
-  startGuest(){
-    if(session)void signOut().catch(()=>{});guest=true;
+  async startGuest(){
+    if(session)await signOut();guest=true;
     try { sessionStorage.setItem(GUEST_KEY,'1'); } catch {}
     emit();
   },
+  get gameDefaults(){return {...gameDefaults};},get childOverrides(){return structuredClone(childOverrides);},effectiveSettings,refreshSettings,applySettings,sessionStatus,expireSession,
   get guest(){return guest;}, signIn,signOut,selectOwner,setSetting,setSettings,recordRound,sync,rest,manage,readProgress,editProfile,
   async changePassword(password) { if([...password].length<6)throw new Error('Use at least 6 characters.'); return network('/auth/v1/user',{method:'PUT',token:await token(),body:{password}}); },
   get session(){return guest?null:session;},get profile(){return guest?null:self;},get owner(){return guest?null:owner;},get status(){return status;},
@@ -252,7 +332,11 @@ window.ACCOUNTS = {ready,
 channel && (channel.onmessage=async()=>{if(db){await reloadRecords();emit();}});
 window.addEventListener('online',()=>void sync());
 window.addEventListener('storage',event=>{
-  if(event.key===SESSION_KEY && read(SESSION_KEY)?.user?.id!==self?.id) location.reload();
+  if(event.key===SESSION_KEY){
+    const next=read(SESSION_KEY);
+    if(next?.user?.id!==self?.id)location.reload();
+    else if(next)session=next;
+  }
 });
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)void sync();});
 setInterval(()=>{if(!document.hidden)void sync();},15000);

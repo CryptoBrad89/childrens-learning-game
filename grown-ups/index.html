@@ -47,7 +47,15 @@
       </ol>
     </nav>
     <main class="sheet" id="sheet" tabindex="-1" aria-label="Grown-up settings">
-      <p class="intro">Changes save straight away on this device and apply the next time a world opens.</p>
+      <section id="settings-scope" hidden aria-labelledby="scope-title">
+        <h2 id="scope-title">Who are these settings for?</h2>
+        <label class="row"><span class="row-text"><strong>Game defaults</strong><small>For children using defaults and play without saving.</small></span><input type="radio" name="scope" value="defaults" checked></label>
+        <label class="row"><span class="row-text"><strong>Choose children</strong><small>Choose one child or apply a change to several at once.</small></span><input type="radio" name="scope" value="children"></label>
+        <fieldset id="settings-children" hidden><legend>Linked children</legend><div id="settings-child-list"></div></fieldset>
+        <p id="scope-state" role="status"></p><p id="mixed-summary"></p>
+        <div class="scope-actions"><button id="apply-children" class="solid-button" type="button" hidden>Review changes</button><button id="discard-settings" class="quiet-button" type="button" hidden>Discard changes</button></div>
+      </section>
+      <p class="intro">Game defaults save as you change them. For children, review and apply your changes below. Settings apply the next time a world opens.</p>
 
       <section id="sound" aria-labelledby="sound-title">
         <h2 id="sound-title"><span>01</span>Sound</h2>
@@ -120,7 +128,7 @@
         <dl class="notes">
           <div><dt>Each round</dt><dd>Children hear a letter's name and sound, find the picture that starts with it, then celebrate. X is the exception: fox <em>ends</em> with x.</dd></div>
           <div><dt>Collections</dt><dd>Stamps and stars last for one visit. They reset when the page closes.</dd></div>
-          <div><dt>Privacy</dt><dd>Nothing about the child is recorded or sent anywhere. These settings stay in this browser on this device.</dd></div>
+          <div><dt>Privacy</dt><dd>Signed-in progress and child settings sync to their account. Play without saving uses game defaults and keeps no progress.</dd></div>
           <div><dt>Shortcuts</dt><dd>In a world, Esc goes back to its home and arrow keys move between letters.</dd></div>
         </dl>
       </section>
@@ -132,6 +140,7 @@
     </main>
   </div>
 </div>
+<dialog id="confirm-settings" aria-labelledby="settings-confirm-title"><h2 id="settings-confirm-title">Apply settings?</h2><p id="settings-confirm-copy"></p><p id="settings-confirm-result" role="status"></p><div class="dialog-actions"><button id="cancel-settings" class="quiet-button" type="button">Cancel</button><button id="confirm-settings-action" class="solid-button" type="button">Apply to selected children</button></div></dialog>
 <span class="stamp" id="stamp" aria-hidden="true">Saved</span>
 <dialog id="confirm" aria-labelledby="confirm-title" aria-describedby="confirm-text">
   <h2 id="confirm-title">Reset all settings?</h2>

@@ -6,13 +6,23 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
 const ts = require('../.job/db-tools/node_modules/typescript');
-let handler, calls = [], transport;
+let handler, calls = [], transport, sessionResult = true;
 const id = '10000000-0000-0000-0000-000000000001';
 const source = ts.transpileModule(fs.readFileSync('supabase/functions/accounts/index.ts','utf8'), { compilerOptions:{ target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS } }).outputText;
 vm.runInNewContext(source, {
   exports:{}, Request, Response,
   Deno:{env:{get:name => ({SUPABASE_URL:'https://project.invalid',SUPABASE_ANON_KEY:'public-test',SUPABASE_SERVICE_ROLE_KEY:'private-test'})[name]}, serve: fn => { handler=fn; }},
-  fetch:async (url,options) => { calls.push({url,options}); return transport(url,options); },
+  fetch:async (url,options) => {
+    calls.push({url,options});
+    if(url.endsWith('/rpc/session_status')) {
+      assert.equal(options.headers.apikey,'public-test');
+      assert.equal(options.headers.Authorization,calls.at(-2).options.headers.Authorization,'Session check uses the same caller bearer as Auth validation');
+      assert.deepEqual(JSON.parse(options.body),{p_touch:false});
+      if(sessionResult === 'network') throw Error('Session validation unavailable');
+      return sessionResult ? ok({expires_at:Date.now()/1000+1800,role:'grownup'}) : new Response('{}',{status:401});
+    }
+    return transport(url,options);
+  },
 });
 const ok = data => new Response(JSON.stringify(data),{status:200,headers:{'Content-Type':'application/json'}});
 const request = (body,token) => new Request('https://project.invalid/functions/v1/accounts',{method:'POST',headers:{'Content-Type':'application/json',...(token?{Authorization:`Bearer ${token}`}:{})},body:JSON.stringify(body)});
@@ -121,6 +131,14 @@ const request = (body,token) => new Request('https://project.invalid/functions/v
     assert.equal((await handler(request({action,grownup_id:id,confirm:action,password:'ABCD1234'},'valid-token'))).status,403,'Master self action rejected');
     assert.equal((await handler(request({action,grownup_id:target,confirm:action,password:'ABCD1234'},'valid-token'))).status,403,'Child/missing target rejected');
   }
+  for(const failure of [false,'network']) {
+    sessionResult=failure;calls=[];
+    const denied=await handler(request({action:'delete-grownup',grownup_id:target,confirm:'delete-grownup'},'valid-token'));
+    assert.equal(denied.status,401,'Expired or unverifiable sessions fail closed');
+    assert.equal(calls.length,2,'Only Auth validation and caller-scoped session check precede denial');
+    assert.equal(calls.some(call=>call.options.headers.apikey==='private-test'),false,'No service-role request occurs after session denial');
+  }
+  sessionResult=true;
   console.log('PASS master Edge: master/regular/child/anonymous create, legacy register, delete and password-reset matrix; self and invalid targets denied');
   process.stdout.write('accounts_database_edge: admin-only creation (including legacy register), anonymous/child denial, avatars, password preservation, guardian checks, cleanup and interrupted retry passed\n');
 })().catch(error=>{process.stderr.write(`${error.stack}\n`);process.exitCode=1;});

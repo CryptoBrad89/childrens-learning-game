@@ -82,7 +82,7 @@ async function run(){
     await page.goto(url+'/grown-ups/');await page.waitForURL('**/accounts/index.html');
     assert(await page.locator('#people').isHidden(),'Child cannot enter grown-up management');
     assert.equal(await page.evaluate(()=>ACCOUNTS.snapshot.count),1,'Changing player/guest flow cannot erase account progress');
-    await page.goto(url+'/');await page.locator('#play-unsaved').click();assert.equal(await page.evaluate(()=>ACCOUNTS.snapshot.count),0,'Guest cannot inherit cached account achievements/history');
+    await page.goto(url+'/');await page.locator('#play-unsaved').click();await page.waitForFunction(()=>ACCOUNTS.guest);assert.equal(await page.evaluate(()=>ACCOUNTS.snapshot.count),0,'Guest cannot inherit cached account achievements/history');
     await page.locator('[data-world=silk]').click();await settle(page);await page.locator('#mute').click();await round(page,'C');
     assert.equal([...fixture.events.values()].filter(e=>e.kind==='round').length,1,'Guest never uploads a round to the previous child');
     assert.deepEqual(errors,[]);await context.close();

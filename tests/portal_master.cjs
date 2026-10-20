@@ -33,7 +33,7 @@ const master={handle:'test',password:'ABCD1234'};
         assert.equal((await call(a,action,{grownup_id:masterId,password:'willnotchange',confirm:action})).status,403);
         assert.equal((await call(a,action,{grownup_id:crypto.randomUUID(),password:'willnotchange',confirm:action})).status,403);
       }
-      assert.equal((await call(a,'delete-grownup',{grownup_id:victimId})).status,400);
+      const unconfirmed=await call(a,'delete-grownup',{grownup_id:victimId});assert.equal(unconfirmed.status,400,JSON.stringify({unconfirmed,victimId,masterId,width}));
       await form(a,'reset-grownup-password-form',{grownup_id:regularId,password:'8345bc'});
       regular.password='8345bc';
       await b.goto(url+'/accounts/');await form(b,'signin-form',regular);
@@ -62,7 +62,7 @@ const master={handle:'test',password:'ABCD1234'};
       }
       console.log(`PASS LIVE ${width}: master/regular/child/anonymous create, delete, reset-password + register; master self/missing target denied; RLS denial; regular creates/resets child; real child play`);
       // Victim owns an orphan and shares the retained child with the regular grown-up.
-      await b.locator('#sign-out').click();await form(b,'signin-form',victim);
+      await b.locator('#sign-out').click();await b.waitForURL(url+'/index.html');await b.goto(url+'/accounts/');await form(b,'signin-form',victim);
       const orphan={handle:'master_orphan_'+suffix,password};
       await form(b,'create-child-form',{...orphan,display_name:'Child kept by master'});
       const orphanId=await b.evaluate(async handle=>(await ACCOUNTS.rest('profiles?handle=eq.'+handle))[0].id,orphan.handle);
@@ -75,10 +75,11 @@ const master={handle:'test',password:'ABCD1234'};
       await a.locator('#cancel-grownup').click();
       assert.equal((await call(b,'list-linkable-children')).status,200,'Cancel preserves account');
       await deletion.click();await a.locator('#confirm-grownup-action').click();await a.locator('#confirm-grownup').waitFor({state:'hidden'});
+      await a.locator('#grownups-list li').filter({hasText:victim.handle}).waitFor({state:'detached'});
       assert.equal(await a.locator('#grownups-list li').filter({hasText:victim.handle}).count(),0);
       await a.locator('#children-list li').filter({hasText:orphan.handle}).waitFor();
       assert.equal((await call(b,'create-child',{handle:'deleted_'+suffix,password,display_name:'Denied'})).status,400,'Deleted session cannot administer');
-      await b.goto(url+'/accounts/');await b.evaluate(()=>ACCOUNTS.signOut());await form(b,'signin-form',regular);
+      await b.evaluate(()=>ACCOUNTS.signOut());await b.goto(url+'/accounts/');await form(b,'signin-form',regular);
       const shared=await b.evaluate(async id=>({links:await ACCOUNTS.rest('guardians?child_id=eq.'+id),events:await ACCOUNTS.rest('operations?user_id=eq.'+id)}),childId);
       assert.equal(shared.links.length,1);assert.equal(shared.links[0].adult_id,regularId);assert.equal(shared.events.length,1);
       const deadLogin=await a.evaluate(async credentials=>(await fetch(ACCOUNT_CONFIG.url+'/auth/v1/token?grant_type=password',{method:'POST',headers:{apikey:ACCOUNT_CONFIG.key,'Content-Type':'application/json'},body:JSON.stringify({email:credentials.handle+'@accounts.littlewoof.invalid',password:credentials.password})})).status,victim);
