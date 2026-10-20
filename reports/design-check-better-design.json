@@ -1,0 +1,28 @@
+{
+  "calls": 3,
+  "firstCall": "Rejected: context exceeded the undocumented 280-character limit.",
+  "secondCall": "Returned capture script; status needs-capture.",
+  "submittedStates": [
+    "child-login-390",
+    "layout-picker-1180",
+    "silk-home-1920",
+    "silk-match-390",
+    "post-match-1440",
+    "space-match-1728",
+    "grownup-login-390",
+    "portal-1440",
+    "profile-editor-390",
+    "create-child-1180",
+    "child-management-390",
+    "child-settings-1920"
+  ],
+  "result": {
+    "content": [
+      {
+        "type": "text",
+        "text": "MCP error -32602: Input validation error: Invalid arguments for tool inspect-spacing: [\n  {\n    \"origin\": \"array\",\n    \"code\": \"too_big\",\n    \"maximum\": 6,\n    \"inclusive\": true,\n    \"path\": [\n      \"states\"\n    ],\n    \"message\": \"Too big: expected array to have <=6 items\"\n  }\n]"
+      }
+    ],
+    "isError": true
+  }
+}

@@ -1,0 +1,1619 @@
+{
+  "viewports": [
+    {
+      "width": 390,
+      "height": 844
+    },
+    {
+      "width": 1180,
+      "height": 820
+    },
+    {
+      "width": 1440,
+      "height": 1080
+    },
+    {
+      "width": 1728,
+      "height": 1080
+    },
+    {
+      "width": 1920,
+      "height": 1080
+    }
+  ],
+  "transport": "Labelled Supabase protocol fixture; real browser and app source. Not live backend proof.",
+  "states": [
+    {
+      "phase": "before",
+      "name": "child-login-390",
+      "elements": 23,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/child-login-390.png"
+    },
+    {
+      "phase": "before",
+      "name": "login-focus-390",
+      "elements": 23,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/login-focus-390.png"
+    },
+    {
+      "phase": "before",
+      "name": "layout-picker-390",
+      "elements": 57,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/layout-picker-390.png"
+    },
+    {
+      "phase": "before",
+      "name": "silk-home-390",
+      "elements": 351,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/silk-home-390.png"
+    },
+    {
+      "phase": "before",
+      "name": "silk-listen-390",
+      "elements": 86,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/silk-listen-390.png"
+    },
+    {
+      "phase": "before",
+      "name": "silk-match-390",
+      "elements": 100,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/silk-match-390.png"
+    },
+    {
+      "phase": "before",
+      "name": "silk-reward-390",
+      "elements": 255,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/silk-reward-390.png"
+    },
+    {
+      "phase": "before",
+      "name": "post-home-390",
+      "elements": 383,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/post-home-390.png"
+    },
+    {
+      "phase": "before",
+      "name": "post-listen-390",
+      "elements": 92,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/post-listen-390.png"
+    },
+    {
+      "phase": "before",
+      "name": "post-match-390",
+      "elements": 103,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/post-match-390.png"
+    },
+    {
+      "phase": "before",
+      "name": "post-reward-390",
+      "elements": 264,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/post-reward-390.png"
+    },
+    {
+      "phase": "before",
+      "name": "space-home-390",
+      "elements": 371,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/space-home-390.png"
+    },
+    {
+      "phase": "before",
+      "name": "space-listen-390",
+      "elements": 89,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/space-listen-390.png"
+    },
+    {
+      "phase": "before",
+      "name": "space-match-390",
+      "elements": 107,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/space-match-390.png"
+    },
+    {
+      "phase": "before",
+      "name": "space-reward-390",
+      "elements": 258,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/space-reward-390.png"
+    },
+    {
+      "phase": "before",
+      "name": "grownup-login-390",
+      "elements": 32,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/grownup-login-390.png"
+    },
+    {
+      "phase": "before",
+      "name": "portal-390",
+      "elements": 62,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/portal-390.png"
+    },
+    {
+      "phase": "before",
+      "name": "profile-editor-390",
+      "elements": 92,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/profile-editor-390.png"
+    },
+    {
+      "phase": "before",
+      "name": "create-child-390",
+      "elements": 95,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/create-child-390.png"
+    },
+    {
+      "phase": "before",
+      "name": "child-management-390",
+      "elements": 153,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/child-management-390.png"
+    },
+    {
+      "phase": "before",
+      "name": "child-settings-390",
+      "elements": 195,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/child-settings-390.png"
+    },
+    {
+      "phase": "before",
+      "name": "child-login-1180",
+      "elements": 23,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/child-login-1180.png"
+    },
+    {
+      "phase": "before",
+      "name": "login-focus-1180",
+      "elements": 23,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/login-focus-1180.png"
+    },
+    {
+      "phase": "before",
+      "name": "layout-picker-1180",
+      "elements": 57,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/layout-picker-1180.png"
+    },
+    {
+      "phase": "before",
+      "name": "silk-home-1180",
+      "elements": 360,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/silk-home-1180.png"
+    },
+    {
+      "phase": "before",
+      "name": "silk-listen-1180",
+      "elements": 95,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/silk-listen-1180.png"
+    },
+    {
+      "phase": "before",
+      "name": "silk-match-1180",
+      "elements": 125,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/silk-match-1180.png"
+    },
+    {
+      "phase": "before",
+      "name": "silk-reward-1180",
+      "elements": 263,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/silk-reward-1180.png"
+    },
+    {
+      "phase": "before",
+      "name": "post-home-1180",
+      "elements": 405,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/post-home-1180.png"
+    },
+    {
+      "phase": "before",
+      "name": "post-listen-1180",
+      "elements": 101,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/post-listen-1180.png"
+    },
+    {
+      "phase": "before",
+      "name": "post-match-1180",
+      "elements": 135,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/post-match-1180.png"
+    },
+    {
+      "phase": "before",
+      "name": "post-reward-1180",
+      "elements": 272,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/post-reward-1180.png"
+    },
+    {
+      "phase": "before",
+      "name": "space-home-1180",
+      "elements": 381,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/space-home-1180.png"
+    },
+    {
+      "phase": "before",
+      "name": "space-listen-1180",
+      "elements": 98,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/space-listen-1180.png"
+    },
+    {
+      "phase": "before",
+      "name": "space-match-1180",
+      "elements": 133,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/space-match-1180.png"
+    },
+    {
+      "phase": "before",
+      "name": "space-reward-1180",
+      "elements": 266,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/space-reward-1180.png"
+    },
+    {
+      "phase": "before",
+      "name": "grownup-login-1180",
+      "elements": 32,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/grownup-login-1180.png"
+    },
+    {
+      "phase": "before",
+      "name": "portal-1180",
+      "elements": 68,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/portal-1180.png"
+    },
+    {
+      "phase": "before",
+      "name": "profile-editor-1180",
+      "elements": 98,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/profile-editor-1180.png"
+    },
+    {
+      "phase": "before",
+      "name": "create-child-1180",
+      "elements": 101,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/create-child-1180.png"
+    },
+    {
+      "phase": "before",
+      "name": "child-management-1180",
+      "elements": 159,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/child-management-1180.png"
+    },
+    {
+      "phase": "before",
+      "name": "child-settings-1180",
+      "elements": 218,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/child-settings-1180.png"
+    },
+    {
+      "phase": "before",
+      "name": "child-login-1440",
+      "elements": 23,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/child-login-1440.png"
+    },
+    {
+      "phase": "before",
+      "name": "login-focus-1440",
+      "elements": 23,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/login-focus-1440.png"
+    },
+    {
+      "phase": "before",
+      "name": "layout-picker-1440",
+      "elements": 57,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/layout-picker-1440.png"
+    },
+    {
+      "phase": "before",
+      "name": "silk-home-1440",
+      "elements": 360,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/silk-home-1440.png"
+    },
+    {
+      "phase": "before",
+      "name": "silk-listen-1440",
+      "elements": 95,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/silk-listen-1440.png"
+    },
+    {
+      "phase": "before",
+      "name": "silk-match-1440",
+      "elements": 130,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/silk-match-1440.png"
+    },
+    {
+      "phase": "before",
+      "name": "silk-reward-1440",
+      "elements": 263,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/silk-reward-1440.png"
+    },
+    {
+      "phase": "before",
+      "name": "post-home-1440",
+      "elements": 405,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/post-home-1440.png"
+    },
+    {
+      "phase": "before",
+      "name": "post-listen-1440",
+      "elements": 101,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/post-listen-1440.png"
+    },
+    {
+      "phase": "before",
+      "name": "post-match-1440",
+      "elements": 138,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/post-match-1440.png"
+    },
+    {
+      "phase": "before",
+      "name": "post-reward-1440",
+      "elements": 272,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/post-reward-1440.png"
+    },
+    {
+      "phase": "before",
+      "name": "space-home-1440",
+      "elements": 381,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/space-home-1440.png"
+    },
+    {
+      "phase": "before",
+      "name": "space-listen-1440",
+      "elements": 98,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/space-listen-1440.png"
+    },
+    {
+      "phase": "before",
+      "name": "space-match-1440",
+      "elements": 136,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/space-match-1440.png"
+    },
+    {
+      "phase": "before",
+      "name": "space-reward-1440",
+      "elements": 266,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/space-reward-1440.png"
+    },
+    {
+      "phase": "before",
+      "name": "grownup-login-1440",
+      "elements": 32,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/grownup-login-1440.png"
+    },
+    {
+      "phase": "before",
+      "name": "portal-1440",
+      "elements": 75,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/portal-1440.png"
+    },
+    {
+      "phase": "before",
+      "name": "profile-editor-1440",
+      "elements": 105,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/profile-editor-1440.png"
+    },
+    {
+      "phase": "before",
+      "name": "create-child-1440",
+      "elements": 108,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/create-child-1440.png"
+    },
+    {
+      "phase": "before",
+      "name": "child-management-1440",
+      "elements": 166,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/child-management-1440.png"
+    },
+    {
+      "phase": "before",
+      "name": "child-settings-1440",
+      "elements": 221,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/child-settings-1440.png"
+    },
+    {
+      "phase": "before",
+      "name": "child-login-1728",
+      "elements": 23,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/child-login-1728.png"
+    },
+    {
+      "phase": "before",
+      "name": "login-focus-1728",
+      "elements": 23,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/login-focus-1728.png"
+    },
+    {
+      "phase": "before",
+      "name": "layout-picker-1728",
+      "elements": 57,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/layout-picker-1728.png"
+    },
+    {
+      "phase": "before",
+      "name": "silk-home-1728",
+      "elements": 360,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/silk-home-1728.png"
+    },
+    {
+      "phase": "before",
+      "name": "silk-listen-1728",
+      "elements": 95,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/silk-listen-1728.png"
+    },
+    {
+      "phase": "before",
+      "name": "silk-match-1728",
+      "elements": 132,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/silk-match-1728.png"
+    },
+    {
+      "phase": "before",
+      "name": "silk-reward-1728",
+      "elements": 263,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/silk-reward-1728.png"
+    },
+    {
+      "phase": "before",
+      "name": "post-home-1728",
+      "elements": 405,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/post-home-1728.png"
+    },
+    {
+      "phase": "before",
+      "name": "post-listen-1728",
+      "elements": 101,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/post-listen-1728.png"
+    },
+    {
+      "phase": "before",
+      "name": "post-match-1728",
+      "elements": 137,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/post-match-1728.png"
+    },
+    {
+      "phase": "before",
+      "name": "post-reward-1728",
+      "elements": 272,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/post-reward-1728.png"
+    },
+    {
+      "phase": "before",
+      "name": "space-home-1728",
+      "elements": 381,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/space-home-1728.png"
+    },
+    {
+      "phase": "before",
+      "name": "space-listen-1728",
+      "elements": 98,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/space-listen-1728.png"
+    },
+    {
+      "phase": "before",
+      "name": "space-match-1728",
+      "elements": 132,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/space-match-1728.png"
+    },
+    {
+      "phase": "before",
+      "name": "space-reward-1728",
+      "elements": 266,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/space-reward-1728.png"
+    },
+    {
+      "phase": "before",
+      "name": "grownup-login-1728",
+      "elements": 32,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/grownup-login-1728.png"
+    },
+    {
+      "phase": "before",
+      "name": "portal-1728",
+      "elements": 82,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/portal-1728.png"
+    },
+    {
+      "phase": "before",
+      "name": "profile-editor-1728",
+      "elements": 112,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/profile-editor-1728.png"
+    },
+    {
+      "phase": "before",
+      "name": "create-child-1728",
+      "elements": 115,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/create-child-1728.png"
+    },
+    {
+      "phase": "before",
+      "name": "child-management-1728",
+      "elements": 173,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/child-management-1728.png"
+    },
+    {
+      "phase": "before",
+      "name": "child-settings-1728",
+      "elements": 224,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/child-settings-1728.png"
+    },
+    {
+      "phase": "before",
+      "name": "child-login-1920",
+      "elements": 23,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/child-login-1920.png"
+    },
+    {
+      "phase": "before",
+      "name": "login-focus-1920",
+      "elements": 23,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/login-focus-1920.png"
+    },
+    {
+      "phase": "before",
+      "name": "layout-picker-1920",
+      "elements": 57,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/layout-picker-1920.png"
+    },
+    {
+      "phase": "before",
+      "name": "silk-home-1920",
+      "elements": 360,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/silk-home-1920.png"
+    },
+    {
+      "phase": "before",
+      "name": "silk-listen-1920",
+      "elements": 95,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/silk-listen-1920.png"
+    },
+    {
+      "phase": "before",
+      "name": "silk-match-1920",
+      "elements": 133,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/silk-match-1920.png"
+    },
+    {
+      "phase": "before",
+      "name": "silk-reward-1920",
+      "elements": 263,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/silk-reward-1920.png"
+    },
+    {
+      "phase": "before",
+      "name": "post-home-1920",
+      "elements": 405,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/post-home-1920.png"
+    },
+    {
+      "phase": "before",
+      "name": "post-listen-1920",
+      "elements": 101,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/post-listen-1920.png"
+    },
+    {
+      "phase": "before",
+      "name": "post-match-1920",
+      "elements": 139,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/post-match-1920.png"
+    },
+    {
+      "phase": "before",
+      "name": "post-reward-1920",
+      "elements": 272,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/post-reward-1920.png"
+    },
+    {
+      "phase": "before",
+      "name": "space-home-1920",
+      "elements": 381,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/space-home-1920.png"
+    },
+    {
+      "phase": "before",
+      "name": "space-listen-1920",
+      "elements": 98,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/space-listen-1920.png"
+    },
+    {
+      "phase": "before",
+      "name": "space-match-1920",
+      "elements": 131,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/space-match-1920.png"
+    },
+    {
+      "phase": "before",
+      "name": "space-reward-1920",
+      "elements": 266,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/space-reward-1920.png"
+    },
+    {
+      "phase": "before",
+      "name": "grownup-login-1920",
+      "elements": 32,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/grownup-login-1920.png"
+    },
+    {
+      "phase": "before",
+      "name": "portal-1920",
+      "elements": 89,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/portal-1920.png"
+    },
+    {
+      "phase": "before",
+      "name": "profile-editor-1920",
+      "elements": 119,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/profile-editor-1920.png"
+    },
+    {
+      "phase": "before",
+      "name": "create-child-1920",
+      "elements": 122,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/create-child-1920.png"
+    },
+    {
+      "phase": "before",
+      "name": "child-management-1920",
+      "elements": 180,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/child-management-1920.png"
+    },
+    {
+      "phase": "before",
+      "name": "child-settings-1920",
+      "elements": 227,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-before/child-settings-1920.png"
+    },
+    {
+      "phase": "after",
+      "name": "child-login-390",
+      "elements": 23,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/child-login-390.png"
+    },
+    {
+      "phase": "after",
+      "name": "login-focus-390",
+      "elements": 23,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/login-focus-390.png"
+    },
+    {
+      "phase": "after",
+      "name": "layout-picker-390",
+      "elements": 57,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/layout-picker-390.png"
+    },
+    {
+      "phase": "after",
+      "name": "silk-home-390",
+      "elements": 351,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/silk-home-390.png"
+    },
+    {
+      "phase": "after",
+      "name": "silk-listen-390",
+      "elements": 86,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/silk-listen-390.png"
+    },
+    {
+      "phase": "after",
+      "name": "silk-match-390",
+      "elements": 104,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/silk-match-390.png"
+    },
+    {
+      "phase": "after",
+      "name": "silk-reward-390",
+      "elements": 255,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/silk-reward-390.png"
+    },
+    {
+      "phase": "after",
+      "name": "post-home-390",
+      "elements": 383,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/post-home-390.png"
+    },
+    {
+      "phase": "after",
+      "name": "post-listen-390",
+      "elements": 92,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/post-listen-390.png"
+    },
+    {
+      "phase": "after",
+      "name": "post-match-390",
+      "elements": 101,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/post-match-390.png"
+    },
+    {
+      "phase": "after",
+      "name": "post-reward-390",
+      "elements": 264,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/post-reward-390.png"
+    },
+    {
+      "phase": "after",
+      "name": "space-home-390",
+      "elements": 371,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/space-home-390.png"
+    },
+    {
+      "phase": "after",
+      "name": "space-listen-390",
+      "elements": 89,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/space-listen-390.png"
+    },
+    {
+      "phase": "after",
+      "name": "space-match-390",
+      "elements": 103,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/space-match-390.png"
+    },
+    {
+      "phase": "after",
+      "name": "space-reward-390",
+      "elements": 258,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/space-reward-390.png"
+    },
+    {
+      "phase": "after",
+      "name": "grownup-login-390",
+      "elements": 32,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/grownup-login-390.png"
+    },
+    {
+      "phase": "after",
+      "name": "portal-390",
+      "elements": 62,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/portal-390.png"
+    },
+    {
+      "phase": "after",
+      "name": "profile-editor-390",
+      "elements": 92,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/profile-editor-390.png"
+    },
+    {
+      "phase": "after",
+      "name": "create-child-390",
+      "elements": 95,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/create-child-390.png"
+    },
+    {
+      "phase": "after",
+      "name": "child-management-390",
+      "elements": 153,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/child-management-390.png"
+    },
+    {
+      "phase": "after",
+      "name": "child-settings-390",
+      "elements": 195,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/child-settings-390.png"
+    },
+    {
+      "phase": "after",
+      "name": "child-login-1180",
+      "elements": 23,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/child-login-1180.png"
+    },
+    {
+      "phase": "after",
+      "name": "login-focus-1180",
+      "elements": 23,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/login-focus-1180.png"
+    },
+    {
+      "phase": "after",
+      "name": "layout-picker-1180",
+      "elements": 57,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/layout-picker-1180.png"
+    },
+    {
+      "phase": "after",
+      "name": "silk-home-1180",
+      "elements": 360,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/silk-home-1180.png"
+    },
+    {
+      "phase": "after",
+      "name": "silk-listen-1180",
+      "elements": 95,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/silk-listen-1180.png"
+    },
+    {
+      "phase": "after",
+      "name": "silk-match-1180",
+      "elements": 131,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/silk-match-1180.png"
+    },
+    {
+      "phase": "after",
+      "name": "silk-reward-1180",
+      "elements": 263,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/silk-reward-1180.png"
+    },
+    {
+      "phase": "after",
+      "name": "post-home-1180",
+      "elements": 405,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/post-home-1180.png"
+    },
+    {
+      "phase": "after",
+      "name": "post-listen-1180",
+      "elements": 101,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/post-listen-1180.png"
+    },
+    {
+      "phase": "after",
+      "name": "post-match-1180",
+      "elements": 139,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/post-match-1180.png"
+    },
+    {
+      "phase": "after",
+      "name": "post-reward-1180",
+      "elements": 272,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/post-reward-1180.png"
+    },
+    {
+      "phase": "after",
+      "name": "space-home-1180",
+      "elements": 381,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/space-home-1180.png"
+    },
+    {
+      "phase": "after",
+      "name": "space-listen-1180",
+      "elements": 98,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/space-listen-1180.png"
+    },
+    {
+      "phase": "after",
+      "name": "space-match-1180",
+      "elements": 136,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/space-match-1180.png"
+    },
+    {
+      "phase": "after",
+      "name": "space-reward-1180",
+      "elements": 266,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/space-reward-1180.png"
+    },
+    {
+      "phase": "after",
+      "name": "grownup-login-1180",
+      "elements": 32,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/grownup-login-1180.png"
+    },
+    {
+      "phase": "after",
+      "name": "portal-1180",
+      "elements": 68,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/portal-1180.png"
+    },
+    {
+      "phase": "after",
+      "name": "profile-editor-1180",
+      "elements": 98,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/profile-editor-1180.png"
+    },
+    {
+      "phase": "after",
+      "name": "create-child-1180",
+      "elements": 101,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/create-child-1180.png"
+    },
+    {
+      "phase": "after",
+      "name": "child-management-1180",
+      "elements": 159,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/child-management-1180.png"
+    },
+    {
+      "phase": "after",
+      "name": "child-settings-1180",
+      "elements": 218,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/child-settings-1180.png"
+    },
+    {
+      "phase": "after",
+      "name": "child-login-1440",
+      "elements": 23,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/child-login-1440.png"
+    },
+    {
+      "phase": "after",
+      "name": "login-focus-1440",
+      "elements": 23,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/login-focus-1440.png"
+    },
+    {
+      "phase": "after",
+      "name": "layout-picker-1440",
+      "elements": 57,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/layout-picker-1440.png"
+    },
+    {
+      "phase": "after",
+      "name": "silk-home-1440",
+      "elements": 360,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/silk-home-1440.png"
+    },
+    {
+      "phase": "after",
+      "name": "silk-listen-1440",
+      "elements": 95,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/silk-listen-1440.png"
+    },
+    {
+      "phase": "after",
+      "name": "silk-match-1440",
+      "elements": 130,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/silk-match-1440.png"
+    },
+    {
+      "phase": "after",
+      "name": "silk-reward-1440",
+      "elements": 263,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/silk-reward-1440.png"
+    },
+    {
+      "phase": "after",
+      "name": "post-home-1440",
+      "elements": 405,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/post-home-1440.png"
+    },
+    {
+      "phase": "after",
+      "name": "post-listen-1440",
+      "elements": 101,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/post-listen-1440.png"
+    },
+    {
+      "phase": "after",
+      "name": "post-match-1440",
+      "elements": 135,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/post-match-1440.png"
+    },
+    {
+      "phase": "after",
+      "name": "post-reward-1440",
+      "elements": 272,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/post-reward-1440.png"
+    },
+    {
+      "phase": "after",
+      "name": "space-home-1440",
+      "elements": 381,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/space-home-1440.png"
+    },
+    {
+      "phase": "after",
+      "name": "space-listen-1440",
+      "elements": 98,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/space-listen-1440.png"
+    },
+    {
+      "phase": "after",
+      "name": "space-match-1440",
+      "elements": 134,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/space-match-1440.png"
+    },
+    {
+      "phase": "after",
+      "name": "space-reward-1440",
+      "elements": 266,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/space-reward-1440.png"
+    },
+    {
+      "phase": "after",
+      "name": "grownup-login-1440",
+      "elements": 32,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/grownup-login-1440.png"
+    },
+    {
+      "phase": "after",
+      "name": "portal-1440",
+      "elements": 75,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/portal-1440.png"
+    },
+    {
+      "phase": "after",
+      "name": "profile-editor-1440",
+      "elements": 105,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/profile-editor-1440.png"
+    },
+    {
+      "phase": "after",
+      "name": "create-child-1440",
+      "elements": 108,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/create-child-1440.png"
+    },
+    {
+      "phase": "after",
+      "name": "child-management-1440",
+      "elements": 166,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/child-management-1440.png"
+    },
+    {
+      "phase": "after",
+      "name": "child-settings-1440",
+      "elements": 221,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/child-settings-1440.png"
+    },
+    {
+      "phase": "after",
+      "name": "child-login-1728",
+      "elements": 23,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/child-login-1728.png"
+    },
+    {
+      "phase": "after",
+      "name": "login-focus-1728",
+      "elements": 23,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/login-focus-1728.png"
+    },
+    {
+      "phase": "after",
+      "name": "layout-picker-1728",
+      "elements": 57,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/layout-picker-1728.png"
+    },
+    {
+      "phase": "after",
+      "name": "silk-home-1728",
+      "elements": 360,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/silk-home-1728.png"
+    },
+    {
+      "phase": "after",
+      "name": "silk-listen-1728",
+      "elements": 95,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/silk-listen-1728.png"
+    },
+    {
+      "phase": "after",
+      "name": "silk-match-1728",
+      "elements": 132,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/silk-match-1728.png"
+    },
+    {
+      "phase": "after",
+      "name": "silk-reward-1728",
+      "elements": 263,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/silk-reward-1728.png"
+    },
+    {
+      "phase": "after",
+      "name": "post-home-1728",
+      "elements": 405,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/post-home-1728.png"
+    },
+    {
+      "phase": "after",
+      "name": "post-listen-1728",
+      "elements": 101,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/post-listen-1728.png"
+    },
+    {
+      "phase": "after",
+      "name": "post-match-1728",
+      "elements": 129,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/post-match-1728.png"
+    },
+    {
+      "phase": "after",
+      "name": "post-reward-1728",
+      "elements": 272,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/post-reward-1728.png"
+    },
+    {
+      "phase": "after",
+      "name": "space-home-1728",
+      "elements": 381,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/space-home-1728.png"
+    },
+    {
+      "phase": "after",
+      "name": "space-listen-1728",
+      "elements": 98,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/space-listen-1728.png"
+    },
+    {
+      "phase": "after",
+      "name": "space-match-1728",
+      "elements": 136,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/space-match-1728.png"
+    },
+    {
+      "phase": "after",
+      "name": "space-reward-1728",
+      "elements": 266,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/space-reward-1728.png"
+    },
+    {
+      "phase": "after",
+      "name": "grownup-login-1728",
+      "elements": 32,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/grownup-login-1728.png"
+    },
+    {
+      "phase": "after",
+      "name": "portal-1728",
+      "elements": 82,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/portal-1728.png"
+    },
+    {
+      "phase": "after",
+      "name": "profile-editor-1728",
+      "elements": 112,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/profile-editor-1728.png"
+    },
+    {
+      "phase": "after",
+      "name": "create-child-1728",
+      "elements": 115,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/create-child-1728.png"
+    },
+    {
+      "phase": "after",
+      "name": "child-management-1728",
+      "elements": 173,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/child-management-1728.png"
+    },
+    {
+      "phase": "after",
+      "name": "child-settings-1728",
+      "elements": 224,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/child-settings-1728.png"
+    },
+    {
+      "phase": "after",
+      "name": "child-login-1920",
+      "elements": 23,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/child-login-1920.png"
+    },
+    {
+      "phase": "after",
+      "name": "login-focus-1920",
+      "elements": 23,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/login-focus-1920.png"
+    },
+    {
+      "phase": "after",
+      "name": "layout-picker-1920",
+      "elements": 57,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/layout-picker-1920.png"
+    },
+    {
+      "phase": "after",
+      "name": "silk-home-1920",
+      "elements": 360,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/silk-home-1920.png"
+    },
+    {
+      "phase": "after",
+      "name": "silk-listen-1920",
+      "elements": 95,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/silk-listen-1920.png"
+    },
+    {
+      "phase": "after",
+      "name": "silk-match-1920",
+      "elements": 136,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/silk-match-1920.png"
+    },
+    {
+      "phase": "after",
+      "name": "silk-reward-1920",
+      "elements": 263,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/silk-reward-1920.png"
+    },
+    {
+      "phase": "after",
+      "name": "post-home-1920",
+      "elements": 405,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/post-home-1920.png"
+    },
+    {
+      "phase": "after",
+      "name": "post-listen-1920",
+      "elements": 101,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/post-listen-1920.png"
+    },
+    {
+      "phase": "after",
+      "name": "post-match-1920",
+      "elements": 138,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/post-match-1920.png"
+    },
+    {
+      "phase": "after",
+      "name": "post-reward-1920",
+      "elements": 272,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/post-reward-1920.png"
+    },
+    {
+      "phase": "after",
+      "name": "space-home-1920",
+      "elements": 381,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/space-home-1920.png"
+    },
+    {
+      "phase": "after",
+      "name": "space-listen-1920",
+      "elements": 98,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/space-listen-1920.png"
+    },
+    {
+      "phase": "after",
+      "name": "space-match-1920",
+      "elements": 134,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/space-match-1920.png"
+    },
+    {
+      "phase": "after",
+      "name": "space-reward-1920",
+      "elements": 266,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/space-reward-1920.png"
+    },
+    {
+      "phase": "after",
+      "name": "grownup-login-1920",
+      "elements": 32,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/grownup-login-1920.png"
+    },
+    {
+      "phase": "after",
+      "name": "portal-1920",
+      "elements": 89,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/portal-1920.png"
+    },
+    {
+      "phase": "after",
+      "name": "profile-editor-1920",
+      "elements": 119,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/profile-editor-1920.png"
+    },
+    {
+      "phase": "after",
+      "name": "create-child-1920",
+      "elements": 122,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/create-child-1920.png"
+    },
+    {
+      "phase": "after",
+      "name": "child-management-1920",
+      "elements": 180,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/child-management-1920.png"
+    },
+    {
+      "phase": "after",
+      "name": "child-settings-1920",
+      "elements": 227,
+      "controls_outside_viewport": [],
+      "screenshot": "design-check-after/child-settings-1920.png"
+    }
+  ],
+  "copy_regressions": [
+    {
+      "phase": "before",
+      "state": "silk-match-390",
+      "rendered_heading": "What startswith /b/?",
+      "has_word_spacing": false
+    },
+    {
+      "phase": "before",
+      "state": "space-match-390",
+      "rendered_heading": "What startswith /b/?",
+      "has_word_spacing": false
+    },
+    {
+      "phase": "before",
+      "state": "silk-match-1180",
+      "rendered_heading": "What startswith /b/?",
+      "has_word_spacing": false
+    },
+    {
+      "phase": "before",
+      "state": "space-match-1180",
+      "rendered_heading": "What startswith /b/?",
+      "has_word_spacing": false
+    },
+    {
+      "phase": "before",
+      "state": "silk-match-1440",
+      "rendered_heading": "What startswith /b/?",
+      "has_word_spacing": false
+    },
+    {
+      "phase": "before",
+      "state": "space-match-1440",
+      "rendered_heading": "What startswith /b/?",
+      "has_word_spacing": false
+    },
+    {
+      "phase": "before",
+      "state": "silk-match-1728",
+      "rendered_heading": "What startswith /b/?",
+      "has_word_spacing": false
+    },
+    {
+      "phase": "before",
+      "state": "space-match-1728",
+      "rendered_heading": "What startswith /b/?",
+      "has_word_spacing": false
+    },
+    {
+      "phase": "before",
+      "state": "silk-match-1920",
+      "rendered_heading": "What startswith /b/?",
+      "has_word_spacing": false
+    },
+    {
+      "phase": "before",
+      "state": "space-match-1920",
+      "rendered_heading": "What startswith /b/?",
+      "has_word_spacing": false
+    },
+    {
+      "phase": "after",
+      "state": "silk-match-390",
+      "rendered_heading": "What starts with /b/?",
+      "has_word_spacing": true
+    },
+    {
+      "phase": "after",
+      "state": "space-match-390",
+      "rendered_heading": "What starts with /b/?",
+      "has_word_spacing": true
+    },
+    {
+      "phase": "after",
+      "state": "silk-match-1180",
+      "rendered_heading": "What starts with /b/?",
+      "has_word_spacing": true
+    },
+    {
+      "phase": "after",
+      "state": "space-match-1180",
+      "rendered_heading": "What starts with /b/?",
+      "has_word_spacing": true
+    },
+    {
+      "phase": "after",
+      "state": "silk-match-1440",
+      "rendered_heading": "What starts with /b/?",
+      "has_word_spacing": true
+    },
+    {
+      "phase": "after",
+      "state": "space-match-1440",
+      "rendered_heading": "What starts with /b/?",
+      "has_word_spacing": true
+    },
+    {
+      "phase": "after",
+      "state": "silk-match-1728",
+      "rendered_heading": "What starts with /b/?",
+      "has_word_spacing": true
+    },
+    {
+      "phase": "after",
+      "state": "space-match-1728",
+      "rendered_heading": "What starts with /b/?",
+      "has_word_spacing": true
+    },
+    {
+      "phase": "after",
+      "state": "silk-match-1920",
+      "rendered_heading": "What starts with /b/?",
+      "has_word_spacing": true
+    },
+    {
+      "phase": "after",
+      "state": "space-match-1920",
+      "rendered_heading": "What starts with /b/?",
+      "has_word_spacing": true
+    }
+  ]
+}

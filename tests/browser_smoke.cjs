@@ -63,6 +63,7 @@ async function run() {
           assert.deepEqual(await page.locator('[data-letter]').evaluateAll(nodes => nodes.map(n => n.dataset.letter)), alphabet);
           assert(await page.locator('.picker-shelf').evaluate(n => n.scrollHeight > n.clientHeight), 'Letter shelf must scroll');
           assert(await page.locator('.collection-slots').evaluate(n => n.scrollWidth > n.clientWidth), 'Collection must scroll');
+          if (game === 'v3-moonboat') assert.match(await page.locator('.captain-panel .lead').innerText(), /A whole sky\s+of little sounds\./, 'Introduction keeps spaces on phones');
           await fits(); await capture('home');
           let count = 0;
           for (const letter of ['B', 'J', 'X', 'Z']) {
@@ -72,7 +73,7 @@ async function run() {
             await page.locator('.listen-letter').click(); await settle();
             await page.locator('[data-action="match"]').click();
             await screen('match'); await settle(); await fits();
-            assert((await page.locator('.match-prompt h1').textContent()).includes(letter === 'X' ? 'ends' : 'starts'));
+            assert.match(await page.locator('.match-prompt h1').innerText(), letter === 'X' ? /What ends\s+with \/ks\// : /What starts\s+with /, 'Question keeps spaces when its line break is hidden');
             const wrong = page.locator(`.choice:not([data-answer="${letter}"])`);
             assert.equal(await wrong.count(), 2);
             for (let miss = 0; miss < 2; miss++) {

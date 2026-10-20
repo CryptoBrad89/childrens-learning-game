@@ -88,7 +88,9 @@ async function run() {
           assert.deepEqual(await page.locator('[data-letter]').evaluateAll(nodes => nodes.map(node => node.dataset.letter)), alphabet);
           await capture('home');
           await page.locator('[data-letter="B"]').click(); await screen('listen'); await settled(); await capture('listen');
-          await page.locator('[data-action="match"]').click(); await screen('match'); await settled(); await capture('activity');
+          await page.locator('[data-action="match"]').click(); await screen('match'); await settled();
+          assert.match(await page.locator('.match-prompt h1').innerText(), /What starts\s+with /, 'Question keeps spaces when its line break is hidden');
+          await capture('activity');
           await page.locator('[data-answer="B"]').click(); await screen('celebrate'); await settled();
           await page.waitForFunction(() => [...document.querySelectorAll('#confetti [data-paper]')].filter(node => {
             const box = node.getBoundingClientRect();
@@ -104,7 +106,7 @@ async function run() {
               await page.locator(`[data-letter="${letter}"]`).click(); await screen('listen'); await settled();
               assert((await page.locator('.listen-letter').getAttribute('aria-label')).includes(`letter ${letter} `));
               await page.locator('[data-action="match"]').click(); await screen('match'); await settled();
-              assert((await page.locator('.match-prompt h1').textContent()).includes(letter === 'X' ? 'ends' : 'starts'));
+              assert.match(await page.locator('.match-prompt h1').innerText(), letter === 'X' ? /What ends\s+with \/ks\// : /What starts\s+with /, 'Question keeps spaces when its line break is hidden');
               await page.locator(`[data-answer="${letter}"]`).click(); await screen('celebrate'); await settled();
               const expected = Math.max(2, index + 1);
               assert((await page.locator('.collection-heading').textContent()).includes(`${expected} of 26`));
