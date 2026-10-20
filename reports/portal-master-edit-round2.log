@@ -1,0 +1,8 @@
+PASS LIVE 390: own display name, unique username + Auth login, icon/upload, password, old handle rejected
+PASS LIVE 390: dropdown shares existing child without password, idempotent link, unlinked destructive actions denied
+PASS LIVE 390: real game round read on portal entry, confirmed reset, cancelled reset, settings kept, stale offline uploads discarded, new progress saves, offline cache labelled
+PASS LIVE 390: cancelled/confirmed deletion removes Auth login, profiles/avatar, all guardian links and progress; no overflow or page errors
+PASS LIVE 1440: own display name, unique username + Auth login, icon/upload, password, old handle rejected
+PASS LIVE 1440: dropdown shares existing child without password, idempotent link, unlinked destructive actions denied
+PASS LIVE 1440: real game round read on portal entry, confirmed reset, cancelled reset, settings kept, stale offline uploads discarded, new progress saves, offline cache labelled
+PASS LIVE 1440: cancelled/confirmed deletion removes Auth login, profiles/avatar, all guardian links and progress; no overflow or page errors

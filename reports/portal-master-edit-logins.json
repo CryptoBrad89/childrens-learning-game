@@ -1,0 +1,35 @@
+{
+  "master": {
+    "handle": "test",
+    "password": "ABCD1234"
+  },
+  "base": "https://raw.githack.com/CryptoBrad89/childrens-learning-game/f214c9e14c00482023328cbabf50753743a98f26/",
+  "runs": [
+    {
+      "width": 390,
+      "regular": {
+        "handle": "edit_regular_mvg23ty5390_n",
+        "password": "7234ab",
+        "id": "82014b8e-66ee-46bf-a97f-d07af40291a9"
+      },
+      "kid": {
+        "handle": "edit_kid_mvg23ty5390",
+        "password": "7234ab",
+        "id": "a8bbdcd5-a7ff-4818-93af-4a216fe7a732"
+      }
+    },
+    {
+      "width": 1440,
+      "regular": {
+        "handle": "edit_regular_mvg24dl31440_n",
+        "password": "7234ab",
+        "id": "eb928c38-563d-4f2d-8b48-9ba4ad7d2b90"
+      },
+      "kid": {
+        "handle": "edit_kid_mvg24dl31440",
+        "password": "7234ab",
+        "id": "3c3cb314-b9ce-475d-9829-a64e4668ed1d"
+      }
+    }
+  ]
+}

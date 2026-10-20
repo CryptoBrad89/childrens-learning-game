@@ -1,0 +1,1 @@
+PASS session_limits_database: native caps and legacy backfill, child fixed six hours, adult thirty minutes of activity, strict caps, refresh isolation, exact expiry, no resurrection, RLS/RPC and revoked-session denial, anonymous defaults

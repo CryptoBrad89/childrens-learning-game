@@ -1,0 +1,2 @@
+CONFIRMED on original hosted c302bec: own profile save succeeds and identity header updates; grown-ups list retains previous display name/username, has no edit button, and never renders a profile picture.
+Restored original master profile byte-for-byte; password untouched.

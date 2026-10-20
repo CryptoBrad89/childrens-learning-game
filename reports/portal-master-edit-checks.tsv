@@ -1,0 +1,22 @@
+check	result	evidence
+accounts_database	PASS	portal-master-edit-database.log
+portal_master_edit_edge	PASS	portal-master-edit-edge.log
+accounts_database_edge	PASS	portal-master-edit-existing-edge.log
+child_settings_database	PASS	portal-master-edit-child-database.log
+child_settings_edge	PASS	portal-master-edit-child-edge.log
+session_limits_database	PASS	portal-master-edit-session.log
+portal_master_edit local	PASS	portal-master-edit-browser.log
+portal_master_edit hosted	PASS	portal-master-edit-hosted.log
+child_settings_browser	PASS	portal-master-edit-child-browser.log
+portal_master	PASS	portal-master-edit-existing-master.log
+portal_round2	PASS	portal-master-edit-round2.log
+portal_flow fixture	PASS	portal-master-edit-portal-fixture.log
+accounts_sync fixture	PASS	portal-master-edit-sync-fixture.log
+accounts_selection	PASS	portal-master-edit-selection.log
+home_flow	PASS	portal-master-edit-home.log
+grown_ups_runtime	PASS	portal-master-edit-settings-runtime.log
+grown_ups_smoke	PASS	portal-master-edit-settings-smoke.log
+motion_smoke	PASS	portal-master-edit-motion.log
+run_tests.py	PASS	portal-master-edit-static.log
+strict Edge TypeScript	PASS	tsc --noEmit --strict --target ES2022 --module ESNext --lib ES2022,DOM
+final hosted master login	PASS	portal-master-edit-final-login.json

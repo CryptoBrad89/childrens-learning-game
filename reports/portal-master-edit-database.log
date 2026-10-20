@@ -1,0 +1,2 @@
+PASS master DB: unique permanent master, RLS/write/RPC denial, Auth cascade rehomes orphan only and preserves shared children
+accounts_database: migrations, RLS isolation, profile/Auth transaction + uniqueness, immutable events, retries/conflicts, reset preserves settings + rejects stale round inserts/replays, new generation saves, child denial and full deletion cascade passed

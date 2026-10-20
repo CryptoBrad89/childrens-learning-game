@@ -8,7 +8,7 @@ const picture=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQ
 const call=(page,action,fields={})=>page.evaluate(async({action,fields})=>{
  const r=await fetch(ACCOUNT_CONFIG.url+'/functions/v1/accounts',{method:'POST',headers:{apikey:ACCOUNT_CONFIG.key,'Content-Type':'application/json',...(ACCOUNTS.session?{Authorization:'Bearer '+ACCOUNTS.session.access_token}:{})},body:JSON.stringify({action,...fields})});return {status:r.status,data:await r.json()};
 },{action,fields});
-async function open(page,base){const r=await page.goto(base+'accounts/index.html');assert(r.ok());const n=page.getByRole('button',{name:'Open the page',exact:true});if(await n.count())await n.click();assert.equal(await page.evaluate(()=>ACCOUNT_CONFIG.url),project);}
+async function open(page,base){const r=await page.goto(base+'accounts/index.html');assert(r.ok());const n=page.getByRole('button',{name:'Open the page',exact:true});if(await n.count())await n.click();await page.waitForFunction(()=>Boolean(window.ACCOUNT_CONFIG));assert.equal(await page.evaluate(()=>ACCOUNT_CONFIG.url),project);}
 async function loginStatus(page,handle,password){return page.evaluate(async({handle,password})=>(await fetch(ACCOUNT_CONFIG.url+'/auth/v1/token?grant_type=password',{method:'POST',headers:{apikey:ACCOUNT_CONFIG.key,'Content-Type':'application/json'},body:JSON.stringify({email:handle+'@accounts.littlewoof.invalid',password})})).status,{handle,password});}
 (async()=>{
  const local=process.env.PORTAL_PREVIEW?null:await staticServer(),base=process.env.PORTAL_PREVIEW||local.url+'/';
