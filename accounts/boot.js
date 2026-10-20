@@ -12,7 +12,7 @@ if(isAdmin){
   button.id='sign-out';button.type='button';button.className='quiet-button auth-signout';button.textContent='Sign out';
   document.querySelector('.masthead')?.append(button);
   const update=()=>{button.hidden=!A.profile;};
-  if(!existing)button.addEventListener('click',async()=>{button.disabled=true;await A.signOut();location.href=new URL('index.html',base).href;});
+  if(!existing)button.addEventListener('click',async()=>{button.disabled=true;await A.signOut();location.href=new URL('accounts/index.html',base).href;});
   A.subscribe(update);A.ready.then(update).catch(()=>{});update();
   if(new URL(location.href).searchParams.has('expired')){
     const note=document.createElement('p');note.className='notice';note.setAttribute('role','status');note.textContent='Signed out for safety. Please sign in again.';document.querySelector('main')?.prepend(note);
@@ -20,24 +20,28 @@ if(isAdmin){
 }
 if(!isHome&&!isAdmin){
   const style=document.createElement('style');
-  style.textContent='#account-strip{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:center;margin:16px auto 24px;padding:12px;max-width:1040px;background:#fff8e5;color:#253f65;border:2px solid #253f65;border-radius:16px;font:700 16px/1.5 system-ui,sans-serif}#account-strip a,#account-strip button{display:inline-flex;align-items:center;justify-content:center;min-height:60px;padding:8px 18px;border:2px solid #253f65;border-radius:14px;background:#b9dce6;color:#253f65;box-shadow:none;text-decoration:none;font:inherit;cursor:pointer}#account-strip small{display:block;flex-basis:100%;text-align:center;font-size:14px}#account-strip :focus-visible{outline:3px solid #007a95;outline-offset:4px}';
+  style.textContent=`#account-strip{display:flex;align-items:center;gap:8px;margin-left:auto;font:700 14px/1.3 system-ui,sans-serif}#account-strip summary,#account-strip a,#account-strip button{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;padding:6px 10px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);text-decoration:none;font:inherit;cursor:pointer}#account-strip details{position:relative}#account-strip .account-menu{position:absolute;right:0;top:100%;z-index:20;display:grid;gap:8px;padding:12px;min-width:190px;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px #0003}#account-strip img{width:32px;height:32px;object-fit:cover;border-radius:50%}#account-strip summary{font-size:26px;list-style:none}#account-strip [hidden]{display:none!important}#account-strip :focus-visible{outline:3px solid var(--focus);outline-offset:3px}.controls{gap:8px!important}`;
   document.head.append(style);
   const strip=document.createElement('aside');strip.id='account-strip';strip.setAttribute('aria-label','Your account');
-  const name=document.createElement('span'), link=document.createElement('a'), done=document.createElement('button');
-  const progress=document.createElement('small'), status=document.createElement('small');
-  offline=document.createElement('small');offline.id='offline-status';offline.setAttribute('role','status');
-  progress.id='account-progress';status.id='account-sync-status';status.setAttribute('role','status');done.type='button';
-  strip.append(name,link,done,progress,status,offline);
-  const header=document.querySelector('#header,.masthead');if(header)header.after(strip);else document.body.prepend(strip);
+  const menu=document.createElement('details'),avatar=document.createElement('summary'),items=document.createElement('div');items.className='account-menu';
+  avatar.setAttribute('aria-label','Open your profile');
+  const name=document.createElement('strong'),link=document.createElement('a'),settings=document.createElement('a'),done=document.createElement('button');
+  link.href=new URL('accounts/index.html',base).href;link.textContent='Profile and progress';
+  settings.href=new URL('grown-ups/index.html',base).href;settings.textContent='Settings';done.type='button';done.textContent='👋 Sign out';
+  items.append(name,link,settings,done);menu.append(avatar,items);
+  const guestLink=document.createElement('a');guestLink.href=new URL('index.html',base).href;guestLink.textContent='Sign in to save';
+  strip.append(menu,guestLink);
+  offline=document.createElement('span');offline.id='offline-status';offline.hidden=true;document.body.append(offline);
   function render(){
-    name.textContent=A.guest?'Playing without saving':A.profile?'Playing as '+A.profile.display_name:'Keep your discoveries.';
-    link.href=new URL(A.profile?'accounts/index.html':'index.html',base).href;link.textContent=A.profile?'Your progress page':'Sign in';
-    done.hidden=!A.profile&&!A.guest;done.textContent=A.guest?'Finish playing':"👋 Sign out";
-    progress.textContent=A.profile?A.snapshot.count+' rounds completed'+(A.snapshot.achievements.length?' · '+A.snapshot.achievements.join(' · '):''):'';
-    status.textContent=A.guest?'Progress, achievements and settings will not be saved.':A.status+(A.pending?' '+A.pending+' waiting to sync.':'');
+    menu.hidden=!A.profile;guestLink.hidden=Boolean(A.profile);
+    name.textContent=A.profile?.display_name||'';
+    avatar.replaceChildren();
+    if(A.profile?.avatar?.startsWith('data:image/')){const img=document.createElement('img');img.src=A.profile.avatar;img.alt='';avatar.append(img);}else avatar.textContent=A.profile?.avatar||'🐶';
   }
+  function place(){const controls=document.querySelector('#header .controls');if(controls&&!controls.contains(strip)){controls.hidden=false;controls.append(strip);}}
+  new MutationObserver(place).observe(document.querySelector('#header'),{childList:true,subtree:true});place();
   done.addEventListener('click',async()=>{done.disabled=true;await A.signOut();location.href=new URL('index.html',base).href;});
-  A.subscribe(render);A.ready.then(render).catch(()=>{status.textContent='Sign-in storage is unavailable. You can play without saving from the home page.';});render();
+  A.subscribe(render);A.ready.then(render).catch(()=>{});render();
 }
 if('serviceWorker' in navigator){
   offline.textContent='Saving the games for offline play…';

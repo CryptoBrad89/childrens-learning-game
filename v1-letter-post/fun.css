@@ -31,13 +31,13 @@ body.talking .lucy figcaption{outline:2px solid var(--focus);outline-offset:3px}
 .world-stars{inset:0;display:block;font-size:14px;letter-spacing:0}.world-stars i{position:absolute;font-style:normal;line-height:1;transform:translate(-50%,-50%)}.world-stars i:nth-child(1){left:50%;top:3%}.world-stars i:nth-child(2){left:17%;top:16%}.world-stars i:nth-child(3){left:83%;top:16%}.world-stars i:nth-child(4){left:4%;top:51%}.world-stars i:nth-child(5){left:96%;top:51%}.world-stars i:nth-child(6){left:50%;top:97%}
 .brand{min-height:44px}
 
-/* A–Z keeps the cards and two-row shelf; more letters scroll within it. */
-.picker-shelf{overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;scrollbar-width:thin;scrollbar-color:var(--line) var(--surface);padding:14px 10px 16px;margin:-14px -10px -16px;min-width:0;scroll-padding-block:16px}
-.envelopes-shelf{max-block-size:268px}
-.planets-shelf{max-block-size:clamp(248px,32vw,450px);padding-top:24px;margin-top:-24px;flex-shrink:0}
-/* Retain each collection's six-column rhythm, with a horizontal strip. */
-.collection-slots{position:relative;grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:minmax(54px,calc((100% - 50px)/6));overflow-x:auto;overscroll-behavior-x:contain;padding:6px 5px 9px;margin:-6px -5px -9px;scrollbar-width:thin;scrollbar-color:var(--line) var(--surface)}
-.constellation .collection-slots{grid-auto-columns:minmax(54px,calc((100% - 20px)/6))}
+/* Pickers and collections grow with the page on touch screens. */
+.picker-shelf{overflow:visible;max-height:none;max-block-size:none;min-width:0;padding:24px 10px;margin:0}
+.collection-slots{position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(54px,1fr));grid-auto-flow:row;gap:10px;overflow:visible;padding:8px;margin:0}
+.constellation .collection-slots{grid-template-columns:repeat(auto-fit,minmax(54px,1fr))}
+.space .star-map{max-height:none;overflow:hidden}
+.space .constellation{position:relative;inset:auto;margin-top:32px;flex-shrink:0}
+.space .map-ship{position:relative;flex-shrink:0;margin-block:24px 12px}
 .collection-slots:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
 .collection-slot>span:last-child{max-width:100%;overflow-wrap:anywhere}
 /* Longer A–Z words fit the same picture cards without squeezing their art. */
@@ -45,7 +45,7 @@ body.talking .lucy figcaption{outline:2px solid var(--focus);outline-offset:3px}
 .space .choice .word{flex-wrap:wrap}
 .space .choice .art{flex-shrink:0}
 @media(max-width:700px){.collection-slots{grid-auto-columns:minmax(48px,calc((100% - 25px)/6))}.constellation .collection-slots{grid-auto-columns:minmax(48px,calc((100% - 20px)/6))}}
-@media(max-width:650px){.envelopes-shelf{max-block-size:246px}.planets-shelf{max-block-size:254px}}
+
 
 body{--play-ease:cubic-bezier(.22,1,.36,1);--play-pop:cubic-bezier(.34,1.45,.64,1)}
 .primary,.secondary,.replay-prompt,.choice,.letter-list button{transition:transform 140ms var(--play-ease)}
@@ -133,3 +133,5 @@ body[data-screen="listen"] .lucy-portrait>img,body[data-screen="match"] .lucy-po
 @keyframes paper-flutter{0%{transform:translateX(0) rotateY(-18deg)}24%{transform:translateX(calc(var(--flutter)*12px)) rotateY(38deg)}51%{transform:translateX(calc(var(--flutter)*-13px)) rotateY(-42deg)}77%{transform:translateX(calc(var(--flutter)*10px)) rotateY(24deg)}100%{transform:translateX(0) rotateY(-12deg)}}
 @keyframes paper-tumble{0%{transform:rotate(var(--phase)) rotateX(-18deg)}32%{transform:rotate(calc(var(--phase) + var(--turn)*.32)) rotateX(28deg)}68%{transform:rotate(calc(var(--phase) + var(--turn)*.7)) rotateX(-38deg)}100%{transform:rotate(calc(var(--phase) + var(--turn))) rotateX(18deg)}}
 @media(max-width:700px){.paper-rain{inset:85px 3% 8%}.paper-rain [data-paper]{width:calc(50px*var(--size))}}
+
+.envelopes button{position:relative}.letter-decoration{pointer-events:none}
