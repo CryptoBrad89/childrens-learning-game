@@ -54,7 +54,7 @@ async function queued(page,id){return page.evaluate(id=>new Promise((resolve,rej
   const req=indexedDB.open('little-woof-accounts',1);req.onsuccess=()=>{const db=req.result;const read=db.transaction('operations').objectStore('operations').getAll();read.onsuccess=()=>{db.close();resolve(read.result.filter(row=>row.user_id===id&&row.pending).length);};read.onerror=()=>reject(read.error);};req.onerror=()=>reject(req.error);
 }),id);}
 async function run(){
-  const {server,url}=await staticServer();let browser;const logins={project:config,master:{handle:'test',password:'ABCD1234'},runs:[]};
+  const {server,url}=await staticServer();let browser;const logins={project:config,master:require('./master_login.cjs'),runs:[]};
   if(fs.existsSync(reportPath))logins.previous_runs=[JSON.parse(fs.readFileSync(reportPath,'utf8'))];
   const save=()=>fs.writeFileSync(reportPath,JSON.stringify(logins,null,2)+'\n');
   try{
@@ -66,7 +66,7 @@ async function run(){
       const suffix=Date.now().toString(36)+width;
       const run={width,grownup:{handle:'settings_other_'+suffix,password},children:[{handle:'settings_sally_'+suffix,password,display_name:'Sally '+width},{handle:'settings_jane_'+suffix,password,display_name:'Jane '+width}]};
       logins.runs.push(run);save();
-      await signin(admin,url,'test','ABCD1234',true);
+      await signin(admin,url,require('./master_login.cjs').handle,require('./master_login.cjs').password,true);
       assert.equal(await admin.evaluate(()=>ACCOUNT_CONFIG.url),config);
       await signoutVisible(admin);
       await form(admin,'create-grownup-form',{...run.grownup,display_name:'Unlinked settings grown-up '+width});
@@ -125,7 +125,7 @@ async function run(){
       await admin.screenshot({path:'reports/portal-child-settings-'+width+'.png',fullPage:true});
       await kid.evaluate(()=>ACCOUNTS.sync());
       assert.equal(await kid.evaluate(()=>GROWN_UPS.load().volume),35,'Existing child device receives server override');
-      await other.locator('#sign-out').click();await other.waitForURL(url+'/index.html');
+      await other.locator('#sign-out').click();await other.waitForURL(url+'/accounts/index.html');
       await signin(other,url,sally.handle);
       assert.equal(await other.evaluate(()=>GROWN_UPS.load().volume),35,'Fresh isolated device receives same child override');
       console.log('PASS '+width+': eight settings, clear custom state, mixed bulk changes letters only, cross-device precedence');
@@ -140,9 +140,9 @@ async function run(){
 
       // The shared header signs out a grown-up without touching child outboxes.
       await admin.goto(url+'/accounts/');await signoutVisible(admin);await admin.locator('#sign-out').click();
-      await admin.waitForURL(url+'/index.html');assert.equal(await admin.evaluate(()=>ACCOUNTS.session),null);
-      await signin(admin,url,'test','ABCD1234',true);await admin.goto(url+'/grown-ups/');await signoutVisible(admin);
-      await admin.locator('#sign-out').click();await admin.waitForURL(url+'/index.html');
+      await admin.waitForURL(url+'/accounts/index.html');assert.equal(await admin.evaluate(()=>ACCOUNTS.session),null);
+      await signin(admin,url,require('./master_login.cjs').handle,require('./master_login.cjs').password,true);await admin.goto(url+'/grown-ups/');await signoutVisible(admin);
+      await admin.locator('#sign-out').click();await admin.waitForURL(url+'/accounts/index.html');
       assert.equal(await kid.evaluate(()=>ACCOUNTS.profile.id),sally.id,'Grown-up signout does not sign out another child device');
 
       // Complete a real offline round, sign out in-game, and recover its outbox.
@@ -151,11 +151,12 @@ async function run(){
       await contexts[1].setOffline(true);
       await round(kid,'A');await kid.waitForFunction(()=>ACCOUNTS.pending>0);
       const before=await kid.evaluate(()=>ACCOUNTS.snapshot.count);
+      await kid.locator('#account-strip summary').click();
       assert.match(await kid.locator('#account-strip button').innerText(),/Sign out/);
       await kid.locator('#account-strip button').click();await kid.waitForURL(url+'/index.html');
       assert((await queued(kid,sally.id))>0,'Manual child signout keeps offline round queued');
       await contexts[1].setOffline(false);
-      await signin(kid,url,'test','ABCD1234',true);await kid.locator('#sign-out').click();await kid.waitForURL(url+'/index.html');
+      await signin(kid,url,require('./master_login.cjs').handle,require('./master_login.cjs').password,true);await kid.locator('#sign-out').click();await kid.waitForURL(url+'/accounts/index.html');
       assert((await queued(kid,sally.id))>0,'Grown-up signout on the shared device preserves child outbox');
       await signin(kid,url,sally.handle);await kid.evaluate(()=>ACCOUNTS.sync());
       assert.equal(await kid.evaluate(()=>ACCOUNTS.snapshot.count),before,'Re-login synchronizes retained offline round');
@@ -169,7 +170,7 @@ async function run(){
       assert((await queued(kid,sally.id))>0,'Child expiry retains offline progress');
       await contexts[1].setOffline(false);await signin(kid,url,sally.handle);await kid.evaluate(()=>ACCOUNTS.sync());
       assert.equal(await kid.evaluate(()=>ACCOUNTS.pending),0);
-      await signin(admin,url,'test','ABCD1234',true);
+      await signin(admin,url,require('./master_login.cjs').handle,require('./master_login.cjs').password,true);
       await contexts[0].setOffline(true);
       await admin.evaluate(()=>{const now=Date.now;Date.now=()=>now()+31*60*1000;});
       await admin.waitForURL(url+'/accounts/index.html?expired=1');

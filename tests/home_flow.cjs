@@ -62,8 +62,9 @@ async function run(){
     await page.evaluate(async()=>{await ACCOUNTS.signIn('grown_demo','7234ab');await ACCOUNTS.manage('create-child',{handle:'kid_demo',password:'7234ab',display_name:'A child'});await ACCOUNTS.signOut();});
     await page.goto(url+'/');
     await page.locator('#child-signin-form [name=handle]').fill('grown_demo');await page.locator('#child-signin-form [name=password]').fill('7234ab');await page.locator('#child-signin-form button').click();
-    await page.waitForFunction(()=>document.querySelector('#login-status').classList.contains('error'));
-    assert.equal(await page.evaluate(()=>ACCOUNTS.session),null,'Grown-up credentials do not enter through the child login');
+    await page.waitForFunction(()=>document.body.dataset.homeStep==='layouts');
+    assert.equal(await page.evaluate(()=>ACCOUNTS.profile.role),'grownup','One login works for play and administration');
+    await page.locator('#change-player').click();
     await form(page,'child-signin-form',{handle:'kid_demo',password:'7234ab'});
     assert.equal(await page.evaluate(()=>ACCOUNTS.profile.role),'child');
     await page.locator('[data-world=silk]').click();await settle(page);await page.locator('#mute').click();await round(page,'B');await page.evaluate(()=>ACCOUNTS.sync());

@@ -78,31 +78,12 @@ async function run() {
       await page.goto(url('index.html'));
       assert.equal(await page.locator('nav a').count(), 3);
       const door = page.locator('#login-dialog a.grown');
-      assert.equal(await door.getAttribute('href'), 'grown-ups/index.html');
+      assert.equal(await door.getAttribute('href'), 'accounts/index.html');
       await fits(page, `${label} chooser`);
-      await door.click();
-      await page.waitForFunction(() => document.body?.dataset.view === 'gate');
-      await page.evaluate(() => document.fonts.ready);
-      assert(await page.locator('#settings').isHidden(), 'Settings stay hidden behind the gate');
-      assert.equal((await code(page)).length, 3);
-      assert.equal(await page.evaluate(() => getComputedStyle(document.body).backgroundColor), 'rgb(250, 242, 223)', 'Grown-up entry uses the same cream as child login');
-      await fits(page, `${label} gate`, viewport.width >= 1600 ? 72 : 60);
-      if (!process.env.NO_SCREENSHOTS) await page.screenshot({path: path.join(shots, `${label}-gate.png`), fullPage: true});
-
-      // A wrong code is refused and replaced; easy runs like 1-2-3 never appear.
-      const first = await code(page);
-      assert(!(first[1] - first[0] === 1 && first[2] - first[1] === 1) && !(first[0] - first[1] === 1 && first[1] - first[2] === 1));
-      const wrong = [1, 2, 3, 4, 5, 6, 7, 8, 9].filter(d => !first.includes(d)).slice(0, 3);
-      for (const digit of wrong) await page.locator(`[data-digit="${digit}"]`).click();
-      await page.waitForFunction(() => /Not quite/.test(document.querySelector('#gate-status').textContent));
-      await page.waitForFunction(() => [...document.querySelectorAll('#slots span')].every(s => !s.textContent));
-      assert(await page.locator('#settings').isHidden());
-      assert.equal(new Set(first.concat(await code(page))).size >= 3, true);
-
-      await unlock(page, {keyboard: viewport.name === 'chromebook'});
-      assert(await page.locator('#gate').isHidden());
-      assert.equal(await page.evaluate(() => document.activeElement.id), 'sheet');
-      assert.equal(await page.locator('#leave .fill-label').first().textContent(), 'Lock and go to games');
+      await page.goto(url('grown-ups/index.html'));
+      await unlock(page);
+      assert.equal(await page.locator('#keypad,#gate').count(),0,'No number gate remains');
+      assert.equal(await page.locator('#leave .fill-label').first().textContent(),'Back to the games');
       await page.waitForTimeout(450);
       await fits(page, `${label} settings`, viewport.width >= 1600 ? 72 : 60);
       assert.equal(await page.locator('#letter-grid button[aria-pressed="true"]').count(), 26);
@@ -161,35 +142,9 @@ async function run() {
       await page.locator('#play-unsaved').click();
       assert.equal(await page.locator('nav a:visible').count(), 3);
       await page.goto(url('grown-ups/index.html'));
-      assert(await page.locator('#settings').isHidden(), 'Every visit starts locked');
+      await unlock(page);assert(await page.locator('#settings').isVisible(),'Local settings open without a keypad');
       await done(label);
-      console.log(`PASS ${label}: chooser door, gate refusal and unlock, every setting, guards, reset, relock, layout and offline`);
-    }
-
-    // Three misses pause the keypad for ten seconds.
-    {
-      const {page, done} = await fresh(viewports[1]);
-      await page.clock.install();
-      await page.goto(url('grown-ups/index.html'));
-      for (let miss = 0; miss < 3; miss++) {
-        await page.waitForFunction(() => !document.querySelector('#keypad [disabled]') && [...document.querySelectorAll('#slots span')].every(s => !s.textContent));
-        const right = await code(page);
-        const wrong = [1, 2, 3, 4, 5, 6, 7, 8, 9].filter(d => !right.includes(d)).slice(0, 3);
-        for (const digit of wrong) await page.locator(`[data-digit="${digit}"]`).click();
-        if (miss < 2) await page.clock.runFor(700);
-      }
-      assert(await page.locator('#keypad').evaluate(n => n.hasAttribute('data-paused')));
-      assert.equal(await page.locator('#keypad button:disabled').count(), 9);
-      assert.equal(await page.locator('#slots .filled').count(), 0, 'Slots clear when the pause starts');
-      await page.keyboard.press(String((await code(page))[0]));
-      assert.equal(await page.locator('#slots .filled').count(), 0, 'Keys do nothing while paused');
-      await page.clock.runFor(9000);
-      assert.equal(await page.locator('#keypad button:disabled').count(), 9);
-      await page.clock.runFor(1100);
-      assert.equal(await page.locator('#keypad button:disabled').count(), 0);
-      await unlock(page);
-      await done('gate pause');
-      console.log('PASS gate pause: three misses pause the keypad for 10 seconds, then a new code works');
+      console.log(`PASS ${label}: portal door, no keypad, every setting, guards, reset, layout and offline`);
     }
 
     // Settings reach the chooser and every world.

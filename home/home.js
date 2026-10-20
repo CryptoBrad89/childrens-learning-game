@@ -6,7 +6,7 @@ const again=document.getElementById('continue-player');
 function openLogin(){
   layouts.hidden=true;document.body.dataset.homeStep='login';
   if(!dialog.matches(':modal')){if(dialog.open)dialog.close();dialog.showModal();}
-  again.hidden=!A?.profile || A.profile.role!=='child';
+  again.hidden=!A?.profile;
   if(!again.hidden)again.textContent='Continue as '+A.profile.display_name;
 }
 function showLayouts(){
@@ -31,13 +31,13 @@ function showLayouts(){
 dialog.addEventListener('cancel',event=>event.preventDefault());
 form.addEventListener('submit',async event=>{
   event.preventDefault();if(form.getAttribute('aria-busy')==='true')return;form.setAttribute('aria-busy','true');const button=form.querySelector('button');button.disabled=true;status.classList.remove('error');status.textContent='Signing in…';
-  try{await A.signIn(form.elements.handle.value,form.elements.password.value,{role:'child'});await A.selectOwner(A.profile);showLayouts();}
+  try{await A.signIn(form.elements.handle.value,form.elements.password.value);await A.selectOwner(A.profile);showLayouts();}
   catch(error){status.textContent=error.message;status.classList.add('error');}
   finally{button.disabled=false;form.removeAttribute('aria-busy');form.elements.password.value='';}
 });
 document.getElementById('play-unsaved').addEventListener('click',async()=>{await A.startGuest();showLayouts();});
 again.addEventListener('click',async()=>{try{await A.selectOwner(A.profile);showLayouts();}catch(error){status.textContent=error.message;}});
-document.getElementById('change-player').addEventListener('click',async()=>{await A.signOut();status.textContent='';openLogin();});
+document.getElementById('change-player').addEventListener('click',async()=>{form.reset();await A.signOut();status.textContent='';openLogin();});
 openLogin();
 if(new URL(location.href).searchParams.has('expired'))status.textContent='Signed out for safety. Your saved play is waiting for your next sign-in.';
 A.subscribe(()=>{if(!A.session&&!A.guest)openLogin();});

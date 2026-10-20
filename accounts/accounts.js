@@ -311,7 +311,11 @@ const ready = (async()=>{
     db=await openDB(); await reloadRecords();
     const target=read(TARGET_KEY,sessionStorage);
     if (self && target?.actor===self.id) owner=target.profile;
-    if(session)try{await sessionStatus();}catch(error){if([401,403].includes(error.status))throw error;}
+    if(session)try{
+      await sessionStatus();
+      const profiles=await rest('/profiles?id=eq.'+self.id+'&select=*');
+      if(profiles.length){const own=owner?.id===self.id;persistSession({...session,profile:profiles[0]});if(own)owner=self;}
+    }catch(error){if([401,403].includes(error.status))throw error;}
     try{await refreshSettings();}catch{}
     emit();
   } catch (error) { message('Account storage is unavailable. Open a normal browser window before playing.'); throw error; }

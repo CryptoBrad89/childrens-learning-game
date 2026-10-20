@@ -87,6 +87,10 @@ function backend() {
   }};
 }
 async function form(page,id,values) {
+  if(await page.locator('#adults-view').isVisible()){
+    const view=['create-grownup-form','profile-form','own-password-form','grownup-profile-form','reset-grownup-password-form'].includes(id)?'#adults-view':'#kids-view';
+    if(!['signin-form','child-signin-form','grownup-profile-form'].includes(id))await page.locator(view).click();
+  }
   const target=page.locator('#'+id);
   const details=target.locator('xpath=ancestor::details');
   if(await details.count())await details.evaluate(node=>{node.open=true;});
@@ -134,7 +138,7 @@ async function run() {
     await form(a,'signin-form',{handle:seedAdult,password:seedPassword});
     await form(a,'create-grownup-form',{handle:adult,password,display_name:'Sync test grown-up'});
     if(live)await form(a,'create-grownup-form',{handle:parent,password,display_name:'Sync test grown-up'});
-    await a.locator('#sign-out').click();await a.waitForURL(url+'/index.html');await a.goto(url+'/accounts/');
+    await a.locator('#sign-out').click();await a.waitForURL(url+'/accounts/index.html');await a.goto(url+'/accounts/');
     await form(a,'signin-form',{handle:adult,password});
     await form(a,'create-child-form',{handle:child,password,display_name:'Sync test child'});
     const childId=await a.evaluate(async()=>{const links=await ACCOUNTS.rest('/guardians?select=child_id');return links[0].child_id;});
@@ -183,7 +187,7 @@ async function run() {
     assert((await a.evaluate(()=>ACCOUNTS.pending))>=3,'Offline play and settings must be durable pending writes');
     await b.evaluate(()=>ACCOUNTS.setSetting('volume',35));await b.evaluate(()=>ACCOUNTS.sync());
     console.log('Accounts browser: reconnecting both profiles');
-    await contexts[0].setOffline(false);await a.evaluate(()=>ACCOUNTS.sync());await b.locator('#sync-now').click();
+    await contexts[0].setOffline(false);await a.evaluate(()=>ACCOUNTS.sync());await b.reload();await b.evaluate(()=>ACCOUNTS.ready);
     await b.waitForFunction(()=>ACCOUNTS.snapshot.count===1 && ACCOUNTS.snapshot.settings.calm===true && ACCOUNTS.snapshot.settings.volume===35 && ACCOUNTS.snapshot.themes.post===2);
     await b.waitForFunction(()=>document.getElementById('round-count').textContent==='1');
     assert.equal(await b.locator('#round-count').textContent(),'1');
@@ -241,7 +245,7 @@ async function run() {
       assert.equal(await a.evaluate(()=>JSON.parse(localStorage.getItem('little-woof-session-v1'))),null,'Sign-out remains durable after delayed refresh');
       console.log('PASS MOCK TRANSPORT: committed request response loss, safe retry, shared-device identity, durable child outbox, six-character-only password rule, ordered same-field edits, delayed-refresh sign-out');
     } else {
-      await a.goto(url+'/accounts/');await a.locator('#sign-out').click();await a.waitForURL(url+'/index.html');
+      await a.goto(url+'/accounts/');await a.locator('#sign-out').click();await a.waitForURL(url+'/accounts/index.html');
       await a.goto(url+'/accounts/');await form(a,'signin-form',{handle:adult,password});
       await a.locator('#children-list li').filter({hasText:child}).locator('button').click();
       await a.waitForFunction(handle=>ACCOUNTS.owner.handle===handle&&!document.querySelector('#settings-link').inert,child);

@@ -4,7 +4,7 @@ Little Sounds Big Discovery.
 
 The home page opens a child-first sign-in dialog. Sign in, continue a previously signed-in child, or choose **Play without saving**. Then choose **Ribbon Road**, highlighted first by default, **Letter Post**, or **Moonboat**. The small **Are you a grown-up?** link opens the separate grown-up area. Grown-ups manage kids; additional administrator accounts require an existing grown-up to sign in.
 
-Unsaved play never reads or changes saved preferences and never records rounds or achievements. Its colors and sound choices last only for the current page. The warning stays visible while playing. Existing grown-up layout visibility choices still apply to signed-in accounts; unsaved play always offers all three layouts.
+Unsaved play never reads or changes saved preferences and never records rounds or achievements. Its colors and sound choices last only for the current page. A small Sign in to save link stays beside the game controls. Existing grown-up layout visibility choices still apply to signed-in accounts; unsaved play always offers all three layouts.
 
 Open [index.html](index.html) directly, or serve the repository root with
 `python3 -m http.server 8000` and visit `/`.
@@ -77,7 +77,7 @@ CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/grown_ups_smoke.cjs
   saved, and that every world's real renderer obeys chosen letters, hint
   timing, a quiet start, voice volume and hidden children's buttons.
 - `grown_ups_smoke.cjs` checks the grown-ups' corner at phone, tablet,
-  Chromebook and whiteboard sizes: the chooser door, gate refusal, the
+  Chromebook and whiteboard sizes: the portal door, settings without a keypad, the
   three-miss pause and unlock, every setting, the last-world and last-letter
   guards, reset, relocking, and the settings' effect on the chooser and all
   three worlds. It also covers reduced motion and dark mode. Screenshots go to
@@ -114,11 +114,7 @@ Yellow. Each world keeps its own theme choice.
 
 ## Grown-ups' corner
 
-The chooser's footer has a small **For grown-ups** button that opens
-`grown-ups/index.html`. On hosted pages, sign in with a grown-up account to open settings. A grown-up can select a linked child in the progress page before opening this corner. From local files, an adult taps three digits
-written as words ("seven, two, five"). Children of three or four can't read
-number words yet. Each miss brings new numbers, every third miss pauses the
-keypad for 10 seconds, and every visit starts locked again.
+The chooser’s **For grown-ups** link opens the portal. Hosted settings require a grown-up login. Select children using the Kids view checkboxes, then choose **Settings for selected kids**. The settings header has a direct **Grown-up portal** link. Local-file settings open directly; there is no PIN or keypad.
 
 Signed-in settings save to the selected person's account and sync across devices. They apply the next time a world opens. Local-file settings use this browser's `little-woof-grown-ups` storage:
 
@@ -149,11 +145,11 @@ folder (see above) to share settings in every browser.
 
 ## Accounts and offline sync
 
-Serve the repository on HTTPS, or use `python3 -m http.server 8000` for localhost testing. Start at `/` for child sign-in. The grown-up link opens `/accounts/` through the protected settings area; sign in with an existing grown-up account, then make child logins or link an existing child's account. Everyone signs in with a unique login name and a password of at least six characters. A child uses the same login wherever they play. The portal manages kids, offers profile icons or picture uploads when creating a child, and manages child settings. The progress page shows lasting rounds and milestones, and offers an explicit **I'm done** sign-out for shared computers.
+Serve the repository on HTTPS, or use `python3 -m http.server 8000` for localhost testing. Start at `/` for child sign-in. The grown-up link opens `/accounts/` through the protected settings area; sign in with an existing grown-up account, then make child logins or link an existing child's account. Everyone signs in with a unique login name and a password of at least six characters. A child uses the same login wherever they play. The portal manages kids, offers profile icons or picture uploads when creating a child, and manages child settings. The progress page shows lasting rounds and milestones, and offers an explicit **Sign out** for shared computers.
 
 Grown-ups can edit their display name, unique username, password, and profile icon or uploaded picture. **Link an existing child** offers children already linked to other grown-ups, without asking for a child's password. Each linked child has an **Open progress page** button. The portal reads server progress on entry and refreshes automatically; connection failures show labelled last-known data. **Manage this child**, inside their progress page, contains confirmed progress reset and permanent account deletion. Reset keeps the child's login and settings, and prevents older offline rounds from returning.
 
-The header says **Games ready for offline play** after the whole game is cached. A previously signed-in person can reopen and play offline. A new sign-in requires a connection. Completed rounds and field-level setting edits wait in IndexedDB until reconnecting; repeated delivery cannot count a round twice. Settings include every grown-up option, sound choice and each world's theme. Opening a new world uses the latest synchronized choices. The in-world strip remains a collection for this visit; the progress page is permanent history.
+The header says **Games ready for offline play** after the whole game is cached. A previously signed-in person can reopen and play offline. A new sign-in requires a connection. Completed rounds and field-level setting edits wait in IndexedDB until reconnecting; repeated delivery cannot count a round twice. Settings include every grown-up option, sound choice and each world's theme. Opening a new world uses the latest synchronized choices. The in-world letter collection remains a collection for this visit; the progress page is permanent history.
 
 Only the publishable client key is in `accounts/config.js`. The database and account-provisioning function are recorded in [supabase/](supabase/README.md). [Build report](reports/accounts-build.md) and [design notes](reports/accounts-design.md) explain the choices and limits.
 
@@ -177,3 +173,7 @@ The SQL checks need the pinned local test tools documented in `supabase/README.m
 Run `CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/home_flow.cjs` for login-first behavior, role separation, the Ribbon Road default, the unsaved warning, guest isolation, offline reload and branding at phone, tablet and desktop sizes. It uses a labelled protocol fixture; the separate account helper's `--live` mode still verifies the real project.
 
 The old database world identifier `silk`, existing asset URLs and storage identifiers stay stable so prior logins, offline outboxes, progress and themes continue to work. These are compatibility identifiers; the visible layout is Ribbon Road. Historical account-build reports remain an audit record.
+
+## Fix-list verification
+
+Run `MASTER_HANDLE=<live username> python3 tests/run_fixlist.py` for all local, browser, database, Edge, and live account suites. Read the master username from Supabase first; live tests never edit the master. The live tests create disposable accounts, so run the authorized cleanup after the suites. See [fix-list report](reports/fixlist-pass.md) for this pass’s inventory and retained logins.

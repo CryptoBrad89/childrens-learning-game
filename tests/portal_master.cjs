@@ -4,7 +4,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const {staticServer,playwright,form}=require('./accounts_sync.cjs');
 const project='https://ixjbgshhzeaosrzavssr.supabase.co';
-const master={handle:'test',password:'ABCD1234'};
+const master=require('./master_login.cjs');
 (async()=>{
   const {server,url}=await staticServer();let browser;
   const results={project:'ixjbgshhzeaosrzavssr',created_at:new Date().toISOString(),grownup:master,cases:[]};
@@ -62,12 +62,13 @@ const master={handle:'test',password:'ABCD1234'};
       }
       console.log(`PASS LIVE ${width}: master/regular/child/anonymous create, delete, reset-password + register; master self/missing target denied; RLS denial; regular creates/resets child; real child play`);
       // Victim owns an orphan and shares the retained child with the regular grown-up.
-      await b.locator('#sign-out').click();await b.waitForURL(url+'/index.html');await b.goto(url+'/accounts/');await form(b,'signin-form',victim);
+      await b.locator('#sign-out').click();await b.waitForURL(url+'/accounts/index.html');await b.goto(url+'/accounts/');await form(b,'signin-form',victim);
       const orphan={handle:'master_orphan_'+suffix,password};
       await form(b,'create-child-form',{...orphan,display_name:'Child kept by master'});
       const orphanId=await b.evaluate(async handle=>(await ACCOUNTS.rest('profiles?handle=eq.'+handle))[0].id,orphan.handle);
       await b.locator(`#link-child-choice option[value="${childId}"]`).waitFor({state:'attached'});
       await form(b,'link-child-form',{child_id:childId});
+      await a.locator('#adults-view').click();
       const deletion=a.locator('#grownups-list li').filter({hasText:victim.handle}).getByRole('button',{name:/^Delete /});
       await deletion.click();assert.match(await a.locator('#confirm-grownup-title').innerText(),new RegExp(victim.handle));
       assert.equal(await a.evaluate(()=>document.activeElement.id),'cancel-grownup');

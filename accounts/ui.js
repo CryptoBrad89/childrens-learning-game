@@ -4,6 +4,8 @@ const $ = id => document.getElementById(id);
 const A = window.ACCOUNTS;
 let roster = [], rosterFor = null, rosterVersion = 0, switchingOwner = false, rosterRequest = null;
 let grownupsFor = null, pendingGrownup = null, editingGrownup = null;
+let portalView='kids';
+const selectedKids=new Set();
 let freshness = 'checking', pendingAction = null, profileFor = null;
 const cacheKey = id => 'lwl-portal-progress-'+id;
 const worlds = {post: "Lucy's Letter Post", space: "Lucy's Moonboat", silk: "Ribbon Road"};
@@ -46,9 +48,8 @@ function wireForm(id, action, success) {
 function choices(selector, records, label) {
   document.querySelectorAll(selector).forEach(select => {
     const selected = select.value;
-    const first = select.options[0].cloneNode(true);
-    if(select.id==='link-child-choice'){first.value='';first.textContent='Choose a child';}
-    select.replaceChildren(first);
+    const first = select.options[0]?.cloneNode(true);
+    select.replaceChildren(...(first && select.id!=='link-child-choice'?[first]:[]));
     records.forEach(record => {
       const option = element('option', label(record));
       option.value = record.id; select.append(option);
@@ -61,9 +62,12 @@ function renderRoster() {
   const list = $('children-list'); list.replaceChildren();
   for (const child of roster) {
     const item = element('li');
+    const select=element('input');select.type='checkbox';select.value=child.id;select.checked=selectedKids.has(child.id);select.setAttribute('aria-label','Select '+child.display_name);
+    select.addEventListener('change',()=>{if(select.checked)selectedKids.add(child.id);else selectedKids.delete(child.id);updateBatch();});
+    item.append(select);
     const copy = element('div');
     copy.append(element('strong', child.display_name), element('small', `Login: ${child.handle}`));
-    copy.append(element('small', child.progress ? `${child.progress.snapshot.count} rounds · ${new Set(child.progress.snapshot.rounds.map(r=>r.letter)).size} letters · ${freshness === 'live' ? 'Live from server' : 'Last known · offline or connection unavailable'}` : 'Progress unavailable · connection needed'));
+    copy.append(element('small', child.progress ? `${child.progress.snapshot.count} rounds · ${new Set(child.progress.snapshot.rounds.map(r=>r.letter)).size} letters · ${freshness === 'live' ? 'Last activity synced at '+new Date(child.progress.checkedAt).toLocaleString() : 'Last known · offline or connection unavailable'}` : 'Progress unavailable · connection needed'));
     const open = element('button', 'Open progress page', 'quiet-button');
     open.type = 'button'; open.setAttribute('aria-label', `Open ${child.display_name}'s progress page`);
     open.addEventListener('click', async () => {
@@ -71,7 +75,7 @@ function renderRoster() {
       switchingOwner = true; open.disabled = true;
       $('settings-link').inert = true;
       $('settings-link').setAttribute('aria-disabled', 'true');
-      try { await A.selectOwner(child); $('progress').scrollIntoView({block: 'start'}); notice(`Opened ${child.display_name}'s progress page.`); }
+      try { await loadRoster({fresh:true}); await A.selectOwner(child); $('progress').scrollIntoView({block: 'start'}); notice(`Opened ${child.display_name}'s progress page.`); }
       catch (error) { notice(errorText(error), true); }
       finally {
         switchingOwner = false; open.disabled = false;
@@ -171,8 +175,9 @@ function render() {
   }
   const achievements = $('achievements'); achievements.replaceChildren();
   (snapshot.achievements?.length ? snapshot.achievements : [adult && !child?.progress ? 'Checking milestones…' : 'Your first milestone is waiting. Play a round to begin.']).forEach(text => achievements.append(element('li', text)));
-  $('sync-status').textContent = adult ? (child?.progress ? `${freshness === 'live' ? 'Live from server' : 'Last-known data · offline or connection unavailable'} · Checked ${new Date(child.progress.checkedAt).toLocaleString()}. Updates automatically.` : 'Checking server progress…') : A.status || 'Your progress page is open.';
+  $('sync-status').textContent = adult ? (child?.progress ? `${freshness === 'live' ? 'Last activity synced at' : 'Last-known activity · connection unavailable · synced at'} ${new Date(child.progress.checkedAt).toLocaleString()}. Updates automatically.` : 'Checking server progress…') : A.status || 'Your progress page is open.';
   if (rosterFor !== profile.id && profile.role === 'grownup') { rosterFor = profile.id; loadRoster({fresh:true}); }
+  applyView();
   notice(owner.id === profile.id ? `Welcome, ${profile.display_name}. ${adult ? 'Manage your kids below.' : 'Your progress page is ready.'}` : `Viewing ${owner.display_name}'s progress page.`);
 }
 if (!A) { notice('Accounts could not open. Reload this page when you are online.', true); return; }
@@ -207,15 +212,13 @@ wireForm('create-child-form', async fields => {
   fields.handle = fields.handle.trim();
   await A.manage('create-child', fields); await loadRoster({fresh:true});
 }, 'Child account created. Keep their login name and password wherever they play.');
-wireForm('link-child-form', async fields => { await A.manage('link-child', fields); await loadRoster({fresh:true}); }, 'Child linked. Their existing progress stays together.');
+wireForm('link-child-form', async () => {
+  const ids=[...$('link-child-choice').selectedOptions].map(option=>option.value).filter(Boolean);
+  for(const child_id of ids)await A.manage('link-child',{child_id});
+  await loadRoster({fresh:true});
+}, 'Child linked. Their existing progress stays together.');
 wireForm('reset-password-form', fields => A.manage('reset-child-password', fields), 'Password changed. Use the new password next time this child signs in.');
 wireForm('own-password-form', fields => A.changePassword(fields.password), 'Your password changed. Use the new password next time you sign in.');
-$('sync-now').addEventListener('click', async () => {
-  $('sync-now').disabled = true;
-  try { if(A.profile?.role==='grownup') await loadRoster({fresh:true}); else await A.sync(); render(); }
-  catch (error) { notice(errorText(error), true); }
-  finally { $('sync-now').disabled = false; }
-});
 $('back-to-me').addEventListener('click', async () => {
   try { await A.selectOwner(A.profile); render(); }
   catch (error) { notice(errorText(error), true); }
@@ -223,7 +226,7 @@ $('back-to-me').addEventListener('click', async () => {
 $('sign-out').addEventListener('click', async () => {
   $('sign-out').disabled = true;
   try {
-    await A.signOut(); location.href='../index.html';
+    await A.signOut(); location.href='index.html';
   } catch (error) { notice(errorText(error), true); }
   finally { $('sign-out').disabled = false; }
 });
@@ -356,6 +359,29 @@ window.addEventListener('offline',()=>{freshness='offline';renderRoster();render
 window.addEventListener('focus',refreshRoster);
 document.addEventListener('visibilitychange',refreshRoster);
 setInterval(refreshRoster,15000);
+function updateBatch(){
+  $('edit-selected-kids').disabled=!selectedKids.size;
+  $('edit-selected-kids').textContent=selectedKids.size?'Settings for '+selectedKids.size+' selected kids':'Settings for selected kids';
+}
+$('select-all-kids').addEventListener('click',()=>{
+  const all=roster.every(child=>selectedKids.has(child.id));selectedKids.clear();
+  if(!all)for(const child of roster)selectedKids.add(child.id);
+  renderRoster();updateBatch();
+});
+$('edit-selected-kids').addEventListener('click',()=>{
+  const target=new URL('../grown-ups/index.html',location.href);
+  for(const id of selectedKids)target.searchParams.append('child',id);
+  location.href=target.href;
+});
+const adultPanels=[$('profile-form').closest('details'),$('own-password-form').closest('details'),$('create-grownup-form').closest('details'),$('grownups')];
+function applyView(){
+  if(A.profile?.role!=='grownup')return;
+  for(const panel of adultPanels)panel.hidden=portalView!=='adults'||(panel.hasAttribute('data-master')&&!A.profile.is_master);
+  $('people').hidden=portalView!=='kids';
+  $('kids-view').setAttribute('aria-pressed',String(portalView==='kids'));
+  $('adults-view').setAttribute('aria-pressed',String(portalView==='adults'));
+}
+for(const [id,view] of [['kids-view','kids'],['adults-view','adults']])$(id).addEventListener('click',()=>{portalView=view;render();});
 A.subscribe(render);
 Promise.resolve(A.ready).then(render).catch(error => {
   render(); notice(errorText(error), true);

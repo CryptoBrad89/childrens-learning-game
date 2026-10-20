@@ -29,10 +29,10 @@ Gate (first screen; the settings stay hidden until it is passed):
 │ Why the check? …             │   └────┴────┴────┘             │
 │ [← Back to the games]        │   status line (aria-live)      │
 └──────────────────────────────┴────────────────────────────────┘
- Phone: one column, keypad below the words.
+ Phone: one column, with full-row settings controls.
 ```
 
-Settings (after the gate):
+Settings:
 
 ```
 ┌───────────────────────────────────────────────────────────────┐
@@ -95,13 +95,6 @@ gradient.
 The page has no loops. `prefers-reduced-motion` and the corner's own *Calm
 motion* setting both remove all of it.
 
-## 4. Child gate
+## 4. Account protection
 
-The gate is a reading check rather than a dexterity check. It shows three
-different digits written as words ("seven, two, five"), and the adult taps them
-on a 1–9 keypad. Three- and four-year-olds can't read number words yet. A random
-tapper has a 1 in 504 chance per attempt, every miss brings a new set of
-numbers, and every third miss pauses the keypad for 10 seconds. Easy runs like
-1-2-3 or 9-8-7 are never asked. Physical number keys also work, for
-Chromebooks. This is child-proofing, not security: settings are ordinary local
-storage.
+Hosted settings require an authenticated grown-up account. There is no reading gate, PIN, or keypad. Local-file settings open directly. A Grown-up portal link returns to account management without reusing the selected child’s settings route.
