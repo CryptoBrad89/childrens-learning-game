@@ -1,0 +1,185 @@
+.preview.post{--letter-size:106px}.preview.space{--letter-size:134px}
+.preview .app{max-width:1560px;padding:24px 32px;min-height:100svh}
+.preview #header{min-height:62px;padding-bottom:14px}
+.preview .brand{min-height:48px}
+.preview .preview-label{font-size:11px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-right:12px}
+.preview #main{display:block;padding:24px 0 0;flex:1}
+.preview .preview-home{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:36px;align-items:start;max-width:none;margin:0}
+.preview .post-intro,.preview .captain-panel{padding:14px 0 0;justify-content:flex-start;display:block}
+.preview .eyebrow{font-size:10px;margin-bottom:20px}
+.preview .post-intro h1{font-size:clamp(56px,6vw,94px);margin-bottom:20px}
+.preview .captain-panel h1{font-size:clamp(45px,4.5vw,70px);margin-bottom:16px}
+.preview .post-intro .lead,.preview .captain-panel .lead{font-size:21px;margin:0;max-width:28ch}
+.preview .route-card{margin-top:28px;padding:12px 0}
+.preview .post-office{border-radius:100px 100px 20px 20px;box-shadow:6px 6px 0 var(--shadow)}
+.preview .office-top{height:146px;padding-top:24px}
+.preview .office-top .lucy{width:104px}
+.preview .office-top .speech{font-size:12px;padding:7px 14px}
+.preview .open-sign{bottom:26px;font-size:9px;padding:6px 10px}
+.preview .open-sign strong{font-size:13px}
+.preview .office-number{font-size:11px;bottom:24px}
+.preview .sorting-shelf{padding:18px 22px}
+.preview .shelf-title{margin-bottom:12px;font-size:15px}
+.preview .shelf-title>.icon{transform:rotate(-90deg)}
+.preview .picker-shelf{padding:6px 8px;max-height:none;overflow:visible;margin:0}
+.preview .envelopes,.preview .planets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,var(--letter-size));gap:16px 20px;padding:0;margin:0;max-width:none;width:100%}
+.preview .envelopes button{height:106px;min-height:106px;aspect-ratio:auto}
+.preview .pick-glyph,.preview .planets .pick-glyph{font-size:40px}
+.preview .pager{display:grid;grid-template-columns:60px 1fr 60px;align-items:center;gap:16px;margin-top:12px;text-align:center}
+.preview .pager>div{display:grid;gap:1px}
+.preview .pager strong{font-size:21px;line-height:1.2}
+.preview .pager span{font-size:11px;font-weight:800;color:var(--muted)}
+.preview .pager button{width:60px;height:60px;border:2px solid var(--line);border-radius:50%;background:var(--surface);display:grid;place-items:center;box-shadow:0 3px 0 var(--shadow)}
+.preview .pager button:disabled{opacity:.3;cursor:default;box-shadow:none}
+.preview .pager .icon{width:26px;height:26px}
+.preview .captain{width:150px;max-width:none;margin:52px 0 0 34px}
+.preview .captain .speech{font-size:12px;padding:9px;white-space:nowrap;left:-30px;right:-30px}
+.preview .captain-label{font-size:8px;margin-top:14px;white-space:nowrap}
+.preview .star-map{padding:18px 26px 20px;border-radius:70px 70px 24px 24px;max-height:none;justify-content:flex-start;overflow:hidden}
+.preview .map-heading{font-size:8px;gap:16px}
+.preview .map-caption{font-size:17px;margin:8px 0 20px}
+.preview .planets{gap:20px 24px;padding:6px 12px;justify-items:center}
+.preview .planets button{width:100%;max-width:134px;min-height:0;aspect-ratio:1;transform:none!important}
+.preview .planets button:nth-child(3) .letter-decoration{inset:40% -8%;border-width:3px}
+.preview .map-orbit{pointer-events:none;width:70%;left:15%;top:22%}
+.preview .collection-preview{border:2px solid var(--line);background:var(--surface);border-radius:18px;margin-top:24px;box-shadow:0 3px 0 var(--shadow)}
+.preview .collection-preview summary{min-height:64px;display:flex;gap:14px;align-items:center;padding:10px 20px;cursor:pointer;list-style:none}
+.preview summary::-webkit-details-marker{display:none}
+.preview summary:focus-visible{outline:4px solid var(--focus);outline-offset:4px;border-radius:16px}
+.preview summary>span:nth-child(2){display:grid;gap:2px}
+.preview summary strong{font-size:17px}
+.preview summary small{font-size:12px;color:var(--muted)}
+.preview .collection-symbol{width:34px;display:grid;place-items:center;color:var(--accent-text)}
+.preview .collection-toggle{margin-left:auto;display:flex;align-items:center;gap:14px;font-size:14px;font-weight:900}
+.preview .chevron{font-size:24px}
+.preview .when-open,.preview details[open] .when-closed{display:none}
+.preview details[open] .when-open{display:inline}
+.preview details[open] .chevron{rotate:180deg}
+.preview .album-content{padding:4px 20px 18px;border-top:1px solid var(--line)}
+.preview .album-content>p{font-size:14px;margin:14px 0}
+.preview .album-grid{display:grid;grid-template-columns:repeat(13,minmax(0,1fr));gap:10px}
+.preview .album-slot{min-height:94px;border:1.5px dashed var(--line);border-radius:8px;display:grid;place-items:center;align-content:center;gap:3px;background:var(--bg);min-width:0}
+.preview .album-slot b{font-size:24px}
+.preview .album-slot .icon{width:16px;height:16px}
+.preview .album-slot small{font-size:10px}
+.preview .album-slot.collected{border-style:solid;background:var(--accent2);color:var(--card-ink);box-shadow:0 3px 0 var(--shadow)}
+.preview.space .album-slot{border-radius:50%}
+.preview .album-note{color:var(--muted)}
+.preview #footer{font-size:11px;padding-top:12px;min-height:36px}
+.preview #footer a{min-height:32px;padding:6px 0}
+.preview [data-letter][aria-pressed=true]{outline:4px solid var(--focus);outline-offset:4px}
+@media(min-width:900px) and (max-height:800px){
+  .preview.post{--letter-size:80px}.preview.space{--letter-size:104px}
+  .preview .app{padding:16px 24px}
+  .preview #header{padding-bottom:10px;min-height:58px}
+  .preview #main{padding-top:16px}
+  .preview .preview-home{gap:32px}
+  .preview .post-intro,.preview .captain-panel{padding-top:8px}
+  .preview .post-intro h1{font-size:clamp(56px,5.6vw,76px)}
+  .preview .captain-panel h1{font-size:clamp(44px,4.5vw,60px)}
+  .preview .lead,.preview .post-intro .lead,.preview .captain-panel .lead{font-size:18px}
+  .preview .route-card{margin-top:20px}
+  .preview .office-top{height:100px;padding-top:15px}
+  .preview .office-top .lucy{width:75px}
+  .preview .office-top .speech{font-size:11px;padding:5px 12px;bottom:92%}
+  .preview .lucy figcaption{font-size:9px;padding:5px 15px;margin-top:-12px}
+  .preview .open-sign{bottom:18px;font-size:8px;padding:4px 9px}
+  .preview .open-sign strong{font-size:11px}
+  .preview .office-number{bottom:17px;font-size:10px}
+  .preview .sorting-shelf{padding:12px 18px}
+  .preview .shelf-title{font-size:14px;margin-bottom:8px}
+  .preview .envelopes button{height:80px;min-height:80px}
+  .preview .envelopes{gap:12px 20px}
+  .preview .pick-glyph,.preview .planets .pick-glyph{font-size:34px}
+  .preview .pager{margin-top:8px}
+  .preview .captain{width:112px;margin-top:48px}
+  .preview .captain-label{margin-top:10px}
+  .preview .star-map{padding:10px 24px 14px}
+  .preview .map-caption{margin:4px 0 10px;font-size:15px}
+  .preview .map-mark{font-size:24px}
+  .preview .planets{gap:14px 26px;padding:4px 14px}
+  .preview .planets button{max-width:104px}
+  .preview .collection-preview{margin-top:16px}
+  .preview .collection-preview summary{min-height:60px;padding:8px 16px}
+}
+@media(min-width:1500px){
+  .preview.post{--letter-size:140px}.preview.space{--letter-size:180px}
+  .preview .app{padding-top:36px}
+  .preview #main{padding-top:36px}
+  .preview .office-top{height:180px}
+  .preview .office-top .lucy{width:135px}
+  .preview .envelopes button{height:140px;min-height:140px}
+  .preview .planets button{max-width:180px}
+  .preview .captain{width:220px;margin-top:66px}
+  .preview .post-intro h1{font-size:100px}
+  .preview .captain-panel h1{font-size:74px}
+  .preview .pager{margin-top:20px}
+  .preview .collection-preview{margin-top:32px}
+}
+@media(min-width:900px) and (max-height:620px){
+  .preview.post{--letter-size:72px}.preview.space{--letter-size:84px}
+  .preview .app{padding:12px 24px}
+  .preview #main{padding-top:12px}
+  .preview .office-top{height:80px;padding-top:10px}
+  .preview .office-top .lucy{width:60px}
+  .preview .office-top .speech{font-size:10px;padding:4px 10px}
+  .preview .open-sign{bottom:12px;padding:3px 7px}
+  .preview .office-number{bottom:10px}
+  .preview .sorting-shelf{padding:10px 16px}
+  .preview .shelf-title{height:22px;font-size:13px;margin-bottom:6px}
+  .preview .envelopes button{height:72px;min-height:72px}
+  .preview .picker-shelf{padding-block:4px}
+  .preview .planets button{max-width:84px}
+  .preview .captain{margin-top:28px}
+  .preview .map-caption{margin-bottom:6px}
+  .preview .collection-preview{margin-top:12px}
+  .preview #footer{padding-top:4px;min-height:24px;font-size:10px}
+  .preview #footer a{padding:2px 0;min-height:20px}
+}
+@media(max-width:899px){
+  .preview.post{--letter-size:94px}.preview.space{--letter-size:114px}
+  .preview .app{padding:18px 24px}
+  .preview .preview-label{display:none}
+  .preview .preview-home{grid-template-columns:1fr;gap:24px}
+  .preview .post-intro,.preview .captain-panel{position:relative;padding:0}
+  .preview .post-intro h1{font-size:56px;margin-bottom:14px}
+  .preview .captain-panel h1{font-size:48px;margin-bottom:14px}
+  .preview .post-intro .lead{position:absolute;left:55%;top:60px;font-size:19px}
+  .preview .route-card{margin-top:4px;width:100%;padding:10px 0}
+  .preview .route-card>span{display:none}
+  .preview .route-card p{justify-content:flex-start;margin:0;gap:16px}
+  .preview .captain-panel{padding-right:180px;min-height:208px}
+  .preview .captain{position:absolute;right:24px;top:44px;width:128px;margin:0}
+  .preview .captain .speech{display:none}
+  .preview .captain-label{white-space:normal}
+  .preview .office-top{height:110px;padding-top:16px}
+  .preview .office-top .lucy{width:80px}
+  .preview .office-top .speech{font-size:11px;padding:6px 12px}
+  .preview .lucy figcaption{font-size:9px;padding:5px 15px;margin-top:-12px}
+  .preview .envelopes button{height:94px;min-height:94px}
+  .preview .planets button{max-width:114px}
+  .preview .collection-preview{margin-top:20px}
+  .preview .album-grid{grid-template-columns:repeat(7,minmax(0,1fr))}
+}
+@media(max-width:550px){
+  .preview.post{--letter-size:76px}
+  .preview .app{padding:16px}
+  .preview .brand small{display:none}
+  .preview .brand{font-size:15px}
+  .preview .post-intro .lead{font-size:15px;left:58%}
+  .preview .post-intro h1{font-size:42px}
+  .preview .captain-panel h1{font-size:36px}
+  .preview .captain-panel{padding-right:100px}
+  .preview .captain{width:85px;right:0}
+  .preview .captain-label{display:none}
+  .preview .eyebrow{font-size:8px}
+  .preview .sorting-shelf,.preview .star-map{padding-inline:12px}
+  .preview .map-heading{font-size:6px;gap:8px}
+  .preview .envelopes,.preview .planets{gap:12px;padding-inline:2px}
+  .preview .envelopes button{height:76px;min-height:76px}
+  .preview .pick-glyph,.preview .planets .pick-glyph{font-size:28px}
+  .preview summary{padding-inline:12px}
+  .preview summary strong{font-size:15px}
+  .preview .album-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .preview #footer{align-items:start;flex-direction:column;gap:0}
+}
