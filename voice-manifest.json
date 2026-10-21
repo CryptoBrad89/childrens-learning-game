@@ -1394,14 +1394,33 @@
   "model": "eleven_v4",
   "provenance": {
    "source": "ElevenLabs creative_generate_speech 2026-10-21",
-   "generation_id": "LxzWnFPI8KG0NbuhllVx",
-   "flow_id": "ObIg2KwAqdvA9GosB4lL",
-   "credits": 15,
-   "source_text": "[gently] Uh-oh.",
-   "note": "Same creative speech defaults as existing Lucy clips; gentle delivery tag; one take per line."
+   "generation_id": "Lw3dqK6Hi4ThYuZl2KmT",
+   "flow_id": "qf00rNe71dXtPbyboPhK",
+   "credits": 20,
+   "source_text": "The word is \"Uh-oh.\"",
+   "take": 6,
+   "takes_for_line": 6,
+   "previous_generation_id": "LxzWnFPI8KG0NbuhllVx",
+   "note": "Plain prompt, no delivery or emotion tags; default creative speech settings. Selected by pitch, spectral brightness, and phrase verification. See reports/feedback-voice-pass.md for all takes and measurement limits.",
+   "trim_window_secs": [
+    1.54,
+    2.38
+   ],
+   "trim_method": "FFmpeg atrim, 15 ms fade-in, 30 ms fade-out; 128 kbps MP3. No pitch or tempo shift."
   },
-  "duration_secs": 1.36,
-  "sha256": "ab80ce180a5168c249f4a91e00b7468787d399052cf57c557d459a7b837b0a0e"
+  "duration_secs": 0.84,
+  "sha256": "dd3c9e20d407a4f9f0d219c18611d60ca93e37a3490d654106490e614ef40c1d",
+  "pitch": {
+   "median_hz": 266.9,
+   "unfiltered_median_hz": 268.8,
+   "p10_hz": 258.3,
+   "p90_hz": 318.0,
+   "voiced_frames": 49,
+   "all_voiced_frames": 55,
+   "duration_secs": 0.84,
+   "brightness_hz": 1038.0,
+   "method": "Praat autocorrelation, 16 kHz mono, 10 ms step, 75–600 Hz; median_hz uses voiced frames with correlation strength >= 0.6; unfiltered_median_hz includes all voiced frames."
+  }
  },
  {
   "file": "audio/feedback/lucy-try-again.mp3",
@@ -1411,14 +1430,28 @@
   "model": "eleven_v4",
   "provenance": {
    "source": "ElevenLabs creative_generate_speech 2026-10-21",
-   "generation_id": "sPRqdT5rMLwV6nfHJD7t",
-   "flow_id": "ObIg2KwAqdvA9GosB4lL",
-   "credits": 19,
-   "source_text": "[gently] Try again.",
-   "note": "Same creative speech defaults as existing Lucy clips; gentle delivery tag; one take per line."
+   "generation_id": "fHxR8ND1RQjcLzX0nkK3",
+   "flow_id": "qf00rNe71dXtPbyboPhK",
+   "credits": 10,
+   "source_text": "Try again.",
+   "take": 6,
+   "takes_for_line": 7,
+   "previous_generation_id": "sPRqdT5rMLwV6nfHJD7t",
+   "note": "Plain prompt, no delivery or emotion tags; default creative speech settings. Selected by pitch, spectral brightness, and phrase verification. See reports/feedback-voice-pass.md for all takes and measurement limits."
   },
-  "duration_secs": 1.44,
-  "sha256": "686e650d9724fc9d27389958c5ec721172a6b2770de37b9fe130bdb2b35203d2"
+  "duration_secs": 1.12,
+  "sha256": "95fd1d29517f47697f931772366af8fb29032f1434844754d607c40580398563",
+  "pitch": {
+   "median_hz": 272.6,
+   "unfiltered_median_hz": 254.2,
+   "p10_hz": 85.5,
+   "p90_hz": 416.7,
+   "voiced_frames": 66,
+   "all_voiced_frames": 72,
+   "duration_secs": 1.12,
+   "brightness_hz": 1023.5,
+   "method": "Praat autocorrelation, 16 kHz mono, 10 ms step, 75–600 Hz; median_hz uses voiced frames with correlation strength >= 0.6; unfiltered_median_hz includes all voiced frames."
+  }
  },
  {
   "file": "audio/feedback/lucy-oops-try-again.mp3",
@@ -1428,13 +1461,27 @@
   "model": "eleven_v4",
   "provenance": {
    "source": "ElevenLabs creative_generate_speech 2026-10-21",
-   "generation_id": "q7enl15zmQTFJl1XrOmx",
-   "flow_id": "ObIg2KwAqdvA9GosB4lL",
-   "credits": 25.000000000000004,
-   "source_text": "[gently] Oops, try again.",
-   "note": "Same creative speech defaults as existing Lucy clips; gentle delivery tag; one take per line."
+   "generation_id": "MfV3RTVlD0Xnofd5EcWt",
+   "flow_id": "qf00rNe71dXtPbyboPhK",
+   "credits": 16,
+   "source_text": "Oops! Try again.",
+   "take": 5,
+   "takes_for_line": 5,
+   "previous_generation_id": "q7enl15zmQTFJl1XrOmx",
+   "note": "Plain prompt, no delivery or emotion tags; default creative speech settings. Selected by pitch, spectral brightness, and phrase verification. See reports/feedback-voice-pass.md for all takes and measurement limits."
   },
-  "duration_secs": 2.16,
-  "sha256": "a2c4c4258789ce8d5a420269e22d711972eb417fb7ddf5b046b036448135ddfd"
+  "duration_secs": 2.08,
+  "sha256": "0801e708f3140092603988b081c066a76e135ff7160723d1db972e98a26c9d65",
+  "pitch": {
+   "median_hz": 305.3,
+   "unfiltered_median_hz": 306.9,
+   "p10_hz": 169.4,
+   "p90_hz": 426.9,
+   "voiced_frames": 70,
+   "all_voiced_frames": 77,
+   "duration_secs": 2.08,
+   "brightness_hz": 1514.2,
+   "method": "Praat autocorrelation, 16 kHz mono, 10 ms step, 75–600 Hz; median_hz uses voiced frames with correlation strength >= 0.6; unfiltered_median_hz includes all voiced frames."
+  }
  }
 ]
