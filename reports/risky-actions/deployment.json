@@ -5,5 +5,25 @@
   "edge_source_matches_working_tree": true,
   "migration": "20261021045745_risky_actions",
   "migration_source_matches_working_tree": true,
-  "verification": "Compared deployed source and recorded SQL text before resuming live checks."
+  "verification": "Compared deployed source and recorded SQL text before resuming live checks.",
+  "implementation_commit": "6d044fbc0c4507e9438680b7853b2a121a89c6e6",
+  "pushed_branch": "codex/home-flow-ribbon",
+  "remote_branch_matches_implementation_commit": true,
+  "published_source_verification": {
+    "host": "raw.githubusercontent.com",
+    "repository": "TeslaWarpDrive/childrens-learning-game",
+    "paths": [
+      "accounts/client.js",
+      "accounts/portal.js",
+      "grown-ups/editor.js",
+      "sw-assets.js"
+    ],
+    "all_http_status": 200,
+    "all_match_committed_source": true
+  },
+  "cdn_verification": {
+    "host": "raw.githack.com",
+    "http_status": 403,
+    "result": "Fetch blocked from this environment; no claim of CDN-hosted UI verification."
+  }
 }

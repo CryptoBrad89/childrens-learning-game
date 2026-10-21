@@ -1,6 +1,6 @@
 # Risky actions verification
 
-Implemented on `codex/home-flow-ribbon`. The forward migration `20261021045745_risky_actions.sql` and `accounts` Edge version 9 are deployed only to `ixjbgshhzeaosrzavssr`. On resumption, both deployed source texts matched the working tree exactly. [Deployment evidence](risky-actions/deployment.json).
+Implemented on `codex/home-flow-ribbon`. The forward migration `20261021045745_risky_actions.sql` and `accounts` Edge version 9 are deployed only to `ixjbgshhzeaosrzavssr`. On resumption, both deployed source texts matched the working tree exactly. Implementation commit `6d044fb` was pushed to the required branch, and the remote branch matched that commit. Published GitHub source for the client, portal, settings editor, and offline manifest returned HTTP 200 and matched the committed files. [Deployment evidence](risky-actions/deployment.json).
 
 ## What changed
 
@@ -67,6 +67,8 @@ The security advisor flags the deliberately authenticated security-definer entry
 The master remains `brandy`, display name Brandy. Its complete profile and Auth-row digests are identical to the original read-only baseline. The master was never signed in, modified, renamed, deleted, reset, re-passworded, or restored by this work. Master behavior was tested with local disposable fixtures.
 
 All 370 pre-existing account IDs remain. The two live test runs created 254 disposable accounts total. Every one was removed using only its recorded exact ID, with children cleaned up before their grown-ups. No pre-existing live account was deleted, no Bradley change was restored, and no database rollback was performed. [Preservation checks](risky-actions/preservation.json).
+
+The final `raw.githack.com` fetch check returned HTTP 403 from this environment. The live portal checks used a local static frontend with the deployed Supabase backend; CDN-hosted UI verification is therefore not claimed. This did not prevent the required branch push or backend deployment.
 
 ## Test with a disposable login
 
