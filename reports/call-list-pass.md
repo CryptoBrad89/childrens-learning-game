@@ -14,7 +14,7 @@ There is no Brandy profile and no Brandy auth user, before or after. Username an
 | My account | done | Own page at `grown-ups/account.html`. Name, sign-in name, secret, Lucy picture or upload, own progress, one confirm to reset. |
 | Game settings inside Kids | done | Same cream page. The label says `Editing: game defaults` or the children's names. SATPIN and vowels are the letter presets. |
 | Sign out | done | One fixed top-right control on grown-up pages. At 390 and 1440 it sits at y=12, 44px tall, and does not cover another button. It returns to `grown-ups/index.html`. |
-| Delete confirm | done | The phrase box is above Delete. Delete stays disabled until the typed value is `delete`. |
+| Delete confirm | done | Replaced in the risky-actions add-on. The password field is above the button. The button stays disabled until a secret is typed. |
 | Six Lucy pictures | done | garden, nap, mail, leap, wave, nudge. Square, face-centered, 256px, offered offline. Upload still works. Spares are not offered. |
 | Header picture | done | Narrow picture only. Theme chooser stays where it was. A child's picture opens a sheet that does not edit a name. A grown-up's picture links to My account. |
 | Layout picker | deferred | Bradley said leave it. Section 7 picker changes are not in this build. |
@@ -51,7 +51,9 @@ Children: **6 hours after sign-in**, from `session_marks.started_at`. Activity d
 - `ff8ac16` Add the cream kids desk, six Lucy pictures, and My account.
 - `9bab0ec` Play the three approved wrong-answer lines in turn.
 - `07c6524` Cover call-list permissions, session clocks, and reset epochs.
-- The commit that adds this report is the last one on `cursor/home-flow-ribbon` for this pass.
+- `1a4b98b` Record the call-list pass, with screenshots.
+- `50c01fc` Ask for the grown-up's own secret before a risky account change.
+- The commit that records this add-on follows `50c01fc`.
 
 Base confirmed before the first commit: local `HEAD`, `origin/cursor/home-flow-ribbon`, and `origin/rollback/pre-call-list-2026-10-20-cursor` were all `0d01cc60678b78e552d6498a6dba6eea0f5b5a35`.
 
@@ -63,7 +65,9 @@ Kids portal: [390×844](call-list/portal-kids-390x844.png), [768×1024](call-lis
 
 Grown-ups, master only: [390×844](call-list/portal-grownups-390x844.png), [768×1024](call-list/portal-grownups-768x1024.png), [1440×900](call-list/portal-grownups-1440x900.png), [1180×820](call-list/portal-grownups-1180x820.png), [1440×1080](call-list/portal-grownups-1440x1080.png), [1920×1080](call-list/portal-grownups-1920x1080.png).
 
-Also: [six pictures](call-list/portal-pictures.png), [game settings for Maya](call-list/portal-game-settings.png), [delete confirm at 390](call-list/portal-delete-confirm-390.png), [delete confirm at 1440](call-list/portal-delete-confirm-1440.png), [pick a child first](call-list/portal-need-pick.png), [My account](call-list/my-account-1440.png), [reset my progress](call-list/my-account-reset.png).
+Also: [six pictures](call-list/portal-pictures.png), [game settings for Maya](call-list/portal-game-settings.png), [password confirm at 390](call-list/portal-password-confirm-390.png), [password confirm at 1440](call-list/portal-password-confirm-1440.png), [password typed, Delete enabled](call-list/portal-password-ready-1440.png), [pick a child first](call-list/portal-need-pick.png), [My account](call-list/my-account-1440.png), [current secret](call-list/my-account-current-secret-1440.png), [reset my progress at 390](call-list/my-account-password-reset-390.png), [reset my progress at 1440](call-list/my-account-password-reset-1440.png).
+
+The earlier typed-word delete shots are the same files as the password confirm at 390 and 1440. The button in those shots is the faded Delete, because the secret field is empty.
 
 Game header: [390×844](call-list/game-chip-390x844.png), [1180×820](call-list/game-chip-1180x820.png), [1440×1080](call-list/game-chip-1440x1080.png), [1920×1080](call-list/game-chip-1920x1080.png), [grown-up chip 1180×820](call-list/game-chip-grownup-1180x820.png).
 
@@ -77,8 +81,11 @@ Headless, Chrome:
 - `tests/accounts_merge.cjs`: reset epoch replaces an older round, a same epoch counts once, settings stay, a merge with no epoch stays a union.
 - `tests/accounts_session.cjs`: fake clock. Exactly 30 minutes idle expires a grown-up. A click inside the window keeps them in. A child expires at 6 hours.
 - `tests/portal_rules.cjs`, `tests/home_flow.cjs`, `tests/grown_ups_smoke.cjs`: pass, including phone, tablet, chromebook, whiteboard, reduced motion, and dark.
-- `tests/call_list_live.cjs`: anonymous 401, Ada is not master, create-grownup 403 `not-master`, disposable child progress ok, stranger `not-linked`, child token 403 `not-allowed`, peek limit `inactivity`, child deleted by id.
-- Full suites: `accounts_sync`, `browser_smoke` (18), `runtime_smoke` (letter-post, moonboat, silk), `motion_smoke` (12), `silk_smoke`, `confetti_smoke` (18), `grown_ups_runtime`. All passed.
+- `tests/call_list_live.cjs`: anonymous 401, Ada is not master, create-grownup 403 `not-master`, disposable child progress ok, stranger `not-linked`, child token 403 `not-allowed`, peek limit `inactivity`. A delete or a sign-in rename without the grown-up's secret is 403 `password`, and the child can still sign in. Three disposable children were deleted in one call after the secret matched.
+- `tests/risky_actions.cjs`: the confirm is a password, the button is not a typed word, Ribbon Road's config matches `0d01cc6`, and no selection cap is in the page, the function, or the new SQL.
+- `tests/accounts_merge.cjs` and `tests/accounts_session.cjs` passed again.
+- Full suites, run again after the password change: `accounts_sync`, `browser_smoke` (18), `runtime_smoke` (letter-post, moonboat, silk), `motion_smoke` (12), `silk_smoke`, `confetti_smoke` (18), `grown_ups_runtime`. `ALL_SUITES_OK`. `home_flow` and `grown_ups_smoke` passed, including phone, tablet, chromebook, whiteboard, reduced motion, and dark.
+- The voice inventory was not run again. The three wrong-answer files were not changed.
 
 Ribbon Road loads `v1-letter-post/app.js`. Moonboat has its own copy. Both got the same wrong-answer hook. `new Audio(` stays one call site.
 
@@ -108,7 +115,7 @@ Always-latest raw.githack for `cursor/home-flow-ribbon`:
 - https://raw.githack.com/CryptoBrad89/childrens-learning-game/cursor/home-flow-ribbon/grown-ups/index.html
 - https://raw.githack.com/CryptoBrad89/childrens-learning-game/cursor/home-flow-ribbon/grown-ups/account.html
 
-Supabase project `shkmpxaejiuqzejsdwyr` only. The edge function `accounts-manage` is deployed there with JWT verification on. The git migration is `supabase/migrations/20261021043000_call_list.sql`. The live database has that SQL applied in four idempotent batches (`call_list`, `call_list_roster`, `call_list_sessions`, `call_list_merge`) because one payload was split. Old migrations were not edited.
+Supabase project `shkmpxaejiuqzejsdwyr` only. The edge function `accounts-manage` is deployed there with JWT verification on. The call-list git migration is `supabase/migrations/20261021043000_call_list.sql`. The live database has that SQL applied in four idempotent batches (`call_list`, `call_list_roster`, `call_list_sessions`, `call_list_merge`) because one payload was split. The password compare is `supabase/migrations/20261021063000_risky_actions.sql`, applied as `risky_actions`. Old migrations were not edited.
 
 ## Design tools
 
@@ -124,8 +131,46 @@ Supabase project `shkmpxaejiuqzejsdwyr` only. The edge function `accounts-manage
 
 The direction and the mock live in the project store, not in git. Existing shader and motion credits in the game stay inside their licenses.
 
+## Layout check against 0d01cc6
+
+`v4-silk-thread/config.js` is the same file as `0d01cc60678b78e552d6498a6dba6eea0f5b5a35`, including the line “Scroll for all 26 letters ↓”. The pink Ribbon Road home and the large portrait are that commit. The layout picker, the three worlds, and the letter rows were not restyled and were not reverted.
+
+The header change that stays is the account picture. It is inserted before `.controls`. The theme menu is still the select inside that control group. A grown-up's picture opens My account. A child's picture does not. Wrong-answer clips, the portal, the six pictures, and the accounts stay.
+
+## Risky actions
+
+The grown-up re-enters their own secret. The Edge function calls `confirm_grownup_secret`, which compares the bcrypt hash sign-in already stores and does not write the user row. An empty or wrong secret returns 403 `password` and changes nothing. The secret is not stored and not logged. A count, a name, or a checkbox cannot skip it. The dialog lists who is affected. The only typed confirm is the secret. The button stays disabled until the field has something in it.
+
+### Caps
+
+No numeric cap on how many children or grown-ups one action can select was in the portal, the Edge function, or the database, so none was deleted. The server accepts the whole id list. The page sends that list in groups of 25 so a long selection still finishes. That group size is not shown. Refusing Brandy's row, or the master's own row, is not a count cap. The learner-state size limit was left as it was.
+
+### Behind the secret
+
+- Delete a child, one or many
+- Delete a grown-up, one or many
+- Reset progress, including Reset my progress, one or many
+- Change or reset someone else's secret
+- Unlink a child
+- Move a child to another grown-up
+- Create a grown-up login
+- Change a child's sign-in name
+- Change your own sign-in name or secret. One current-secret field. There is no second box to retype the new secret.
+
+The portal has no editor for another grown-up's sign-in name. Creating that login already asks for the signed-in grown-up's secret.
+
+### Does not ask
+
+Linking a child, adding a child, game settings, a display name, a picture, and the device-only Reset all settings dialog.
+
+### Live check
+
+Before the password compare, Ada's `last_sign_in_at` was `2026-10-21 05:33:04.530365+00`. A matching compare returned true and a wrong compare returned false. The timestamp was still that value. Later test sign-ins are real sign-ins, so they do move it.
+
+Brandy profiles: 0. Brandy auth users: 0. Masters: 0. Disposable children from the live password test were removed by the ids the server returned. Nothing of hers was created.
+
 ## Not finished
 
 - pstack was not configured. It needs Bradley's budget choice.
-- No standing master remains, because Brandy is not in this database and the disposable master was removed.
-- Grown-ups screenshots predate the bulk-delete checkboxes.
+- No standing master remains, because Brandy is not in this database and was not created.
+- Grown-ups list screenshots still predate the bulk-delete checkboxes. The password confirm shots are new.
