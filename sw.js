@@ -2,9 +2,22 @@
  * Supabase itself is a different origin and is never cached: play waits
  * in the browser and merges when the network comes back.
  */
-const CACHE = 'little-woof-shell-1';
+const CACHE = 'little-woof-shell-2';
+const PRECACHE = [
+  'audio/wrong/lucy-uh-oh.mp3',
+  'audio/wrong/lucy-try-again.mp3',
+  'audio/wrong/lucy-oops-try-again.mp3',
+  'accounts/pictures/garden.jpg',
+  'accounts/pictures/nap.jpg',
+  'accounts/pictures/mail.jpg',
+  'accounts/pictures/leap.jpg',
+  'accounts/pictures/wave.jpg',
+  'accounts/pictures/nudge.jpg'
+];
 
-self.addEventListener('install', event => { event.waitUntil(self.skipWaiting()); });
+self.addEventListener('install', event => {
+  event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(PRECACHE)).then(() => self.skipWaiting()));
+});
 self.addEventListener('activate', event => { event.waitUntil(self.clients.claim()); });
 
 self.addEventListener('fetch', event => {
