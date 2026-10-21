@@ -23,5 +23,5 @@ const {staticServer,playwright,form}=require('./accounts_sync.cjs');
   const direct=await a.evaluate(async()=>{try{await ACCOUNTS.rest('rpc/reset_own_progress',{method:'POST',body:{p_actor:ACCOUNTS.profile.id}});return 200;}catch(e){return e.status;}});assert([401,403,404].includes(direct));result.checks.push('Authenticated direct RPC invocation denied');
   for(const p of pages)await p.evaluate(()=>ACCOUNTS.signOut());
   console.log('PASS LIVE call list: '+result.checks.join('; '));
- }finally{await browser.close();local.server.close();fs.writeFileSync('reports/call-list-live-results.json',JSON.stringify(result,null,2)+'\n');}
+ }finally{await browser.close();local.server.close();fs.writeFileSync(process.env.CALL_LIST_HOSTED?'reports/call-list-hosted-live-results.json':'reports/call-list-live-results.json',JSON.stringify(result,null,2)+'\n');}
 })().catch(e=>{console.error(e);process.exitCode=1;});

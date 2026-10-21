@@ -93,6 +93,8 @@ function backend() {
   }};
 }
 async function form(page,id,values) {
+  const hostedGate=page.getByRole('button',{name:'Open the page',exact:true});
+  if(await hostedGate.count())await hostedGate.click();
   if(['profile-form','own-password-form'].includes(id))await page.locator('#my-account').click();
   else if(id==='create-grownup-form')await page.locator('#adults-view').click();
   else if(['create-child-form','link-child-form'].includes(id)){

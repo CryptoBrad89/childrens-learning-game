@@ -5,6 +5,7 @@ const {staticServer,playwright}=require('./accounts_sync.cjs');
  const local=await staticServer(),base=process.env.CALL_LIST_HOSTED||local.url+'/',browser=await playwright().chromium.launch({executablePath:'/usr/bin/google-chrome',args:['--no-sandbox']});
  try{
   const context=await browser.newContext(),page=await context.newPage();await page.goto(base+'accounts/');
+  const hostedGate=page.getByRole('button',{name:'Open the page',exact:true});if(await hostedGate.count())await hostedGate.click();
   await page.waitForFunction(async()=>{const keys=await caches.keys();for(const key of keys){const cache=await caches.open(key);if(await cache.match(new URL('audio/feedback/lucy-oops-try-again.mp3',location.href.replace(/accounts\/$/,'')).href))return true;}return false;},null,{timeout:120000});
   await page.evaluate(()=>navigator.serviceWorker.ready);await page.waitForFunction(()=>Boolean(navigator.serviceWorker.controller));
   await context.setOffline(true);await page.reload();

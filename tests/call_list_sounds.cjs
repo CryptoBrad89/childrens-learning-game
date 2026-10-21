@@ -37,5 +37,5 @@ const {staticServer,backend,playwright,form}=require('./accounts_sync.cjs');
    console.log(`PASS sounds ${role} ${width} ${dir}: native MP3 playback, three varied clips, no overlap, mute, Escape cancellation`);
   }
   await context.close();
- }}finally{await browser.close();local.server.close();fs.writeFileSync('reports/call-list-sounds-results.json',JSON.stringify(results,null,2)+'\n');}
+ }}finally{await browser.close();local.server.close();fs.writeFileSync(process.env.CALL_LIST_HOSTED?'reports/call-list-hosted-sounds-results.json':'reports/call-list-sounds-results.json',JSON.stringify(results,null,2)+'\n');}
 })().catch(e=>{console.error(e);process.exitCode=1;});
