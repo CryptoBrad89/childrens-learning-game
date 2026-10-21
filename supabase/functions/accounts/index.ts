@@ -134,6 +134,11 @@ export async function serve(request: Request): Promise<Response> {
       if (input.confirm !== action) throw new RequestError('Confirm this action first.');
       return response(await api('/rest/v1/rpc/transfer_children', {method: 'POST', body: JSON.stringify({p_actor: adult, p_children: ids, p_source: source, p_destination: destination})}));
     }
+    if (action === 'reset-own-progress') {
+      if (input.confirm !== action) throw new RequestError('Confirm this action first.');
+      await api('/rest/v1/rpc/reset_own_progress', {method: 'POST', body: JSON.stringify({p_actor: adult})});
+      return response({ok: true});
+    }
     if (action === 'reset-grownup-progress') {
       const id = uuid(input.grownup_id, 'Grown-up ID');
       if (input.confirm !== action) throw new RequestError('Confirm this action first.');

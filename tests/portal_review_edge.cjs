@@ -48,5 +48,11 @@ async function send(action,fields={}){calls=[];const r=await handler(new Request
  assert.equal((await send('delete-child',{child_id:master,confirm:'delete-child'})).status,403);
  assert.equal((await send('reset-grownup-progress',{grownup_id:master,confirm:'reset-grownup-progress'})).status,403);
  assert.equal((await send('delete-child',{child_id:kid})).status,400,'Single-ID confirmation preserved');
+ for(const who of [master,adult]) {
+  actor=who;result=await send('reset-own-progress',{confirm:'reset-own-progress',grownup_id:other});assert.equal(result.status,200);
+  assert.deepEqual(calls.find(c=>c.url.endsWith('/rpc/reset_own_progress')).body,{p_actor:who},'Self reset ignores a supplied target');
+  result=await send('reset-own-progress');assert.equal(result.status,400);assert(!calls.some(c=>c.url.endsWith('/rpc/reset_own_progress')));
+ }
+ actor=kid;assert.equal((await send('reset-own-progress',{confirm:'reset-own-progress'})).status,403);
  console.log('PASS portal review Edge: master/linked/unlinked actions, master-only sharing/transfers/defaults/grown-ups, bulk happy/partial failures, master protection, preflight and 100-ID/UUID/duplicate validation');
 })().catch(e=>{console.error(e);process.exitCode=1;});
