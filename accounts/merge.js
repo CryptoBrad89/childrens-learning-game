@@ -1,6 +1,8 @@
 /* Progress sync is a tiny CRDT. These rules are the whole conflict policy.
  * Invariants (also enforced in supabase/migrations):
- * 1. Letters are add-only. A letter earned on any device stays earned.
+ * 1. Letters are add-only until a progress reset. A newer reset replaces
+ *    letters, counts and stars, so an offline reset beats older queued rounds.
+ *    The same reset still unions, and a letter earned on any device stays earned.
  * 2. The kept timestamp for a letter is the earliest one.
  * 3. Play counts are a G-counter: each device increments only its own key,
  *    and merge takes the max per device, so a replay cannot double-count
@@ -35,7 +37,7 @@
     };
   }
   function emptyState() {
-    return {settings: {}, progress: emptyProgress(), achievements: {}, themes: {}};
+    return {settings: {}, progress: emptyProgress(), achievements: {}, themes: {}, progressEpoch: null};
   }
   function clone(state) {
     return JSON.parse(JSON.stringify(state || emptyState()));
@@ -120,14 +122,49 @@
     }
     return out;
   }
+  // A progress reset is a timestamp register. A newer reset replaces letters,
+  // counts and stars. The same reset keeps the add-only union, so a round
+  // played after the reset still counts once. No reset at all stays add-only.
+  function epochOf(state) {
+    const item = state && state.progressEpoch;
+    if (!item || !validTime(item.t)) return null;
+    return {v: item.v, t: item.t};
+  }
+  function newerEpoch(left, right) {
+    if (!left && !right) return 'same';
+    if (!left) return 'right';
+    if (!right) return 'left';
+    if (left.t !== right.t) return left.t > right.t ? 'left' : 'right';
+    return 'same';
+  }
   function mergeState(left, right) {
     const a = left || emptyState();
     const b = right || emptyState();
+    const epochA = epochOf(a);
+    const epochB = epochOf(b);
+    const which = newerEpoch(epochA, epochB);
+    let progress;
+    let achievements;
+    let epoch = null;
+    if (which === 'left') {
+      progress = mergeProgress(a.progress, emptyProgress());
+      achievements = mergeAchievements(a.achievements, {});
+      epoch = epochA;
+    } else if (which === 'right') {
+      progress = mergeProgress(b.progress, emptyProgress());
+      achievements = mergeAchievements(b.achievements, {});
+      epoch = epochB;
+    } else {
+      progress = mergeProgress(a.progress, b.progress);
+      achievements = mergeAchievements(a.achievements, b.achievements);
+      epoch = epochA || epochB;
+    }
     return {
       settings: mergeRegisters(a.settings, b.settings, SETTING_KEYS),
-      progress: mergeProgress(a.progress, b.progress),
-      achievements: mergeAchievements(a.achievements, b.achievements),
-      themes: mergeRegisters(a.themes, b.themes, WORLDS)
+      progress,
+      achievements,
+      themes: mergeRegisters(a.themes, b.themes, WORLDS),
+      progressEpoch: epoch
     };
   }
   function distinctLetters(state) {

@@ -37,12 +37,20 @@
       let message = error.message || 'The request failed.';
       try {
         const context = await error.context?.json?.();
-        if (context && context.error) message = context.error;
+        if (context && context.error) message = explainMessage(context.error);
       } catch (parseError) { /* the body was not JSON */ }
       throw new Error(message);
     }
+    if (data && (data.error === 'not-linked' || data.code === 'not-linked')) {
+      throw new Error('That child is not linked to you.');
+    }
     if (data && data.error) throw new Error(data.error);
     return data;
+  }
+  function explainMessage(message) {
+    if (message === 'not-linked') return 'That child is not linked to you.';
+    if (message === 'signed out for safety') return 'You were signed out for safety.';
+    return message;
   }
   async function sessionUser() {
     const {data, error} = await supabase().auth.getSession();
@@ -62,6 +70,7 @@
   async function signIn(email, password) {
     const {data, error} = await supabase().auth.signInWithPassword({email, password});
     if (error) throw new Error(error.message === 'Invalid login credentials' ? 'That secret did not match.' : error.message);
+    try { await supabase().rpc('touch_session', {p_start: true}); } catch (sessionError) { /* the limit is also checked on the next call */ }
     return data.user;
   }
   async function signInChild(loginName, password) {
@@ -147,6 +156,34 @@
     Store.writeState(id, state);
     scheduleSync(id);
   }
+  function resetProgress(id) {
+    const now = new Date().toISOString();
+    const state = Store.readState(id);
+    state.progress = Merge.emptyProgress();
+    state.achievements = {};
+    state.progressEpoch = {v: now, t: now};
+    Store.writeState(id, state);
+    scheduleSync(id);
+    return state;
+  }
+  async function touchActivity() {
+    try {
+      const {data, error} = await supabase().rpc('touch_session', {p_start: false, p_peek: false});
+      if (error || !data) return {ok: true, reason: ''};
+      return data;
+    } catch (error) {
+      return {ok: true, reason: ''};
+    }
+  }
+  async function peekSession() {
+    try {
+      const {data, error} = await supabase().rpc('touch_session', {p_start: false, p_peek: true});
+      if (error || !data) return {ok: true, reason: ''};
+      return data;
+    } catch (error) {
+      return {ok: true, reason: ''};
+    }
+  }
   function earn(id, world, letter) {
     const now = new Date().toISOString();
     const state = Store.readState(id);
@@ -163,6 +200,6 @@
   root.LittleWoofClient = {
     configured, supabase, childEmail, invoke, sessionUser, roleOf, signIn, signInChild, signOut,
     lookupClass, roster, createClass, activeLearner, setLearner, pull, syncNow, scheduleSync,
-    noteSettings, noteTheme, earn
+    noteSettings, noteTheme, earn, resetProgress, touchActivity, peekSession
   };
 })(typeof globalThis !== 'undefined' ? globalThis : this);

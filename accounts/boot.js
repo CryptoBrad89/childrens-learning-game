@@ -54,6 +54,62 @@
     }
   }
 
+  function startSessionGuard() {
+    const Session = window.LittleWoofSession;
+    if (!Session) return;
+    let startedAt = 0;
+    let lastActiveAt = 0;
+    let known = false;
+    let dirty = false;
+    let touched = 0;
+    let leaving = false;
+    const remember = row => {
+      if (!row) return;
+      if (row.started_at) { startedAt = Date.parse(row.started_at) || startedAt; known = true; }
+      if (row.last_active_at) { lastActiveAt = Date.parse(row.last_active_at) || lastActiveAt; known = true; }
+    };
+    const leave = async () => {
+      if (leaving) return;
+      leaving = true;
+      try { await Client.syncNow(); } catch (error) { /* the queued copy stays */ }
+      try { await Client.signOut(); } catch (error) { /* already signed out */ }
+      try { sessionStorage.setItem('lw-safety', '1'); } catch (error) { /* private window */ }
+      Store.clearActive();
+      Store.clearProjection();
+      location.href = grownPage ? 'index.html' : '/index.html';
+    };
+    const check = async () => {
+      let user = null;
+      try { user = await Client.sessionUser(); } catch (error) { user = null; }
+      if (!user) return;
+      const role = Client.roleOf(user);
+      if (known) {
+        const decision = Session.assess({role, startedAt, lastActiveAt, now: Date.now()});
+        if (!decision.ok) { await leave(); return; }
+      }
+      if (!dirty || Date.now() - touched < 60000) return;
+      dirty = false;
+      touched = Date.now();
+      const row = await Client.touchActivity();
+      remember(row);
+      if (row && row.ok === false && row.reason === 'safety') await leave();
+    };
+    const mark = () => {
+      lastActiveAt = Date.now();
+      dirty = true;
+      if (!known) { startedAt = lastActiveAt; known = true; }
+      check().catch(() => {});
+    };
+    ['pointerdown', 'keydown'].forEach(type => window.addEventListener(type, mark));
+    if (Client.peekSession) {
+      Client.peekSession().then(async row => {
+        remember(row);
+        if (row && row.ok === false && row.reason === 'safety') await leave();
+      }).catch(() => {});
+    }
+    setInterval(() => { check().catch(() => {}); }, 15000);
+  }
+
   window.LittleWoof = {
     learnerName() { return active() ? active().displayName : ''; },
     letters(world) { return active() ? Merge.lettersOf(Store.readState(active().learnerId), world) : []; },
@@ -99,5 +155,6 @@
     beat();
     setInterval(beat, 4000);
     window.addEventListener('online', beat);
+    startSessionGuard();
   });
 })();
