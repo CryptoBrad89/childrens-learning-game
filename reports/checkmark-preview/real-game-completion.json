@@ -1,0 +1,23 @@
+[
+  {
+    "game": "v1-letter-post",
+    "openingDoesNotComplete": true,
+    "wrongAnswerDoesNotComplete": true,
+    "correctAnswerCompletes": true,
+    "externalRequests": 0
+  },
+  {
+    "game": "v3-moonboat",
+    "openingDoesNotComplete": true,
+    "wrongAnswerDoesNotComplete": true,
+    "correctAnswerCompletes": true,
+    "externalRequests": 0
+  },
+  {
+    "game": "v4-silk-thread",
+    "openingDoesNotComplete": true,
+    "wrongAnswerDoesNotComplete": true,
+    "correctAnswerCompletes": true,
+    "externalRequests": 0
+  }
+]
