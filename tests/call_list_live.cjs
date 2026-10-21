@@ -55,6 +55,7 @@ async function run() {
   assert.equal(created.status, 200, JSON.stringify(created.data));
   const childId = created.data.id;
   assert.match(childId, /^[0-9a-f-]{36}$/);
+  const extraIds = [];
   try {
     const progress = await call('/rest/v1/rpc/kid_progress', {p_user_id: childId}, token);
     assert.equal(progress.status, 200, JSON.stringify(progress.data));
@@ -74,10 +75,41 @@ async function run() {
     const touch = await call('/rest/v1/rpc/touch_session', {p_start: false, p_peek: true}, token);
     assert.equal(touch.status, 200, JSON.stringify(touch.data));
     assert.equal(touch.data.limit, 'inactivity');
+
+    const blockedDelete = await call('/functions/v1/accounts-manage', {action: 'delete-child', child_id: childId}, token);
+    assert.equal(blockedDelete.status, 403);
+    assert.equal(blockedDelete.data.code, 'password');
+    const wrongDelete = await call('/functions/v1/accounts-manage', {action: 'delete-child', child_id: childId, confirm_password: 'not-the-secret'}, token);
+    assert.equal(wrongDelete.status, 403);
+    assert.equal(wrongDelete.data.code, 'password');
+    const stillThere = await call('/auth/v1/token?grant_type=password', {email: `${login}@players.littlewoof.app`, password: '7234ab'});
+    assert.equal(stillThere.status, 200, 'a wrong secret does not delete the child');
+
+    const rename = await call('/functions/v1/accounts-manage', {
+      action: 'update-child', child_id: childId, display_name: 'Call List Kid', login_name: `${login}x`, avatar: 'garden'
+    }, token);
+    assert.equal(rename.status, 403);
+    assert.equal(rename.data.code, 'password');
+
+    for (let i = 0; i < 2; i++) {
+      const extraLogin = `b${tag}${i}`.replace(/[^a-z0-9]/g, '').slice(0, 12);
+      const extra = await call('/functions/v1/accounts-manage', {
+        action: 'create-child', display_name: `Batch ${i}`, login_name: extraLogin, password: '7234ab', avatar: 'nap'
+      }, token);
+      assert.equal(extra.status, 200, JSON.stringify(extra.data));
+      extraIds.push(extra.data.id);
+    }
+    const bulk = await call('/functions/v1/accounts-manage', {
+      action: 'delete-child', child_ids: [childId, ...extraIds], confirm_password: 'sunnyday'
+    }, token);
+    assert.equal(bulk.status, 200, JSON.stringify(bulk.data));
+    assert.equal(bulk.data.results.filter(row => row.ok).length, 3);
   } finally {
-    const removed = await call('/functions/v1/accounts-manage', {action: 'delete-child', child_id: childId}, token);
-    assert.equal(removed.status, 200, JSON.stringify(removed.data));
-    assert.equal(removed.data.id, childId);
+    await call('/functions/v1/accounts-manage', {
+      action: 'delete-child',
+      child_ids: [childId, ...extraIds],
+      confirm_password: 'sunnyday'
+    }, token);
   }
 
   const gone = await call('/auth/v1/token?grant_type=password', {email: `${login}@players.littlewoof.app`, password: '7234ab'});

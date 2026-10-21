@@ -7,6 +7,7 @@
 (function () {
   'use strict';
   if (location.protocol === 'file:') return;
+  let grownPeople = [];
   const Client = window.LittleWoofClient;
   const Store = window.LittleWoofStore;
   const Avatars = window.LittleWoofAvatars;
@@ -158,11 +159,20 @@
     Store.clearProjection();
     location.href = 'index.html';
   }
-  function askDanger(text) {
+  async function eachChunk(items, send) {
+    const out = [];
+    for (let start = 0; start < items.length; start += 25) {
+      const data = await send(items.slice(start, start + 25));
+      if (data && Array.isArray(data.results)) out.push(...data.results);
+    }
+    return out;
+  }
+  function askPassword(text, commit) {
     const dialog = document.getElementById('danger');
     const phrase = dialog.querySelector('#danger-phrase');
     const go = dialog.querySelector('#danger-go');
     dialog.querySelector('#danger-text').textContent = text;
+    go.textContent = commit || 'Continue';
     phrase.value = '';
     go.disabled = true;
     dialog.showModal();
@@ -172,28 +182,17 @@
       const finish = value => {
         if (settled) return;
         settled = true;
+        phrase.value = '';
         resolve(value);
       };
-      dialog.addEventListener('close', () => finish(false), {once: true});
-      phrase.oninput = () => { go.disabled = phrase.value.trim().toLowerCase() !== 'delete'; };
-      go.onclick = () => { if (!go.disabled) { finish(true); dialog.close(); } };
-      dialog.querySelector('#danger-cancel').onclick = () => { finish(false); dialog.close(); };
-    });
-  }
-  function askReset(text) {
-    const dialog = document.getElementById('reset-ask');
-    dialog.querySelector('#reset-text').textContent = text;
-    dialog.showModal();
-    return new Promise(resolve => {
-      let settled = false;
-      const finish = value => {
-        if (settled) return;
-        settled = true;
-        resolve(value);
+      dialog.addEventListener('close', () => finish(null), {once: true});
+      phrase.oninput = () => { go.disabled = phrase.value.length === 0; };
+      go.onclick = () => {
+        if (go.disabled) return;
+        finish(phrase.value);
+        dialog.close();
       };
-      dialog.addEventListener('close', () => finish(false), {once: true});
-      dialog.querySelector('#reset-go').onclick = () => { finish(true); dialog.close(); };
-      dialog.querySelector('#reset-cancel').onclick = () => { finish(false); dialog.close(); };
+      dialog.querySelector('#danger-cancel').onclick = () => { finish(null); dialog.close(); };
     });
   }
   function openGameSettings(label, ids, extras) {
@@ -215,6 +214,7 @@
     const roster = await Client.roster();
     const children = roster.children || [];
     const master = !!(roster && roster.is_master);
+    grownPeople = roster.grownups || [];
     const leave = document.getElementById('leave');
     if (leave) leave.hidden = true;
     document.body.dataset.portal = 'ready';
@@ -303,11 +303,11 @@
       const also = event.target.querySelector('[name="also_parent_id"]');
       try {
         showStatus('Linking…');
-        await Client.invoke('accounts-manage', {
+        await eachChunk(ids, part => Client.invoke('accounts-manage', {
           action: 'link-children',
-          child_ids: ids,
+          child_ids: part,
           also_parent_id: also && also.value ? also.value : undefined
-        });
+        }));
         location.reload();
       } catch (error) { showStatus(error.message, true); }
     });
@@ -317,6 +317,7 @@
       const login = String(data.login_name || '').trim().toLowerCase();
       if (!/^[a-z0-9]{2,20}$/.test(login)) { showStatus('Use a short sign-in name.', true); return; }
       if (String(data.password).length < 6) { showStatus('The secret needs at least 6 characters.', true); return; }
+      if (!String(data.confirm_password || '')) { showStatus('Enter your secret to add a grown-up.', true); return; }
       try {
         showStatus('Adding the grown-up…');
         await Client.invoke('accounts-manage', {
@@ -324,6 +325,7 @@
           display_name: data.display_name,
           login_name: login,
           password: data.password,
+          confirm_password: data.confirm_password,
           avatar: grownAvatar()
         });
         showStatus('Grown-up added. They can sign in with that name.');
@@ -423,31 +425,31 @@
       return;
     }
     if (action.dataset.bulk === 'reset') {
-      const yes = await askReset(`Reset progress for ${names}? Sounds they have kept will be cleared.`);
-      if (!yes) return;
-      const results = [];
-      for (const child of picked) {
-        try {
-          await Client.invoke('accounts-manage', {action: 'reset-progress', user_id: child.id});
-          Client.resetProgress(child.id);
-          results.push(`${child.display_name}: progress cleared`);
-        } catch (error) { results.push(`${child.display_name}: ${error.message}`); }
-      }
-      showStatus(results.join(' '));
+      const secret = await askPassword(`Reset progress for ${names}? Sounds they have kept will be cleared.`, 'Reset progress');
+      if (!secret) return;
+      try {
+        const results = await eachChunk(picked, part => Client.invoke('accounts-manage', {
+          action: 'reset-progress',
+          user_ids: part.map(child => child.id),
+          confirm_password: secret
+        }));
+        results.forEach(row => { if (row.ok) Client.resetProgress(row.id); });
+        showStatus(results.map(row => `${row.display_name || 'Child'}: ${row.ok ? 'progress cleared' : row.error}`).join(' ') || 'Nothing changed.');
+      } catch (error) { showStatus(error.message, true); }
       return;
     }
     if (action.dataset.bulk === 'delete') {
-      const yes = await askDanger(`Delete ${names}? This removes each login, picture, and progress. Type delete to confirm.`);
-      if (!yes) return;
-      const results = [];
-      for (const child of picked) {
-        try {
-          await Client.invoke('accounts-manage', {action: 'delete-child', child_id: child.id});
-          results.push(`${child.display_name}: deleted`);
-        } catch (error) { results.push(`${child.display_name}: ${error.message}`); }
-      }
-      showStatus(results.join(' '));
-      location.reload();
+      const secret = await askPassword(`Delete ${names}? This removes each login, picture, and progress.`, 'Delete');
+      if (!secret) return;
+      try {
+        const results = await eachChunk(picked, part => Client.invoke('accounts-manage', {
+          action: 'delete-child',
+          child_ids: part.map(child => child.id),
+          confirm_password: secret
+        }));
+        showStatus(results.map(row => `${row.display_name || 'Child'}: ${row.ok ? 'deleted' : row.error}`).join(' ') || 'Nothing changed.');
+        location.reload();
+      } catch (error) { showStatus(error.message, true); }
     }
   }
 
@@ -456,18 +458,37 @@
     const panel = host.querySelector('#kid-panel');
     if (!child || !panel) return;
     panel.hidden = false;
-    panel.innerHTML = `<h2>${escapeHtml(child.display_name)}</h2><p class="player-lead">${escapeHtml(child.login_name || '')}. ${escapeHtml(guardianLine(child, master) || settingsLine(id))}. ${escapeHtml(settingsLine(id))}.</p><div id="live-progress" class="player-lead">Loading progress…</div><form id="edit-child" class="grid">${field('Name', `<input name="display_name" value="${escapeHtml(child.display_name)}" required maxlength="40">`)}${field('Sign-in name', `<input name="login_name" value="${escapeHtml(child.login_name || '')}" minlength="2" maxlength="20" required>`)}${field('New secret', '<input name="password" type="password" minlength="6" autocomplete="new-password">')}${avatarPicker(child.avatar || 'garden')}<button type="submit">Save changes</button></form><p class="row-actions"><button type="button" class="quiet" id="kid-settings">Game settings</button><button type="button" class="quiet" id="kid-reset-defaults">Reset to game defaults</button><button type="button" class="quiet" id="kid-reset">Reset progress</button><button type="button" class="quiet" id="kid-unlink">Unlink</button><button type="button" id="kid-delete">Delete</button></p>`;
+    const guardians = child.guardians || [];
+    const destinations = grownPeople.filter(person => {
+      const login = String(person.login_name || '').toLowerCase();
+      const display = String(person.display_name || '').trim().toLowerCase();
+      if (login === 'brandy' || display === 'brandy') return false;
+      return !guardians.some(link => link.id === person.id);
+    });
+    const move = master && guardians.length && destinations.length
+      ? `<div class="grid" id="move-child">${field('From', `<select id="move-from">${guardians.map(person => `<option value="${escapeHtml(person.id)}">${escapeHtml(person.display_name)} (${escapeHtml(person.login_name || 'no name')})</option>`).join('')}</select>`)}${field('To', `<select id="move-to">${destinations.map(person => `<option value="${escapeHtml(person.id)}">${escapeHtml(person.display_name)} (${escapeHtml(person.login_name || 'no name')})</option>`).join('')}</select>`)}<button type="button" class="quiet" id="kid-move">Move</button></div>`
+      : '';
+    panel.innerHTML = `<h2>${escapeHtml(child.display_name)}</h2><p class="player-lead">${escapeHtml(child.login_name || '')}. ${escapeHtml(guardianLine(child, master) || settingsLine(id))}. ${escapeHtml(settingsLine(id))}.</p><div id="live-progress" class="player-lead">Loading progress…</div><form id="edit-child" class="grid">${field('Name', `<input name="display_name" value="${escapeHtml(child.display_name)}" required maxlength="40">`)}${field('Sign-in name', `<input name="login_name" value="${escapeHtml(child.login_name || '')}" minlength="2" maxlength="20" required>`)}${field('New secret', '<input name="password" type="password" minlength="6" autocomplete="new-password">')}${avatarPicker(child.avatar || 'garden')}<button type="submit">Save changes</button></form><p class="row-actions"><button type="button" class="quiet" id="kid-settings">Game settings</button><button type="button" class="quiet" id="kid-reset-defaults">Reset to game defaults</button><button type="button" class="quiet" id="kid-reset">Reset progress</button><button type="button" class="quiet" id="kid-unlink">Unlink</button><button type="button" id="kid-delete">Delete</button></p>${move}`;
     const editAvatar = bindAvatars(panel);
     panel.querySelector('#edit-child').addEventListener('submit', async event => {
       event.preventDefault();
       const data = Object.fromEntries(new FormData(event.target));
+      const login = String(data.login_name || '').trim().toLowerCase();
+      const nextSecret = String(data.password || '');
+      const loginChanged = login !== String(child.login_name || '');
+      let confirm;
+      if (loginChanged || nextSecret) {
+        confirm = await askPassword(`Save the sign-in changes for ${child.display_name}? Enter your secret.`, 'Save');
+        if (!confirm) return;
+      }
       try {
         await Client.invoke('accounts-manage', {
           action: 'update-child',
           child_id: id,
           display_name: data.display_name,
           login_name: data.login_name,
-          password: data.password || undefined,
+          password: nextSecret || undefined,
+          confirm_password: confirm || undefined,
           avatar: editAvatar()
         });
         showStatus('Saved.');
@@ -483,26 +504,46 @@
       showStatus(`${child.display_name} is using game defaults.`);
     });
     panel.querySelector('#kid-reset').addEventListener('click', async () => {
-      const yes = await askReset(`Reset progress for ${child.display_name}? Sounds they have kept will be cleared.`);
-      if (!yes) return;
+      const secret = await askPassword(`Reset progress for ${child.display_name}? Sounds they have kept will be cleared.`, 'Reset progress');
+      if (!secret) return;
       try {
-        await Client.invoke('accounts-manage', {action: 'reset-progress', user_id: id});
+        await Client.invoke('accounts-manage', {action: 'reset-progress', user_id: id, confirm_password: secret});
         Client.resetProgress(id);
         showStatus(`${child.display_name}: progress cleared`);
       } catch (error) { showStatus(error.message, true); }
     });
     panel.querySelector('#kid-unlink').addEventListener('click', async () => {
+      const secret = await askPassword(`Unlink ${child.display_name}? The child stays.`, 'Unlink');
+      if (!secret) return;
       try {
-        await Client.invoke('accounts-manage', {action: 'unlink-child', child_id: id});
+        await Client.invoke('accounts-manage', {action: 'unlink-child', child_id: id, confirm_password: secret});
         showStatus('Link removed.');
         location.reload();
       } catch (error) { showStatus(error.message, true); }
     });
-    panel.querySelector('#kid-delete').addEventListener('click', async () => {
-      const yes = await askDanger(`Delete ${child.display_name} (${child.login_name || ''})? This removes the login, the picture, and the progress.`);
-      if (!yes) return;
+    panel.querySelector('#kid-move')?.addEventListener('click', async () => {
+      const fromId = panel.querySelector('#move-from')?.value || '';
+      const toId = panel.querySelector('#move-to')?.value || '';
+      if (!fromId || !toId) { showStatus('Choose who has this child, and who should have them next.', true); return; }
+      const secret = await askPassword(`Move ${child.display_name} to another grown-up?`, 'Move');
+      if (!secret) return;
       try {
-        await Client.invoke('accounts-manage', {action: 'delete-child', child_id: id});
+        await Client.invoke('accounts-manage', {
+          action: 'transfer-child',
+          child_id: id,
+          from_parent_id: fromId,
+          to_parent_id: toId,
+          confirm_password: secret
+        });
+        showStatus('Moved.');
+        location.reload();
+      } catch (error) { showStatus(error.message, true); }
+    });
+    panel.querySelector('#kid-delete').addEventListener('click', async () => {
+      const secret = await askPassword(`Delete ${child.display_name} (${child.login_name || ''})? This removes the login, the picture, and the progress.`, 'Delete');
+      if (!secret) return;
+      try {
+        await Client.invoke('accounts-manage', {action: 'delete-child', child_id: id, confirm_password: secret});
         showStatus(`${child.display_name}: deleted`);
         location.reload();
       } catch (error) { showStatus(error.message, true); }
@@ -631,19 +672,18 @@
           .filter(Boolean);
         if (!chosen.length) { showStatus('Pick at least one grown-up.', true); return; }
         const names = chosen.map(person => `${person.display_name} (${person.login_name || 'no name'})`).join(', ');
-        const yes = await askDanger(`Delete ${names}? The login goes away. Children stay.`);
-        if (!yes) return;
-        const gone = new Set();
-        const results = [];
-        for (const person of chosen) {
-          try {
-            await Client.invoke('accounts-manage', {action: 'delete-grownup', grownup_id: person.id});
-            gone.add(person.id);
-            results.push(`${person.display_name}: deleted`);
-          } catch (error) { results.push(`${person.display_name}: ${error.message}`); }
-        }
-        showStatus(results.join(' '));
-        paintGrown(box, people.filter(person => !gone.has(person.id)), query);
+        const secret = await askPassword(`Delete ${names}? The login goes away. Children stay.`, 'Delete');
+        if (!secret) return;
+        try {
+          const results = await eachChunk(chosen, part => Client.invoke('accounts-manage', {
+            action: 'delete-grownup',
+            grownup_ids: part.map(person => person.id),
+            confirm_password: secret
+          }));
+          const gone = new Set(results.filter(row => row.ok).map(row => row.id));
+          showStatus(results.map(row => `${row.display_name || 'Grown-up'}: ${row.ok ? 'deleted' : row.error}`).join(' ') || 'Nothing changed.');
+          paintGrown(box, people.filter(person => !gone.has(person.id)), query);
+        } catch (error) { showStatus(error.message, true); }
       });
       actions.append(button);
       box.append(actions);
@@ -652,9 +692,9 @@
 
   function deskHtml(master) {
     const grownTab = master ? '<button type="button" class="view-tab" data-view="grown" aria-pressed="false">Grown-ups</button>' : '';
-    const grownView = master ? `<section id="view-grown" class="view" hidden><h2>Grown-ups</h2><p class="player-lead">Add a grown-up. They sign in with the short name you choose. Children stay if a grown-up is removed.</p><form id="add-grownup" class="grid">${field('Name', '<input name="display_name" required maxlength="40">')}${field('Sign-in name', '<input name="login_name" minlength="2" maxlength="20" autocapitalize="none" autocomplete="off" required>')}${field('Secret', '<input name="password" type="password" minlength="6" autocomplete="new-password" required>')}<p class="player-lead">Six characters is enough.</p><span>Lucy pictures</span>${avatarPicker('garden')}<button type="submit">Add this grown-up</button></form><label>Search<input id="grown-search" type="search" placeholder="Name or sign-in"></label><div id="grown-list"></div></section>` : '';
+    const grownView = master ? `<section id="view-grown" class="view" hidden><h2>Grown-ups</h2><p class="player-lead">Add a grown-up. They sign in with the short name you choose. Children stay if a grown-up is removed.</p><form id="add-grownup" class="grid">${field('Name', '<input name="display_name" required maxlength="40">')}${field('Sign-in name', '<input name="login_name" minlength="2" maxlength="20" autocapitalize="none" autocomplete="off" required>')}${field('Their secret', '<input name="password" type="password" minlength="6" autocomplete="new-password" required>')}<p class="player-lead">Six characters is enough.</p>${field('Your secret', '<input name="confirm_password" type="password" autocomplete="current-password" required>')}<p class="player-lead">Enter your own secret to add this login.</p><span>Lucy pictures</span>${avatarPicker('garden')}<button type="submit">Add this grown-up</button></form><label>Search<input id="grown-search" type="search" placeholder="Name or sign-in"></label><div id="grown-list"></div></section>` : '';
     const link = master ? `<form id="link-children" class="grid"><h2>Link existing children</h2><p class="player-lead">Pick them from the list. No need to type a name or a secret.</p><div id="link-picks"></div><button type="submit" class="quiet">Link the picked children</button></form>` : '';
     const defaults = master ? '<button type="button" class="quiet" data-bulk="defaults">Game defaults</button>' : '';
-    return `<p class="view-tabs" role="tablist"><button type="button" class="view-tab" data-view="kids" aria-pressed="true">Kids</button>${grownTab}</p><a class="quiet account-link" href="account.html">My account</a><section id="view-kids" class="view"><h2>Children</h2><label>Search<input id="kid-search" type="search" placeholder="Name or sign-in"></label><ul class="kids" id="kids"></ul><p class="row-actions"><button type="button" class="quiet" data-bulk="settings">Game settings</button>${defaults}<button type="button" class="quiet" data-bulk="reset">Reset progress</button><button type="button" data-bulk="delete">Delete</button></p><div id="kid-panel" hidden></div><form id="add-child" class="grid"><h2>Add a child</h2>${field('Name', '<input name="display_name" required maxlength="40">')}${field('Picture from this device', '<input id="child-photo" name="photo" type="file" accept="image/*">')}<p id="photo-preview" class="photo-preview" hidden></p><button type="button" class="quiet" id="clear-photo">Use a Lucy picture instead</button><span>Lucy pictures</span>${avatarPicker('garden')}${field('Sign-in name', '<input name="login_name" minlength="2" maxlength="20" autocapitalize="none" autocomplete="off" placeholder="maya">')}${field('Secret', '<input name="password" type="password" minlength="6" autocomplete="new-password" required>')}<p class="player-lead">Six characters is the only rule.</p><button type="submit">Add this child</button></form>${link}</section>${grownView}<dialog id="danger" aria-labelledby="danger-text"><p id="danger-text"></p><label>Type delete to confirm<input id="danger-phrase" autocomplete="off"></label><div class="dialog-actions"><button type="button" id="danger-go" disabled>Delete</button><button type="button" class="quiet" id="danger-cancel">Cancel</button></div></dialog><dialog id="reset-ask"><p id="reset-text"></p><div class="dialog-actions"><button type="button" id="reset-go">Reset progress</button><button type="button" class="quiet" id="reset-cancel">Cancel</button></div></dialog>`;
+    return `<p class="view-tabs" role="tablist"><button type="button" class="view-tab" data-view="kids" aria-pressed="true">Kids</button>${grownTab}</p><a class="quiet account-link" href="account.html">My account</a><section id="view-kids" class="view"><h2>Children</h2><label>Search<input id="kid-search" type="search" placeholder="Name or sign-in"></label><ul class="kids" id="kids"></ul><p class="row-actions"><button type="button" class="quiet" data-bulk="settings">Game settings</button>${defaults}<button type="button" class="quiet" data-bulk="reset">Reset progress</button><button type="button" data-bulk="delete">Delete</button></p><div id="kid-panel" hidden></div><form id="add-child" class="grid"><h2>Add a child</h2>${field('Name', '<input name="display_name" required maxlength="40">')}${field('Picture from this device', '<input id="child-photo" name="photo" type="file" accept="image/*">')}<p id="photo-preview" class="photo-preview" hidden></p><button type="button" class="quiet" id="clear-photo">Use a Lucy picture instead</button><span>Lucy pictures</span>${avatarPicker('garden')}${field('Sign-in name', '<input name="login_name" minlength="2" maxlength="20" autocapitalize="none" autocomplete="off" placeholder="maya">')}${field('Secret', '<input name="password" type="password" minlength="6" autocomplete="new-password" required>')}<p class="player-lead">Six characters is the only rule.</p><button type="submit">Add this child</button></form>${link}</section>${grownView}<dialog id="danger" aria-labelledby="danger-text"><p id="danger-text"></p><label>Your secret<input id="danger-phrase" type="password" autocomplete="current-password"></label><div class="dialog-actions"><button type="button" id="danger-go" disabled>Continue</button><button type="button" class="quiet" id="danger-cancel">Cancel</button></div></dialog>`;
   }
 })();

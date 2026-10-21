@@ -82,6 +82,7 @@ Deno.serve(async (req) => {
     if (body.action === "delete-child") return await deleteChild(admin, caller.id, body);
     if (body.action === "delete-grownup") return await deleteGrownup(admin, caller.id, body);
     if (body.action === "unlink-child") return await unlinkChild(admin, caller.id, body);
+    if (body.action === "transfer-child") return await transferChild(admin, caller.id, body);
     if (body.action === "reset-progress") return await resetProgress(admin, caller.id, body);
     return json({error: "Unknown action"}, 400);
   } catch (error) {
@@ -112,6 +113,32 @@ async function canTouch(admin: Admin, callerId: string, childId: string) {
 
 function refused() {
   return json({error: "not-linked", code: "not-linked"}, 403);
+}
+
+function wrongSecret() {
+  return json({error: "That secret did not match.", code: "password"}, 403);
+}
+
+function idList(body: Record<string, unknown>, one: string, many: string) {
+  const extras = Array.isArray(body[many]) ? body[many].map(value => String(value || "").trim()) : [];
+  const single = String(body[one] || "").trim();
+  return [...new Set([...extras, ...(single ? [single] : [])].filter(Boolean))];
+}
+
+function isBrandy(row: {role?: string; login_name?: string; display_name?: string} | null) {
+  if (!row || row.role === "child") return false;
+  const login = String(row.login_name || "").toLowerCase();
+  const display = String(row.display_name || "").trim().toLowerCase();
+  return login === "brandy" || display === "brandy";
+}
+
+async function secretOk(admin: Admin, callerId: string, secret: unknown) {
+  if (typeof secret !== "string" || secret.length === 0) return false;
+  const {data, error} = await admin.rpc("confirm_grownup_secret", {
+    p_user_id: callerId,
+    p_secret: secret,
+  });
+  return !error && data === true;
 }
 
 async function ensureRoom(admin: Admin, ownerId: string): Promise<string> {
@@ -198,6 +225,8 @@ async function resetPassword(admin: Admin, callerId: string, body: Record<string
     : (await admin.from("profiles").select("id, role, classroom_id").eq("login_name", loginName(body.login_name)).maybeSingle()).data;
   if (!child || child.role !== "child") return json({error: "No child uses that sign-in name."}, 404);
   if (!(await canTouch(admin, callerId, child.id))) return refused();
+  if (isBrandy(child)) return json({error: "The master stays."}, 403);
+  if (!(await secretOk(admin, callerId, body.confirm_password))) return wrongSecret();
   const {error} = await admin.auth.admin.updateUserById(child.id, {password: String(body.password)});
   if (error) return json({error: error.message}, 400);
   return json({ok: true, id: child.id});
@@ -219,6 +248,7 @@ async function createGrownup(admin: Admin, callerId: string, body: Record<string
   if (!/^[a-z0-9]{2,20}$/.test(name) || !display) {
     return json({error: "Add a name and a short sign-in name."}, 400);
   }
+  if (!(await secretOk(admin, callerId, body.confirm_password))) return wrongSecret();
   const {data, error} = await admin.auth.admin.createUser({
     email,
     password: String(body.password),
@@ -291,6 +321,10 @@ async function updateChild(admin: Admin, callerId: string, body: Record<string, 
     const problem = passwordError(body.password);
     if (problem) return json({error: problem}, 400);
   }
+  const loginChanged = !!login && login !== (child.login_name || "");
+  if (loginChanged || body.password) {
+    if (!(await secretOk(admin, callerId, body.confirm_password))) return wrongSecret();
+  }
   const image = picture(body.avatar_image);
   if (body.avatar_image && !image) return json({error: "That picture could not be saved. Try a smaller jpeg or png."}, 400);
   const avatar = body.avatar && AVATARS.has(String(body.avatar)) ? String(body.avatar) : "";
@@ -308,11 +342,16 @@ async function updateChild(admin: Admin, callerId: string, body: Record<string, 
 async function updateSelf(admin: Admin, callerId: string, body: Record<string, unknown>) {
   const me = await profileOf(admin, callerId);
   if (!me || me.role === "child") return json({error: "not-allowed"}, 403);
+  if (isBrandy(me)) return json({error: "The master stays."}, 403);
   const login = body.login_name ? loginName(body.login_name) : "";
   if (login && !/^[a-z0-9]{2,20}$/.test(login)) return json({error: "Use a short sign-in name."}, 400);
   if (body.password) {
     const problem = passwordError(body.password);
     if (problem) return json({error: problem}, 400);
+  }
+  const loginChanged = !!login && login !== (me.login_name || "");
+  if (loginChanged || body.password) {
+    if (!(await secretOk(admin, callerId, body.confirm_password))) return wrongSecret();
   }
   const image = picture(body.avatar_image);
   if (body.avatar_image && !image) return json({error: "That picture could not be saved. Try a smaller jpeg or png."}, 400);
@@ -330,12 +369,23 @@ async function updateSelf(admin: Admin, callerId: string, body: Record<string, u
 }
 
 async function deleteChild(admin: Admin, callerId: string, body: Record<string, unknown>) {
-  const child = await profileOf(admin, String(body.child_id || ""));
-  if (!child || child.role !== "child") return json({error: "No child uses that sign-in name."}, 404);
-  if (!(await canTouch(admin, callerId, child.id))) return refused();
-  const {error} = await admin.auth.admin.deleteUser(child.id);
-  if (error) return json({error: error.message}, 400);
-  return json({ok: true, id: child.id, display_name: child.display_name, login_name: child.login_name});
+  const ids = idList(body, "child_id", "child_ids");
+  if (!ids.length) return json({error: "Pick at least one child."}, 400);
+  if (!(await secretOk(admin, callerId, body.confirm_password))) return wrongSecret();
+  const results = [];
+  for (const id of ids) {
+    const child = await profileOf(admin, id);
+    if (!child || child.role !== "child" || !(await canTouch(admin, callerId, id))) {
+      results.push({id, ok: false, error: "not-linked"});
+      continue;
+    }
+    const {error} = await admin.auth.admin.deleteUser(id);
+    results.push(error
+      ? {id, ok: false, error: error.message, display_name: child.display_name, login_name: child.login_name}
+      : {id, ok: true, display_name: child.display_name, login_name: child.login_name});
+  }
+  const done = results.find(row => row.ok);
+  return json({ok: !!done, id: done?.id || null, results});
 }
 
 async function masterId(admin: Admin) {
@@ -345,11 +395,23 @@ async function masterId(admin: Admin) {
 
 async function deleteGrownup(admin: Admin, callerId: string, body: Record<string, unknown>) {
   if (!(await callerIsMaster(admin, callerId))) return json({error: "Only the master can delete a grown-up.", code: "not-master"}, 403);
-  const targetId = String(body.grownup_id || "");
-  if (targetId === callerId) return json({error: "The master stays."}, 403);
+  const ids = idList(body, "grownup_id", "grownup_ids");
+  if (!ids.length) return json({error: "Pick at least one grown-up."}, 400);
+  if (!(await secretOk(admin, callerId, body.confirm_password))) return wrongSecret();
+  const results = [];
+  for (const targetId of ids) {
+    const removed = await deleteOneGrownup(admin, callerId, targetId);
+    results.push(removed);
+  }
+  const done = results.find(row => row.ok);
+  return json({ok: !!done, id: done?.id || null, results});
+}
+
+async function deleteOneGrownup(admin: Admin, callerId: string, targetId: string) {
+  if (targetId === callerId) return {id: targetId, ok: false, error: "The master stays."};
   const target = await profileOf(admin, targetId);
-  if (!target || target.role === "child") return json({error: "That grown-up was not found."}, 404);
-  if (target.is_master) return json({error: "The master stays."}, 403);
+  if (!target || target.role === "child") return {id: targetId, ok: false, error: "That grown-up was not found."};
+  if (target.is_master || isBrandy(target)) return {id: targetId, ok: false, error: "The master stays.", display_name: target.display_name, login_name: target.login_name};
   const keeper = await masterId(admin);
   const {data: links} = await admin.from("guardians").select("child_id").eq("parent_id", targetId);
   await admin.from("guardians").delete().eq("parent_id", targetId);
@@ -360,8 +422,8 @@ async function deleteGrownup(admin: Admin, callerId: string, body: Record<string
     }
   }
   const {error} = await admin.auth.admin.deleteUser(targetId);
-  if (error) return json({error: error.message}, 400);
-  return json({ok: true, id: targetId, display_name: target.display_name, login_name: target.login_name});
+  if (error) return {id: targetId, ok: false, error: error.message, display_name: target.display_name, login_name: target.login_name};
+  return {id: targetId, ok: true, display_name: target.display_name, login_name: target.login_name};
 }
 
 async function unlinkChild(admin: Admin, callerId: string, body: Record<string, unknown>) {
@@ -372,6 +434,7 @@ async function unlinkChild(admin: Admin, callerId: string, body: Record<string, 
   const master = await callerIsMaster(admin, callerId);
   if (!master && parentId !== callerId) return refused();
   if (!master && !(await canTouch(admin, callerId, childId))) return refused();
+  if (!(await secretOk(admin, callerId, body.confirm_password))) return wrongSecret();
   const {data: links} = await admin.from("guardians").select("parent_id").eq("child_id", childId);
   const parents = (links || []).map(row => row.parent_id);
   if (parents.length <= 1 && parents.includes(parentId)) {
@@ -384,22 +447,65 @@ async function unlinkChild(admin: Admin, callerId: string, body: Record<string, 
   return json({ok: true, id: childId});
 }
 
-async function resetProgress(admin: Admin, callerId: string, body: Record<string, unknown>) {
-  const targetId = String(body.user_id || callerId);
-  const target = await profileOf(admin, targetId);
-  if (!target) return json({error: "That person was not found."}, 404);
-  if (target.role === "child") {
-    if (!(await canTouch(admin, callerId, targetId))) return refused();
-  } else if (targetId !== callerId) {
-    if (!(await callerIsMaster(admin, callerId)) || target.is_master) return json({error: "not-allowed"}, 403);
+async function transferChild(admin: Admin, callerId: string, body: Record<string, unknown>) {
+  if (!(await callerIsMaster(admin, callerId))) return json({error: "Only the master can move a child.", code: "not-master"}, 403);
+  const childId = String(body.child_id || "");
+  const fromId = String(body.from_parent_id || "");
+  const toId = String(body.to_parent_id || "");
+  const child = await profileOf(admin, childId);
+  if (!child || child.role !== "child") return json({error: "No child uses that sign-in name."}, 404);
+  const from = await profileOf(admin, fromId);
+  const to = await profileOf(admin, toId);
+  if (!from || from.role === "child" || !to || to.role === "child") return json({error: "That grown-up was not found."}, 404);
+  if (isBrandy(from) || isBrandy(to)) return json({error: "The master stays."}, 403);
+  if (!(await secretOk(admin, callerId, body.confirm_password))) return wrongSecret();
+  if (fromId !== toId) {
+    const added = await admin.from("guardians").upsert({parent_id: toId, child_id: childId});
+    if (added.error) return json({error: added.error.message}, 400);
+    const removed = await admin.from("guardians").delete().eq("parent_id", fromId).eq("child_id", childId);
+    if (removed.error) return json({error: removed.error.message}, 400);
   }
-  const now = new Date().toISOString();
-  const saved = await admin.from("learner_state").update({
-    progress: emptyProgress(),
-    achievements: {},
-    progress_epoch: {v: now, t: now},
-    updated_at: now,
-  }).eq("user_id", targetId);
-  if (saved.error) return json({error: saved.error.message}, 400);
-  return json({ok: true, id: targetId, progressEpoch: {v: now, t: now}});
+  return json({ok: true, id: childId});
 }
+
+async function resetProgress(admin: Admin, callerId: string, body: Record<string, unknown>) {
+  const ids = idList(body, "user_id", "user_ids");
+  const targets = ids.length ? ids : [callerId];
+  if (!(await secretOk(admin, callerId, body.confirm_password))) return wrongSecret();
+  const results = [];
+  for (const targetId of targets) {
+    const target = await profileOf(admin, targetId);
+    if (!target) {
+      results.push({id: targetId, ok: false, error: "That person was not found."});
+      continue;
+    }
+    if (isBrandy(target) || (target.is_master && targetId !== callerId)) {
+      results.push({id: targetId, ok: false, error: "The master stays.", display_name: target.display_name, login_name: target.login_name});
+      continue;
+    }
+    if (target.role === "child") {
+      if (!(await canTouch(admin, callerId, targetId))) {
+        results.push({id: targetId, ok: false, error: "not-linked", display_name: target.display_name, login_name: target.login_name});
+        continue;
+      }
+    } else if (targetId !== callerId) {
+      if (!(await callerIsMaster(admin, callerId))) {
+        results.push({id: targetId, ok: false, error: "not-allowed"});
+        continue;
+      }
+    }
+    const now = new Date().toISOString();
+    const saved = await admin.from("learner_state").update({
+      progress: emptyProgress(),
+      achievements: {},
+      progress_epoch: {v: now, t: now},
+      updated_at: now,
+    }).eq("user_id", targetId);
+    results.push(saved.error
+      ? {id: targetId, ok: false, error: saved.error.message, display_name: target.display_name, login_name: target.login_name}
+      : {id: targetId, ok: true, display_name: target.display_name, login_name: target.login_name, progressEpoch: {v: now, t: now}});
+  }
+  const done = results.find(row => row.ok);
+  return json({ok: !!done, id: done?.id || null, progressEpoch: done?.progressEpoch || null, results});
+}
+

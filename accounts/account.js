@@ -99,7 +99,7 @@
     signOutButton.textContent = 'Sign out';
     document.body.append(signOutButton);
     signOutButton.addEventListener('click', () => { signOut().catch(error => showStatus(error.message, true)); });
-    host.insertAdjacentHTML('beforeend', `<a class="account-link" href="index.html">Kids</a><form id="self" class="grid">${field('Name', `<input name="display_name" value="${escapeHtml(name)}" required maxlength="40">`)}${field('Sign-in name', `<input name="login_name" value="${escapeHtml(login)}" minlength="2" maxlength="20" autocapitalize="none" required>`)}${field('New secret', '<input name="password" type="password" minlength="6" autocomplete="new-password">')}<p class="player-lead">Leave the secret blank to keep it. Six characters is enough when you change it.</p>${field('Picture from this device', '<input id="self-photo" type="file" accept="image/*">')}<p id="photo-preview" class="photo-preview" hidden></p><button type="button" class="quiet" id="clear-photo">Use a Lucy picture instead</button><span>Lucy pictures</span>${picker(avatar)}<button type="submit">Save my account</button></form><section id="mine"><h2>Your progress</h2><p id="live-progress" class="player-lead">Loading progress…</p><button type="button" id="self-reset">Reset my progress</button></section><dialog id="reset-ask"><p id="reset-text">Reset your progress? Sounds you have kept will be cleared.</p><div class="dialog-actions"><button type="button" id="reset-go">Reset progress</button><button type="button" class="quiet" id="reset-cancel">Cancel</button></div></dialog>`);
+    host.insertAdjacentHTML('beforeend', `<a class="account-link" href="index.html">Kids</a><form id="self" class="grid">${field('Name', `<input name="display_name" value="${escapeHtml(name)}" required maxlength="40">`)}${field('Sign-in name', `<input name="login_name" value="${escapeHtml(login)}" minlength="2" maxlength="20" autocapitalize="none" required>`)}${field('New secret', '<input name="password" type="password" minlength="6" autocomplete="new-password">')}${field('Current secret', '<input name="confirm_password" type="password" autocomplete="current-password">')}<p class="player-lead">Leave the new secret blank to keep it. Enter your current secret when you change your sign-in name or secret.</p>${field('Picture from this device', '<input id="self-photo" type="file" accept="image/*">')}<p id="photo-preview" class="photo-preview" hidden></p><button type="button" class="quiet" id="clear-photo">Use a Lucy picture instead</button><span>Lucy pictures</span>${picker(avatar)}<button type="submit">Save my account</button></form><section id="mine"><h2>Your progress</h2><p id="live-progress" class="player-lead">Loading progress…</p><button type="button" id="self-reset">Reset my progress</button></section><dialog id="reset-ask" aria-labelledby="reset-text"><p id="reset-text">Reset your progress? Sounds you have kept will be cleared.</p><label>Your secret<input id="reset-phrase" type="password" autocomplete="current-password"></label><div class="dialog-actions"><button type="button" id="reset-go" disabled>Reset progress</button><button type="button" class="quiet" id="reset-cancel">Cancel</button></div></dialog>`);
     const avatarOf = bindAvatars(host, avatar);
     host.querySelectorAll('[data-avatar]').forEach(button => {
       button.addEventListener('click', () => {
@@ -145,13 +145,20 @@
       const loginName = String(data.login_name || '').trim().toLowerCase();
       if (!/^[a-z0-9]{2,20}$/.test(loginName)) { showStatus('Use a short sign-in name.', true); return; }
       if (data.password && String(data.password).length < 6) { showStatus('The secret needs at least 6 characters.', true); return; }
+      const loginChanged = loginName !== login;
+      const nextSecret = String(data.password || '');
+      if ((loginChanged || nextSecret) && !String(data.confirm_password || '')) {
+        showStatus('Enter your current secret to change your sign-in name or secret.', true);
+        return;
+      }
       try {
         showStatus('Saving…');
         await Client.invoke('accounts-manage', {
           action: 'update-self',
           display_name: data.display_name,
           login_name: loginName,
-          password: data.password || undefined,
+          password: nextSecret || undefined,
+          confirm_password: data.confirm_password || undefined,
           avatar: avatarOf(),
           avatar_image: photo || undefined,
           clear_image: cleared && !photo
@@ -166,13 +173,15 @@
         }
         showStatus('Saved.');
         event.target.querySelector('[name="password"]').value = '';
+        const currentSecret = event.target.querySelector('[name="confirm_password"]');
+        if (currentSecret) currentSecret.value = '';
       } catch (error) { showStatus(error.message, true); }
     });
     host.querySelector('#self-reset').addEventListener('click', async () => {
-      const yes = await askReset();
-      if (!yes) return;
+      const secret = await askReset();
+      if (!secret) return;
       try {
-        await Client.invoke('accounts-manage', {action: 'reset-progress', user_id: user.id});
+        await Client.invoke('accounts-manage', {action: 'reset-progress', user_id: user.id, confirm_password: secret});
         Client.resetProgress(user.id);
         showStatus('Your progress is cleared.');
         watch(user.id, host.querySelector('#live-progress'));
@@ -183,13 +192,24 @@
 
   function askReset() {
     const dialog = document.getElementById('reset-ask');
+    const phrase = dialog.querySelector('#reset-phrase');
+    const go = dialog.querySelector('#reset-go');
+    phrase.value = '';
+    go.disabled = true;
     dialog.showModal();
+    phrase.focus();
     return new Promise(resolve => {
       let settled = false;
-      const finish = value => { if (!settled) { settled = true; resolve(value); } };
-      dialog.addEventListener('close', () => finish(false), {once: true});
-      dialog.querySelector('#reset-go').onclick = () => { finish(true); dialog.close(); };
-      dialog.querySelector('#reset-cancel').onclick = () => { finish(false); dialog.close(); };
+      const finish = value => {
+        if (settled) return;
+        settled = true;
+        phrase.value = '';
+        resolve(value);
+      };
+      dialog.addEventListener('close', () => finish(null), {once: true});
+      phrase.oninput = () => { go.disabled = phrase.value.length === 0; };
+      go.onclick = () => { if (go.disabled) return; finish(phrase.value); dialog.close(); };
+      dialog.querySelector('#reset-cancel').onclick = () => { finish(null); dialog.close(); };
     });
   }
 
