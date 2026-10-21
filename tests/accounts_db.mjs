@@ -87,7 +87,7 @@ try {
   const miaT = await signIn(mia.login, '7234mk');
   assert.equal((await must('lw_me', {}, await signIn(leo.login, '7234lb'))).picture, JPEG, 'A child sees their own picture');
   await refused('lw_portal', {}, miaT, 'grownups_only');
-  await refused('lw_create_grownup', {p_login: 'mias-mum', p_password: 'aaaaaa', p_name: 'Mum'}, miaT, 'grownups_only');
+  await refused('lw_create_grownup', {p_login: 'mias-mum', p_password: 'aaaaaa', p_name: 'Mum', p_my_password: '7234mk'}, miaT, 'grownups_only');
   await refused('lw_add_child', {p_name: 'Friend', p_avatar: 'sun:0', p_password: 'aaaaaa'}, miaT, 'grownups_only');
   await refused('lw_sync', {p_profile: leo.id}, miaT, 'not_allowed');
   ok('children: real sign-in; cannot make grown-ups or children, or see anyone else');
@@ -99,7 +99,9 @@ try {
     ['lw_link_child', {p_group: crypto.randomUUID(), p_login: mia.login, p_password: '7234mk'}],
     ['lw_remove_member', {p_group: crypto.randomUUID(), p_profile: mia.id}], ['lw_group_states', {p_group: crypto.randomUUID()}],
     ['lw_update_child', {p_child: mia.id, p_name: 'X', p_avatar: 'sun:0'}]]) {
-    await refused(fn, args, leeT, 'denied');
+    // Closed earlier, or dropped since (lw_create_child, lw_update_child): either way not callable.
+    const r = await refused(fn, args, leeT);
+    assert.match(r.body.message, /permission denied|Could not find the function/, `${fn}: ${r.body.message}`);
   }
   ok('no groups or codes: every group, board and code function is closed');
 
@@ -147,10 +149,11 @@ try {
   ok('stickers: merged, earliest kept; only the player uploads their own play');
 
   // A signed-in grown-up makes another grown-up, who looks after the same children.
-  await refused('lw_create_grownup', {p_login: 'x', p_password: 'bbbbbb', p_name: 'X'}, leeT, 'login_shape');
-  await refused('lw_create_grownup', {p_login: 'mrpatel', p_password: 'bbbbb', p_name: 'Mr Patel'}, leeT, 'password_short');
-  await refused('lw_create_grownup', {p_login: mia.login, p_password: 'bbbbbb', p_name: 'Copy'}, leeT, 'login_taken');
-  const patel = await must('lw_create_grownup', {p_login: 'MrPatel', p_password: 'bbbbbb', p_name: 'Mr Patel'}, leeT);
+  await refused('lw_create_grownup', {p_login: 'x', p_password: 'bbbbbb', p_name: 'X', p_my_password: 'aaaaaa'}, leeT, 'login_shape');
+  await refused('lw_create_grownup', {p_login: 'mrpatel', p_password: 'bbbbb', p_name: 'Mr Patel', p_my_password: 'aaaaaa'}, leeT, 'password_short');
+  await refused('lw_create_grownup', {p_login: mia.login, p_password: 'bbbbbb', p_name: 'Copy', p_my_password: 'aaaaaa'}, leeT, 'login_taken');
+  const patel = await must('lw_create_grownup', {p_login: 'MrPatel', p_password: 'bbbbbb', p_name: 'Mr Patel', p_my_password: 'aaaaaa'}, leeT);
+  assert.equal(patel.ok, true); delete patel.ok;
   assert.equal(patel.role, 'grownup'); assert.equal(patel.login, 'mrpatel');
   const patelT = await signIn('mrpatel', 'bbbbbb');
   assert.deepEqual((await must('lw_portal', {}, patelT)).children.map(c => c.name), ['Léo 2', 'Mia']);
@@ -159,7 +162,7 @@ try {
   const ivy = await must('lw_add_child', {p_name: 'Ivy', p_avatar: 'duck:1', p_password: '7234iv'}, patelT);
   assert((await must('lw_portal', {}, leeT)).children.some(c => c.id === ivy.id), 'A child one grown-up adds shows for the other');
   // A grown-up made by another grown-up can make grown-ups too.
-  await must('lw_create_grownup', {p_login: 'gran', p_password: 'gggggg', p_name: 'Gran'}, patelT);
+  await must('lw_create_grownup', {p_login: 'gran', p_password: 'gggggg', p_name: 'Gran', p_my_password: 'bbbbbb'}, patelT);
   assert.equal((await must('lw_portal', {}, await signIn('gran', 'gggggg'))).children.length, 3);
   ok('grown-ups: only a signed-in grown-up makes another; they look after the same children and can make grown-ups too');
 
@@ -179,29 +182,33 @@ try {
   ok('existing child: added with their sign-in name and password; guessing limited to ten tries an hour');
 
   // Passwords: a grown-up resets a child's; anyone changes their own.
-  await must('lw_set_child_password', {p_child: leo.id, p_password: '9999lb'}, leeT);
+  await must('lw_set_children_password', {p_children: [leo.id], p_new: '9999lb', p_my_password: 'aaaaaa'}, leeT);
   await signIn(leo.login, '9999lb');
-  await refused('lw_set_child_password', {p_child: leo.id, p_password: '1111lb'}, dadT, 'not_allowed');
+  assert.deepEqual((await must('lw_set_children_password', {p_children: [leo.id], p_new: '1111lb', p_my_password: 'cccccc'}, dadT)).skipped,
+    [{id: leo.id, why: 'not_allowed'}]);
+  await signIn(leo.login, '9999lb');
   await refused('lw_change_password', {p_old: 'nope00', p_new: 'dddddd'}, dadT, 'bad_password');
   await must('lw_change_password', {p_old: 'cccccc', p_new: 'dddddd'}, dadT);
   await signIn('mias-dad', 'dddddd');
   ok('passwords: grown-ups reset children they look after; own password needs the old one');
 
   // Remove keeps the account; delete is for good, and only when no one else looks after the child.
-  await refused('lw_delete_child', {p_child: mia.id}, leeT, 'shared_child');
-  await must('lw_remove_child', {p_child: mia.id}, dadT);
+  assert.deepEqual(await must('lw_delete_children', {p_children: [mia.id], p_my_password: 'aaaaaa'}, leeT),
+    {ok: true, done: [], skipped: [{id: mia.id, why: 'shared_child'}]});
+  await must('lw_remove_children', {p_children: [mia.id], p_my_password: 'dddddd'}, dadT);
   await refused('lw_child_state', {p_child: mia.id}, dadT, 'not_allowed');
   await signIn(mia.login, '7234mk');
   await must('lw_sync', {p_profile: ivy.id, p_rounds: [round('Z')]}, await signIn(ivy.login, '7234iv'));
-  await must('lw_delete_child', {p_child: ivy.id}, leeT);
+  assert.deepEqual((await must('lw_delete_children', {p_children: [ivy.id], p_my_password: 'aaaaaa'}, leeT)).done, [ivy.id]);
   assert.equal((await post('/auth/v1/token?grant_type=password', {email: ivy.login + DOMAIN, password: '7234iv'})).status, 400);
   const {rows: [{left}]} = await s.db.query('select (select count(*) from public.rounds where profile_id = $1) + (select count(*) from public.profiles where id = $1) + (select count(*) from auth.users where id = $1) as left', [ivy.id]);
   assert.equal(Number(left), 0);
   ok('remove and delete: remove keeps the account; delete goes for good, only when no one else looks after the child');
 
   // Taking another grown-up off: they keep their account but no longer see the children.
-  await refused('lw_remove_grownup', {p_grownup: lee.id}, leeT, 'bad_request');
-  await must('lw_remove_grownup', {p_grownup: patel.id}, leeT);
+  assert.deepEqual(await must('lw_remove_grownups', {p_grownups: [lee.id], p_my_password: 'aaaaaa'}, leeT),
+    {ok: true, done: [], skipped: [{id: lee.id, why: 'you'}]});
+  await must('lw_remove_grownups', {p_grownups: [patel.id], p_my_password: 'aaaaaa'}, leeT);
   assert.deepEqual(await must('lw_portal', {}, patelT), {me: patel, children: [], grownups: []});
   await refused('lw_child_state', {p_child: mia.id}, patelT, 'not_allowed');
   // Their next child starts a fresh team of their own.
@@ -222,9 +229,99 @@ try {
   assert.deepEqual((await must('lw_portal', {}, oldT)).children.map(c => c.name), ['Léo 2', 'Mia']);
   ok('earlier groups: a grown-up in several old groups sees all their children in one list');
 
+  // Risky actions: each needs the grown-up's own password, checked here in the database.
+  const fern = await firstGrownup('fern', 'ffffff', 'Fern');
+  const fernT = await signIn('fern', 'ffffff');
+  const kit = await must('lw_add_child', {p_name: 'Kit', p_avatar: 'sun:0', p_password: '7234kt'}, fernT);
+  const kitT = await signIn(kit.login, '7234kt');
+  const risky = [
+    ['lw_delete_children', {p_children: [kit.id]}], ['lw_remove_children', {p_children: [kit.id]}],
+    ['lw_remove_grownups', {p_grownups: [lee.id]}], ['lw_reset_children_progress', {p_children: [kit.id]}],
+    ['lw_set_children_password', {p_children: [kit.id], p_new: 'hijack1'}],
+    ['lw_create_grownup', {p_login: 'sneaky-gu', p_password: 'ssssss', p_name: 'Sneaky'}],
+    ['lw_edit_child', {p_child: kit.id, p_name: 'Renamed', p_avatar: 'sun:0'}]];
+  await must('lw_sync', {p_profile: kit.id, p_rounds: [round('K')]}, kitT);
+  for (const [fn, args] of risky) {
+    for (const p_my_password of [undefined, '', 'wrong!', 'FFFFFF']) {
+      const r = await must(fn, p_my_password === undefined && fn === 'lw_edit_child' ? args : {...args, p_my_password: p_my_password ?? null}, fernT);
+      assert.deepEqual(r, {ok: false, error: 'wrong_password'}, `${fn} with ${JSON.stringify(p_my_password)}`);
+    }
+    await refused(fn, {...args, p_my_password: '7234kt'}, kitT, 'grownups_only');
+    await s.db.query('delete from public.password_attempts');
+  }
+  assert.deepEqual((await must('lw_portal', {}, fernT)).children.map(c => [c.name, c.rounds]), [['Kit', 1]], 'Nothing changed');
+  await signIn(kit.login, '7234kt');
+  assert.equal((await post('/auth/v1/token?grant_type=password', {email: 'sneaky-gu' + DOMAIN, password: 'ssssss'})).status, 400);
+  for (const [fn, args] of [['lw_delete_child', {p_child: kit.id}], ['lw_remove_child', {p_child: kit.id}], ['lw_remove_grownup', {p_grownup: lee.id}],
+    ['lw_set_child_password', {p_child: kit.id, p_password: 'hijack1'}], ['lw_create_grownup', {p_login: 'sneaky-gu', p_password: 'ssssss', p_name: 'S'}]]) {
+    const r = await refused(fn, args, fernT);
+    assert.match(r.body.message, /Could not find the function|does not exist/, `${fn} without a password is gone: ${r.body.message}`);
+  }
+  // A new picture alone needs no password; a new name does.
+  assert.equal((await must('lw_edit_child', {p_child: kit.id, p_name: 'Kit', p_avatar: 'fox:2', p_picture: JPEG}, fernT)).picture, JPEG);
+  assert.equal((await must('lw_edit_child', {p_child: kit.id, p_name: 'Kit B', p_avatar: 'fox:2', p_my_password: 'ffffff'}, fernT)).name, 'Kit B');
+  ok('risky actions: no, empty or wrong password changes nothing; the versions without a password are gone; a name change needs it, a picture doesn\'t');
+
+  // Ten wrong passwords in 15 minutes pause risky actions, even with the right one; each wrong try stays counted.
+  for (let i = 0; i < 10; i++) assert.equal((await must('lw_reset_children_progress', {p_children: [kit.id], p_my_password: `nope${i}0`}, fernT)).error, 'wrong_password');
+  assert.deepEqual(await must('lw_reset_children_progress', {p_children: [kit.id], p_my_password: 'ffffff'}, fernT), {ok: false, error: 'password_pause'});
+  assert.equal((await must('lw_portal', {}, fernT)).children[0].rounds, 1);
+  assert.equal((await must('lw_remove_children', {p_children: [kit.id], p_my_password: 'aaaaaa'}, leeT)).ok, true, 'Only that grown-up is paused');
+  await s.db.query(`update public.password_attempts set attempted_at = now() - interval '16 minutes' where caller = $1`, [fern.id]);
+  ok('wrong passwords: ten in 15 minutes pause that grown-up only, then it opens again');
+
+  // Resetting a child's progress clears rounds and stickers everywhere, and old play can't come back.
+  const before = Date.now() - 5000, oldRound = round('Q'); oldRound.at = before;
+  await must('lw_sync', {p_profile: kit.id, p_badges: [{key: 'first-sound', t: before}]}, kitT);
+  await must('lw_put_settings', {p_changes: [{profile: kit.id, field: 'calm', v: true, t: Date.now()}]}, fernT);
+  assert.deepEqual(await must('lw_reset_children_progress', {p_children: [kit.id, mia.id], p_my_password: 'ffffff'}, fernT),
+    {ok: true, done: [kit.id], skipped: [{id: mia.id, why: 'not_allowed'}]});
+  state = await must('lw_child_state', {p_child: kit.id}, fernT);
+  assert.deepEqual([state.agg, state.badges, state.last_played], [{}, {}, null]);
+  assert(state.progress_from > before && state.progress_from <= state.server_time);
+  assert.equal(state.settings.calm.v, true, 'Settings stay');
+  state = await must('lw_sync', {p_profile: kit.id, p_rounds: [oldRound], p_badges: [{key: 'first-sound', t: before}]}, kitT);
+  assert.deepEqual([state.agg, state.badges], [{}, {}], 'Play from before the reset is ignored');
+  state = await must('lw_sync', {p_profile: kit.id, p_rounds: [round('R')]}, kitT);
+  assert.equal(state.agg.post.R.n, 1, 'New play counts');
+  assert.equal((await must('lw_child_state', {p_child: mia.id}, leeT)).agg.post.S.n, 1, 'A child Fern doesn\'t look after is untouched');
+  ok('reset progress: rounds and stickers go, settings stay; old uploads ignored; only children you look after');
+
+  // No cap: one call acts on a thousand children; settings edits go past the old 2000.
+  const hash = (await s.db.query(`select extensions.crypt('7234zz', extensions.gen_salt('bf', 4)) as h`)).rows[0].h;
+  const {rows: [{team}]} = await s.db.query('select lw_private.team($1) as team', [fern.id]);
+  const {rows: many} = await s.db.query(`with u as (
+      insert into auth.users (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at)
+      select '00000000-0000-0000-0000-000000000000', gen_random_uuid(), 'authenticated', 'authenticated', 'bulk-' || i || $2, $3, now()
+        from generate_series(1, 1000) i returning id, email),
+    p as (insert into public.profiles (id, role, login, display_name, created_by)
+      select id, 'child', split_part(email, '@', 1), 'Bulk', $1 from u returning id),
+    m as (insert into public.group_members (group_id, profile_id, role) select $4, id, 'child' from p returning profile_id)
+    select profile_id as id from m`, [fern.id, DOMAIN, hash, team]);
+  const ids = many.map(r => r.id);
+  await s.db.query(`insert into public.rounds (id, profile_id, world, letter, played_at) select gen_random_uuid(), id, 'post', 'A', now() - interval '1 minute' from unnest($1::uuid[]) id`, [ids]);
+  const changes = ids.slice(0, 300).flatMap(id => ['voice', 'effects', 'calm', 'kidControls', 'volume', 'hintAfter', 'letters', 'games', 'theme_post', 'theme_silk']
+    .map(field => ({profile: id, field, v: {volume: 40, hintAfter: 1, letters: ['A'], games: ['silk'], theme_post: 1, theme_silk: 1}[field] ?? true, t: Date.now()})));
+  assert.equal(changes.length, 3000);
+  assert.equal((await must('lw_put_settings', {p_changes: changes}, fernT)).applied, 3000);
+  let r = await must('lw_reset_children_progress', {p_children: ids, p_my_password: 'ffffff'}, fernT);
+  assert.equal(r.done.length, 1000);
+  assert.equal(Number((await s.db.query('select count(*) as n from public.rounds where profile_id = any($1::uuid[])', [ids])).rows[0].n), 0);
+  r = await must('lw_set_children_password', {p_children: ids.slice(0, 25), p_new: '5555zz', p_my_password: 'ffffff'}, fernT);
+  assert.equal(r.done.length, 25);
+  await signIn((await s.db.query('select login from public.profiles where id = $1', [ids[0]])).rows[0].login, '5555zz');
+  assert.equal((await must('lw_remove_children', {p_children: ids.slice(0, 500), p_my_password: 'ffffff'}, fernT)).done.length, 500);
+  assert.equal((await must('lw_portal', {}, fernT)).children.length, 501);
+  r = await must('lw_delete_children', {p_children: [...ids.slice(500), 'not-an-id', ids[600]], p_my_password: 'ffffff'}, fernT);
+  assert.deepEqual([r.done.length, r.skipped.length], [500, 0]);
+  assert.equal((await must('lw_delete_children', {p_children: ids.slice(500, 510), p_my_password: 'ffffff'}, fernT)).done.length, 10, 'Repeating a delete is safe');
+  assert.deepEqual((await must('lw_portal', {}, fernT)).children.map(c => c.name), ['Kit B']);
+  assert.equal(Number((await s.db.query('select count(*) as n from auth.users where id = any($1::uuid[])', [ids.slice(500)])).rows[0].n), 0);
+  ok('no cap: reset, new password, remove and delete each take any number of children in one call; 3000 settings edits at once');
+
   // The tables are closed to the API roles; only the functions are reachable.
   for (const role of ['anon', 'authenticated']) {
-    for (const table of ['profiles', 'groups', 'group_members', 'rounds', 'settings', 'badges', 'link_attempts']) {
+    for (const table of ['profiles', 'groups', 'group_members', 'rounds', 'settings', 'badges', 'link_attempts', 'password_attempts']) {
       await assert.rejects(s.db.transaction(async tx => {await tx.exec(`set local role ${role}`); await tx.query(`select * from public.${table}`);}),
         /permission denied/, `${role} reading ${table}`);
     }
