@@ -4,8 +4,8 @@ Built on `codex/home-flow-ribbon` on 2026-10-21. These are separate, lightly int
 
 Open either preview at 100% browser zoom:
 
-- [Letter Post preview](https://raw.githack.com/CryptoBrad89/childrens-learning-game/codex/home-flow-ribbon/previews/layout-2026-10-21/letter-post.html)
-- [Moonboat preview](https://raw.githack.com/CryptoBrad89/childrens-learning-game/codex/home-flow-ribbon/previews/layout-2026-10-21/moonboat.html)
+- [Letter Post preview](https://raw.githack.com/TeslaWarpDrive/childrens-learning-game/codex/home-flow-ribbon/previews/layout-2026-10-21/letter-post.html)
+- [Moonboat preview](https://raw.githack.com/TeslaWarpDrive/childrens-learning-game/codex/home-flow-ribbon/previews/layout-2026-10-21/moonboat.html)
 
 Both pages reuse the actual world stylesheets, local fonts, Lucy portrait, and SVG art helpers. All layout overrides and interactions live under `previews/layout-2026-10-21/`. No existing game, sound, account, or database files were changed.
 
@@ -59,6 +59,6 @@ All 10 world-and-viewport combinations passed. Each was checked in all three the
 
 Checks also cover every letter exactly once across five pages, stable paging-control positions, disabled end arrows, letter selection, opening the collection with the keyboard, all 26 collection slots, the four example collected slots, and returning to the same page after closing. No JavaScript errors, failed asset responses, or external requests occurred. The preview does not load account, Supabase, audio, or service-worker code.
 
-I visually reviewed the shortest laptop layouts for both worlds, the Letter Post tablet layout, the Moonboat whiteboard layout, and expanded collections in both worlds. The committed PNGs are the review artifacts. Hosted preview links may take time to refresh through raw.githack; local verification does not prove CDN freshness.
+I visually reviewed the shortest laptop layouts for both worlds, the Letter Post tablet layout, the Moonboat whiteboard layout, and expanded collections in both worlds. The committed PNGs are the review artifacts. GitHub reports that the repository moved from `CryptoBrad89` to `TeslaWarpDrive`; the preview links above use the current owner. The preview commit `553edf8` was pushed successfully, and the remote branch head matched it. Both raw.githack preview URLs returned HTTP 403 from this environment after pushing. Hosted rendering could not be verified here; the local screenshots and checks are the confirmed evidence.
 
-The commit for this report contains only the standalone preview directory, screenshot evidence directory, and this report. No live game rebuild or database work was performed. Bradley can review these layouts before authorizing the proper implementation.
+The preview commits contain only the standalone preview directory, screenshot evidence directory, and this report. No live game rebuild or database work was performed. Bradley can review these layouts before authorizing the proper implementation.
