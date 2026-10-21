@@ -1,0 +1,1 @@
+PASS call list database: master and regular self-reset, child denial, RPC grants, profile/auth/settings/link preservation, stale offline rounds rejected, fresh play accepted

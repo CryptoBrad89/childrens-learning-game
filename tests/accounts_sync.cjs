@@ -8,6 +8,7 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 const root = path.resolve(__dirname, '..');
 const live = process.argv.includes('--live');
+const fixturePasswords = new WeakMap();
 function playwright() {
   if (process.env.PLAYWRIGHT_MODULE) return require(process.env.PLAYWRIGHT_MODULE);
   try { return require('playwright'); } catch { return require('/usr/local/lib/pnpm/5/.pnpm/node_modules/playwright'); }
@@ -39,15 +40,20 @@ function backend() {
     else if (url.pathname.endsWith('/accounts')) {
       if (!actor || actor.profile.role !== 'grownup') {status=403;result={error:'A grown-up account is required.'};}
       else if(['create-grownup','register','delete-grownup','reset-grownup-password','list-grownups','list-linkable-children','link-child','delete-grownups','patch-game-settings','transfer-children','reset-grownup-progress'].includes(data.action)&&!actor.profile.is_master){status=403;result={error:'Master required'};}
-      else if(data.action==='reset-own-progress'){if(data.confirm!=='reset-own-progress'){status=400;result={error:'Confirm first'};}else{actor.profile.progress_version=(actor.profile.progress_version||0)+1;for(const [id,event] of events)if(event.user_id===actor.profile.id&&event.kind==='round')events.delete(id);result={ok:true};}}
+      else if ((['create-grownup','register','delete-child','delete-grownup','delete-children','delete-grownups','reset-child-password','reset-grownup-password','change-own-password','reset-own-progress','reset-child-progress','reset-grownup-progress','reset-children-progress','reset-grownups-progress','unlink-child','transfer-child','transfer-children'].includes(data.action)
+        || (['edit-profile','edit-child-profile','edit-grownup-profile'].includes(data.action) && users.get(data.child_id||data.grownup_id||actor.profile.id)?.profile.handle!==data.handle?.trim().toLowerCase())) && data.current_password!==actor.password) {status=403;result={error:'Check your current password.'};}
+      else if(['reset-child-password','reset-grownup-password'].includes(data.action)){const target=users.get(data.child_id||data.grownup_id);if(!target||target.profile.is_master){status=403;result={error:'Choose a regular account.'};}else{target.password=data.password;result={ok:true};}}
+      else if(data.action==='change-own-password'){if(actor.profile.is_master){status=403;result={error:'The master account must stay unchanged.'};}else{actor.password=data.password;result={ok:true};}}
+      else if(['reset-children-progress','reset-grownups-progress'].includes(data.action)){result={results:(data.child_ids||data.grownup_ids).map(id=>{const person=users.get(id);if(!person||person.profile.is_master)return{id,ok:false,reason:'not-found'};person.profile.progress_version=(person.profile.progress_version||0)+1;for(const [key,event]of events)if(event.user_id===id&&event.kind==='round')events.delete(key);return{id,ok:true};})};}
+      else if(data.action==='reset-own-progress'){if(actor.profile.is_master){status=400;result={error:'The master account must stay unchanged.'};}else{actor.profile.progress_version=(actor.profile.progress_version||0)+1;for(const [id,event] of events)if(event.user_id===actor.profile.id&&event.kind==='round')events.delete(id);result={ok:true};}}
       else if(data.action==='patch-game-settings'){defaults={...defaults,...data.patch};result={settings:defaults};}
-      else if(data.action==='patch-child-settings'){for(const id of data.child_ids)overrides.set(id,data.reset?{}:{...overrides.get(id),...data.patch});result={children:data.child_ids.map(child_id=>({child_id,overrides:overrides.get(child_id)}))};}
+      else if(data.action==='patch-child-settings'){for(const id of data.child_ids)overrides.set(id,data.reset?{}:{...overrides.get(id),...data.patch});result={results:data.child_ids.map(id=>({id,ok:true}))};}
       else if(data.action==='list-grownups')result={grownups:[...users.values()].map(u=>u.profile).filter(p=>p.role==='grownup')};
       else if(data.action==='list-linkable-children')result={children:[...users.values()].map(u=>u.profile).filter(p=>p.role==='child')};
       else if(data.action==='link-child'){links.push({adult_id:data.grownup_id||actor.profile.id,child_id:data.child_id});result={ok:true};}
       else if(data.action==='list-child-grownups')result={grownups:[...users.values()].map(u=>u.profile).filter(p=>links.some(l=>l.child_id===data.child_id&&l.adult_id===p.id))};
       else if(['edit-profile','edit-grownup-profile','edit-child-profile'].includes(data.action)){
-        const person=users.get(data.child_id||data.grownup_id||actor.profile.id);Object.assign(person.profile,{handle:data.handle,display_name:data.display_name,...(data.avatar?{avatar:data.avatar}:{})});result={profile:person.profile};
+        const person=users.get(data.child_id||data.grownup_id||actor.profile.id);if(person.profile.is_master){await requestRoute.fulfill({status:403,contentType:'application/json',body:JSON.stringify({error:'The master account must stay unchanged.'})});return;}Object.assign(person.profile,{handle:data.handle,display_name:data.display_name,...(data.avatar?{avatar:data.avatar}:{})});result={profile:person.profile};
       }
       else if(['delete-children','delete-grownups'].includes(data.action))result={results:(data.child_ids||data.grownup_ids).map(id=>{const p=users.get(id);if(!p||p.profile.is_master)return {id,ok:false,reason:'not-found'};users.delete(id);return {id,ok:true};})};
       else if (data.action === 'register'  || data.action === 'create-grownup' || data.action === 'create-child') {
@@ -68,11 +74,13 @@ function backend() {
     } else if (url.pathname.endsWith('/logout')) {status=204;result=null;}
     else if (!actor) {status=401;result={message:'Sign in required'};}
     else if(url.pathname.endsWith('/session_status')) result={expires_at:Date.now()/1000+(actor.profile.role==='child'?21600:1800),server_now:Date.now()/1000,role:actor.profile.role};
-    else if(url.pathname.endsWith('/child_settings')) result=[...overrides].map(([child_id,overrides])=>({child_id,overrides}));
+    else if(url.pathname.endsWith('/child_settings')) {const offset=Number(url.searchParams.get('offset')||0),limit=Number(url.searchParams.get('limit')||1000);result=[...overrides].map(([child_id,overrides])=>({child_id,overrides})).sort((a,b)=>a.child_id.localeCompare(b.child_id)).slice(offset,offset+limit);}
     else if (url.pathname.endsWith('/profiles')) {
-      const query=url.searchParams.get('id'),role=url.searchParams.get('role');result=[...users.values()].map(u=>u.profile).filter(p=>(!role||role==='eq.'+p.role)&&(query===null || query==='eq.'+p.id || query.includes(p.id)));
+      const query=url.searchParams.get('id'),role=url.searchParams.get('role');result=[...users.values()].map(u=>u.profile).filter(p=>(actor.profile.is_master||p.id===actor.profile.id||links.some(l=>l.adult_id===actor.profile.id&&l.child_id===p.id))&&(!role||role==='eq.'+p.role)&&(query===null || query==='eq.'+p.id || query.includes(p.id)));
+      result.sort((a,b)=>a.display_name.localeCompare(b.display_name)||a.id.localeCompare(b.id));
+      const offset=Number(url.searchParams.get('offset')||0),limit=Number(url.searchParams.get('limit')||1000);result=result.slice(offset,offset+limit);
     } else if (url.pathname.endsWith('/user') && request.method()==='PUT') {actor.password=data.password;result={id:actor.profile.id};}
-    else if (url.pathname.endsWith('/guardians')) result=links.filter(l=>(actor.profile.is_master||l.adult_id===actor.profile.id)&&(!url.searchParams.get('adult_id')||url.searchParams.get('adult_id')==='eq.'+l.adult_id));
+    else if (url.pathname.endsWith('/guardians')) {result=links.filter(l=>(actor.profile.is_master||l.adult_id===actor.profile.id)&&(!url.searchParams.get('adult_id')||url.searchParams.get('adult_id')==='eq.'+l.adult_id));result.sort((a,b)=>a.adult_id.localeCompare(b.adult_id)||a.child_id.localeCompare(b.child_id));const offset=Number(url.searchParams.get('offset')||0),limit=Number(url.searchParams.get('limit')||1000);result=result.slice(offset,offset+limit);}
     else if (url.pathname.endsWith('/classes')) result=[];
     else if (url.pathname.endsWith('/sync_batch')) {
       const allowed=data.p_owner===actor.profile.id || links.some(l=>l.adult_id===actor.profile.id&&l.child_id===data.p_owner);
@@ -85,14 +93,17 @@ function backend() {
     } else if (url.pathname.endsWith('/operations')) {
       result=[...events.values()].filter(e=>'eq.'+e.user_id===url.searchParams.get('user_id')).slice(Number(url.searchParams.get('offset')),Number(url.searchParams.get('offset'))+500);
     } else {status=404;result={message:'Unimplemented fixture route '+url.pathname};}
-    await requestRoute.fulfill({status,contentType:'application/json',body:status===204?'':JSON.stringify(result)});
+    await requestRoute.fulfill({status,contentType:'application/json',headers:{'x-accounts-fixture':'1'},body:status===204?'':JSON.stringify(result)});
   }
-  return {route,events,seed(handle,password,display_name='Test administrator') { const id=crypto.randomUUID();users.set(id,{password,profile:{id,handle,display_name,role:'grownup',is_master:users.size===0}}); },loseNextResponse(){loseResponse=true;},holdRefresh(){
+  return {route,events,overrides,seed(handle,password,display_name='Test administrator',options={}) { const id=crypto.randomUUID();users.set(id,{password,profile:{id,handle,display_name,role:options.role||'grownup',is_master:users.size===0}});if(options.adult_id)links.push({adult_id:options.adult_id,child_id:id});return id; },loseNextResponse(){loseResponse=true;},holdRefresh(){
     let arrived,release;const started=new Promise(resolve=>{arrived=resolve;});const wait=new Promise(resolve=>{release=resolve;});
     refreshHold={arrived,wait};return {started,release};
   }};
 }
-async function form(page,id,values) {
+async function form(page,id,values,{currentPassword}={}) {
+  let fixtureResponse=false;
+  const detectFixture=response=>{if(response.headers()['x-accounts-fixture']==='1')fixtureResponse=true;};
+  page.on('response',detectFixture);
   const hostedGate=page.getByRole('button',{name:'Open the page',exact:true});
   if(await hostedGate.count())await hostedGate.click();
   if(['profile-form','own-password-form'].includes(id))await page.locator('#my-account').click();
@@ -109,7 +120,16 @@ async function form(page,id,values) {
     if(await input.evaluate(node=>node.tagName)==='SELECT')await input.selectOption(value);else await input.fill(value);
   }
   await target.locator('button[type="submit"]').click();
+  await page.waitForFunction(id=>document.getElementById(id).getAttribute('aria-busy')!=='true'||document.getElementById('risky-password-dialog')?.open,id);
+  if(await page.locator('#risky-password-dialog[open]').count()){
+    const password=currentPassword||fixturePasswords.get(page);
+    if(!password)throw new Error('Risky live forms require an explicit currentPassword; no master password is inferred.');
+    await page.locator('#risky-password').fill(password);await page.locator('#risky-password-form button[type=submit]').click();
+  }
   await page.waitForFunction(id=>document.getElementById(id).getAttribute('aria-busy')!=='true',id);
+  page.removeListener('response',detectFixture);
+  if(id==='signin-form'&&fixtureResponse)fixturePasswords.set(page,values.password);
+  if(id==='own-password-form'&&fixturePasswords.has(page))fixturePasswords.set(page,values.password);
   const error=await target.locator('.form-result.error').allTextContents();
   assert.deepEqual(error,[],`${id}: ${error.join(' ')}`);
 }
@@ -237,10 +257,12 @@ async function run() {
       assert.deepEqual(errors,[],'No uncaught browser errors');
       const shortPasswordRejected=await a.evaluate(async()=>{try {await ACCOUNTS.changePassword('12345');return false;}catch {return true;}});
       assert.equal(shortPasswordRejected,true,'Five-character password must be rejected');
-      await a.evaluate(()=>ACCOUNTS.changePassword('aaaaaa'));
       await a.evaluate(()=>ACCOUNTS.signOut());
-      await a.evaluate(child=>ACCOUNTS.signIn(child,'aaaaaa'),child);
-      assert.equal(await a.evaluate(()=>ACCOUNTS.profile.handle),child,'Six lowercase characters satisfy the entire password rule');
+      await a.evaluate(({adult,password})=>ACCOUNTS.signIn(adult,password),{adult,password});
+      await a.evaluate(password=>ACCOUNTS.changePassword('aaaaaa',password),password);
+      await a.evaluate(()=>ACCOUNTS.signOut());
+      await a.evaluate(adult=>ACCOUNTS.signIn(adult,'aaaaaa'),adult);
+      assert.equal(await a.evaluate(()=>ACCOUNTS.profile.handle),adult,'Verified six-character own password works for a regular grown-up');
       const refresh=fixture.holdRefresh();
       await a.evaluate(()=>{
         const saved=JSON.parse(localStorage.getItem('little-woof-session-v1'));saved.expires_at=0;

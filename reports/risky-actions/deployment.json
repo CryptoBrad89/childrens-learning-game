@@ -1,0 +1,9 @@
+{
+  "project": "ixjbgshhzeaosrzavssr",
+  "edge_function": "accounts",
+  "edge_version": 9,
+  "edge_source_matches_working_tree": true,
+  "migration": "20261021045745_risky_actions",
+  "migration_source_matches_working_tree": true,
+  "verification": "Compared deployed source and recorded SQL text before resuming live checks."
+}

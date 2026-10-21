@@ -1,3 +1,5 @@
+// Historical PGlite regression fixture. Current pgcrypto/Auth guards and jobs are exercised
+// against real local PostgreSQL by risky_actions_database.cjs.
 const {PGlite} = require('../.job/db-tools/node_modules/@electric-sql/pglite');
 const fs = require('node:fs');
 const assert = require('node:assert/strict');
@@ -10,7 +12,7 @@ const assert = require('node:assert/strict');
     create table auth.sessions(id uuid primary key default gen_random_uuid(),user_id uuid references auth.users(id) on delete cascade,created_at timestamptz not null default now(),not_after timestamptz,refreshed_at timestamptz);
     create function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;
     grant usage on schema auth to authenticated; grant execute on function auth.uid() to authenticated;`);
-  const migrations=fs.readdirSync('supabase/migrations').filter(x=>x.endsWith('.sql')).sort();
+  const migrations=fs.readdirSync('supabase/migrations').filter(x=>x.endsWith('.sql') && x < '20261021045745').sort();
   for(const f of migrations.filter(x=>x<'20261019201539_portal_master.sql')) await db.exec(fs.readFileSync('supabase/migrations/'+f,'utf8'));
   const adult='10000000-0000-0000-0000-000000000001',child='10000000-0000-0000-0000-000000000002';
   await db.query('insert into auth.users(id) values($1),($2)',[adult,child]);

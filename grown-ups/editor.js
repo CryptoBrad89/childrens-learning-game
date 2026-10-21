@@ -45,10 +45,13 @@ function summarize(value){return Array.isArray(value)?value.join(', '):typeof va
 async function setupScope(){
   if(!hosted)return;
   $('#settings-scope').hidden=false;
-  const links=await A.rest('guardians?adult_id=eq.'+A.profile.id+'&select=child_id');
-  const ids=links.map(row=>row.child_id);
-  children=A.profile.is_master?await A.rest('profiles?role=eq.child&select=id,display_name,handle&order=display_name'):ids.length?await A.rest('profiles?id=in.('+ids.join(',')+')&select=id,display_name,handle&order=display_name'):[];
-  const requested=new URL(location.href).searchParams.getAll('child');
+  children=await A.allRows('profiles?role=eq.child&select=id,display_name,handle&order=display_name');
+  const query=new URL(location.href).searchParams;let requested=query.getAll('child');
+  if(query.has('selection')){
+    const key=query.get('selection');let selection;try{selection=JSON.parse(sessionStorage.getItem('lwl-child-selection:'+key));}catch{}
+    if(!selection||selection.actor!==A.profile.id||!Number.isFinite(selection.expires)||selection.expires<=Date.now()||!Array.isArray(selection.ids)||!selection.ids.length||new Set(selection.ids).size!==selection.ids.length||selection.ids.some(id=>typeof id!=='string'||!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)))throw new Error('This selection expired. Return to Kids and select the children again.');
+    requested=selection.ids;
+  }
   targets=children.filter(child=>requested.includes(child.id)).map(child=>child.id);
   if(requested.some(id=>!targets.includes(id)))throw new Error('A requested child is not linked to you. Return to Kids and choose again.');
   $('[name=scope][value=children]').checked=Boolean(targets.length)||!A.profile.is_master;

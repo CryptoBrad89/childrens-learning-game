@@ -1,0 +1,79 @@
+PASS grown-ups-phone: portal door, no keypad, every setting, guards, reset, layout and offline
+PASS grown-ups-tablet: portal door, no keypad, every setting, guards, reset, layout and offline
+PASS grown-ups-chromebook: portal door, no keypad, every setting, guards, reset, layout and offline
+PASS grown-ups-whiteboard: portal door, no keypad, every setting, guards, reset, layout and offline
+BEFORE VOICE CHANGE {
+  url: 'file:///workspace/clg-codex/v4-silk-thread/index.html',
+  settings: {
+    voice: false,
+    effects: false,
+    calm: true,
+    kidControls: false,
+    volume: 40,
+    letters: [ 'A', 'I', 'N', 'P', 'S', 'T' ],
+    hintAfter: 1,
+    games: [ 'post', 'silk' ]
+  },
+  saved: '{"voice":false,"effects":false,"calm":true,"kidControls":false,"volume":40,"letters":["S","A","T","P","I","N"],"hintAfter":1,"games":["post","silk"]}',
+  seeded: '1',
+  guest: false,
+  hidden: false
+}
+AFTER VOICE CHANGE {
+  url: 'file:///workspace/clg-codex/v1-letter-post/index.html',
+  settings: {
+    voice: true,
+    effects: false,
+    calm: true,
+    kidControls: false,
+    volume: 40,
+    letters: [ 'A', 'I', 'N', 'P', 'S', 'T' ],
+    hintAfter: 1,
+    games: [ 'post', 'silk' ]
+  },
+  saved: '{"voice":true,"effects":false,"calm":true,"kidControls":false,"volume":40,"letters":["S","A","T","P","I","N"],"hintAfter":1,"games":["post","silk"]}',
+  seeded: '1',
+  guest: false,
+  hidden: false,
+  volumes: [ 0.4 ]
+}
+PASS worlds-phone: hidden world, chosen letters, quiet start, hidden buttons, calm motion, one-miss hint and volume
+BEFORE VOICE CHANGE {
+  url: 'file:///workspace/clg-codex/v4-silk-thread/index.html',
+  settings: {
+    voice: false,
+    effects: false,
+    calm: true,
+    kidControls: false,
+    volume: 40,
+    letters: [ 'A', 'I', 'N', 'P', 'S', 'T' ],
+    hintAfter: 1,
+    games: [ 'post', 'silk' ]
+  },
+  saved: '{"voice":false,"effects":false,"calm":true,"kidControls":false,"volume":40,"letters":["S","A","T","P","I","N"],"hintAfter":1,"games":["post","silk"]}',
+  seeded: '1',
+  guest: false,
+  hidden: false
+}
+AFTER VOICE CHANGE {
+  url: 'file:///workspace/clg-codex/v1-letter-post/index.html',
+  settings: {
+    voice: true,
+    effects: false,
+    calm: true,
+    kidControls: false,
+    volume: 40,
+    letters: [ 'A', 'I', 'N', 'P', 'S', 'T' ],
+    hintAfter: 1,
+    games: [ 'post', 'silk' ]
+  },
+  saved: '{"voice":true,"effects":false,"calm":true,"kidControls":false,"volume":40,"letters":["S","A","T","P","I","N"],"hintAfter":1,"games":["post","silk"]}',
+  seeded: '1',
+  guest: false,
+  hidden: false,
+  volumes: [ 0.4 ]
+}
+PASS worlds-whiteboard: hidden world, chosen letters, quiet start, hidden buttons, calm motion, one-miss hint and volume
+PASS grown-ups-reduced: unlock and settings render
+PASS grown-ups-dark: unlock and settings render
+PASS grown-ups' corner; screenshots disabled

@@ -1,3 +1,5 @@
+// Historical PGlite regression fixture. Current pgcrypto/Auth guards and jobs are exercised
+// against real local PostgreSQL by risky_actions_database.cjs.
 const {PGlite}=require('../.job/db-tools/node_modules/@electric-sql/pglite');
 const fs=require('node:fs'),assert=require('node:assert/strict');
 (async()=>{
@@ -9,7 +11,7 @@ const fs=require('node:fs'),assert=require('node:assert/strict');
     create function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;
     create function auth.jwt() returns jsonb language sql stable as $$select coalesce(nullif(current_setting('request.jwt.claims',true),''),'{}')::jsonb$$;
     grant usage on schema auth to authenticated;grant execute on function auth.uid(),auth.jwt() to authenticated;`);
-  const files=fs.readdirSync('supabase/migrations').filter(x=>x.endsWith('.sql')).sort();
+  const files=fs.readdirSync('supabase/migrations').filter(x=>x.endsWith('.sql') && x < '20261021045745').sort();
   for(const f of files.filter(x=>x<'20261019201539'))await db.exec(fs.readFileSync('supabase/migrations/'+f,'utf8'));
   const a='10000000-0000-0000-0000-000000000001',b='10000000-0000-0000-0000-000000000002',c='10000000-0000-0000-0000-000000000003',u='10000000-0000-0000-0000-000000000004';
   await db.query('insert into auth.users(id) values($1),($2),($3),($4)',[a,b,c,u]);

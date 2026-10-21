@@ -1,3 +1,5 @@
+// Historical PGlite regression fixture. Current pgcrypto/Auth guards and jobs are exercised
+// against real local PostgreSQL by risky_actions_database.cjs.
 /* Execute the actual migration and RLS in PostgreSQL (PGlite).
  * Setup: npm install --prefix .job/db-tools @electric-sql/pglite@0.3.14
  * Run: node tests/accounts_database.cjs
@@ -13,7 +15,7 @@ const assert = require('node:assert/strict');
     create table auth.identities(user_id uuid references auth.users(id) on delete cascade,provider text,identity_data jsonb,updated_at timestamptz);
     create function auth.uid() returns uuid language sql stable as $$ select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid $$;
     grant usage on schema auth to authenticated; grant execute on function auth.uid() to authenticated;`);
-  for (const filename of fs.readdirSync('supabase/migrations').filter(x => x.endsWith('.sql') && x < '20261019201539_portal_master.sql').sort()) {
+  for (const filename of fs.readdirSync('supabase/migrations').filter(x => x.endsWith('.sql') && x < '20261021045745' && x < '20261019201539_portal_master.sql').sort()) {
     await db.exec(fs.readFileSync(`supabase/migrations/${filename}`, 'utf8'));
   }
   const adult = '10000000-0000-0000-0000-000000000001';
@@ -28,7 +30,7 @@ const assert = require('node:assert/strict');
   await db.exec('reset role');
   await db.query("update public.profiles set handle='test' where id=$1",[adult]);
   await db.exec(fs.readFileSync('supabase/migrations/20261019201539_portal_master.sql','utf8'));
-  for (const filename of fs.readdirSync('supabase/migrations').filter(x => x.endsWith('.sql') && x > '20261019201539_portal_master.sql').sort()) await db.exec(fs.readFileSync(`supabase/migrations/${filename}`, 'utf8'));
+  for (const filename of fs.readdirSync('supabase/migrations').filter(x => x.endsWith('.sql') && x < '20261021045745' && x > '20261019201539_portal_master.sql').sort()) await db.exec(fs.readFileSync(`supabase/migrations/${filename}`, 'utf8'));
   await db.exec('set role service_role');
   const snapshot = async () => { await db.exec('reset role'); const value = (await db.query("select jsonb_build_object('profiles',(select jsonb_agg(to_jsonb(p)-'progress_version' order by id) from public.profiles p),'users',(select jsonb_agg(to_jsonb(u) order by id) from auth.users u),'identities',(select jsonb_agg(to_jsonb(i) order by user_id) from auth.identities i),'child_settings',(select jsonb_agg(to_jsonb(s) order by child_id) from public.child_settings s),'links',(select jsonb_agg(to_jsonb(g) order by adult_id,child_id) from public.guardians g),'settings',(select jsonb_agg(to_jsonb(g)) from public.game_settings g)) as value")).rows[0].value; await db.exec('set role service_role'); return value; };
   for (const id of [adult, child, stranger]) {

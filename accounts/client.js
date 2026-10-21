@@ -35,7 +35,7 @@ async function refreshSettings(){
   if(rows[0])gameDefaults=rows[0].settings;
   if(session&&!guest){
     const actor=self.id;
-    const children=await rest('child_settings?select=child_id,overrides');
+    const children=await allRows('child_settings?select=child_id,overrides');
     if(revision!==settingsRevision)return;
     if(self?.id===actor){childOverrides={};for(const row of children)childOverrides[row.child_id]=row.overrides;}
   }
@@ -44,8 +44,11 @@ async function refreshSettings(){
 async function applySettings(childIds,patch,{reset=false}={}){
   settingsRevision++;
   const result=await manage(childIds.length?'patch-child-settings':'patch-game-settings',childIds.length?{child_ids:childIds,patch,reset}:{patch});
-  if(childIds.length)for(const row of result.children)childOverrides[row.child_id]=row.overrides;
-  else gameDefaults=result.settings;
+  if(childIds.length){
+    await refreshSettings();
+    const failed=(result.results||[]).filter(row=>!row.ok);
+    if(failed.length)throw new Error('Settings could not be applied to: '+failed.map(row=>row.id+' ('+(row.reason||'failed')+')').join(', '));
+  }else gameDefaults=result.settings;
   cacheSettings();emit();return result;
 }
 function localDeadline(){
@@ -134,8 +137,8 @@ function snapshotFor(id, source = records) {
   const resolved=effectiveSettings(id);
   return {settings:window.GROWN_UPS ? window.GROWN_UPS.normalize(resolved) : resolved, themes, rounds, achievements, count:rounds.length};
 }
-async function network(path, {method='GET', body, token, headers={}} = {}) {
-  const controller = new AbortController(), timeout = setTimeout(()=>controller.abort(), 12000);
+async function network(path, {method='GET', body, token, headers={}, timeoutMs=12000} = {}) {
+  const controller = new AbortController(), timeout = setTimeout(()=>controller.abort(), timeoutMs);
   try {
     const response = await fetch(config.url+path, {method, signal:controller.signal,
       headers:{apikey:config.key, ...(token?{Authorization:'Bearer '+token}:{}), ...(body===undefined?{}:{'Content-Type':'application/json'}),...headers},
@@ -174,10 +177,75 @@ async function rest(path, options={}) {
   const access = await token();
   return network('/rest/v1/'+path.replace(/^\//,''),{...options,token:access,headers:{Prefer:'return=representation',...options.headers}});
 }
+function bulkSessionId() {
+  try { return JSON.parse(atob(session.access_token.split('.')[1].replace(/-/g,'+').replace(/_/g,'/'))).session_id; }
+  catch { return session.user.id; }
+}
+function canonical(value) {
+  if(Array.isArray(value))return value.map(canonical);
+  if(value&&typeof value==='object')return Object.fromEntries(Object.keys(value).sort().map(key=>[key,canonical(value[key])]));
+  return value;
+}
 async function manage(action, fields={}) {
   requireHostedAccounts();
   if (!self || self.role !== 'grownup') throw new Error('Sign in as a grown-up administrator first.');
-  return network('/functions/v1/accounts',{method:'POST',body:{...fields,action},token:await token()});
+  const bulk=['delete-children','delete-grownups','reset-children-progress','reset-grownups-progress','patch-child-settings','transfer-child','transfer-children'].includes(action);
+  const storageKey='lwl-pending-bulk-v1', actor=self.id, sessionId=bulkSessionId();
+  const safeFields=Object.fromEntries(Object.entries(fields).filter(([key])=>!['current_password','password','new_password'].includes(key)));
+  const fingerprint=JSON.stringify(canonical({action,fields:safeFields}));
+  let saved;
+  if(bulk){
+    try{saved=JSON.parse(sessionStorage.getItem(storageKey));}catch{}
+    if(saved?.actor!==actor||saved?.session!==sessionId)saved={actor,session:sessionId,jobs:{}};
+  }
+  let pending=bulk?saved.jobs[fingerprint]:null;
+  if(bulk&&!pending){pending={request_id:crypto.randomUUID(),action,fields:safeFields};saved.jobs[fingerprint]=pending;sessionStorage.setItem(storageKey,JSON.stringify(saved));}
+  const persist=()=>{if(bulk)sessionStorage.setItem(storageKey,JSON.stringify(saved));};
+  const clear=()=>{if(bulk){delete saved.jobs[fingerprint];persist();}};
+  let result;
+  if(!pending?.job_id){
+    try{
+      result=await network('/functions/v1/accounts',{method:'POST',body:{...fields,action,...(pending?{request_id:pending.request_id}:{})},token:await token(),timeoutMs:60000});
+    }catch(error){
+      if([400,401,403,404].includes(error.status))clear();
+      else if(bulk)error.message='Your action is saved. Retry to continue.';
+      throw error;
+    }
+    if(!result?.job_id){clear();return result;}
+    if(pending){pending.job_id=result.job_id;persist();}
+  }
+  const job=pending?.job_id||result.job_id;
+  do {
+    for(let attempt=0;;attempt++){
+      try{
+        result=await network('/functions/v1/accounts',{method:'POST',body:{action:'run-bulk',job_id:job},token:await token(),timeoutMs:60000});
+        break;
+      }catch(error){
+        if(attempt>=2||[400,401,403,404].includes(error.status)){
+          const failure=new Error('Your action is saved. Retry to continue. '+([401,403].includes(error.status)?'Sign in again if needed.':''));
+          failure.status=error.status;throw failure;
+        }
+        await new Promise(resolve=>setTimeout(resolve,300*(attempt+1)));
+      }
+    }
+    if(!result.done)await new Promise(resolve=>setTimeout(resolve,350));
+  }while(!result.done);
+  clear();return {results:result.results||[]};
+}
+
+async function allRows(path) {
+  const query = new URL(path.replace(/^\//,''), 'https://rows.invalid/');
+  query.searchParams.delete('offset'); query.searchParams.delete('limit');
+  const ordering = query.searchParams.get('order');
+  const tie = query.pathname === '/guardians' ? 'adult_id.asc,child_id.asc' : query.pathname === '/child_settings' ? 'child_id.asc' : 'id.asc';
+  query.searchParams.set('order', ordering ? ordering + ',' + tie : tie);
+  const rows = [];
+  for (let offset = 0;; offset += 200) {
+    query.searchParams.set('offset', String(offset)); query.searchParams.set('limit', '200');
+    const page = await rest(query.pathname + query.search);
+    rows.push(...page);
+    if (page.length < 200) return rows;
+  }
 }
 async function readProgress(id) {
   const remote = [];
@@ -327,8 +395,8 @@ window.ACCOUNTS = {ready,
     emit();
   },
   get gameDefaults(){return {...gameDefaults};},get childOverrides(){return structuredClone(childOverrides);},effectiveSettings,refreshSettings,applySettings,sessionStatus,expireSession,
-  get guest(){return guest;}, signIn,signOut,selectOwner,setSetting,setSettings,recordRound,sync,rest,manage,readProgress,editProfile,
-  async changePassword(password) { if([...password].length<6)throw new Error('Use at least 6 characters.'); return network('/auth/v1/user',{method:'PUT',token:await token(),body:{password}}); },
+  get guest(){return guest;}, signIn,signOut,selectOwner,setSetting,setSettings,recordRound,sync,rest,allRows,manage,readProgress,editProfile,
+  async changePassword(password,current_password) { if([...password].length<6)throw new Error('Use at least 6 characters.'); return manage('change-own-password',{password,current_password}); },
   get session(){return guest?null:session;},get profile(){return guest?null:self;},get owner(){return guest?null:owner;},get status(){return status;},
   get snapshot(){return snapshotFor(guest?null:owner?.id);},get pending(){if(guest)return 0;return records.filter(r=>r.pending && r.user_id===owner?.id).length;},
   subscribe(fn){listeners.add(fn);return()=>listeners.delete(fn);}

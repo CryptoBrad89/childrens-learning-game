@@ -1,0 +1,37 @@
+{
+  "note": "Superseded by final reruns. Browser smoke completed using six supported shards. The unchanged grown-up audio suite passed two reruns after one transient timeout.",
+  "attempts": [
+    {
+      "suite": "browser_smoke",
+      "exit_code": 1
+    },
+    {
+      "suite": "grown_ups_smoke",
+      "exit_code": 1
+    },
+    {
+      "suite": "motion_smoke",
+      "exit_code": 0
+    },
+    {
+      "suite": "silk_smoke",
+      "exit_code": 0
+    },
+    {
+      "suite": "confetti_smoke",
+      "exit_code": 0
+    },
+    {
+      "suite": "home_flow",
+      "exit_code": 0
+    },
+    {
+      "suite": "accounts_selection",
+      "exit_code": 0
+    },
+    {
+      "suite": "call_list_offline",
+      "exit_code": 0
+    }
+  ]
+}

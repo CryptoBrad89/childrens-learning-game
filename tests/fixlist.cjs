@@ -4,7 +4,7 @@ const {staticServer,backend,playwright,form,round}=require('./accounts_sync.cjs'
 (async()=>{
  const {server,url}=await staticServer(),fixture=backend();fixture.seed('fix_admin','7234ab','Grown-up');
  const browser=await playwright().chromium.launch({executablePath:process.env.CHROMIUM_EXECUTABLE||'/usr/bin/google-chrome',args:['--no-sandbox']});
- const shots='reports/fixlist-after';fs.mkdirSync(shots,{recursive:true});
+ const shots='reports/risky-actions/browser/fixlist';fs.mkdirSync(shots,{recursive:true});
  try{for(const width of [390,768,1440]){
  const context=await browser.newContext({viewport:{width,height:900},reducedMotion:'reduce'});await context.route('https://*.supabase.co/**',fixture.route);
  const p=await context.newPage(),errors=[];p.on('pageerror',e=>errors.push(e.message));
@@ -17,7 +17,7 @@ const {staticServer,backend,playwright,form,round}=require('./accounts_sync.cjs'
  await p.locator('#portal-link').click();await p.waitForFunction(()=>document.querySelector('#identity-title').textContent==='Grown-up');
  assert(await p.locator('#signed-in').isVisible());assert.equal(await p.locator('#adults-view').getAttribute('aria-pressed'),'false');
  await p.screenshot({path:`${shots}/portal-${width}.png`,fullPage:true});
- await p.locator('#my-account').click();assert(await p.locator('#profile-form').locator('xpath=ancestor::details').isVisible());await p.locator('#adults-view').click();assert(await p.locator('#create-grownup-form').locator('xpath=ancestor::details').isVisible());assert(await p.locator('#people').isHidden());
+ await p.locator('#my-account').click();assert(await p.locator('#profile-form').locator('xpath=ancestor::details').isHidden(),'Master profile cannot be edited');await p.locator('#adults-view').click();assert(await p.locator('#create-grownup-form').locator('xpath=ancestor::details').isVisible());assert(await p.locator('#people').isHidden());
  await p.evaluate(()=>{const saved=JSON.parse(localStorage.getItem('little-woof-session-v1'));saved.profile.is_master=false;localStorage.setItem('little-woof-session-v1',JSON.stringify(saved));});
  await p.reload();await p.waitForFunction(()=>ACCOUNTS.profile?.is_master===true);
  await p.locator('#adults-view').click();assert(await p.locator('#create-grownup-form').locator('xpath=ancestor::details').isVisible());

@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
 const ts=require('../.job/db-tools/node_modules/typescript');
 let handler,calls=[],role='grownup',linked=true,sessionResult=true;
-const adult='10000000-0000-0000-0000-000000000001',child='10000000-0000-0000-0000-000000000002',other='10000000-0000-0000-0000-000000000003';
+const adult='10000000-0000-0000-0000-000000000001',child='10000000-0000-0000-0000-000000000002',other='10000000-0000-0000-0000-000000000003',job='10000000-0000-0000-0000-000000000900';
 const ok=x=>new Response(JSON.stringify(x),{headers:{'Content-Type':'application/json'}});
 vm.runInNewContext(ts.transpileModule(fs.readFileSync('supabase/functions/accounts/index.ts','utf8'),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS}}).outputText,{
   exports:{},Request,Response,
@@ -18,9 +18,9 @@ vm.runInNewContext(ts.transpileModule(fs.readFileSync('supabase/functions/accoun
     if(url.includes('role=eq.grownup'))return ok(role==='grownup'?[{id:adult,is_master:false}]:[]);
     if(url.includes('/guardians?'))return ok(linked?[{child_id:child}]:[]);
     if(url.includes('handle=eq.'))return ok([]);
-    if(url.endsWith('/rpc/edit_child_profile'))return ok(null);
+    if(url.endsWith('/rpc/edit_confirmed_profile'))return ok(null);
     if(url.endsWith('/rpc/patch_game_settings'))return ok({settings:body.p_patch});
-    if(url.endsWith('/rpc/patch_child_settings'))return ok({children:body.p_children.map(child_id=>({child_id,overrides:body.p_patch}))});
+    if(url.endsWith('/rpc/start_bulk_action'))return linked?ok(job):new Response('{}',{status:403});
     if(url.includes('/profiles?'))return ok([{id:child,role:'child',handle:'sally_new',display_name:'Sally New'}]);
     throw Error('Unexpected '+url);
   }
@@ -35,13 +35,13 @@ const send=(body,token='valid')=>handler(new Request('https://project.invalid/fu
       if(actor!=='grownup')assert.equal(calls.some(c=>c.url.includes('/rpc/')&&!c.url.endsWith('/rpc/session_status')),false);
     }
   }
-  const sent=calls.find(c=>c.url.endsWith('/rpc/patch_child_settings')).body;
-  assert.deepEqual(sent,{p_adult:adult,p_children:[child,other],p_patch:{letters:['A','E','I','O','U']},p_reset:false},'Bulk only submits changed keys');
+  const sent=calls.find(c=>c.url.endsWith('/rpc/start_bulk_action')).body;
+  assert.deepEqual(sent,{p_action:'patch-child-settings',p_targets:[child,other],p_parameters:{patch:{letters:['A','E','I','O','U']},reset:false},p_password:null,p_request_id:null},'Bulk only submits changed keys');
   role='grownup';linked=false;
-  for(const body of [requests[0],requests[2]]){calls=[];assert.equal((await send(body)).status,403);assert.equal(calls.some(c=>c.url.includes('/rpc/')&&!c.url.endsWith('/rpc/session_status')),false);}
+  for(const body of [requests[0],requests[2]]){calls=[];assert.equal((await send(body)).status,body.action==='patch-child-settings'?400:403);assert.equal(calls.some(c=>c.url.endsWith('/rpc/edit_confirmed_profile')),false);}
   linked=true;calls=[];
   assert.equal((await send({action:'edit-child-profile',child_id:child,handle:' Sally_New ',display_name:' Sally New ',p_adult:other})).status,200);
-  assert.deepEqual(calls.find(c=>c.url.endsWith('/rpc/edit_child_profile')).body,{p_adult:adult,p_child:child,p_handle:'sally_new',p_display_name:'Sally New'});
+  assert.deepEqual(calls.find(c=>c.url.endsWith('/rpc/edit_confirmed_profile')).body,{p_actor:adult,p_target:child,p_expected_handle:'sally_new',p_handle:'sally_new',p_display_name:'Sally New',p_avatar:null});
   for(const child_ids of [[],['bad'],null])assert.equal((await send({action:'patch-child-settings',child_ids,patch:{}})).status,400);
   assert.equal((await send({action:'patch-child-settings',child_ids:[child],patch:{},reset:'yes'})).status,400);
   for(const failure of [false,'network']) for(const body of requests) {

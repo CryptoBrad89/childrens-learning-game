@@ -6,7 +6,7 @@ const {staticServer,backend,playwright,form}=require('./accounts_sync.cjs');
  execFileSync('tar',['-x','-C',baselineDir],{input:execFileSync('git',['archive','448ef96'],{maxBuffer:128*1024*1024})});
  const baseline=await staticServer(baselineDir);
  const local=await staticServer(),browser=await playwright().chromium.launch({executablePath:'/usr/bin/google-chrome',args:['--no-sandbox']});
- const shots=process.env.PORTAL_SHOTS||'reports/portal-review';fs.mkdirSync(shots,{recursive:true});
+ const shots=process.env.PORTAL_SHOTS||'reports/risky-actions/browser/portal-review';fs.mkdirSync(shots,{recursive:true});
  try{for(const width of [390,768,1440])for(const before of [true,false]){
   const fixture=backend();fixture.seed('review_master','7234ab','Brandy (fixture)');fixture.seed('review_alex','7234ab','Alex Rivera');
   const context=await browser.newContext({viewport:{width,height:900},reducedMotion:'reduce'});await context.route('https://*.supabase.co/**',fixture.route);
@@ -43,12 +43,12 @@ const {staticServer,backend,playwright,form}=require('./accounts_sync.cjs');
   await page.locator('#select-kids').click();assert.match(await page.locator('#kid-selected-count').innerText(),/2 selected/);
   await page.locator('#delete-selected-kids').click();assert.equal(await page.locator('#confirm-child-action').isDisabled(),true);
   assert.match(await page.locator('#confirm-child-names').innerText(),/review_ava/);assert.match(await page.locator('#confirm-child-names').innerText(),/review_leo/);
-  await page.locator('#confirm-child-count').fill('1');assert(await page.locator('#confirm-child-action').isDisabled());
-  await page.locator('#confirm-child-count').fill('2');assert(await page.locator('#confirm-child-action').isEnabled());
+  await page.locator('#confirm-child-password').fill('');assert(await page.locator('#confirm-child-action').isDisabled());
+  await page.locator('#confirm-child-password').fill('7234ab');assert(await page.locator('#confirm-child-action').isEnabled());
   await page.screenshot({path:`${shots}/after-delete-confirm-${width}.png`,fullPage:false});
   await page.locator('#cancel-child').click();assert.equal(await page.locator('#children-list li').count(),2);
   assert.deepEqual(errors,[]);assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
-  console.log('PASS '+width+': assignments/search, isolated persisted views, own progress, protected master row, explicit settings/no owner leak, typed bulk confirm/cancel, no overflow/errors');
+  console.log('PASS '+width+': assignments/search, isolated persisted views, own progress, protected master row, explicit settings/no owner leak, password-only bulk confirm/cancel, no overflow/errors');
   await context.close();
  }}finally{await browser.close();local.server.close();baseline.server.close();fs.rmSync(baselineDir,{recursive:true,force:true});}
 })().catch(error=>{console.error(error);process.exitCode=1;});

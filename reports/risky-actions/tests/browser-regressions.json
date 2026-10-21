@@ -1,0 +1,42 @@
+{
+  "completed_at": "2026-10-21T08:25:31.714443+00:00",
+  "chromium_executable": "/usr/bin/google-chrome",
+  "suites": [
+    {
+      "suite": "accounts_sync",
+      "exit_code": 0,
+      "pass_lines": 2,
+      "log": "reports/risky-actions/tests/accounts_sync.log"
+    },
+    {
+      "suite": "portal_flow",
+      "exit_code": 0,
+      "pass_lines": 4,
+      "log": "reports/risky-actions/tests/portal_flow.log"
+    },
+    {
+      "suite": "portal_review_browser",
+      "exit_code": 0,
+      "pass_lines": 3,
+      "log": "reports/risky-actions/tests/portal_review_browser.log"
+    },
+    {
+      "suite": "call_list_browser",
+      "exit_code": 0,
+      "pass_lines": 3,
+      "log": "reports/risky-actions/tests/call_list_browser.log"
+    },
+    {
+      "suite": "fixlist",
+      "exit_code": 0,
+      "pass_lines": 4,
+      "log": "reports/risky-actions/tests/fixlist.log"
+    },
+    {
+      "suite": "risky_actions_browser",
+      "exit_code": 0,
+      "pass_lines": 3,
+      "log": "reports/risky-actions/tests/risky_actions_browser.log"
+    }
+  ]
+}

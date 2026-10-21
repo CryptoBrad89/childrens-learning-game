@@ -1,0 +1,26 @@
+[
+  {
+    "shard": 0,
+    "exit_code": 0
+  },
+  {
+    "shard": 1,
+    "exit_code": 0
+  },
+  {
+    "shard": 2,
+    "exit_code": 0
+  },
+  {
+    "shard": 3,
+    "exit_code": 0
+  },
+  {
+    "shard": 4,
+    "exit_code": 0
+  },
+  {
+    "shard": 5,
+    "exit_code": 0
+  }
+]

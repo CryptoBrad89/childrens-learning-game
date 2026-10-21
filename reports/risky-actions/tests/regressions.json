@@ -1,0 +1,42 @@
+[
+  {
+    "suite": "browser_smoke",
+    "exit_code": 0,
+    "log": "reports/risky-actions/tests/browser_smoke.log"
+  },
+  {
+    "suite": "grown_ups_smoke",
+    "exit_code": 0,
+    "log": "reports/risky-actions/tests/grown_ups_smoke.log"
+  },
+  {
+    "suite": "motion_smoke",
+    "exit_code": 0,
+    "log": "reports/risky-actions/tests/motion_smoke.log"
+  },
+  {
+    "suite": "silk_smoke",
+    "exit_code": 0,
+    "log": "reports/risky-actions/tests/silk_smoke.log"
+  },
+  {
+    "suite": "confetti_smoke",
+    "exit_code": 0,
+    "log": "reports/risky-actions/tests/confetti_smoke.log"
+  },
+  {
+    "suite": "home_flow",
+    "exit_code": 0,
+    "log": "reports/risky-actions/tests/home_flow.log"
+  },
+  {
+    "suite": "accounts_selection",
+    "exit_code": 0,
+    "log": "reports/risky-actions/tests/accounts_selection.log"
+  },
+  {
+    "suite": "call_list_offline",
+    "exit_code": 0,
+    "log": "reports/risky-actions/tests/call_list_offline.log"
+  }
+]

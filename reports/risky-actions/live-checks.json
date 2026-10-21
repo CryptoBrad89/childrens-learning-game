@@ -1,0 +1,18 @@
+{
+  "project": "ixjbgshhzeaosrzavssr",
+  "disposable_run": "risky_mvhui00u",
+  "accounts_created": 127,
+  "kids": 125,
+  "checks": [
+    "Wrong, missing and another grown-up password rejected without moving session deadline",
+    "Direct Auth password and login email bypasses blocked, including supplied current_password",
+    "Direct legacy SQL mutation denied",
+    "125 brand-new kids created without a grown-up password check",
+    "125-target progress reset and password-free settings jobs completed with all outcomes",
+    "Benign profile edit skips check; username, kid/own password and own reset require actor password; new hash authenticates; original session deadline unchanged",
+    "Real portal and live backend: all 125 selected, one password field, no overflow at 390/768/1440",
+    "125 exact disposable kids deleted; unknown-ID partial failure reported"
+  ],
+  "cleanup": "Every exact ID from this run was deleted; baseline pre-existing IDs were excluded before cleanup.",
+  "screenshot_note": "Live checks cover 390/768/1440. Committed screenshots use the deterministic 1251-account browser fixture; live capture now disables transitions."
+}

@@ -1,0 +1,12 @@
+{
+  "project": "ixjbgshhzeaosrzavssr",
+  "master_profile_unchanged": true,
+  "master_auth_unchanged": true,
+  "master_handle": "brandy",
+  "master_display_name": "Brandy",
+  "preexisting_accounts": 370,
+  "preexisting_accounts_remaining": 370,
+  "final_accounts": 370,
+  "disposable_accounts_cleaned": 254,
+  "cleanup_scope": "Only the exact IDs recorded by the two disposable runs; children before grown-ups."
+}

@@ -21,11 +21,13 @@ vm.runInNewContext(source, {
       if(sessionResult === 'network') throw Error('Session validation unavailable');
       return sessionResult ? ok({expires_at:Date.now()/1000+1800,role:'grownup'}) : new Response('{}',{status:401});
     }
+    if(url.endsWith('/rpc/verify_risky_password')) return ok(true);
+    if(url.endsWith('/rpc/set_account_password')) return ok(null);
     return transport(url,options);
   },
 });
 const ok = data => new Response(JSON.stringify(data),{status:200,headers:{'Content-Type':'application/json'}});
-const request = (body,token) => new Request('https://project.invalid/functions/v1/accounts',{method:'POST',headers:{'Content-Type':'application/json',...(token?{Authorization:`Bearer ${token}`}:{})},body:JSON.stringify(body)});
+const request = (body,token) => new Request('https://project.invalid/functions/v1/accounts',{method:'POST',headers:{'Content-Type':'application/json',...(token?{Authorization:`Bearer ${token}`}:{})},body:JSON.stringify({current_password:'fixture-current',...body})});
 (async () => {
   transport = (url,options) => {
     if (url.endsWith('/auth/v1/user')) return ok({id});

@@ -1,0 +1,1 @@
+PASS portal review database: master bypasses, regular linked-only mutations/reads, defaults ownership, atomic transfer partial skips, shared links, last-link rehome, master reset protection, RPC privilege boundaries

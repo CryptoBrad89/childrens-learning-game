@@ -134,20 +134,26 @@
 <noscript><p class="noscript">Please turn on JavaScript to sign in and open your progress page.</p></noscript>
 <dialog id="confirm-child" aria-labelledby="confirm-title" aria-describedby="confirm-copy">
   <h2 id="confirm-title"></h2><p id="confirm-copy"></p>
-  <ul id="confirm-child-names" class="confirm-names"></ul><label>Type the number of accounts<input id="confirm-child-count" inputmode="numeric" autocomplete="off"></label><p id="confirm-result" role="status"></p>
+  <ul id="confirm-child-names" class="confirm-names"></ul><label>Your current password<input id="confirm-child-password" type="password" autocomplete="current-password" required></label><p id="confirm-result" role="status"></p>
   <div class="actions"><button type="button" id="cancel-child" class="quiet-button">Cancel</button><button type="button" id="confirm-child-action" class="solid-button"></button></div>
 </dialog>
 <dialog id="confirm-grownup" aria-labelledby="confirm-grownup-title" aria-describedby="confirm-grownup-copy">
   <h2 id="confirm-grownup-title"></h2>
   <p id="confirm-grownup-copy">Their login and guardian links will be permanently deleted. Kids and their progress stay. Kids with no other grown-up will be linked to the master.</p>
-  <ul id="confirm-grownup-names" class="confirm-names"></ul><label>Type the number of accounts<input id="confirm-grownup-count" inputmode="numeric" autocomplete="off"></label><p id="confirm-grownup-result" role="status"></p>
+  <ul id="confirm-grownup-names" class="confirm-names"></ul><label>Your current password<input id="confirm-grownup-password" type="password" autocomplete="current-password" required></label><p id="confirm-grownup-result" role="status"></p>
   <div class="actions"><button type="button" id="cancel-grownup" class="quiet-button" autofocus>Cancel</button><button type="button" id="confirm-grownup-action" class="solid-button">Permanently delete grown-up</button></div>
 </dialog>
 <dialog id="transfer-dialog" aria-labelledby="transfer-title"><h2 id="transfer-title">Transfer kids</h2><p id="transfer-names"></p><p>Move the source grown-up's link to the destination. Other grown-up links, logins, settings and progress stay. Kids not linked to the source are skipped.</p><button id="cancel-transfer" class="quiet-button" type="button">Cancel</button><form id="transfer-form"><label>From<select id="transfer-source" name="source_id" required><option value="">Choose source</option></select></label><label>To<select id="transfer-destination" name="destination_id" required><option value="">Choose destination</option></select></label><button class="solid-button" type="submit">Confirm transfer</button><p class="form-result" role="status"></p></form></dialog><dialog id="confirm-own-reset-dialog" aria-labelledby="confirm-own-title" aria-describedby="confirm-own-copy">
   <h2 id="confirm-own-title">Reset my game progress?</h2>
   <p id="confirm-own-identity"></p>
   <p id="confirm-own-copy">Your completed rounds and milestones will be erased. Your login, picture, password, game settings, and linked kids stay. This cannot be undone.</p>
-  <p id="confirm-own-result" role="status"></p>
+  <label>Your current password<input id="confirm-own-password" type="password" autocomplete="current-password" required></label><p id="confirm-own-result" role="status"></p>
   <div class="actions"><button id="cancel-own-reset" type="button" class="quiet-button" autofocus>Cancel</button><button id="confirm-own-reset" type="button" class="solid-button">Reset my game progress</button></div>
+</dialog>
+<dialog id="risky-password-dialog" aria-labelledby="risky-password-title">
+  <h2 id="risky-password-title"></h2><ul id="risky-password-people" class="confirm-names"></ul>
+  <form id="risky-password-form"><label>Your current password<input id="risky-password" type="password" autocomplete="current-password" required></label>
+    <p id="risky-password-result" role="status"></p><div class="actions"><button id="risky-password-cancel" type="button" class="quiet-button">Cancel</button><button type="submit" class="solid-button">Confirm</button></div>
+  </form>
 </dialog></body>
 </html>

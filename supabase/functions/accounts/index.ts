@@ -67,6 +67,15 @@ export async function serve(request: Request): Promise<Response> {
       }
       return raw;
     }
+    async function allRows(path: string, order = 'id'): Promise<unknown[]> {
+      const rows: unknown[] = [];
+      for (let offset = 0;; offset += 200) {
+        const page = await api(`${path}&order=${order}&limit=200&offset=${offset}`);
+        if (!Array.isArray(page)) throw new RequestError('Accounts could not load.', 503);
+        rows.push(...page);
+        if (page.length < 200) return rows;
+      }
+    }
     const input = object(await request.json());
     const action = string(input.action, 'Action');
     const bearer = request.headers.get('Authorization')?.replace(/^Bearer\s+/i, '');
@@ -81,39 +90,81 @@ export async function serve(request: Request): Promise<Response> {
     const rows = await api(`/rest/v1/profiles?id=eq.${adult}&role=eq.grownup&select=id,is_master`);
     if (!Array.isArray(rows) || rows.length !== 1) throw new RequestError('A grown-up account is required.', 403);
     const master = object(rows[0]).is_master === true;
-    if (['register', 'create-grownup', 'list-grownups', 'delete-grownup', 'reset-grownup-password', 'edit-grownup-profile', 'delete-grownups', 'patch-game-settings', 'list-linkable-children', 'link-child', 'transfer-children', 'transfer-child', 'reset-grownup-progress'].includes(action) && !master) {
+    if (['register', 'create-grownup', 'list-grownups', 'delete-grownup', 'reset-grownup-password', 'edit-grownup-profile', 'delete-grownups', 'reset-grownups-progress', 'patch-game-settings', 'list-linkable-children', 'link-child', 'transfer-children', 'transfer-child', 'reset-grownup-progress'].includes(action) && !master) {
       throw new RequestError('Only the master can manage grown-up accounts.', 403);
     }
-    if (action === 'delete-children' || action === 'delete-grownups') {
-      const values = action === 'delete-children' ? input.child_ids : input.grownup_ids;
-      if (!Array.isArray(values) || values.length < 1 || values.length > 100) throw new RequestError('Choose 1 to 100 accounts.');
+    async function verifyPassword() {
+      if (typeof input.current_password !== 'string' || !input.current_password) throw new RequestError('Enter your current password.', 403);
+      const valid = await api('/rest/v1/rpc/verify_risky_password', {
+        method: 'POST', body: JSON.stringify({p_password: input.current_password}),
+      }, bearer, publicKey);
+      if (valid !== true) throw new RequestError('Your current password did not match.', 403);
+    }
+    const bulkAction = action === 'transfer-child' ? 'transfer-children' : action;
+    if (['delete-children','delete-grownups','reset-children-progress','reset-grownups-progress','transfer-children','patch-child-settings'].includes(bulkAction)) {
+      const values = action === 'transfer-child' ? [input.child_id] :
+        ['delete-grownups','reset-grownups-progress'].includes(action) ? input.grownup_ids : input.child_ids;
+      if (!Array.isArray(values) || !values.length) throw new RequestError('Choose at least one account.');
       const ids = values.map(value => uuid(value, 'Account ID').toLowerCase());
       if (new Set(ids).size !== ids.length) throw new RequestError('Choose each account only once.');
-      if (input.confirm !== action) throw new RequestError('Confirm this action first.');
-      const deletingKids = action === 'delete-children';
-      const verdicts = await Promise.all(ids.map(async id => {
-        const rows = await api(`/rest/v1/profiles?id=eq.${id}&select=id,role,is_master`);
-        if (!Array.isArray(rows) || rows.length !== 1) return {id, reason: 'not-found'};
-        const target = object(rows[0]);
-        if (target.is_master === true) return {id, reason: 'is-master'};
-        if (id === adult) return {id, reason: 'is-self'};
-        if (target.role !== (deletingKids ? 'child' : 'grownup')) return {id, reason: 'wrong-role'};
-        if (deletingKids && !master) {
-          const links = await api(`/rest/v1/guardians?adult_id=eq.${adult}&child_id=eq.${id}&select=child_id`);
-          if (!Array.isArray(links) || links.length !== 1) return {id, reason: 'not-linked'};
-        }
-        return {id, reason: null};
-      }));
-      const results = [];
-      // Sequential Auth deletes avoid contention in the orphan-link trigger.
-      for (const verdict of verdicts) {
-        if (verdict.reason) { results.push({id: verdict.id, ok: false, reason: verdict.reason}); continue; }
-        try {
-          await api(`/auth/v1/admin/users/${verdict.id}`, {method: 'DELETE'});
-          results.push({id: verdict.id, ok: true});
-        } catch { results.push({id: verdict.id, ok: false, reason: 'error'}); }
+      const parameters: Fields = {};
+      if (bulkAction === 'transfer-children') {
+        parameters.source_id = uuid(input.source_id, 'Source grown-up ID');
+        parameters.destination_id = uuid(input.destination_id, 'Destination grown-up ID');
+        if (parameters.source_id === parameters.destination_id) throw new RequestError('Choose a different destination.');
       }
-      return response({results});
+      if (bulkAction === 'patch-child-settings') {
+        parameters.patch = object(input.patch);
+        if (input.reset !== undefined && typeof input.reset !== 'boolean') throw new RequestError('Invalid reset choice.');
+        parameters.reset = input.reset === true;
+      }
+      const job = await api('/rest/v1/rpc/start_bulk_action', {method:'POST', body:JSON.stringify({
+        p_action:bulkAction,p_targets:ids,p_parameters:parameters,
+        p_password:bulkAction === 'patch-child-settings' ? null : input.current_password ?? null,
+        p_request_id:input.request_id === undefined ? null : uuid(input.request_id,'Request ID'),
+      })},bearer,publicKey);
+      return response({job_id:job});
+    }
+    if (action === 'run-bulk') {
+      const job = uuid(input.job_id, 'Action ID');
+      const batch = object(await api('/rest/v1/rpc/claim_bulk_action', {method:'POST',body:JSON.stringify({p_job:job})},bearer,publicKey));
+      if (batch.done === true || batch.busy === true) return response(batch);
+      const lease = uuid(batch.lease, 'Lease ID');
+      if (batch.action !== 'delete-children' && batch.action !== 'delete-grownups') {
+        return response(await api('/rest/v1/rpc/process_bulk_action', {method:'POST',body:JSON.stringify({p_job:job,p_actor:adult,p_lease:lease})}));
+      }
+      if (!Array.isArray(batch.targets)) throw new RequestError('Invalid action batch.',503);
+      const results = [];
+      for (const value of batch.targets) {
+        const id = uuid(value, 'Account ID');
+        let reason: string | null = null;
+        const targets = await api(`/rest/v1/profiles?id=eq.${id}&select=id,role,is_master`);
+        if (!Array.isArray(targets) || targets.length !== 1) reason = 'not-found-or-already-deleted';
+        else {
+          const target = object(targets[0]);
+          if (target.is_master === true) reason = 'is-master';
+          else if (id === adult) reason = 'is-self';
+          else if (target.role !== (batch.action === 'delete-children' ? 'child' : 'grownup')) reason = 'wrong-role';
+          else if (batch.action === 'delete-grownups' && !master) reason = 'not-authorized';
+          else if (batch.action === 'delete-children' && !master) {
+            const links = await api(`/rest/v1/guardians?adult_id=eq.${adult}&child_id=eq.${id}&select=child_id`);
+            if (!Array.isArray(links) || links.length !== 1) reason = 'not-linked';
+          }
+        }
+        if (reason) { results.push({id,ok:false,reason}); continue; }
+        try {
+          await api(`/auth/v1/admin/users/${id}`,{method:'DELETE'});
+          results.push({id,ok:true});
+        } catch { results.push({id,ok:false,reason:'error'}); }
+      }
+      return response(await api('/rest/v1/rpc/finish_bulk_action', {method:'POST',body:JSON.stringify({p_job:job,p_actor:adult,p_lease:lease,p_results:results})}));
+    }
+    if (['register','create-grownup','delete-child','delete-grownup','reset-child-progress','reset-grownup-progress',
+      'reset-own-progress','reset-child-password','reset-grownup-password','change-own-password','unlink-child'].includes(action)) await verifyPassword();
+    if (action === 'change-own-password') {
+      if (master) throw new RequestError('The master account must be kept unchanged.',403);
+      await api('/rest/v1/rpc/set_account_password',{method:'POST',body:JSON.stringify({p_actor:adult,p_target:adult,p_password:password(input.password)})});
+      return response({ok:true});
     }
     async function requireChild(id: string) {
       const children = await api(`/rest/v1/profiles?id=eq.${id}&role=eq.child&select=id`);
@@ -123,25 +174,13 @@ export async function serve(request: Request): Promise<Response> {
         if (!Array.isArray(links) || links.length !== 1) throw new RequestError('This child is not linked to your account.', 403);
       }
     }
-    if (action === 'transfer-child' || action === 'transfer-children') {
-      const values = action === 'transfer-child' ? [input.child_id] : input.child_ids;
-      if (!Array.isArray(values) || values.length < 1 || values.length > 100) throw new RequestError('Choose 1 to 100 children.');
-      const ids = values.map(value => uuid(value).toLowerCase());
-      if (new Set(ids).size !== ids.length) throw new RequestError('Choose each child only once.');
-      const source = uuid(input.source_id, 'Source grown-up ID');
-      const destination = uuid(input.destination_id, 'Destination grown-up ID');
-      if (source === destination) throw new RequestError('Choose a different destination.');
-      if (input.confirm !== action) throw new RequestError('Confirm this action first.');
-      return response(await api('/rest/v1/rpc/transfer_children', {method: 'POST', body: JSON.stringify({p_actor: adult, p_children: ids, p_source: source, p_destination: destination})}));
-    }
     if (action === 'reset-own-progress') {
-      if (input.confirm !== action) throw new RequestError('Confirm this action first.');
+      if (master) throw new RequestError('The master account must be kept unchanged.',403);
       await api('/rest/v1/rpc/reset_own_progress', {method: 'POST', body: JSON.stringify({p_actor: adult})});
       return response({ok: true});
     }
     if (action === 'reset-grownup-progress') {
       const id = uuid(input.grownup_id, 'Grown-up ID');
-      if (input.confirm !== action) throw new RequestError('Confirm this action first.');
       const targets = await api(`/rest/v1/profiles?id=eq.${id}&role=eq.grownup&is_master=eq.false&select=id`);
       if (id === adult || !Array.isArray(targets) || targets.length !== 1) throw new RequestError('Choose another regular grown-up account.', 403);
       await api('/rest/v1/rpc/reset_grownup_progress', {method: 'POST', body: JSON.stringify({p_actor: adult, p_target: id})});
@@ -156,13 +195,17 @@ export async function serve(request: Request): Promise<Response> {
         const result = await api('/rest/v1/rpc/unlink_child', {method: 'POST', body: JSON.stringify({p_actor: adult, p_child: child, p_grownup: target})});
         return response(result);
       }
-      const guardians = await api(`/rest/v1/guardians?child_id=eq.${child}&select=adult_id`);
+      const guardians = await allRows(`/rest/v1/guardians?child_id=eq.${child}&select=adult_id`,'adult_id');
       if (!Array.isArray(guardians)) throw new RequestError('Linked grown-ups could not load.', 503);
       const ids = guardians.map(row => uuid(object(row).adult_id, 'Grown-up ID'));
-      return response({grownups: ids.length ? await api(`/rest/v1/profiles?id=in.(${ids.join(',')})&select=id,handle,display_name`) : []});
+      const grownups: unknown[] = [];
+      for (let offset=0;offset<ids.length;offset+=50) {
+        grownups.push(...await allRows(`/rest/v1/profiles?id=in.(${ids.slice(offset,offset+50).join(',')})&select=id,handle,display_name`));
+      }
+      return response({grownups});
     }
     if (action === 'list-grownups') {
-      return response({ grownups: await api('/rest/v1/profiles?role=eq.grownup&select=id,handle,display_name,avatar,is_master&order=display_name') });
+      return response({ grownups: await allRows('/rest/v1/profiles?role=eq.grownup&select=id,handle,display_name,avatar,is_master') });
     }
     if (action === 'delete-grownup' || action === 'reset-grownup-password') {
       const id = uuid(input.grownup_id, 'Grown-up ID');
@@ -171,10 +214,9 @@ export async function serve(request: Request): Promise<Response> {
         throw new RequestError('Choose another regular grown-up account.', 403);
       }
       if (action === 'delete-grownup') {
-        if (input.confirm !== action) throw new RequestError('Confirm this action first.');
-        await api(`/auth/v1/admin/users/${id}`, { method: 'DELETE' });
+          await api(`/auth/v1/admin/users/${id}`, { method: 'DELETE' });
       } else {
-        await api(`/auth/v1/admin/users/${id}`, { method: 'PUT', body: JSON.stringify({ password: password(input.password) }) });
+        await api('/rest/v1/rpc/set_account_password', {method:'POST', body:JSON.stringify({p_actor:adult,p_target:id,p_password:password(input.password)})});
       }
       return response({ ok: true });
     }
@@ -231,7 +273,7 @@ export async function serve(request: Request): Promise<Response> {
     }
     if (action === 'list-linkable-children' || action === 'link-child') {
       if (action === 'list-linkable-children') {
-        return response({children: await api('/rest/v1/profiles?role=eq.child&select=id,handle,display_name&order=display_name')});
+        return response({children: await allRows('/rest/v1/profiles?role=eq.child&select=id,handle,display_name')});
       }
       const id = uuid(input.child_id);
       const target = input.grownup_id === undefined ? adult : uuid(input.grownup_id, 'Grown-up ID');
@@ -245,18 +287,8 @@ export async function serve(request: Request): Promise<Response> {
       });
       return response({ profile: profiles[0] });
     }
-    if (action === 'patch-game-settings' || action === 'patch-child-settings') {
-      const patch = object(input.patch);
-      if (action === 'patch-game-settings') {
-        return response(await api('/rest/v1/rpc/patch_game_settings', { method: 'POST', body: JSON.stringify({p_adult: adult, p_patch: patch}) }));
-      }
-      if (!Array.isArray(input.child_ids) || input.child_ids.length < 1 || input.child_ids.length > 100) throw new RequestError('Choose 1 to 100 children.');
-      const children = [...new Set(input.child_ids.map(value => uuid(value)))];
-      if (input.reset !== undefined && typeof input.reset !== 'boolean') throw new RequestError('Invalid reset choice.');
-      for (const id of children) {
-        await requireChild(id);
-      }
-      return response(await api('/rest/v1/rpc/patch_child_settings', { method: 'POST', body: JSON.stringify({p_adult: adult, p_children: children, p_patch: patch, p_reset: input.reset === true}) }));
+    if (action === 'patch-game-settings') {
+      return response(await api('/rest/v1/rpc/patch_game_settings', {method:'POST',body:JSON.stringify({p_adult:adult,p_patch:object(input.patch)})}));
     }
     if (action === 'edit-child-profile') {
       const id = uuid(input.child_id);
@@ -264,11 +296,13 @@ export async function serve(request: Request): Promise<Response> {
       const display = string(input.display_name, 'Name').trim();
       if (!display || [...display].length > 60) throw new RequestError('Use a name of 1–60 characters.');
       await requireChild(id);
+      const previous = await api(`/rest/v1/profiles?id=eq.${id}&select=handle`);
+      if (!Array.isArray(previous) || previous.length !== 1) throw new RequestError('Account unavailable.',403);
+      if (object(previous[0]).handle !== name) await verifyPassword();
       const taken = await api(`/rest/v1/profiles?handle=eq.${name}&id=neq.${id}&select=id`);
       if (Array.isArray(taken) && taken.length) throw new RequestError('That handle is taken. Choose another handle.', 409);
       const avatar = input.avatar === undefined ? undefined : childAvatar(input.avatar);
-      await api('/rest/v1/rpc/edit_child_profile', { method: 'POST', body: JSON.stringify({p_adult: adult, p_child: id, p_handle: name, p_display_name: display}) });
-      if (avatar !== undefined) await api(`/rest/v1/profiles?id=eq.${id}`, {method: 'PATCH', body: JSON.stringify({avatar})});
+      await api('/rest/v1/rpc/edit_confirmed_profile', {method:'POST',body:JSON.stringify({p_actor:adult,p_target:id,p_expected_handle:object(previous[0]).handle,p_handle:name,p_display_name:display,p_avatar:avatar ?? null})});
       const profiles = await api(`/rest/v1/profiles?id=eq.${id}&select=*`);
       return response({ profile: Array.isArray(profiles) ? profiles[0] : null });
     }
@@ -278,20 +312,22 @@ export async function serve(request: Request): Promise<Response> {
         const targets = await api(`/rest/v1/profiles?id=eq.${target}&role=eq.grownup&select=id`);
         if (!Array.isArray(targets) || targets.length !== 1) throw new RequestError('Choose a grown-up account.', 403);
       }
+      const previous = await api(`/rest/v1/profiles?id=eq.${target}&select=handle,is_master`);
+      if (!Array.isArray(previous) || previous.length !== 1 || object(previous[0]).is_master === true) throw new RequestError('Choose a regular grown-up account.',403);
       const name = handle(input.handle);
+      if (object(previous[0]).handle !== name) await verifyPassword();
       const display = string(input.display_name, 'Name').trim();
       if (!display || [...display].length > 60) throw new RequestError('Use a name of 1–60 characters.');
       const avatar = childAvatar(input.avatar);
       const taken = await api(`/rest/v1/profiles?handle=eq.${name}&id=neq.${target}&select=id`);
       if (Array.isArray(taken) && taken.length) throw new RequestError('That handle is taken. Choose another handle.', 409);
-      await api('/rest/v1/rpc/edit_other_grownup_profile', { method: 'POST', body: JSON.stringify({p_actor: adult, p_target: target, p_handle: name, p_display_name: display, p_avatar: avatar}) });
+      await api('/rest/v1/rpc/edit_confirmed_profile', {method:'POST',body:JSON.stringify({p_actor:adult,p_target:target,p_expected_handle:object(previous[0]).handle,p_handle:name,p_display_name:display,p_avatar:avatar})});
       const profiles = await api(`/rest/v1/profiles?id=eq.${target}&select=*`);
       return response({ profile: Array.isArray(profiles) ? profiles[0] : null });
     }
     if (action === 'delete-child' || action === 'reset-child-progress') {
       const id = uuid(input.child_id);
       await requireChild(id);
-      if (input.confirm !== action) throw new RequestError('Confirm this action first.');
       if (action === 'delete-child') await api(`/auth/v1/admin/users/${id}`, { method: 'DELETE' });
       else await api('/rest/v1/rpc/reset_child_progress', {method: 'POST', body: JSON.stringify({p_adult: adult, p_child: id})});
       return response({ok: true});
@@ -300,7 +336,7 @@ export async function serve(request: Request): Promise<Response> {
       const id = uuid(input.child_id);
       const secret = password(input.password);
       await requireChild(id);
-      await api(`/auth/v1/admin/users/${id}`, { method: 'PUT', body: JSON.stringify({ password: secret }) });
+      await api('/rest/v1/rpc/set_account_password', {method:'POST', body:JSON.stringify({p_actor:adult,p_target:id,p_password:secret})});
       return response({ ok: true });
     }
     throw new RequestError('Unknown account action.');
