@@ -55,13 +55,13 @@ The [baseline folder](call-list-before/) also contains the 768 and 1440 px befor
 
 The game runtime suite passed 234 rounds across all three layouts, with two wrong answers per round, varied retry clips, sequential speech, and mute. The broader real-browser suite passed all 18 game/width/theme cases. Hosted checks and the disposable live checks below are additional to the isolated suite results.
 
-The first new database audit failed because its fixture read role lacked access to the fixture Auth schema. The test's snapshot read was corrected, then it passed. [Initial results](call-list-tests/initial-results.json) preserve that failure; [the passing rerun](call-list-tests/call_list_database-rerun.log) is referenced by the final results. The initial hosted navigation attempts encountered raw.githack's entry screen; the test harness now opens that screen before driving the app.
+The first new database audit failed because its fixture read role lacked access to the fixture Auth schema. The test's snapshot read was corrected, then it passed. [Initial results](call-list-tests/initial-results.json) preserve that failure; [the passing rerun](call-list-tests/call_list_database-rerun.log) is referenced by the final results. The initial hosted navigation attempts encountered raw.githack's entry screen; the test harness now opens that screen before driving the app. An older offline probe's shutdown output was separated into an initial diagnostic log; the report links to a fresh, passing hosted offline run.
 
 Hosted checks passed at **390, 768, and 1440 px**. These cover all six profile choices and upload persistence, one progress action per child, sign-out spacing, navy settings text, dialog order and count gating, all three game account menus, and master and regular self-reset fixtures. [Hosted browser log](call-list-hosted-browser.log).
 
 The dedicated native audio checks cover grown-ups at 390 px, kids at 768 px, and guests at 1440 px in all three layouts. Every wrong answer plays one of the new MP3s; three successive answers produce three distinct clips. No speech overlap was observed. Mute and Escape cancellation passed. [Local audio log](call-list-sounds.log), [hosted audio log](call-list-hosted-sounds.log).
 
-A real service-worker installation served the reloaded portal, all six JPEGs, and all three MP3s while the browser was offline. [Local offline log](call-list-offline.log), [hosted offline log](call-list-hosted-offline.log).
+A real service-worker installation served the reloaded portal, all six JPEGs, and all three MP3s while the browser was offline. [Local offline log](call-list-offline.log), [hosted offline log](call-list-hosted-offline-final.log).
 
 The disposable-account test ran against live Supabase from both localhost and raw.githack. It verified reset persistence, Lucy avatar persistence, rejection of another browser's stale offline round, and denial of direct authenticated calls to the private reset RPC. [Local live log](call-list-live.log), [hosted live log](call-list-hosted-live.log).
 
@@ -101,6 +101,7 @@ Before the first commit, local HEAD, `origin/codex/home-flow-ribbon`, and the re
 - `0c6d13d` — Allow grown-ups to reset only their own game progress.
 - `36a18b2` — Add Lucy profile pictures, portal fixes, and gentle retry speech.
 - `9a5c1f0` — Verify hosted call-list checks and align the applied migration.
+- `3642eac` — Record call-list verification, screenshots, and live-data preservation.
 
 The final verification and report commits are recorded in the branch history. The repository redirects to `TeslaWarpDrive/childrens-learning-game`; pushes used the existing repository credential helper after the default helper proved unavailable.
 
@@ -108,9 +109,9 @@ The final verification and report commits are recorded in the branch history. Th
 
 These links follow the working branch rather than a pinned commit. raw.githack may show its **Open the page** screen first.
 
-- [Game entry](https://raw.githack.com/TeslaWarpDrive/childrens-learning-game/refs/heads/codex/home-flow-ribbon/index.html)
-- [Grown-up portal](https://raw.githack.com/TeslaWarpDrive/childrens-learning-game/refs/heads/codex/home-flow-ribbon/accounts/index.html)
-- [My account and personal progress](https://raw.githack.com/TeslaWarpDrive/childrens-learning-game/refs/heads/codex/home-flow-ribbon/accounts/index.html#account)
-- [Ribbon Road](https://raw.githack.com/TeslaWarpDrive/childrens-learning-game/refs/heads/codex/home-flow-ribbon/v4-silk-thread/index.html)
-- [Letter Post](https://raw.githack.com/TeslaWarpDrive/childrens-learning-game/refs/heads/codex/home-flow-ribbon/v1-letter-post/index.html)
-- [Moonboat](https://raw.githack.com/TeslaWarpDrive/childrens-learning-game/refs/heads/codex/home-flow-ribbon/v3-moonboat/index.html)
+- [Game entry](https://raw.githack.com/TeslaWarpDrive/childrens-learning-game/codex/home-flow-ribbon/index.html)
+- [Grown-up portal](https://raw.githack.com/TeslaWarpDrive/childrens-learning-game/codex/home-flow-ribbon/accounts/index.html)
+- [My account and personal progress](https://raw.githack.com/TeslaWarpDrive/childrens-learning-game/codex/home-flow-ribbon/accounts/index.html#account)
+- [Ribbon Road](https://raw.githack.com/TeslaWarpDrive/childrens-learning-game/codex/home-flow-ribbon/v4-silk-thread/index.html)
+- [Letter Post](https://raw.githack.com/TeslaWarpDrive/childrens-learning-game/codex/home-flow-ribbon/v1-letter-post/index.html)
+- [Moonboat](https://raw.githack.com/TeslaWarpDrive/childrens-learning-game/codex/home-flow-ribbon/v3-moonboat/index.html)
