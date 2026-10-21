@@ -118,6 +118,8 @@ revoke all on all functions in schema lw_private from public, anon, authenticate
 -- ---------------------------------------------------------------- sync
 
 -- As before, except rounds and stickers from before a progress reset are ignored.
+-- For someone whose progress was reset, a sticker also counts only when their
+-- rounds since then earn it (a device with an old copy can't bring it back).
 create or replace function public.lw_sync(p_profile uuid, p_rounds jsonb default '[]', p_settings jsonb default '[]',
                                           p_badges jsonb default '[]', p_device text default null) returns jsonb
 language plpgsql volatile security definer set search_path = '' as $$
@@ -126,6 +128,7 @@ declare
   since timestamptz := coalesce(me.progress_from, '-infinity'::timestamptz);
   badge_keys constant text[] := array['first-sound', 'five-letters', 'satpin', 'vowels', 'three-worlds',
     'ten-rounds', 'sharp-ears', 'fifty-rounds', 'all-post', 'all-space', 'all-silk', 'alphabet'];
+  earned text[] := badge_keys;
 begin
   if p_profile is distinct from me.id and not (me.role = 'grownup' and lw_private.can_manage(me.id, p_profile)) then
     raise exception 'LW:not_allowed';
@@ -150,10 +153,34 @@ begin
      and lw_private.client_time(x->'at') >= since
   on conflict (id) do nothing;
 
+  if me.progress_from is not null then
+    -- The same tests as the game's stickers (accounts/accounts.js, BADGES).
+    select array_remove(array[
+        case when n >= 1 then 'first-sound' end,
+        case when cardinality(letters) >= 5 then 'five-letters' end,
+        case when letters @> array['S', 'A', 'T', 'P', 'I', 'N'] then 'satpin' end,
+        case when letters @> array['A', 'E', 'I', 'O', 'U'] then 'vowels' end,
+        case when worlds = 3 then 'three-worlds' end,
+        case when n >= 10 then 'ten-rounds' end,
+        case when clean >= 10 then 'sharp-ears' end,
+        case when n >= 50 then 'fifty-rounds' end,
+        case when post = 26 then 'all-post' end,
+        case when space = 26 then 'all-space' end,
+        case when silk = 26 then 'all-silk' end,
+        case when cardinality(letters) = 26 then 'alphabet' end], null)
+      into earned
+      from (select count(*) as n, count(*) filter (where r.misses = 0) as clean,
+                   coalesce(array_agg(distinct r.letter), '{}') as letters, count(distinct r.world) as worlds,
+                   count(distinct r.letter) filter (where r.world = 'post') as post,
+                   count(distinct r.letter) filter (where r.world = 'space') as space,
+                   count(distinct r.letter) filter (where r.world = 'silk') as silk
+              from public.rounds r where r.profile_id = me.id) s;
+  end if;
+
   insert into public.badges as b (profile_id, key, earned_at)
   select me.id, x->>'key', lw_private.client_time(x->'t')
     from jsonb_array_elements(p_badges) x
-   where jsonb_typeof(x) = 'object' and x->>'key' = any (badge_keys)
+   where jsonb_typeof(x) = 'object' and x->>'key' = any (earned)
      and lw_private.client_time(x->'t') >= since
   on conflict (profile_id, key) do update set earned_at = least(b.earned_at, excluded.earned_at);
 

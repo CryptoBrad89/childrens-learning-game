@@ -18,7 +18,7 @@ const WORLDS = ['post', 'space', 'silk'];
 const LETTERS = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
 const KEY = {people: 'lw:people', outbox: 'lw:outbox', device: 'lw:device', shown: 'lw:shown', active: 'lw:active', corner: 'lw:corner'};
 const dataKey = id => 'lw:data:' + id;
-const MAX_UPLOAD = 500, SYNC_EVERY = 30000, TIMEOUT = 15000;
+const MAX_UPLOAD = 500, SETTINGS_BATCH = 500, SYNC_EVERY = 30000, TIMEOUT = 15000;
 
 /* ---------- storage (falls back to memory when the browser blocks it) ---------- */
 const memory = new Map();
@@ -193,11 +193,19 @@ function settle(sent) {
     save(profile, d);
   }
 }
+// After a grown-up resets someone's progress, play from before then no longer
+// counts: the server ignores it, so this device lets it go too.
+function prune(d, from) {
+  if (!from) return d;
+  d.pending = d.pending.filter(r => r.at >= from);
+  for (const [key, t] of Object.entries(d.localBadges)) if (t < from) delete d.localBadges[key];
+  return d;
+}
 function adopt(id, state) {
   if (!state || !state.profile) return;
   const d = load(id);
   if (!d.snap.server_time || state.server_time >= d.snap.server_time) d.snap = state;
-  save(id, d);
+  save(id, prune(d, state.progress_from));
   const p = person(id);
   const picture = state.profile.picture || null;
   if (p && (p.name !== state.profile.name || p.avatar !== state.profile.avatar || (p.picture || null) !== picture)) {
@@ -346,10 +354,12 @@ async function sync(id) {
     if (!online()) return {skipped: 'offline'};
     syncing.add(id); emit('status', {id});
     try {
+      // Settings for many children go up in batches; each settles as it lands.
       const mine = outbox().filter(e => e.actor === id);
-      if (mine.length) {
-        await api(id, 'lw_put_settings', {p_changes: mine.map(({profile, field, v, t}) => ({profile, field, v, t}))});
-        settle(mine);
+      for (let i = 0; i < mine.length; i += SETTINGS_BATCH) {
+        const batch = mine.slice(i, i + SETTINGS_BATCH);
+        await api(id, 'lw_put_settings', {p_changes: batch.map(({profile, field, v, t}) => ({profile, field, v, t}))});
+        settle(batch);
       }
       let more = true, sent = 0;
       while (more) {
@@ -361,7 +371,7 @@ async function sync(id) {
         const fresh = load(id), done = new Set(batch.map(r => r.id));
         fresh.pending = fresh.pending.filter(r => !done.has(r.id));
         fresh.snap = state; fresh.syncedAt = Date.now();
-        save(id, fresh);
+        save(id, prune(fresh, state.progress_from));
         adopt(id, state);
         sent += batch.length;
         more = batch.length === MAX_UPLOAD && fresh.pending.length > 0;

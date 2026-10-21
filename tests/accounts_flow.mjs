@@ -3,7 +3,9 @@
  * picks their settings, and adds a second grown-up, who sees the same
  * children; a child signs in on a shared device (the grown-up shows their
  * pictures there), plays, earns a sticker and hands over; the gate guards a
- * grown-up who stays signed in; children can be taken off a list or deleted.
+ * grown-up who stays signed in; children can be taken off a list or deleted;
+ * risky actions ask only for the grown-up's own password, for one child or a
+ * selection (reset progress, new passwords).
  * No screenshots.
  * Run: CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/accounts_flow.mjs */
 import assert from 'node:assert/strict';
@@ -108,6 +110,12 @@ try {
   await t.locator('#form-fields input[name="name"]').fill('Dev');
   await t.locator('#form-fields input[name="login"]').fill(dev.login);
   await t.locator('#form-fields input[name="password"]').fill(dev.password);
+  assert(await t.locator('#form-go').isDisabled(), 'Adding a grown-up waits for your own password');
+  await t.locator('#mine').fill('not-mine');
+  await t.locator('#form-go').click();
+  await t.waitForFunction(() => /isn't your password/.test(document.querySelector('#form-error').textContent));
+  assert.equal(await t.locator('#mine').inputValue(), '', 'A wrong password is cleared for another try');
+  await t.locator('#mine').fill(lee.password);
   await t.locator('#form-go').click();
   await status(t, new RegExp(`Dev can sign in now as ${dev.login}`));
   assert.match(await t.locator('#grownup-list').innerText(), /Dev[\s\S]*you added them/);
@@ -219,6 +227,12 @@ try {
   await t.waitForFunction(() => /2 rounds, 2 letters of 26/.test(document.querySelector('#progress-body').textContent));
   assert.equal(await t.locator('#progress-body .sticker-shelf li.earned').count(), 1);
   await t.locator('.kid-card:has-text("Leo") [data-act="edit"]').click();
+  assert(await t.locator('#mine-wrap').isHidden(), 'A new picture alone needs no password');
+  await t.locator('#form-fields input[name="name"]').fill('Leon');
+  assert(await t.locator('#mine-wrap').isVisible(), 'A new name asks for your password');
+  assert(await t.locator('#form-go').isDisabled());
+  await t.locator('#form-fields input[name="name"]').fill('Leo');
+  assert(await t.locator('#mine-wrap').isHidden());
   await t.locator('#photo-file').setInputFiles({name: 'leo.png', mimeType: 'image/png', buffer: png(300, 900)});
   await t.waitForFunction(() => document.querySelector('#form-dialog-form').elements.photo.value.startsWith('data:image/jpeg'));
   await t.locator('#form-go').click();
@@ -261,14 +275,22 @@ try {
 
   // Remove: Sam takes Mia off their list (the account stays); Ms Lee deletes Ivy; Ms Lee removes Dev.
   await h.locator('.kid-card:has-text("Mia") [data-act="remove"]').click();
+  // The only thing to type is your own password: no counts, no names, no extra boxes.
+  assert.deepEqual(await h.locator('#form-fields input:not([type="radio"]):not([type="hidden"])').evaluateAll(n => n.map(x => x.id)), ['mine']);
+  assert.match(await h.locator('#affected-list').innerText(), /Mia/);
+  const order = await h.evaluate(() => [document.querySelector('#mine'), document.querySelector('#form-go')].map(n => n.getBoundingClientRect().top));
+  assert(order[0] < order[1], 'The password box comes before the button');
+  await h.locator('#mine').fill(sam.password);
   await h.locator('#form-go').click();
   await status(h, /Mia is off your list/);
   assert(await h.locator('#kids-empty').isVisible());
   await t.locator('.kid-card:has-text("Ivy") [data-act="remove"]').click();
   await t.locator('#form-fields label.choice:has(input[value="delete"])').click();
+  await t.locator('#mine').fill(lee.password);
   await t.locator('#form-go').click();
   await status(t, /Ivy's account is deleted/);
   await t.locator(`#grownup-list [data-act="remove-grownup"][data-name="Dev"]`).click();
+  await t.locator('#mine').fill(lee.password);
   await t.locator('#form-go').click();
   await status(t, /Dev no longer looks after these children/);
   await d.reload(); await portal(d);
@@ -276,6 +298,54 @@ try {
   assert.deepEqual((await be.rpc('lw_portal', {}, leeToken)).children.map(k => k.name), ['Leo', 'Mia']);
   await be.token(logins[1], '7234mk');
   ok('remove: off a list keeps the account, delete is for good, and a removed grown-up sees no children');
+
+  // Select mode: reset progress and give new passwords to several children at once, behind the password only.
+  await t.locator('#select-kids').click();
+  assert.equal(await t.locator('#select-kids').getAttribute('aria-pressed'), 'true');
+  assert(await t.locator('#kids-bulk').isVisible());
+  assert(await t.locator('[data-bulk="kids-reset"]').isDisabled(), 'Nothing picked yet');
+  await t.locator('[data-bulk="kids-all"]').click();
+  assert.match(await t.locator('#kids-count').textContent(), /^2 of 2 selected/);
+  for (const size of sizes) { await t.setViewportSize(size); await fits(t, `select mode ${size.name}`, size.width >= 1600 ? 72 : 60); }
+  await t.setViewportSize({width: 1366, height: 768});
+  await t.locator('[data-bulk="kids-reset"]').click();
+  assert.match(await t.locator('#form-title').textContent(), /Reset progress for 2 children/);
+  assert.deepEqual(await t.locator('#affected-list li').allInnerTexts().then(l => l.map(x => x.split('\n')[0])), ['Leo', 'Mia']);
+  await t.locator('#mine').fill('wrong-1');
+  await t.locator('#form-go').click();
+  await t.waitForFunction(() => /isn't your password/.test(document.querySelector('#form-error').textContent));
+  assert.equal((await be.rpc('lw_child_state', {p_child: mia.id}, leeToken)).agg.post.S.n, 1, 'A wrong password changes nothing');
+  await t.locator('#mine').fill(lee.password);
+  await t.locator('#form-go').click();
+  await status(t, /Progress is cleared for 2 children/);
+  state = await be.rpc('lw_child_state', {p_child: mia.id}, leeToken);
+  assert.deepEqual([state.agg, state.badges], [{}, {}]);
+  await t.locator('[data-bulk="kids-all"]').click();
+  await t.locator('[data-bulk="kids-password"]').click();
+  await t.locator('#form-fields input[name="password"]').fill('5555ab');
+  await t.locator('#mine').fill(lee.password);
+  await t.locator('#form-go').click();
+  await status(t, /2 passwords changed/);
+  await t.locator('#select-kids').click();
+  assert(await t.locator('#kids-bulk').isHidden());
+  await t.locator('.kid-card:has-text("Leo") [data-act="reset"]').click();
+  assert.match(await t.locator('#form-title').textContent(), /Reset Leo's progress/);
+  await t.locator('[data-close]').click();
+  // Mia's Chromebook still has her old copy; after signing in, the reset holds there too.
+  await c.locator('#people .person:has-text("Mia")').click();
+  await c.locator('#login-pw').fill('5555ab');
+  await c.locator('#login-go').click();
+  await c.waitForFunction(() => document.body.dataset.home === 'picker' && !document.querySelector('#playing').hidden, null, {timeout: 20000});
+  await waitSynced(c);
+  await c.waitForFunction(() => document.querySelectorAll('#stickers .lw-sticker').length === 0, null, {timeout: 20000});
+  await c.locator('nav a[data-world="post"]').click();
+  await screen(c, 'home');
+  assert.match(await c.locator('.collection-heading').textContent(), /0 of 6 · yours to keep/);
+  await playRound(c, 'T');
+  await waitSynced(c);
+  state = await be.rpc('lw_child_state', {p_child: mia.id}, leeToken);
+  assert.deepEqual([Object.keys(state.agg.post), Object.keys(state.badges)], [['T'], ['first-sound']]);
+  ok('select: reset progress and new passwords for several children at once, password only; the reset holds on a device with an old copy');
 
   for (const ctx of [laptop, second, cb, home]) assert.deepEqual(ctx.errors, [], 'browser errors');
   console.log(`\n${passed} accounts flow checks passed (${be.mode} backend)`);

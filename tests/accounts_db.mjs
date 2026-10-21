@@ -282,8 +282,11 @@ try {
   assert.equal(state.settings.calm.v, true, 'Settings stay');
   state = await must('lw_sync', {p_profile: kit.id, p_rounds: [oldRound], p_badges: [{key: 'first-sound', t: before}]}, kitT);
   assert.deepEqual([state.agg, state.badges], [{}, {}], 'Play from before the reset is ignored');
-  state = await must('lw_sync', {p_profile: kit.id, p_rounds: [round('R')]}, kitT);
+  state = await must('lw_sync', {p_profile: kit.id, p_badges: [{key: 'first-sound', t: Date.now()}, {key: 'ten-rounds', t: Date.now()}]}, kitT);
+  assert.deepEqual(state.badges, {}, 'A sticker the child hasn\'t earned since the reset is refused, even with a new time');
+  state = await must('lw_sync', {p_profile: kit.id, p_rounds: [round('R')], p_badges: [{key: 'first-sound', t: Date.now()}, {key: 'ten-rounds', t: Date.now()}]}, kitT);
   assert.equal(state.agg.post.R.n, 1, 'New play counts');
+  assert.deepEqual(Object.keys(state.badges), ['first-sound'], 'Stickers earned since the reset count');
   assert.equal((await must('lw_child_state', {p_child: mia.id}, leeT)).agg.post.S.n, 1, 'A child Fern doesn\'t look after is untouched');
   ok('reset progress: rounds and stickers go, settings stay; old uploads ignored; only children you look after');
 

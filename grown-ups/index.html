@@ -65,8 +65,18 @@
   </div>
 
   <section class="panel" id="children" aria-labelledby="children-title">
-    <div class="panel-head"><h2 id="children-title">Children</h2><button type="button" class="go-button" id="add-child"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Add a child</button></div>
+    <div class="panel-head"><h2 id="children-title">Children</h2><div class="head-buttons"><button type="button" class="quiet-button" id="select-kids" aria-pressed="false" hidden>Select</button><button type="button" class="go-button" id="add-child"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Add a child</button></div></div>
     <ul class="kid-cards" id="kids"></ul>
+    <div class="bulk-bar" id="kids-bulk" role="group" aria-label="Selected children" hidden>
+      <p class="bulk-count" id="kids-count" aria-live="polite"></p>
+      <div class="bulk-buttons">
+        <button type="button" class="quiet-button" data-bulk="kids-all">Select all</button>
+        <button type="button" class="quiet-button" data-bulk="kids-none">Clear</button>
+        <button type="button" class="quiet-button" data-bulk="kids-reset" data-needs-pick>Reset progress</button>
+        <button type="button" class="quiet-button" data-bulk="kids-password" data-needs-pick>New password</button>
+        <button type="button" class="quiet-button danger" data-bulk="kids-remove" data-needs-pick>Remove</button>
+      </div>
+    </div>
     <p class="empty" id="kids-empty" hidden>No children yet. Add a child to make their sign-in name and password.</p>
     <div class="panel-foot">
       <button type="button" class="quiet-button" id="add-existing">Add a child who already has an account</button>
@@ -150,9 +160,17 @@
   </section>
 
   <section class="panel" id="grownups" aria-labelledby="grownups-title">
-    <div class="panel-head"><h2 id="grownups-title">Grown-ups</h2><button type="button" class="quiet-button" id="add-grownup"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Add a grown-up</button></div>
+    <div class="panel-head"><h2 id="grownups-title">Grown-ups</h2><div class="head-buttons"><button type="button" class="quiet-button" id="select-grownups" aria-pressed="false" hidden>Select</button><button type="button" class="quiet-button" id="add-grownup"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Add a grown-up</button></div></div>
     <p class="section-help">Grown-ups you add look after the same children, and can add children and grown-ups too. Grown-up accounts can only be made here, by a grown-up who is signed in.</p>
     <ul class="people-list" id="grownup-list"></ul>
+    <div class="bulk-bar" id="grownups-bulk" role="group" aria-label="Selected grown-ups" hidden>
+      <p class="bulk-count" id="grownups-count" aria-live="polite"></p>
+      <div class="bulk-buttons">
+        <button type="button" class="quiet-button" data-bulk="grownups-all">Select all</button>
+        <button type="button" class="quiet-button" data-bulk="grownups-none">Clear</button>
+        <button type="button" class="quiet-button danger" data-bulk="grownups-remove" data-needs-pick>Remove</button>
+      </div>
+    </div>
   </section>
 
   <section class="panel" id="device" aria-labelledby="device-title">

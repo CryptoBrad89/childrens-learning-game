@@ -88,6 +88,31 @@ h3.sub{margin:30px 0 4px;padding-top:18px;border-top:2px dashed var(--line);font
 .kid-text small{color:var(--muted);font-size:.85rem}
 .kid-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .kid-actions .quiet-button{padding:0 10px;font-size:.9rem;border-width:2px;border-radius:14px;text-align:center;line-height:1.2}
+.kid-actions [data-act="remove"]{grid-column:1/-1}
+
+/* Select mode: pick any number, then act on them all from the bar. */
+.head-buttons{display:flex;flex-wrap:wrap;gap:12px}
+.head-buttons [aria-pressed="true"]{background:var(--ink);color:var(--sheet)}
+.kid-cards.selecting .kid-actions{display:none}
+.pick{position:relative;display:flex;align-items:center;gap:12px;min-height:var(--target);padding:0 16px;border:2px solid var(--ink);border-radius:16px;background:var(--sheet);font-weight:900;cursor:pointer}
+.pick input{width:28px;height:28px;margin:0;accent-color:var(--ink);cursor:pointer}
+.pick:has(input:focus-visible){outline:4px solid var(--focus);outline-offset:3px}
+.kid-card.picked,.people-list li.picked{background:#fff6d8}
+.kid-card.picked .pick,.people-list li.picked .pick{background:var(--ink);color:var(--sheet)}
+.people-list li .pick{order:-1}
+.bulk-bar{position:sticky;bottom:12px;z-index:2;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 18px;margin-top:20px;padding:14px 16px;border:3px solid var(--ink);border-radius:22px;background:var(--sheet);box-shadow:0 5px 0 var(--ink)}
+.bulk-count{margin:0;font-weight:900}
+.bulk-buttons{display:flex;flex-wrap:wrap;gap:10px}
+.bulk-buttons .quiet-button{border-width:2px;border-radius:14px;padding:0 16px}
+
+/* Risky actions: who it affects, then the grown-up's own password. */
+.affected{display:grid;gap:6px}
+.affected-title{margin:0;font-size:14px;letter-spacing:.08em;text-transform:uppercase;font-weight:900}
+.affected-list{display:grid;gap:6px;max-height:min(30vh,240px);overflow:auto;margin:0;padding:8px;list-style:none;border:2px solid var(--line);border-radius:16px;background:#fff}
+.affected-list li{display:flex;align-items:center;gap:10px;min-width:0}
+.affected-list .lw-avatar{width:36px;height:36px}
+.affected-list span{display:grid;line-height:1.2;overflow-wrap:anywhere}.affected-list small{color:var(--muted);font-size:14px}
+.form-dialog label.field.mine{padding:14px 16px;border:3px solid var(--ink);border-radius:18px;background:#fff}
 
 /* Settings */
 .for{display:flex;align-items:center;gap:10px;font-weight:900}
@@ -229,7 +254,7 @@ legend{padding:0;margin:6px 0 14px;color:var(--muted);max-width:60ch;font-size:.
 
 /* Whiteboards: bigger targets from across the room. */
 @media(min-width:1600px){html{font-size:20px}:root{--target:72px}.portal{max-width:1240px}.keypad button{min-height:84px}}
-@media(max-width:600px){body{padding:26px 20px 48px}.segments{grid-template-columns:1fr;border-radius:20px}.segments .pill-slide{width:calc(100% - 12px);height:calc((100% - 12px)/3);bottom:auto;transform:translateY(calc(100% * var(--index)))}.top .pill{flex:1 1 100%}.panel{border-radius:24px}.mini-letters{grid-template-columns:repeat(9,minmax(0,1fr))}.panel-head .go-button,.panel-head .quiet-button{flex:1 1 100%}.for{flex:1 1 100%}.for select{flex:1}}
+@media(max-width:600px){body{padding:26px 20px 48px}.segments{grid-template-columns:1fr;border-radius:20px}.segments .pill-slide{width:calc(100% - 12px);height:calc((100% - 12px)/3);bottom:auto;transform:translateY(calc(100% * var(--index)))}.top .pill{flex:1 1 100%}.panel{border-radius:24px}.mini-letters{grid-template-columns:repeat(9,minmax(0,1fr))}.panel-head .go-button,.panel-head .quiet-button{flex:1 1 100%}.head-buttons{flex:1 1 100%}.bulk-buttons .quiet-button{flex:1 1 calc(50% - 10px)}.for{flex:1 1 100%}.for select{flex:1}}
 
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.stamp{display:none}}
 html[data-calm] *,html[data-calm] *::before,html[data-calm] *::after{animation:none!important;transition:none!important}

@@ -81,9 +81,11 @@ export async function backend() {
       }
       // The new grown-up joins the demo grown-up's children; take them off again so
       // each test grown-up starts with an empty corner of their own.
-      const admin = await api.token(process.env.LW_ADMIN_LOGIN || 'demo-grownup', process.env.LW_ADMIN_PASSWORD || '7234ab');
-      const made = await api.rpc('lw_create_grownup', {p_login: login, p_password: password, p_name: name}, admin);
-      await api.rpc('lw_remove_grownup', {p_grownup: made.id}, admin);
+      const adminPassword = process.env.LW_ADMIN_PASSWORD || '7234ab';
+      const admin = await api.token(process.env.LW_ADMIN_LOGIN || 'demo-grownup', adminPassword);
+      const {ok, ...made} = await api.rpc('lw_create_grownup', {p_login: login, p_password: password, p_name: name, p_my_password: adminPassword}, admin);
+      assert.equal(ok, true);
+      await api.rpc('lw_remove_grownups', {p_grownups: [made.id], p_my_password: adminPassword}, admin);
       return made;
     },
     // A grown-up with children, all made through the public API.

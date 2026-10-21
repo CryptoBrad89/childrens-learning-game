@@ -17,7 +17,7 @@ async function child(token, name, avatar) {
 try {
   const one = await tokenOr('demo-grownup', () => be.makeGrownup('demo-grownup', PASSWORD, 'Demo Grown-up'));
   // The second grown-up is made by the first, from the corner's "Add a grown-up".
-  await tokenOr('demo-grownup2', () => be.rpc('lw_create_grownup', {p_login: 'demo-grownup2', p_password: PASSWORD, p_name: 'Second Grown-up'}, one));
+  await tokenOr('demo-grownup2', () => be.rpc('lw_create_grownup', {p_login: 'demo-grownup2', p_password: PASSWORD, p_name: 'Second Grown-up', p_my_password: PASSWORD}, one));
   for (const [name, avatar] of [['Ava', 'cat:0'], ['Ben', 'fox:4'], ['Cleo', 'duck:2']]) await child(one, name, avatar);
   const portal = await be.rpc('lw_portal', {}, one);
   console.log(JSON.stringify({password: PASSWORD, grownups: ['demo-grownup', ...portal.grownups.map(g => g.login)],
