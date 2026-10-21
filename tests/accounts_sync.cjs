@@ -39,6 +39,7 @@ function backend() {
     else if (url.pathname.endsWith('/accounts')) {
       if (!actor || actor.profile.role !== 'grownup') {status=403;result={error:'A grown-up account is required.'};}
       else if(['create-grownup','register','delete-grownup','reset-grownup-password','list-grownups','list-linkable-children','link-child','delete-grownups','patch-game-settings','transfer-children','reset-grownup-progress'].includes(data.action)&&!actor.profile.is_master){status=403;result={error:'Master required'};}
+      else if(data.action==='reset-own-progress'){if(data.confirm!=='reset-own-progress'){status=400;result={error:'Confirm first'};}else{actor.profile.progress_version=(actor.profile.progress_version||0)+1;for(const [id,event] of events)if(event.user_id===actor.profile.id&&event.kind==='round')events.delete(id);result={ok:true};}}
       else if(data.action==='patch-game-settings'){defaults={...defaults,...data.patch};result={settings:defaults};}
       else if(data.action==='patch-child-settings'){for(const id of data.child_ids)overrides.set(id,data.reset?{}:{...overrides.get(id),...data.patch});result={children:data.child_ids.map(child_id=>({child_id,overrides:overrides.get(child_id)}))};}
       else if(data.action==='list-grownups')result={grownups:[...users.values()].map(u=>u.profile).filter(p=>p.role==='grownup')};

@@ -6,7 +6,7 @@ const {staticServer,backend,playwright,form}=require('./accounts_sync.cjs');
  execFileSync('tar',['-x','-C',baselineDir],{input:execFileSync('git',['archive','448ef96'],{maxBuffer:128*1024*1024})});
  const baseline=await staticServer(baselineDir);
  const local=await staticServer(),browser=await playwright().chromium.launch({executablePath:'/usr/bin/google-chrome',args:['--no-sandbox']});
- const shots='reports/portal-review';fs.mkdirSync(shots,{recursive:true});
+ const shots=process.env.PORTAL_SHOTS||'reports/portal-review';fs.mkdirSync(shots,{recursive:true});
  try{for(const width of [390,768,1440])for(const before of [true,false]){
   const fixture=backend();fixture.seed('review_master','7234ab','Brandy (fixture)');fixture.seed('review_alex','7234ab','Alex Rivera');
   const context=await browser.newContext({viewport:{width,height:900},reducedMotion:'reduce'});await context.route('https://*.supabase.co/**',fixture.route);
@@ -25,7 +25,7 @@ const {staticServer,backend,playwright,form}=require('./accounts_sync.cjs');
   await page.locator('#children-list').scrollIntoViewIfNeeded();await page.screenshot({path:`${shots}/after-assignments-${width}.png`,fullPage:false});await page.evaluate(()=>scrollTo(0,0));
   await page.locator('#kid-search').fill('Alex Rivera');assert.equal(await page.locator('#children-list li').count(),1);await page.locator('#kid-search').fill('');
   await page.locator('#children-list button').first().click();await page.waitForFunction(()=>ACCOUNTS.owner?.role==='child'&&!document.getElementById('settings-link').inert);assert(await page.locator('#people').isHidden());assert(await page.locator('#delete-child-shortcut').isVisible());
-  await page.locator('#child-profile-form [name=avatar][value="🦊"]').check();await form(page,'child-profile-form',{handle:'review_ava',display_name:'Ava'});assert.equal(await page.evaluate(()=>ACCOUNTS.owner.avatar),'🦊');
+  await page.locator('#child-profile-form [name=avatar]').first().check();await form(page,'child-profile-form',{handle:'review_ava',display_name:'Ava'});assert.match(await page.evaluate(()=>ACCOUNTS.owner.avatar),/^data:image\/jpeg;base64,/);
   const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aD1sAAAAASUVORK5CYII=','base64');await page.locator('#child-avatar-upload').setInputFiles({name:'avatar.png',mimeType:'image/png',buffer:png});await page.locator('#child-avatar-preview').waitFor();await form(page,'child-profile-form',{handle:'review_ava',display_name:'Ava'});assert.match(await page.evaluate(()=>ACCOUNTS.owner.avatar),/^data:image\/jpeg/);
   await page.locator('#adults-view').click();assert(await page.locator('#progress').isHidden());assert(await page.locator('#delete-child').isHidden());
   await page.reload();await page.waitForFunction(()=>document.querySelector('#adults-view').getAttribute('aria-pressed')==='true');

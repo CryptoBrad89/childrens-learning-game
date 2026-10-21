@@ -35,8 +35,9 @@ if(!isHome&&!isAdmin){
   function render(){
     menu.hidden=!A.profile;guestLink.hidden=Boolean(A.profile);
     name.textContent=A.profile?.display_name||'';
+    link.href=new URL('accounts/index.html'+(A.profile?.role==='grownup'?'#account':''),base).href;
     avatar.replaceChildren();
-    if(A.profile?.avatar?.startsWith('data:image/')){const img=document.createElement('img');img.src=A.profile.avatar;img.alt='';avatar.append(img);}else avatar.textContent=A.profile?.avatar||'🐶';
+    const img=document.createElement('img');img.src=A.profile?.avatar?.startsWith('data:image/')?A.profile.avatar:new URL('accounts/lucy/garden.jpg',base).href;img.alt='';avatar.append(img);
   }
   function place(){const header=document.querySelector('#header'),controls=header.querySelector('.controls');if(controls&&!header.contains(strip)){const group=document.createElement('div');group.className='player-controls';controls.replaceWith(group);group.append(controls,strip);}}
   new MutationObserver(place).observe(document.querySelector('#header'),{childList:true,subtree:true});place();

@@ -12,6 +12,7 @@
 <script src="client.js" defer></script>
 <script src="navigation.js" defer></script>
 <script src="../grown-ups/settings.js" defer></script>
+<script src="lucy-avatars.js" defer></script>
 <script src="portal.js" defer></script>
 </head>
 <body>
@@ -45,7 +46,7 @@
       <details data-adult class="password-panel"><summary>Edit my profile</summary><form id="profile-form">
         <label>Display name<input name="display_name" maxlength="60" required autocomplete="name"></label>
         <label>Username<input name="handle" required autocomplete="username" autocapitalize="none" spellcheck="false"></label>
-            <fieldset class="avatar-options"><legend>Choose a profile icon</legend><label><input type="radio" name="avatar" value="🐶" checked><span>🐶</span><span class="sr-only">Dog</span></label><label><input type="radio" name="avatar" value="🐱"><span>🐱</span><span class="sr-only">Cat</span></label><label><input type="radio" name="avatar" value="🐰"><span>🐰</span><span class="sr-only">Rabbit</span></label><label><input type="radio" name="avatar" value="🦊"><span>🦊</span><span class="sr-only">Fox</span></label><label><input type="radio" name="avatar" value="🐼"><span>🐼</span><span class="sr-only">Panda</span></label><label><input type="radio" name="avatar" value="⭐"><span>⭐</span><span class="sr-only">Star</span></label></fieldset>
+            <fieldset class="avatar-options"><legend>Choose a Lucy picture</legend></fieldset>
             <label>Or upload a picture<input id="profile-avatar-upload" name="avatar_file" type="file" accept="image/*" aria-describedby="profile-avatar-help"></label><p id="profile-avatar-help" class="help">Choose a photo or any picture. We save a small profile copy.</p><img id="profile-avatar-preview" class="child-avatar" alt="Your chosen picture" hidden>
         <button type="submit" class="quiet-button">Save my profile</button><p class="form-result" role="status" aria-live="polite"></p>
       </form></details>
@@ -57,6 +58,7 @@
       </div>
       <section id="progress" class="panel" aria-labelledby="progress-title">
         <h2 id="progress-title">Your progress</h2>
+        <button id="reset-own-progress" type="button" class="quiet-button" hidden>Reset my game progress…</button>
         <div class="owner-line"><div class="actions"><button id="delete-child-shortcut" class="quiet-button" type="button" hidden>Delete child…</button><button id="transfer-child" class="quiet-button" type="button" hidden>Transfer child…</button><button id="share-child" class="quiet-button" type="button" hidden>Share child…</button></div><p id="owner-label"></p><button id="back-to-me" type="button" class="quiet-button" hidden>Back to my progress page</button></div>
         <div class="totals"><p><strong id="round-count">0</strong><span>rounds completed</span></p><p><strong id="letter-total">0</strong><span>letters explored</span></p></div>
         <ul id="world-progress" class="world-progress" aria-label="Rounds by world"></ul>
@@ -64,7 +66,7 @@
         <div class="sync-row"><p id="sync-status" role="status" aria-live="polite"></p></div>
         <details id="child-management" data-adult class="child-management" open hidden><summary>Manage this child</summary>
           <p id="management-child" class="help"></p>
-          <form id="child-profile-form"><label>Child's display name<input name="display_name" maxlength="60" required></label><label>Child's username<input name="handle" minlength="3" maxlength="32" required autocapitalize="none" spellcheck="false"></label>            <fieldset class="avatar-options"><legend>Choose a profile icon</legend><label><input type="radio" name="avatar" value="🐶" checked><span>🐶</span><span class="sr-only">Dog</span></label><label><input type="radio" name="avatar" value="🐱"><span>🐱</span><span class="sr-only">Cat</span></label><label><input type="radio" name="avatar" value="🐰"><span>🐰</span><span class="sr-only">Rabbit</span></label><label><input type="radio" name="avatar" value="🦊"><span>🦊</span><span class="sr-only">Fox</span></label><label><input type="radio" name="avatar" value="🐼"><span>🐼</span><span class="sr-only">Panda</span></label><label><input type="radio" name="avatar" value="⭐"><span>⭐</span><span class="sr-only">Star</span></label></fieldset>
+          <form id="child-profile-form"><label>Child's display name<input name="display_name" maxlength="60" required></label><label>Child's username<input name="handle" minlength="3" maxlength="32" required autocapitalize="none" spellcheck="false"></label>            <fieldset class="avatar-options"><legend>Choose a Lucy picture</legend></fieldset>
             <label>Or upload a picture<input id="child-avatar-upload" name="avatar_file" type="file" accept="image/*" aria-describedby="child-avatar-help"></label><p id="child-avatar-help" class="help">Choose a photo or any picture. We save a small profile copy.</p><img id="child-avatar-preview" class="child-avatar" alt="Chosen picture" hidden>
 <p class="help">The old username stops working when you save. Their progress stays with them.</p><button class="quiet-button" type="submit">Save child profile</button><p class="form-result" role="status"></p></form>
           <a id="child-settings-link" class="quiet-button" href="../grown-ups/index.html">Game settings for this child</a>
@@ -95,7 +97,7 @@
       <dialog id="edit-grownup" aria-labelledby="edit-grownup-title"><div class="dialog-header"><h2 id="edit-grownup-title">Edit grown-up</h2><button id="close-edit-grownup" type="button" class="quiet-button">Close</button></div><p id="edit-grownup-login" class="help"></p><form id="grownup-profile-form">
         <label>Display name<input name="display_name" maxlength="60" required autocomplete="name"></label>
         <label>Username<input name="handle" required autocomplete="username" autocapitalize="none" spellcheck="false"></label>
-            <fieldset class="avatar-options"><legend>Choose a profile icon</legend><label><input type="radio" name="avatar" value="🐶" checked><span>🐶</span><span class="sr-only">Dog</span></label><label><input type="radio" name="avatar" value="🐱"><span>🐱</span><span class="sr-only">Cat</span></label><label><input type="radio" name="avatar" value="🐰"><span>🐰</span><span class="sr-only">Rabbit</span></label><label><input type="radio" name="avatar" value="🦊"><span>🦊</span><span class="sr-only">Fox</span></label><label><input type="radio" name="avatar" value="🐼"><span>🐼</span><span class="sr-only">Panda</span></label><label><input type="radio" name="avatar" value="⭐"><span>⭐</span><span class="sr-only">Star</span></label></fieldset>
+            <fieldset class="avatar-options"><legend>Choose a Lucy picture</legend></fieldset>
             <label>Or upload a picture<input id="grownup-avatar-upload" name="avatar_file" type="file" accept="image/*" aria-describedby="grownup-avatar-help"></label><p id="grownup-avatar-help" class="help">Choose a photo or any picture. We save a small profile copy.</p><img id="grownup-avatar-preview" class="child-avatar" alt="Chosen picture" hidden>
         <button type="submit" class="quiet-button">Save grown-up profile</button><p class="form-result" role="status" aria-live="polite"></p>
       </form><div id="grownup-password-slot"></div><p id="grownup-linked-kids" class="help"></p><button id="reset-grownup-progress" type="button" class="quiet-button">Reset game progress…</button><button id="delete-edit-grownup" type="button" class="quiet-button">Delete grown-up…</button></dialog>
@@ -111,7 +113,7 @@
             <label>Choose their login name<input name="handle" required autocomplete="off" autocapitalize="none" spellcheck="false"></label>
             <label>Choose their password<input name="password" type="password" minlength="6" autocomplete="new-password" required></label>
             <p class="help">At least 6 characters. Keep their login name and password wherever they play.</p>
-            <fieldset class="avatar-options"><legend>Choose a profile icon</legend><label><input type="radio" name="avatar" value="🐶" checked><span>🐶</span><span class="sr-only">Dog</span></label><label><input type="radio" name="avatar" value="🐱"><span>🐱</span><span class="sr-only">Cat</span></label><label><input type="radio" name="avatar" value="🐰"><span>🐰</span><span class="sr-only">Rabbit</span></label><label><input type="radio" name="avatar" value="🦊"><span>🦊</span><span class="sr-only">Fox</span></label><label><input type="radio" name="avatar" value="🐼"><span>🐼</span><span class="sr-only">Panda</span></label><label><input type="radio" name="avatar" value="⭐"><span>⭐</span><span class="sr-only">Star</span></label></fieldset>
+            <fieldset class="avatar-options"><legend>Choose a Lucy picture</legend></fieldset>
             <label>Or upload a picture<input id="avatar-upload" name="avatar_file" type="file" accept="image/*" aria-describedby="avatar-help"></label><p id="avatar-help" class="help">Choose a photo or any picture. We save a small profile copy.</p><img id="avatar-preview" class="child-avatar" alt="Child’s chosen picture" hidden>
             <button class="solid-button" type="submit">Create child's account</button><p class="form-result" role="status" aria-live="polite"></p>
           </form></details>
@@ -132,14 +134,20 @@
 <noscript><p class="noscript">Please turn on JavaScript to sign in and open your progress page.</p></noscript>
 <dialog id="confirm-child" aria-labelledby="confirm-title" aria-describedby="confirm-copy">
   <h2 id="confirm-title"></h2><p id="confirm-copy"></p>
-  <div class="actions"><button type="button" id="cancel-child" class="quiet-button">Cancel</button><button type="button" id="confirm-child-action" class="solid-button"></button></div>
   <ul id="confirm-child-names" class="confirm-names"></ul><label>Type the number of accounts<input id="confirm-child-count" inputmode="numeric" autocomplete="off"></label><p id="confirm-result" role="status"></p>
+  <div class="actions"><button type="button" id="cancel-child" class="quiet-button">Cancel</button><button type="button" id="confirm-child-action" class="solid-button"></button></div>
 </dialog>
 <dialog id="confirm-grownup" aria-labelledby="confirm-grownup-title" aria-describedby="confirm-grownup-copy">
   <h2 id="confirm-grownup-title"></h2>
   <p id="confirm-grownup-copy">Their login and guardian links will be permanently deleted. Kids and their progress stay. Kids with no other grown-up will be linked to the master.</p>
-  <div class="actions"><button type="button" id="cancel-grownup" class="quiet-button" autofocus>Cancel</button><button type="button" id="confirm-grownup-action" class="solid-button">Permanently delete grown-up</button></div>
   <ul id="confirm-grownup-names" class="confirm-names"></ul><label>Type the number of accounts<input id="confirm-grownup-count" inputmode="numeric" autocomplete="off"></label><p id="confirm-grownup-result" role="status"></p>
+  <div class="actions"><button type="button" id="cancel-grownup" class="quiet-button" autofocus>Cancel</button><button type="button" id="confirm-grownup-action" class="solid-button">Permanently delete grown-up</button></div>
 </dialog>
-<dialog id="transfer-dialog" aria-labelledby="transfer-title"><h2 id="transfer-title">Transfer kids</h2><p id="transfer-names"></p><p>Move the source grown-up's link to the destination. Other grown-up links, logins, settings and progress stay. Kids not linked to the source are skipped.</p><button id="cancel-transfer" class="quiet-button" type="button">Cancel</button><form id="transfer-form"><label>From<select id="transfer-source" name="source_id" required><option value="">Choose source</option></select></label><label>To<select id="transfer-destination" name="destination_id" required><option value="">Choose destination</option></select></label><button class="solid-button" type="submit">Confirm transfer</button><p class="form-result" role="status"></p></form></dialog></body>
+<dialog id="transfer-dialog" aria-labelledby="transfer-title"><h2 id="transfer-title">Transfer kids</h2><p id="transfer-names"></p><p>Move the source grown-up's link to the destination. Other grown-up links, logins, settings and progress stay. Kids not linked to the source are skipped.</p><button id="cancel-transfer" class="quiet-button" type="button">Cancel</button><form id="transfer-form"><label>From<select id="transfer-source" name="source_id" required><option value="">Choose source</option></select></label><label>To<select id="transfer-destination" name="destination_id" required><option value="">Choose destination</option></select></label><button class="solid-button" type="submit">Confirm transfer</button><p class="form-result" role="status"></p></form></dialog><dialog id="confirm-own-reset-dialog" aria-labelledby="confirm-own-title" aria-describedby="confirm-own-copy">
+  <h2 id="confirm-own-title">Reset my game progress?</h2>
+  <p id="confirm-own-identity"></p>
+  <p id="confirm-own-copy">Your completed rounds and milestones will be erased. Your login, picture, password, game settings, and linked kids stay. This cannot be undone.</p>
+  <p id="confirm-own-result" role="status"></p>
+  <div class="actions"><button id="cancel-own-reset" type="button" class="quiet-button" autofocus>Cancel</button><button id="confirm-own-reset" type="button" class="solid-button">Reset my game progress</button></div>
+</dialog></body>
 </html>

@@ -35,14 +35,15 @@ async function smoke(game) {
     },
     addEventListener() {}
   };
+  let activeAudio = null, previousRetry = null;
   class Audio {
     constructor(file) {
       assert.equal(typeof file, 'string', 'Undefined audio path');
       assert(fs.existsSync(path.resolve(root, game, file)), `Missing audio: ${file}`);
       this.file = file;
     }
-    play() {played.push(this.file); queueMicrotask(() => this.onended?.()); return Promise.resolve();}
-    pause() {}
+    play() {assert.equal(activeAudio, null, 'Speech clips never overlap'); activeAudio=this; played.push(this.file); queueMicrotask(() => {if(activeAudio===this)activeAudio=null;this.onended?.();}); return Promise.resolve();}
+    pause() {if(activeAudio===this)activeAudio=null;}
   }
   const noEffect = async () => true;
   const Fun = {
@@ -97,7 +98,11 @@ async function smoke(game) {
         if (letter !== 'X') assert.notEqual(choice.word[0], app.current.word[0], 'Ambiguous starting-word distractor');
         const button = getNode(`[data-answer="${choice.letter}"]`);
         button.dataset.answer = choice.letter;
+        const feedbackBefore = played.filter(file=>file.includes('/audio/feedback/')).length;
         await app.answer(button); await flush();
+        const feedback = played.filter(file=>file.includes('/audio/feedback/'));
+        assert.equal(feedback.length, feedbackBefore+1, 'Each wrong answer plays one Lucy retry');
+        assert.notEqual(feedback.at(-1), previousRetry, 'Successive retry clips vary'); previousRetry=feedback.at(-1);
         assert.equal(document.body.dataset.screen, 'match');
         assert.equal(button.getAttribute('aria-disabled'), null);
       }
@@ -125,7 +130,9 @@ async function smoke(game) {
     mute.onclick(); played.length = 0;
     await app.start('X'); await flush();
     await app.replay(); await flush();
-    assert.equal(played.length, 0, 'Mute must suppress all voice clips');
+    await app.continueMatch(makeNode()); await flush();
+    const mutedWrong=app.choices.find(choice=>choice.letter!=='X');const mutedButton=getNode(`[data-answer="${mutedWrong.letter}"]`);mutedButton.dataset.answer=mutedWrong.letter;await app.answer(mutedButton);await flush();
+    assert.equal(played.length, 0, 'Mute must suppress all voice clips including wrong-answer feedback');
     mute.onclick();
   }
   console.log(`PASS ${game}: ${rounds} rounds, all themes, listen/replay, two misses, collection, next/wrap and mute (browser APIs stubbed)`);

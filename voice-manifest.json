@@ -1385,5 +1385,56 @@
    "stt_ok": true
   },
   "sha256": "6d963659455815fec0b92b749971711440125a2cf2095e10aa5fca632f2f827b"
+ },
+ {
+  "file": "audio/feedback/lucy-uh-oh.mp3",
+  "text": "Uh-oh.",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-21",
+   "generation_id": "LxzWnFPI8KG0NbuhllVx",
+   "flow_id": "ObIg2KwAqdvA9GosB4lL",
+   "credits": 15,
+   "source_text": "[gently] Uh-oh.",
+   "note": "Same creative speech defaults as existing Lucy clips; gentle delivery tag; one take per line."
+  },
+  "duration_secs": 1.36,
+  "sha256": "ab80ce180a5168c249f4a91e00b7468787d399052cf57c557d459a7b837b0a0e"
+ },
+ {
+  "file": "audio/feedback/lucy-try-again.mp3",
+  "text": "Try again.",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-21",
+   "generation_id": "sPRqdT5rMLwV6nfHJD7t",
+   "flow_id": "ObIg2KwAqdvA9GosB4lL",
+   "credits": 19,
+   "source_text": "[gently] Try again.",
+   "note": "Same creative speech defaults as existing Lucy clips; gentle delivery tag; one take per line."
+  },
+  "duration_secs": 1.44,
+  "sha256": "686e650d9724fc9d27389958c5ec721172a6b2770de37b9fe130bdb2b35203d2"
+ },
+ {
+  "file": "audio/feedback/lucy-oops-try-again.mp3",
+  "text": "Oops, try again.",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech 2026-10-21",
+   "generation_id": "q7enl15zmQTFJl1XrOmx",
+   "flow_id": "ObIg2KwAqdvA9GosB4lL",
+   "credits": 25.000000000000004,
+   "source_text": "[gently] Oops, try again.",
+   "note": "Same creative speech defaults as existing Lucy clips; gentle delivery tag; one take per line."
+  },
+  "duration_secs": 2.16,
+  "sha256": "a2c4c4258789ce8d5a420269e22d711972eb417fb7ddf5b046b036448135ddfd"
  }
 ]

@@ -2,6 +2,26 @@
 'use strict';
 const $ = id => document.getElementById(id);
 const A = window.ACCOUNTS;
+const lucyChoices = window.LUCY_AVATARS;
+for (const fieldset of document.querySelectorAll('.avatar-options')) {
+  for (const [index, choice] of lucyChoices.entries()) {
+    const label = document.createElement('label'), input = document.createElement('input');
+    input.type = 'radio'; input.name = 'avatar'; input.value = choice.value; input.checked = index === 0;
+    const picture = document.createElement('img'); picture.src = choice.src; picture.alt = '';
+    const caption = document.createElement('span'); caption.className = 'sr-only'; caption.textContent = choice.label;
+    label.append(input, picture, caption); fieldset.append(label);
+  }
+}
+function profilePicture(container, value) {
+  const image = document.createElement('img');
+  image.src = value?.startsWith('data:image/') ? value : lucyChoices[0].src;
+  image.alt = ''; container.replaceChildren(image);
+}
+function selectPicture(form, value) {
+  const selected = lucyChoices.some(choice => choice.value === value) ? value : lucyChoices[0].value;
+  for (const input of form.querySelectorAll('[name=avatar]')) input.checked = input.value === selected;
+}
+
 let roster = [], rosterFor = null, rosterVersion = 0, switchingOwner = false, rosterRequest = null;
 let grownupsFor = null, editingGrownup = null;
 let portalView=location.hash.slice(1)||'kids';
@@ -90,7 +110,7 @@ function renderRoster() {
       }
     });
     const avatar = element('span', child.avatar || '🐶', 'child-avatar');
-    if (child.avatar?.startsWith('data:image/')) { const picture = element('img'); picture.src = child.avatar; picture.alt = ''; avatar.replaceChildren(picture); }
+    profilePicture(avatar, child.avatar);
     item.append(avatar, copy, open); list.append(item);
   }
   $('roster-status').textContent = roster.length ? `${roster.length} ${profileLabel()}${roster.length === 1 ? 'child' : 'children'}` : 'No children linked yet. Make a login below, or link an existing child.';
@@ -147,7 +167,7 @@ function render() {
     return;
   }
   const owner = A.owner || profile;
-  if(owner.role==='child' && $('child-profile-form').dataset.childProfile!==owner.id+':'+owner.handle){const form=$('child-profile-form');form.dataset.childProfile=owner.id+':'+owner.handle;form.elements.handle.value=owner.handle;form.elements.display_name.value=owner.display_name;for(const input of form.querySelectorAll('[name=avatar]'))input.checked=input.value===(owner.avatar||'🐶');$('child-avatar-upload').value='';$('child-avatar-preview').hidden=!owner.avatar?.startsWith('data:image/');if(!$('child-avatar-preview').hidden)$('child-avatar-preview').src=owner.avatar;void loadChildGrownups();}
+  if(owner.role==='child' && $('child-profile-form').dataset.childProfile!==owner.id+':'+owner.handle){const form=$('child-profile-form');form.dataset.childProfile=owner.id+':'+owner.handle;form.elements.handle.value=owner.handle;form.elements.display_name.value=owner.display_name;selectPicture(form, owner.avatar);$('child-avatar-upload').value='';$('child-avatar-preview').hidden=!owner.avatar?.startsWith('data:image/');if(!$('child-avatar-preview').hidden)$('child-avatar-preview').src=owner.avatar;void loadChildGrownups();}
   const adult = profile.role === 'grownup';
   if (profile.is_master === true && grownupsFor !== profile.id) { grownupsFor = profile.id; void loadGrownups(); }
   document.querySelectorAll('[data-child]').forEach(node => { node.hidden = adult; });
@@ -162,14 +182,14 @@ function render() {
   if(adult && profileFor!==profile.handle){
     profileFor=profile.handle;
     const form=$('profile-form'); form.elements.handle.value=profile.handle; form.elements.display_name.value=profile.display_name;
-    for(const input of form.querySelectorAll('[name=avatar]'))input.checked=input.value===profile.avatar;
+    selectPicture(form, profile.avatar);
     $('profile-avatar-preview').hidden=!profile.avatar?.startsWith('data:image/');
     if(!$('profile-avatar-preview').hidden)$('profile-avatar-preview').src=profile.avatar;
   }
   const rounds = snapshot.rounds || [];
   $('identity-title').textContent = profile.display_name;
   const identityAvatar=$('identity-avatar');identityAvatar.replaceChildren();
-  if(profile.avatar?.startsWith('data:image/')){const img=element('img');img.src=profile.avatar;img.alt='';identityAvatar.append(img);}else identityAvatar.textContent=profile.avatar||'🐶';
+  profilePicture(identityAvatar, profile.avatar);
   $('login-name').textContent = `Login: ${profile.handle} · ${profile.role === 'child' ? 'Child' : 'Grown-up'}`;
   $('owner-label').textContent = owner.id === profile.id ? `This progress page belongs to ${profile.display_name}.` : `Viewing ${owner.display_name}'s progress page · login ${owner.handle}`;
   $('progress-title').textContent = owner.id === profile.id ? 'Your progress' : `${owner.display_name}'s progress`;
@@ -284,7 +304,7 @@ function renderGrownups(){
       const item = element('li'), copy = element('div');
       copy.append(element('strong', person.display_name), element('small', `Login: ${person.handle}${person.is_master ? ' · Master' : ''}`));
       const avatar = element('span', person.avatar || '🐶', 'child-avatar');
-      if(person.avatar?.startsWith('data:image/')){const img=element('img');img.src=person.avatar;img.alt='';avatar.replaceChildren(img);}
+      profilePicture(avatar, person.avatar);
       const edit=element('button',person.id===A.profile.id?'Edit my profile':'Edit profile','quiet-button');edit.type='button';
       edit.setAttribute('aria-label',`Edit ${person.display_name} (${person.handle})`);
       edit.addEventListener('click',()=>{
@@ -292,7 +312,7 @@ function renderGrownups(){
         editingGrownup=person;
         const form=$('grownup-profile-form');form.reset();
         form.elements.handle.value=person.handle;form.elements.display_name.value=person.display_name;
-        for(const input of form.querySelectorAll('[name=avatar]'))input.checked=input.value===(person.avatar||'🐶');
+        selectPicture(form, person.avatar);
         $('grownup-avatar-preview').hidden=!person.avatar?.startsWith('data:image/');
         if(!$('grownup-avatar-preview').hidden)$('grownup-avatar-preview').src=person.avatar;
         form.querySelector('.form-result').textContent='';
@@ -341,7 +361,7 @@ function confirmPeople(kind, people, reset=false) {
   pendingAction={kind,people,reset};
   const title=$(kid?'confirm-title':'confirm-grownup-title');
   title.textContent=`${reset?'Reset progress for':'Delete'} ${people.length} ${kid?'kid':'grown-up'}${people.length===1?'':'s'}?`;
-  $(kid?'confirm-copy':'confirm-grownup-copy').textContent=reset?'Completed rounds and milestones are erased for every linked grown-up. Logins and game settings stay. This cannot be undone.':kid?'Their logins, pictures and all progress are deleted for every linked grown-up. This cannot be undone.':'Their logins are deleted. Kids and progress stay; kids with no other grown-up are linked to the master.';
+  $(kid?'confirm-copy':'confirm-grownup-copy').textContent=reset?'Completed rounds and milestones are erased for every linked grown-up. Logins and game settings stay. This cannot be undone.':kid?'Their logins, pictures and all progress are deleted for every linked grown-up. This cannot be undone.':'Their logins are deleted. Kids and their progress stay. Kids without another linked grown-up stay linked to the master account.';
   const names=$(kid?'confirm-child-names':'confirm-grownup-names');names.replaceChildren();
   people.forEach(person=>names.append(element('li',`${person.display_name} · Login: ${person.handle}`)));
   const input=$(kid?'confirm-child-count':'confirm-grownup-count');input.value='';
@@ -421,6 +441,7 @@ function applyView(){
   $('kids-view').setAttribute('aria-pressed',String(portalView==='kids'));
   $('adults-view').setAttribute('aria-pressed',String(portalView==='adults'));
   $('my-account').hidden=!adult;
+  $('reset-own-progress').hidden=!adult||portalView!=='account';
 }
 async function navigate(view){
   document.querySelectorAll('dialog[open]').forEach(dialog=>dialog.close());
@@ -460,6 +481,21 @@ async function loadChildGrownups(){
   }catch(error){$('child-grownups').textContent=errorText(error);}
 }
 $('delete-child-shortcut').addEventListener('click',()=>confirmPeople('child',[A.owner]));
+$('reset-own-progress').addEventListener('click', () => {
+  $('confirm-own-identity').textContent = `${A.profile.display_name} · Login: ${A.profile.handle}`;
+  $('confirm-own-result').textContent = '';
+  $('confirm-own-reset-dialog').showModal(); $('cancel-own-reset').focus();
+});
+$('cancel-own-reset').addEventListener('click', () => $('confirm-own-reset-dialog').close());
+$('confirm-own-reset').addEventListener('click', async () => {
+  const button = $('confirm-own-reset'); button.disabled = true;
+  try {
+    await A.manage('reset-own-progress', {confirm: 'reset-own-progress'});
+    await A.selectOwner(A.profile);
+    $('confirm-own-reset-dialog').close(); render(); notice('Your game progress has been reset. You can start fresh.');
+  } catch (error) { $('confirm-own-result').textContent = errorText(error); }
+  finally { button.disabled = false; }
+});
 $('reset-grownup-progress').addEventListener('click',()=>{const person=editingGrownup;$('edit-grownup').close();confirmPeople('grownup',[person],true);});
 let transferPeople=[];
 function openTransfer(people){
