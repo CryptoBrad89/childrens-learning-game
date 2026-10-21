@@ -89,7 +89,8 @@ async function run() {
     const errors = [];
     portal.on('pageerror', error => errors.push(error.message));
     await portal.goto(url('grown-ups/index.html'));
-    await portal.waitForFunction(() => document.body?.dataset.view === 'gate');
+    await portal.waitForFunction(() => document.body?.dataset.view === 'settings');
+    assert.equal(await portal.locator('#keypad, [data-digit]').count(), 0);
     const look = await portal.evaluate(() => {
       const body = getComputedStyle(document.body);
       return {

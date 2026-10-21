@@ -46,4 +46,32 @@ assert.equal(stamped.volume, undefined, 'unchanged defaults are not written over
 const storage = Store.memory();
 assert.equal(Store.replicaId(storage), Store.replicaId(storage));
 
-console.log('PASS accounts merge: letters union, G-counter, per-field settings, idempotent');
+const resetAt = '2026-10-21T01:00:00.000Z';
+const olderRound = '2026-10-21T00:30:00.000Z';
+const newerRound = '2026-10-21T01:10:00.000Z';
+const reset = fill({
+  progressEpoch: {v: resetAt, t: resetAt},
+  progress: {post: {letters: {}, counts: {}}},
+  achievements: {}
+});
+const queued = fill({
+  progress: {post: {letters: {A: olderRound}, counts: {[replicaA]: 1}}},
+  achievements: {'first-sound': olderRound}
+});
+const beaten = mergeState(reset, queued);
+assert.deepEqual(beaten.progress.post.letters, {}, 'an offline reset beats an older queued round');
+assert.deepEqual(beaten.achievements, {});
+assert.equal(beaten.progressEpoch.t, resetAt);
+const after = fill({
+  progressEpoch: {v: resetAt, t: resetAt},
+  progress: {post: {letters: {B: newerRound}, counts: {[replicaB]: 1}}}
+});
+const once = mergeState(reset, after);
+assert.equal(once.progress.post.letters.B, newerRound, 'a round after the same reset counts once');
+const again = mergeState(once, after);
+assert.equal(again.progress.post.counts[replicaB], 1, 'the same round does not count twice');
+const keptSettings = mergeState(reset, fill({settings: {voice: {v: false, t: olderRound}}}));
+assert.equal(keptSettings.settings.voice.v, false, 'a reset does not clear settings');
+assert.equal(mergeState(apple, emptyState()).progressEpoch, null);
+
+console.log('PASS accounts merge: letters union, G-counter, per-field settings, reset epoch, idempotent');
