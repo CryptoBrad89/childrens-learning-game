@@ -106,9 +106,11 @@
     $('play-guest').addEventListener('click', showGuestLayouts);
     $('child-form').addEventListener('submit', async event => {
       event.preventDefault();
-      const loginName = $('login-name').value.trim().toLowerCase();
+      const raw = $('login-name').value.trim();
+      const asEmail = raw.includes('@');
+      const loginName = asEmail ? raw : raw.toLowerCase();
       const secret = $('login-secret').value;
-      if (!/^[a-z0-9]{2,20}$/.test(loginName)) {
+      if (!asEmail && !/^[a-z0-9]{2,20}$/.test(loginName)) {
         status('Use the short sign-in name, like maya.', true);
         return;
       }
@@ -119,18 +121,16 @@
       }
       status('Signing in…');
       try {
-        const user = await Client().signInChild(loginName, secret);
-        if (Client().roleOf(user) !== 'child') {
-          await Client().signOut();
-          status('That sign-in is for a grown-up. Use Are you a grown-up?', true);
-          return;
-        }
+        const user = asEmail ? await Client().signIn(loginName, secret) : await Client().signInChild(loginName, secret);
         const meta = user.user_metadata || {};
+        const role = Client().roleOf(user);
         activate({
           learnerId: user.id,
-          displayName: meta.display_name || 'Friend',
-          avatar: meta.avatar || 'pup',
-          loginName: meta.login_name || loginName
+          displayName: meta.display_name || (role === 'child' ? 'Friend' : 'Grown-up'),
+          avatar: meta.avatar || 'garden',
+          avatarImage: meta.avatar_image || '',
+          loginName: meta.login_name || (asEmail ? '' : loginName),
+          role
         });
         status('');
       } catch (error) { status(error.message, true); }
@@ -141,12 +141,13 @@
       const store = Store();
       let user = null;
       try { user = served() && client ? await client.sessionUser() : null; } catch (error) { user = null; }
+      try { if (client && user) await client.syncNow(); } catch (error) { /* queued progress stays on this device */ }
       if (store) {
         store.clearActive();
         store.clearProjection();
       }
       if (client) client.setLearner(null);
-      if (user && client.roleOf(user) === 'child') await client.signOut();
+      if (user && client) await client.signOut();
       location.reload();
     });
   }
@@ -156,14 +157,17 @@
     if (!served() || !Client() || !Client().configured()) { show('login'); return; }
     let user = null;
     try { user = await Client().sessionUser(); } catch (error) { user = null; }
-    if (user && Client().roleOf(user) === 'child') {
+    if (user) {
       const meta = user.user_metadata || {};
       const saved = Store().readActive();
+      const role = Client().roleOf(user);
       activate(saved && saved.learnerId === user.id ? saved : {
         learnerId: user.id,
-        displayName: meta.display_name || 'Friend',
-        avatar: meta.avatar || 'pup',
-        loginName: meta.login_name || ''
+        displayName: meta.display_name || (role === 'child' ? 'Friend' : 'Grown-up'),
+        avatar: meta.avatar || 'garden',
+        avatarImage: meta.avatar_image || '',
+        loginName: meta.login_name || '',
+        role
       });
       return;
     }
@@ -174,6 +178,13 @@
     if (started || !$('login')) return;
     started = true;
     bind();
+    const safety = $('safety-note');
+    try {
+      if (safety && sessionStorage.getItem('lw-safety') === '1') {
+        safety.hidden = false;
+        sessionStorage.removeItem('lw-safety');
+      }
+    } catch (error) { /* private window */ }
     show('splash');
     const hold = reduceMotion() ? 0 : 700;
     root.setTimeout(() => { resume().catch(error => { status(error.message, true); show('login'); }); }, hold);

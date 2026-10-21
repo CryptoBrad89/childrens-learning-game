@@ -1,4 +1,26 @@
-/* Grown-up settings inside the worlds. Calm motion mirrors the prefers-reduced-motion rules. */
+/* Grown-up settings inside the worlds. Calm motion mirrors the prefers-reduced-motion rules.
+ * The picture chip sits beside the existing controls. The theme select is not moved.
+ * Profile motion is a short Hyperiux-style settle. The kid dialog uses a 180ms
+ * motion-primitives ease. Both are off when motion is reduced.
+ */
+#player-chip{display:flex;align-items:center;flex:none}
+.player-chip{width:44px;height:44px;min-width:44px;min-height:44px;padding:0;border-radius:50%;overflow:hidden;border:2px solid var(--line,#253f65);background:var(--surface,#fffaf0);display:grid;place-items:center;text-decoration:none}
+.player-chip img{width:100%;height:100%;object-fit:cover;display:block}
+.chip-mark{font-weight:900}
+.visit-note{font-size:11px;font-weight:800;letter-spacing:.02em;color:var(--muted,#536078);line-height:1.1;text-align:center}
+#kid-sheet{border:3px solid var(--line,#253f65);border-radius:24px;background:#fffaf0;color:#253f65;padding:22px;max-width:min(420px,calc(100vw - 32px))}
+#kid-sheet .chip-name{margin:0;font-size:28px;font-weight:900}
+#kid-sheet .chip-note{margin:8px 0 0}
+#kid-sheet .chip-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:16px}
+#kid-sheet button{min-height:44px;min-width:44px;flex:1}
+@media (prefers-reduced-motion:no-preference){
+  .player-chip{transition:transform 180ms cubic-bezier(.22,1,.36,1)}
+  #kid-sheet[open]{animation:chip-in 180ms cubic-bezier(.22,1,.36,1)}
+}
+@keyframes chip-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  .player-chip,#kid-sheet{animation:none;transition:none}
+}
 .controls[hidden]{display:none!important}
 html[data-calm]{scroll-behavior:auto}
 html[data-calm] *,html[data-calm] *::before,html[data-calm] *::after{animation:none!important;transition:none!important}

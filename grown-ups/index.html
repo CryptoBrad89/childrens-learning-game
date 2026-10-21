@@ -14,6 +14,8 @@
 <script src="../accounts/store.js"></script>
 <script src="../accounts/config.js"></script>
 <script src="../accounts/client.js"></script>
+<script src="../accounts/session.js"></script>
+<script src="../accounts/pictures.js"></script>
 <script src="../accounts/boot.js"></script>
 <script src="settings.js"></script>
 <script src="../audio-map.js" defer></script>
@@ -34,19 +36,7 @@
     <a class="fill-button" id="leave" href="../index.html"><span class="fill-label">Back to the games</span><span class="fill-layer" aria-hidden="true"><span class="fill-label">Back to the games</span></span><span class="fill-dot" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
   </header>
 
-  <main id="gate" class="gate" aria-labelledby="gate-title">
-    <div class="gate-copy">
-      <h2 id="gate-title">A quick check that a grown-up is here.</h2>
-      <p class="challenge-label" id="challenge-label">Tap these numbers in order</p>
-      <p class="challenge" id="challenge" aria-describedby="challenge-label"></p>
-      <p class="why">Why the check? Little ones can't read number words yet, so this keeps the settings out of small hands. Number keys on a keyboard work too.</p>
-    </div>
-    <div class="gate-pad">
-      <div class="slots" id="slots" aria-label="Numbers tapped so far"><span></span><span></span><span></span></div>
-      <div class="keypad" id="keypad" role="group" aria-label="Number keypad"></div>
-      <p class="gate-status" id="gate-status" role="status" aria-live="polite"></p>
-    </div>
-  </main>
+  <div id="gate" hidden></div>
 
   <div id="settings" class="settings" hidden>
     <nav class="index" aria-label="Settings sections">
@@ -60,7 +50,8 @@
       </ol>
     </nav>
     <main class="sheet" id="sheet" tabindex="-1" aria-label="Grown-up settings">
-      <p class="intro">Changes save straight away on this device and apply the next time a world opens.</p>
+      <p class="intro" id="settings-target">Editing: this device</p>
+      <p class="section-help"><a class="quiet-button" href="#view-kids">Back to children</a></p>
 
       <section id="sound" aria-labelledby="sound-title">
         <h2 id="sound-title"><span>01</span>Sound</h2>
