@@ -1,0 +1,27 @@
+{
+  "checks": {
+    "master": true,
+    "profiles": true,
+    "settings": true,
+    "guardians": true,
+    "passwords": true,
+    "child_settings": true
+  },
+  "before_master": {
+    "id": "f41a99f8-2952-49d0-982c-70485b142e0d",
+    "handle": "brandy",
+    "display_name": "Brandy",
+    "profile_hash": "70d81cda8ce9108d517357fa26263f8d",
+    "progress_hash": "5af9775573841826f4af48b060bcd347"
+  },
+  "after_master": {
+    "id": "f41a99f8-2952-49d0-982c-70485b142e0d",
+    "handle": "brandy",
+    "display_name": "Brandy",
+    "profile_hash": "70d81cda8ce9108d517357fa26263f8d",
+    "progress_hash": "5af9775573841826f4af48b060bcd347"
+  },
+  "before_profile_count": 370,
+  "after_profile_count": 370,
+  "all_unchanged": true
+}

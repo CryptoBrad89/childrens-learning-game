@@ -1,0 +1,32 @@
+error: permission denied for schema auth
+    at be.$r (/workspace/clg-codex/.job/db-tools/node_modules/@electric-sql/pglite/dist/index.cjs:3:22154)
+    at be.za (/workspace/clg-codex/.job/db-tools/node_modules/@electric-sql/pglite/dist/index.cjs:3:19524)
+    at be.parse (/workspace/clg-codex/.job/db-tools/node_modules/@electric-sql/pglite/dist/index.cjs:3:18257)
+    at /workspace/clg-codex/.job/db-tools/node_modules/@electric-sql/pglite/dist/index.cjs:12:191877
+    at wasm://wasm/021cbcb2:wasm-function[3707]:0x27cef1
+    at wasm://wasm/021cbcb2:wasm-function[3717]:0x27d268
+    at wasm://wasm/021cbcb2:wasm-function[9494]:0x509d72
+    at wasm://wasm/021cbcb2:wasm-function[175]:0x598a3
+    at invoke_v (/workspace/clg-codex/.job/db-tools/node_modules/@electric-sql/pglite/dist/index.cjs:12:176458)
+    at wasm://wasm/021cbcb2:wasm-function[178]:0x5a0e8 {
+  length: 98,
+  severity: 'ERROR',
+  code: '42501',
+  detail: undefined,
+  hint: undefined,
+  position: '180',
+  internalPosition: undefined,
+  internalQuery: undefined,
+  where: undefined,
+  schema: undefined,
+  table: undefined,
+  column: undefined,
+  dataType: undefined,
+  constraint: undefined,
+  file: 'aclchk.c',
+  line: '2845',
+  routine: 'aclcheck_error',
+  query: "select jsonb_build_object('profiles',(select jsonb_agg(to_jsonb(p)-'progress_version' order by id) from public.profiles p),'users',(select jsonb_agg(to_jsonb(u) order by id) from auth.users u),'links',(select jsonb_agg(to_jsonb(g) order by adult_id,child_id) from public.guardians g),'settings',(select jsonb_agg(to_jsonb(g)) from public.game_settings g)) as value",
+  params: [],
+  queryOptions: undefined
+}

@@ -1,0 +1,3 @@
+PASS 390: assignments/search, isolated persisted views, own progress, protected master row, explicit settings/no owner leak, typed bulk confirm/cancel, no overflow/errors
+PASS 768: assignments/search, isolated persisted views, own progress, protected master row, explicit settings/no owner leak, typed bulk confirm/cancel, no overflow/errors
+PASS 1440: assignments/search, isolated persisted views, own progress, protected master row, explicit settings/no owner leak, typed bulk confirm/cancel, no overflow/errors

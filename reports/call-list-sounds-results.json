@@ -1,0 +1,119 @@
+[
+  {
+    "role": "grownup",
+    "width": 390,
+    "layout": "v4-silk-thread",
+    "clips": [
+      "lucy-uh-oh.mp3",
+      "lucy-try-again.mp3",
+      "lucy-oops-try-again.mp3"
+    ],
+    "overlap": false,
+    "mute": true,
+    "cancel": true
+  },
+  {
+    "role": "grownup",
+    "width": 390,
+    "layout": "v1-letter-post",
+    "clips": [
+      "lucy-uh-oh.mp3",
+      "lucy-try-again.mp3",
+      "lucy-oops-try-again.mp3"
+    ],
+    "overlap": false,
+    "mute": true,
+    "cancel": true
+  },
+  {
+    "role": "grownup",
+    "width": 390,
+    "layout": "v3-moonboat",
+    "clips": [
+      "lucy-uh-oh.mp3",
+      "lucy-try-again.mp3",
+      "lucy-oops-try-again.mp3"
+    ],
+    "overlap": false,
+    "mute": true,
+    "cancel": true
+  },
+  {
+    "role": "child",
+    "width": 768,
+    "layout": "v4-silk-thread",
+    "clips": [
+      "lucy-oops-try-again.mp3",
+      "lucy-uh-oh.mp3",
+      "lucy-try-again.mp3"
+    ],
+    "overlap": false,
+    "mute": true,
+    "cancel": true
+  },
+  {
+    "role": "child",
+    "width": 768,
+    "layout": "v1-letter-post",
+    "clips": [
+      "lucy-uh-oh.mp3",
+      "lucy-try-again.mp3",
+      "lucy-oops-try-again.mp3"
+    ],
+    "overlap": false,
+    "mute": true,
+    "cancel": true
+  },
+  {
+    "role": "child",
+    "width": 768,
+    "layout": "v3-moonboat",
+    "clips": [
+      "lucy-oops-try-again.mp3",
+      "lucy-uh-oh.mp3",
+      "lucy-try-again.mp3"
+    ],
+    "overlap": false,
+    "mute": true,
+    "cancel": true
+  },
+  {
+    "role": "guest",
+    "width": 1440,
+    "layout": "v4-silk-thread",
+    "clips": [
+      "lucy-try-again.mp3",
+      "lucy-oops-try-again.mp3",
+      "lucy-uh-oh.mp3"
+    ],
+    "overlap": false,
+    "mute": true,
+    "cancel": true
+  },
+  {
+    "role": "guest",
+    "width": 1440,
+    "layout": "v1-letter-post",
+    "clips": [
+      "lucy-oops-try-again.mp3",
+      "lucy-uh-oh.mp3",
+      "lucy-try-again.mp3"
+    ],
+    "overlap": false,
+    "mute": true,
+    "cancel": true
+  },
+  {
+    "role": "guest",
+    "width": 1440,
+    "layout": "v3-moonboat",
+    "clips": [
+      "lucy-try-again.mp3",
+      "lucy-oops-try-again.mp3",
+      "lucy-uh-oh.mp3"
+    ],
+    "overlap": false,
+    "mute": true,
+    "cancel": true
+  }
+]

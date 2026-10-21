@@ -1,0 +1,1 @@
+PASS LIVE call list: Live self-reset clears saved rounds and rejects a second browser’s stale offline round; Chosen Lucy avatar and cleared progress survive reload against live Supabase; Authenticated direct RPC invocation denied

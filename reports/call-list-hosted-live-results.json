@@ -1,0 +1,12 @@
+{
+  "base": "https://raw.githack.com/TeslaWarpDrive/childrens-learning-game/codex/home-flow-ribbon/",
+  "account": {
+    "id": "d5275b62-4dab-4389-8271-873d92ddff0c",
+    "handle": "call_164f84a1e37a"
+  },
+  "checks": [
+    "Live self-reset clears saved rounds and rejects a second browser’s stale offline round",
+    "Chosen Lucy avatar and cleared progress survive reload against live Supabase",
+    "Authenticated direct RPC invocation denied"
+  ]
+}
