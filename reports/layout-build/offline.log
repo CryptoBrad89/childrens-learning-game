@@ -1,0 +1,2 @@
+PASS offline v1-letter-post: new layout, six letters, paging and both layout assets from service-worker cache
+PASS offline v3-moonboat: new layout, six letters, paging and both layout assets from service-worker cache

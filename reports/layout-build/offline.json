@@ -1,0 +1,40 @@
+[
+  {
+    "game": "v1-letter-post",
+    "offlineHome": true,
+    "offlinePaging": true,
+    "assets": [
+      {
+        "name": "layout.js",
+        "status": 200,
+        "bytes": 7611
+      },
+      {
+        "name": "layout.css",
+        "status": 200,
+        "bytes": 19322
+      }
+    ]
+  },
+  {
+    "game": "v3-moonboat",
+    "offlineHome": true,
+    "offlinePaging": true,
+    "assets": [
+      {
+        "name": "layout.js",
+        "status": 200,
+        "bytes": 7611
+      },
+      {
+        "name": "layout.css",
+        "status": 200,
+        "bytes": 19322
+      }
+    ]
+  },
+  {
+    "externalSettingsReadsBlocked": 3,
+    "liveDatabaseRequestsSent": 0
+  }
+]

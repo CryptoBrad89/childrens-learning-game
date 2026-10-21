@@ -1,5 +1,5 @@
 self.OFFLINE_MANIFEST = {
-  "version": "3123469b05cfd921",
+  "version": "7e36993fdbffd603",
   "files": [
     "./accounts/client.js",
     "./accounts/config.js",
@@ -122,6 +122,8 @@ self.OFFLINE_MANIFEST = {
     "./v1-letter-post/fun.css",
     "./v1-letter-post/fun.js",
     "./v1-letter-post/index.html",
+    "./v1-letter-post/layout.css",
+    "./v1-letter-post/layout.js",
     "./v1-letter-post/style.css",
     "./v3-moonboat/app.js",
     "./v3-moonboat/art.js",

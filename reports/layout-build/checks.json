@@ -1,0 +1,3386 @@
+[
+  {
+    "game": "v1-letter-post",
+    "width": 1024,
+    "height": 576,
+    "theme": 0,
+    "collapsed": {
+      "width": 1024,
+      "height": 576,
+      "pageHeight": 576,
+      "pageWidth": 1024,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 12,
+          "bottom": 74,
+          "left": 24,
+          "right": 1000
+        },
+        {
+          "element": "",
+          "top": 149,
+          "bottom": 265.96875,
+          "left": 24,
+          "right": 448.796875
+        },
+        {
+          "element": "",
+          "top": 211.35801696777344,
+          "bottom": 290.6419677734375,
+          "left": 507.0094299316406,
+          "right": 651.6467895507812
+        },
+        {
+          "element": "",
+          "top": 212.5604248046875,
+          "bottom": 289.4395751953125,
+          "left": 668.64599609375,
+          "right": 812.13525390625
+        },
+        {
+          "element": "",
+          "top": 212.5604248046875,
+          "bottom": 289.4395751953125,
+          "left": 829.70849609375,
+          "right": 973.19775390625
+        },
+        {
+          "element": "",
+          "top": 296.5604248046875,
+          "bottom": 373.4395751953125,
+          "left": 507.5834655761719,
+          "right": 651.07275390625
+        },
+        {
+          "element": "",
+          "top": 296.5604248046875,
+          "bottom": 373.4395751953125,
+          "left": 668.64599609375,
+          "right": 812.13525390625
+        },
+        {
+          "element": "",
+          "top": 295.3580322265625,
+          "bottom": 374.6419677734375,
+          "left": 829.1343994140625,
+          "right": 973.7718505859375
+        },
+        {
+          "element": "pager",
+          "top": 383,
+          "bottom": 443,
+          "left": 500.796875,
+          "right": 980
+        },
+        {
+          "element": "",
+          "top": 471,
+          "bottom": 531,
+          "left": 26,
+          "right": 998
+        },
+        {
+          "element": "footer",
+          "top": 536,
+          "bottom": 564,
+          "left": 24,
+          "right": 1000
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v1-letter-post",
+    "width": 1024,
+    "height": 576,
+    "theme": 1,
+    "collapsed": {
+      "width": 1024,
+      "height": 576,
+      "pageHeight": 576,
+      "pageWidth": 1024,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 12,
+          "bottom": 74,
+          "left": 24,
+          "right": 1000
+        },
+        {
+          "element": "",
+          "top": 149,
+          "bottom": 265.96875,
+          "left": 24,
+          "right": 448.796875
+        },
+        {
+          "element": "",
+          "top": 211.35801696777344,
+          "bottom": 290.6419677734375,
+          "left": 507.0094299316406,
+          "right": 651.6467895507812
+        },
+        {
+          "element": "",
+          "top": 212.5604248046875,
+          "bottom": 289.4395751953125,
+          "left": 668.64599609375,
+          "right": 812.13525390625
+        },
+        {
+          "element": "",
+          "top": 212.5604248046875,
+          "bottom": 289.4395751953125,
+          "left": 829.70849609375,
+          "right": 973.19775390625
+        },
+        {
+          "element": "",
+          "top": 296.5604248046875,
+          "bottom": 373.4395751953125,
+          "left": 507.5834655761719,
+          "right": 651.07275390625
+        },
+        {
+          "element": "",
+          "top": 296.5604248046875,
+          "bottom": 373.4395751953125,
+          "left": 668.64599609375,
+          "right": 812.13525390625
+        },
+        {
+          "element": "",
+          "top": 295.3580322265625,
+          "bottom": 374.6419677734375,
+          "left": 829.1343994140625,
+          "right": 973.7718505859375
+        },
+        {
+          "element": "pager",
+          "top": 383,
+          "bottom": 443,
+          "left": 500.796875,
+          "right": 980
+        },
+        {
+          "element": "",
+          "top": 471,
+          "bottom": 531,
+          "left": 26,
+          "right": 998
+        },
+        {
+          "element": "footer",
+          "top": 536,
+          "bottom": 564,
+          "left": 24,
+          "right": 1000
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v1-letter-post",
+    "width": 1024,
+    "height": 576,
+    "theme": 2,
+    "collapsed": {
+      "width": 1024,
+      "height": 576,
+      "pageHeight": 576,
+      "pageWidth": 1024,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 12,
+          "bottom": 74,
+          "left": 24,
+          "right": 1000
+        },
+        {
+          "element": "",
+          "top": 149,
+          "bottom": 265.96875,
+          "left": 24,
+          "right": 448.796875
+        },
+        {
+          "element": "",
+          "top": 211.35801696777344,
+          "bottom": 290.6419677734375,
+          "left": 507.0094299316406,
+          "right": 651.6467895507812
+        },
+        {
+          "element": "",
+          "top": 212.5604248046875,
+          "bottom": 289.4395751953125,
+          "left": 668.64599609375,
+          "right": 812.13525390625
+        },
+        {
+          "element": "",
+          "top": 212.5604248046875,
+          "bottom": 289.4395751953125,
+          "left": 829.70849609375,
+          "right": 973.19775390625
+        },
+        {
+          "element": "",
+          "top": 296.5604248046875,
+          "bottom": 373.4395751953125,
+          "left": 507.5834655761719,
+          "right": 651.07275390625
+        },
+        {
+          "element": "",
+          "top": 296.5604248046875,
+          "bottom": 373.4395751953125,
+          "left": 668.64599609375,
+          "right": 812.13525390625
+        },
+        {
+          "element": "",
+          "top": 295.3580322265625,
+          "bottom": 374.6419677734375,
+          "left": 829.1343994140625,
+          "right": 973.7718505859375
+        },
+        {
+          "element": "pager",
+          "top": 383,
+          "bottom": 443,
+          "left": 500.796875,
+          "right": 980
+        },
+        {
+          "element": "",
+          "top": 471,
+          "bottom": 531,
+          "left": 26,
+          "right": 998
+        },
+        {
+          "element": "footer",
+          "top": 536,
+          "bottom": 564,
+          "left": 24,
+          "right": 1000
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v1-letter-post",
+    "width": 1280,
+    "height": 720,
+    "theme": 0,
+    "collapsed": {
+      "width": 1280,
+      "height": 720,
+      "pageHeight": 720,
+      "pageWidth": 1280,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 16,
+          "bottom": 78,
+          "left": 24,
+          "right": 1256
+        },
+        {
+          "element": "",
+          "top": 157,
+          "bottom": 303.21875,
+          "left": 24,
+          "right": 564
+        },
+        {
+          "element": "",
+          "top": 246.17039489746094,
+          "bottom": 335.82958984375,
+          "left": 624.0344848632812,
+          "right": 814.6217651367188
+        },
+        {
+          "element": "",
+          "top": 247.76698303222656,
+          "bottom": 334.2330017089844,
+          "left": 831.317138671875,
+          "right": 1020.667236328125
+        },
+        {
+          "element": "",
+          "top": 247.76698303222656,
+          "bottom": 334.2330017089844,
+          "left": 1037.989013671875,
+          "right": 1227.339111328125
+        },
+        {
+          "element": "",
+          "top": 339.76727294921875,
+          "bottom": 426.23272705078125,
+          "left": 624.660888671875,
+          "right": 813.995361328125
+        },
+        {
+          "element": "",
+          "top": 339.7669982910156,
+          "bottom": 426.2330322265625,
+          "left": 831.317138671875,
+          "right": 1020.667236328125
+        },
+        {
+          "element": "",
+          "top": 338.16998291015625,
+          "bottom": 427.83001708984375,
+          "left": 1037.362548828125,
+          "right": 1227.965576171875
+        },
+        {
+          "element": "pager",
+          "top": 437,
+          "bottom": 497,
+          "left": 618,
+          "right": 1234
+        },
+        {
+          "element": "",
+          "top": 531,
+          "bottom": 591,
+          "left": 26,
+          "right": 1254
+        },
+        {
+          "element": "footer",
+          "top": 660,
+          "bottom": 704,
+          "left": 24,
+          "right": 1256
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v1-letter-post",
+    "width": 1280,
+    "height": 720,
+    "theme": 1,
+    "collapsed": {
+      "width": 1280,
+      "height": 720,
+      "pageHeight": 720,
+      "pageWidth": 1280,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 16,
+          "bottom": 78,
+          "left": 24,
+          "right": 1256
+        },
+        {
+          "element": "",
+          "top": 157,
+          "bottom": 303.21875,
+          "left": 24,
+          "right": 564
+        },
+        {
+          "element": "",
+          "top": 246.17039489746094,
+          "bottom": 335.82958984375,
+          "left": 624.0344848632812,
+          "right": 814.6217651367188
+        },
+        {
+          "element": "",
+          "top": 247.76698303222656,
+          "bottom": 334.2330017089844,
+          "left": 831.317138671875,
+          "right": 1020.667236328125
+        },
+        {
+          "element": "",
+          "top": 247.76698303222656,
+          "bottom": 334.2330017089844,
+          "left": 1037.989013671875,
+          "right": 1227.339111328125
+        },
+        {
+          "element": "",
+          "top": 339.76727294921875,
+          "bottom": 426.23272705078125,
+          "left": 624.660888671875,
+          "right": 813.995361328125
+        },
+        {
+          "element": "",
+          "top": 339.7669982910156,
+          "bottom": 426.2330322265625,
+          "left": 831.317138671875,
+          "right": 1020.667236328125
+        },
+        {
+          "element": "",
+          "top": 338.16998291015625,
+          "bottom": 427.83001708984375,
+          "left": 1037.362548828125,
+          "right": 1227.965576171875
+        },
+        {
+          "element": "pager",
+          "top": 437,
+          "bottom": 497,
+          "left": 618,
+          "right": 1234
+        },
+        {
+          "element": "",
+          "top": 531,
+          "bottom": 591,
+          "left": 26,
+          "right": 1254
+        },
+        {
+          "element": "footer",
+          "top": 660,
+          "bottom": 704,
+          "left": 24,
+          "right": 1256
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v1-letter-post",
+    "width": 1280,
+    "height": 720,
+    "theme": 2,
+    "collapsed": {
+      "width": 1280,
+      "height": 720,
+      "pageHeight": 720,
+      "pageWidth": 1280,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 16,
+          "bottom": 78,
+          "left": 24,
+          "right": 1256
+        },
+        {
+          "element": "",
+          "top": 157,
+          "bottom": 303.21875,
+          "left": 24,
+          "right": 564
+        },
+        {
+          "element": "",
+          "top": 246.17039489746094,
+          "bottom": 335.82958984375,
+          "left": 624.0344848632812,
+          "right": 814.6217651367188
+        },
+        {
+          "element": "",
+          "top": 247.76698303222656,
+          "bottom": 334.2330017089844,
+          "left": 831.317138671875,
+          "right": 1020.667236328125
+        },
+        {
+          "element": "",
+          "top": 247.76698303222656,
+          "bottom": 334.2330017089844,
+          "left": 1037.989013671875,
+          "right": 1227.339111328125
+        },
+        {
+          "element": "",
+          "top": 339.76727294921875,
+          "bottom": 426.23272705078125,
+          "left": 624.660888671875,
+          "right": 813.995361328125
+        },
+        {
+          "element": "",
+          "top": 339.7669982910156,
+          "bottom": 426.2330322265625,
+          "left": 831.317138671875,
+          "right": 1020.667236328125
+        },
+        {
+          "element": "",
+          "top": 338.16998291015625,
+          "bottom": 427.83001708984375,
+          "left": 1037.362548828125,
+          "right": 1227.965576171875
+        },
+        {
+          "element": "pager",
+          "top": 437,
+          "bottom": 497,
+          "left": 618,
+          "right": 1234
+        },
+        {
+          "element": "",
+          "top": 531,
+          "bottom": 591,
+          "left": 26,
+          "right": 1254
+        },
+        {
+          "element": "footer",
+          "top": 660,
+          "bottom": 704,
+          "left": 24,
+          "right": 1256
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v1-letter-post",
+    "width": 1366,
+    "height": 768,
+    "theme": 0,
+    "collapsed": {
+      "width": 1366,
+      "height": 768,
+      "pageHeight": 768,
+      "pageWidth": 1366,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 16,
+          "bottom": 78,
+          "left": 24,
+          "right": 1342
+        },
+        {
+          "element": "",
+          "top": 157,
+          "bottom": 312.03125,
+          "left": 24,
+          "right": 602.6875
+        },
+        {
+          "element": "",
+          "top": 245.7574462890625,
+          "bottom": 336.2425537109375,
+          "left": 662.7327880859375,
+          "right": 869.0797119140625
+        },
+        {
+          "element": "",
+          "top": 247.49188232421875,
+          "bottom": 334.50811767578125,
+          "left": 885.7906494140625,
+          "right": 1090.8968505859375
+        },
+        {
+          "element": "",
+          "top": 247.49188232421875,
+          "bottom": 334.50811767578125,
+          "left": 1108.2281494140625,
+          "right": 1313.3343505859375
+        },
+        {
+          "element": "",
+          "top": 339.49188232421875,
+          "bottom": 426.50811767578125,
+          "left": 663.3531494140625,
+          "right": 868.4593505859375
+        },
+        {
+          "element": "",
+          "top": 339.49188232421875,
+          "bottom": 426.50811767578125,
+          "left": 885.7906494140625,
+          "right": 1090.8968505859375
+        },
+        {
+          "element": "",
+          "top": 337.7574462890625,
+          "bottom": 428.2425537109375,
+          "left": 1107.6077880859375,
+          "right": 1313.9547119140625
+        },
+        {
+          "element": "pager",
+          "top": 437,
+          "bottom": 497,
+          "left": 656.6875,
+          "right": 1320
+        },
+        {
+          "element": "",
+          "top": 531,
+          "bottom": 591,
+          "left": 26,
+          "right": 1340
+        },
+        {
+          "element": "footer",
+          "top": 708,
+          "bottom": 752,
+          "left": 24,
+          "right": 1342
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v1-letter-post",
+    "width": 1366,
+    "height": 768,
+    "theme": 1,
+    "collapsed": {
+      "width": 1366,
+      "height": 768,
+      "pageHeight": 768,
+      "pageWidth": 1366,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 16,
+          "bottom": 78,
+          "left": 24,
+          "right": 1342
+        },
+        {
+          "element": "",
+          "top": 157,
+          "bottom": 312.03125,
+          "left": 24,
+          "right": 602.6875
+        },
+        {
+          "element": "",
+          "top": 245.7574462890625,
+          "bottom": 336.2425537109375,
+          "left": 662.7327880859375,
+          "right": 869.0797119140625
+        },
+        {
+          "element": "",
+          "top": 247.49188232421875,
+          "bottom": 334.50811767578125,
+          "left": 885.7906494140625,
+          "right": 1090.8968505859375
+        },
+        {
+          "element": "",
+          "top": 247.49188232421875,
+          "bottom": 334.50811767578125,
+          "left": 1108.2281494140625,
+          "right": 1313.3343505859375
+        },
+        {
+          "element": "",
+          "top": 339.49188232421875,
+          "bottom": 426.50811767578125,
+          "left": 663.3531494140625,
+          "right": 868.4593505859375
+        },
+        {
+          "element": "",
+          "top": 339.49188232421875,
+          "bottom": 426.50811767578125,
+          "left": 885.7906494140625,
+          "right": 1090.8968505859375
+        },
+        {
+          "element": "",
+          "top": 337.7574462890625,
+          "bottom": 428.2425537109375,
+          "left": 1107.6077880859375,
+          "right": 1313.9547119140625
+        },
+        {
+          "element": "pager",
+          "top": 437,
+          "bottom": 497,
+          "left": 656.6875,
+          "right": 1320
+        },
+        {
+          "element": "",
+          "top": 531,
+          "bottom": 591,
+          "left": 26,
+          "right": 1340
+        },
+        {
+          "element": "footer",
+          "top": 708,
+          "bottom": 752,
+          "left": 24,
+          "right": 1342
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v1-letter-post",
+    "width": 1366,
+    "height": 768,
+    "theme": 2,
+    "collapsed": {
+      "width": 1366,
+      "height": 768,
+      "pageHeight": 768,
+      "pageWidth": 1366,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 16,
+          "bottom": 78,
+          "left": 24,
+          "right": 1342
+        },
+        {
+          "element": "",
+          "top": 157,
+          "bottom": 312.03125,
+          "left": 24,
+          "right": 602.6875
+        },
+        {
+          "element": "",
+          "top": 245.7574462890625,
+          "bottom": 336.2425537109375,
+          "left": 662.7327880859375,
+          "right": 869.0797119140625
+        },
+        {
+          "element": "",
+          "top": 247.49188232421875,
+          "bottom": 334.50811767578125,
+          "left": 885.7906494140625,
+          "right": 1090.8968505859375
+        },
+        {
+          "element": "",
+          "top": 247.49188232421875,
+          "bottom": 334.50811767578125,
+          "left": 1108.2281494140625,
+          "right": 1313.3343505859375
+        },
+        {
+          "element": "",
+          "top": 339.49188232421875,
+          "bottom": 426.50811767578125,
+          "left": 663.3531494140625,
+          "right": 868.4593505859375
+        },
+        {
+          "element": "",
+          "top": 339.49188232421875,
+          "bottom": 426.50811767578125,
+          "left": 885.7906494140625,
+          "right": 1090.8968505859375
+        },
+        {
+          "element": "",
+          "top": 337.7574462890625,
+          "bottom": 428.2425537109375,
+          "left": 1107.6077880859375,
+          "right": 1313.9547119140625
+        },
+        {
+          "element": "pager",
+          "top": 437,
+          "bottom": 497,
+          "left": 656.6875,
+          "right": 1320
+        },
+        {
+          "element": "",
+          "top": 531,
+          "bottom": 591,
+          "left": 26,
+          "right": 1340
+        },
+        {
+          "element": "footer",
+          "top": 708,
+          "bottom": 752,
+          "left": 24,
+          "right": 1342
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v1-letter-post",
+    "width": 1440,
+    "height": 900,
+    "theme": 0,
+    "collapsed": {
+      "width": 1440,
+      "height": 900,
+      "pageHeight": 900,
+      "pageWidth": 1440,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 24,
+          "bottom": 90,
+          "left": 32,
+          "right": 1408
+        },
+        {
+          "element": "",
+          "top": 183,
+          "bottom": 359.25,
+          "left": 32,
+          "right": 635
+        },
+        {
+          "element": "",
+          "top": 321.58636474609375,
+          "bottom": 438.41363525390625,
+          "left": 702.369873046875,
+          "right": 917.286376953125
+        },
+        {
+          "element": "",
+          "top": 323.3735656738281,
+          "bottom": 436.6264343261719,
+          "left": 932.8704223632812,
+          "right": 1146.1138916015625
+        },
+        {
+          "element": "",
+          "top": 323.3735656738281,
+          "bottom": 436.6264343261719,
+          "left": 1162.5423583984375,
+          "right": 1375.785888671875
+        },
+        {
+          "element": "",
+          "top": 445.37384033203125,
+          "bottom": 558.6261596679688,
+          "left": 703.2141723632812,
+          "right": 916.4420776367188
+        },
+        {
+          "element": "",
+          "top": 445.3735656738281,
+          "bottom": 558.62646484375,
+          "left": 932.8704223632812,
+          "right": 1146.1138916015625
+        },
+        {
+          "element": "",
+          "top": 443.5859375,
+          "bottom": 560.4140625,
+          "left": 1161.697998046875,
+          "right": 1376.630126953125
+        },
+        {
+          "element": "pager",
+          "top": 573,
+          "bottom": 633,
+          "left": 697,
+          "right": 1382
+        },
+        {
+          "element": "",
+          "top": 681,
+          "bottom": 745,
+          "left": 34,
+          "right": 1406
+        },
+        {
+          "element": "footer",
+          "top": 832,
+          "bottom": 876,
+          "left": 32,
+          "right": 1408
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v1-letter-post",
+    "width": 1440,
+    "height": 900,
+    "theme": 1,
+    "collapsed": {
+      "width": 1440,
+      "height": 900,
+      "pageHeight": 900,
+      "pageWidth": 1440,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 24,
+          "bottom": 90,
+          "left": 32,
+          "right": 1408
+        },
+        {
+          "element": "",
+          "top": 183,
+          "bottom": 359.25,
+          "left": 32,
+          "right": 635
+        },
+        {
+          "element": "",
+          "top": 321.58636474609375,
+          "bottom": 438.41363525390625,
+          "left": 702.369873046875,
+          "right": 917.286376953125
+        },
+        {
+          "element": "",
+          "top": 323.3735656738281,
+          "bottom": 436.6264343261719,
+          "left": 932.8704223632812,
+          "right": 1146.1138916015625
+        },
+        {
+          "element": "",
+          "top": 323.3735656738281,
+          "bottom": 436.6264343261719,
+          "left": 1162.5423583984375,
+          "right": 1375.785888671875
+        },
+        {
+          "element": "",
+          "top": 445.37384033203125,
+          "bottom": 558.6261596679688,
+          "left": 703.2141723632812,
+          "right": 916.4420776367188
+        },
+        {
+          "element": "",
+          "top": 445.3735656738281,
+          "bottom": 558.62646484375,
+          "left": 932.8704223632812,
+          "right": 1146.1138916015625
+        },
+        {
+          "element": "",
+          "top": 443.5859375,
+          "bottom": 560.4140625,
+          "left": 1161.697998046875,
+          "right": 1376.630126953125
+        },
+        {
+          "element": "pager",
+          "top": 573,
+          "bottom": 633,
+          "left": 697,
+          "right": 1382
+        },
+        {
+          "element": "",
+          "top": 681,
+          "bottom": 745,
+          "left": 34,
+          "right": 1406
+        },
+        {
+          "element": "footer",
+          "top": 832,
+          "bottom": 876,
+          "left": 32,
+          "right": 1408
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v1-letter-post",
+    "width": 1440,
+    "height": 900,
+    "theme": 2,
+    "collapsed": {
+      "width": 1440,
+      "height": 900,
+      "pageHeight": 900,
+      "pageWidth": 1440,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 24,
+          "bottom": 90,
+          "left": 32,
+          "right": 1408
+        },
+        {
+          "element": "",
+          "top": 183,
+          "bottom": 359.25,
+          "left": 32,
+          "right": 635
+        },
+        {
+          "element": "",
+          "top": 321.58636474609375,
+          "bottom": 438.41363525390625,
+          "left": 702.369873046875,
+          "right": 917.286376953125
+        },
+        {
+          "element": "",
+          "top": 323.3735656738281,
+          "bottom": 436.6264343261719,
+          "left": 932.8704223632812,
+          "right": 1146.1138916015625
+        },
+        {
+          "element": "",
+          "top": 323.3735656738281,
+          "bottom": 436.6264343261719,
+          "left": 1162.5423583984375,
+          "right": 1375.785888671875
+        },
+        {
+          "element": "",
+          "top": 445.37384033203125,
+          "bottom": 558.6261596679688,
+          "left": 703.2141723632812,
+          "right": 916.4420776367188
+        },
+        {
+          "element": "",
+          "top": 445.3735656738281,
+          "bottom": 558.62646484375,
+          "left": 932.8704223632812,
+          "right": 1146.1138916015625
+        },
+        {
+          "element": "",
+          "top": 443.5859375,
+          "bottom": 560.4140625,
+          "left": 1161.697998046875,
+          "right": 1376.630126953125
+        },
+        {
+          "element": "pager",
+          "top": 573,
+          "bottom": 633,
+          "left": 697,
+          "right": 1382
+        },
+        {
+          "element": "",
+          "top": 681,
+          "bottom": 745,
+          "left": 34,
+          "right": 1406
+        },
+        {
+          "element": "footer",
+          "top": 832,
+          "bottom": 876,
+          "left": 32,
+          "right": 1408
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v1-letter-post",
+    "width": 768,
+    "height": 1024,
+    "theme": 0,
+    "collapsed": {
+      "width": 768,
+      "height": 1024,
+      "pageHeight": 1024,
+      "pageWidth": 768,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 18,
+          "bottom": 84,
+          "left": 24,
+          "right": 744
+        },
+        {
+          "element": "",
+          "top": 163,
+          "bottom": 277.21875,
+          "left": 24,
+          "right": 744
+        },
+        {
+          "element": "",
+          "top": 534.5386352539062,
+          "bottom": 639.0863647460938,
+          "left": 55.679996490478516,
+          "right": 264.320011138916
+        },
+        {
+          "element": "",
+          "top": 536.2813720703125,
+          "bottom": 637.3436279296875,
+          "left": 280.421875,
+          "right": 487.5781555175781
+        },
+        {
+          "element": "",
+          "top": 536.2813720703125,
+          "bottom": 637.3436279296875,
+          "left": 504.4218444824219,
+          "right": 711.578125
+        },
+        {
+          "element": "",
+          "top": 646.2813720703125,
+          "bottom": 747.3436279296875,
+          "left": 56.42185974121094,
+          "right": 263.578125
+        },
+        {
+          "element": "",
+          "top": 646.2813720703125,
+          "bottom": 747.3436279296875,
+          "left": 280.421875,
+          "right": 487.5781555175781
+        },
+        {
+          "element": "",
+          "top": 644.5386352539062,
+          "bottom": 749.0863647460938,
+          "left": 503.67999267578125,
+          "right": 712.3200073242188
+        },
+        {
+          "element": "pager",
+          "top": 761.8125,
+          "bottom": 821.8125,
+          "left": 50,
+          "right": 718
+        },
+        {
+          "element": "",
+          "top": 865.8125,
+          "bottom": 929.8125,
+          "left": 26,
+          "right": 742
+        },
+        {
+          "element": "footer",
+          "top": 962,
+          "bottom": 1006,
+          "left": 24,
+          "right": 744
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v1-letter-post",
+    "width": 768,
+    "height": 1024,
+    "theme": 1,
+    "collapsed": {
+      "width": 768,
+      "height": 1024,
+      "pageHeight": 1024,
+      "pageWidth": 768,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 18,
+          "bottom": 84,
+          "left": 24,
+          "right": 744
+        },
+        {
+          "element": "",
+          "top": 163,
+          "bottom": 277.21875,
+          "left": 24,
+          "right": 744
+        },
+        {
+          "element": "",
+          "top": 534.5386352539062,
+          "bottom": 639.0863647460938,
+          "left": 55.679996490478516,
+          "right": 264.320011138916
+        },
+        {
+          "element": "",
+          "top": 536.2813720703125,
+          "bottom": 637.3436279296875,
+          "left": 280.421875,
+          "right": 487.5781555175781
+        },
+        {
+          "element": "",
+          "top": 536.2813720703125,
+          "bottom": 637.3436279296875,
+          "left": 504.4218444824219,
+          "right": 711.578125
+        },
+        {
+          "element": "",
+          "top": 646.2813720703125,
+          "bottom": 747.3436279296875,
+          "left": 56.42185974121094,
+          "right": 263.578125
+        },
+        {
+          "element": "",
+          "top": 646.2813720703125,
+          "bottom": 747.3436279296875,
+          "left": 280.421875,
+          "right": 487.5781555175781
+        },
+        {
+          "element": "",
+          "top": 644.5386352539062,
+          "bottom": 749.0863647460938,
+          "left": 503.67999267578125,
+          "right": 712.3200073242188
+        },
+        {
+          "element": "pager",
+          "top": 761.8125,
+          "bottom": 821.8125,
+          "left": 50,
+          "right": 718
+        },
+        {
+          "element": "",
+          "top": 865.8125,
+          "bottom": 929.8125,
+          "left": 26,
+          "right": 742
+        },
+        {
+          "element": "footer",
+          "top": 962,
+          "bottom": 1006,
+          "left": 24,
+          "right": 744
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v1-letter-post",
+    "width": 768,
+    "height": 1024,
+    "theme": 2,
+    "collapsed": {
+      "width": 768,
+      "height": 1024,
+      "pageHeight": 1024,
+      "pageWidth": 768,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 18,
+          "bottom": 84,
+          "left": 24,
+          "right": 744
+        },
+        {
+          "element": "",
+          "top": 163,
+          "bottom": 277.21875,
+          "left": 24,
+          "right": 744
+        },
+        {
+          "element": "",
+          "top": 534.5386352539062,
+          "bottom": 639.0863647460938,
+          "left": 55.679996490478516,
+          "right": 264.320011138916
+        },
+        {
+          "element": "",
+          "top": 536.2813720703125,
+          "bottom": 637.3436279296875,
+          "left": 280.421875,
+          "right": 487.5781555175781
+        },
+        {
+          "element": "",
+          "top": 536.2813720703125,
+          "bottom": 637.3436279296875,
+          "left": 504.4218444824219,
+          "right": 711.578125
+        },
+        {
+          "element": "",
+          "top": 646.2813720703125,
+          "bottom": 747.3436279296875,
+          "left": 56.42185974121094,
+          "right": 263.578125
+        },
+        {
+          "element": "",
+          "top": 646.2813720703125,
+          "bottom": 747.3436279296875,
+          "left": 280.421875,
+          "right": 487.5781555175781
+        },
+        {
+          "element": "",
+          "top": 644.5386352539062,
+          "bottom": 749.0863647460938,
+          "left": 503.67999267578125,
+          "right": 712.3200073242188
+        },
+        {
+          "element": "pager",
+          "top": 761.8125,
+          "bottom": 821.8125,
+          "left": 50,
+          "right": 718
+        },
+        {
+          "element": "",
+          "top": 865.8125,
+          "bottom": 929.8125,
+          "left": 26,
+          "right": 742
+        },
+        {
+          "element": "footer",
+          "top": 962,
+          "bottom": 1006,
+          "left": 24,
+          "right": 744
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v1-letter-post",
+    "width": 1920,
+    "height": 1080,
+    "theme": 0,
+    "collapsed": {
+      "width": 1920,
+      "height": 1080,
+      "pageHeight": 1080,
+      "pageWidth": 1920,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 36,
+          "bottom": 102,
+          "left": 212,
+          "right": 1708
+        },
+        {
+          "element": "",
+          "top": 207,
+          "bottom": 411,
+          "left": 212,
+          "right": 869
+        },
+        {
+          "element": "",
+          "top": 379.0339660644531,
+          "bottom": 530.966064453125,
+          "left": 935.4952392578125,
+          "right": 1174.1610107421875
+        },
+        {
+          "element": "",
+          "top": 381.0000305175781,
+          "bottom": 529,
+          "left": 1188.2838134765625,
+          "right": 1424.7005615234375
+        },
+        {
+          "element": "",
+          "top": 381.0000305175781,
+          "bottom": 529,
+          "left": 1439.9556884765625,
+          "right": 1676.372314453125
+        },
+        {
+          "element": "",
+          "top": 537.0003051757812,
+          "bottom": 684.9996948242188,
+          "left": 936.6276245117188,
+          "right": 1173.0286865234375
+        },
+        {
+          "element": "",
+          "top": 537,
+          "bottom": 685,
+          "left": 1188.2838134765625,
+          "right": 1424.7005615234375
+        },
+        {
+          "element": "",
+          "top": 535.0335693359375,
+          "bottom": 686.9664306640625,
+          "left": 1438.8233642578125,
+          "right": 1677.5047607421875
+        },
+        {
+          "element": "pager",
+          "top": 707,
+          "bottom": 767,
+          "left": 931,
+          "right": 1682
+        },
+        {
+          "element": "",
+          "top": 823,
+          "bottom": 887,
+          "left": 214,
+          "right": 1706
+        },
+        {
+          "element": "footer",
+          "top": 1012,
+          "bottom": 1056,
+          "left": 212,
+          "right": 1708
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v1-letter-post",
+    "width": 1920,
+    "height": 1080,
+    "theme": 1,
+    "collapsed": {
+      "width": 1920,
+      "height": 1080,
+      "pageHeight": 1080,
+      "pageWidth": 1920,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 36,
+          "bottom": 102,
+          "left": 212,
+          "right": 1708
+        },
+        {
+          "element": "",
+          "top": 207,
+          "bottom": 411,
+          "left": 212,
+          "right": 869
+        },
+        {
+          "element": "",
+          "top": 379.0339660644531,
+          "bottom": 530.966064453125,
+          "left": 935.4952392578125,
+          "right": 1174.1610107421875
+        },
+        {
+          "element": "",
+          "top": 381.0000305175781,
+          "bottom": 529,
+          "left": 1188.2838134765625,
+          "right": 1424.7005615234375
+        },
+        {
+          "element": "",
+          "top": 381.0000305175781,
+          "bottom": 529,
+          "left": 1439.9556884765625,
+          "right": 1676.372314453125
+        },
+        {
+          "element": "",
+          "top": 537.0003051757812,
+          "bottom": 684.9996948242188,
+          "left": 936.6276245117188,
+          "right": 1173.0286865234375
+        },
+        {
+          "element": "",
+          "top": 537,
+          "bottom": 685,
+          "left": 1188.2838134765625,
+          "right": 1424.7005615234375
+        },
+        {
+          "element": "",
+          "top": 535.0335693359375,
+          "bottom": 686.9664306640625,
+          "left": 1438.8233642578125,
+          "right": 1677.5047607421875
+        },
+        {
+          "element": "pager",
+          "top": 707,
+          "bottom": 767,
+          "left": 931,
+          "right": 1682
+        },
+        {
+          "element": "",
+          "top": 823,
+          "bottom": 887,
+          "left": 214,
+          "right": 1706
+        },
+        {
+          "element": "footer",
+          "top": 1012,
+          "bottom": 1056,
+          "left": 212,
+          "right": 1708
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v1-letter-post",
+    "width": 1920,
+    "height": 1080,
+    "theme": 2,
+    "collapsed": {
+      "width": 1920,
+      "height": 1080,
+      "pageHeight": 1080,
+      "pageWidth": 1920,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 36,
+          "bottom": 102,
+          "left": 212,
+          "right": 1708
+        },
+        {
+          "element": "",
+          "top": 207,
+          "bottom": 411,
+          "left": 212,
+          "right": 869
+        },
+        {
+          "element": "",
+          "top": 379.0339660644531,
+          "bottom": 530.966064453125,
+          "left": 935.4952392578125,
+          "right": 1174.1610107421875
+        },
+        {
+          "element": "",
+          "top": 381.0000305175781,
+          "bottom": 529,
+          "left": 1188.2838134765625,
+          "right": 1424.7005615234375
+        },
+        {
+          "element": "",
+          "top": 381.0000305175781,
+          "bottom": 529,
+          "left": 1439.9556884765625,
+          "right": 1676.372314453125
+        },
+        {
+          "element": "",
+          "top": 537.0003051757812,
+          "bottom": 684.9996948242188,
+          "left": 936.6276245117188,
+          "right": 1173.0286865234375
+        },
+        {
+          "element": "",
+          "top": 537,
+          "bottom": 685,
+          "left": 1188.2838134765625,
+          "right": 1424.7005615234375
+        },
+        {
+          "element": "",
+          "top": 535.0335693359375,
+          "bottom": 686.9664306640625,
+          "left": 1438.8233642578125,
+          "right": 1677.5047607421875
+        },
+        {
+          "element": "pager",
+          "top": 707,
+          "bottom": 767,
+          "left": 931,
+          "right": 1682
+        },
+        {
+          "element": "",
+          "top": 823,
+          "bottom": 887,
+          "left": 214,
+          "right": 1706
+        },
+        {
+          "element": "footer",
+          "top": 1012,
+          "bottom": 1056,
+          "left": 212,
+          "right": 1708
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v3-moonboat",
+    "width": 1024,
+    "height": 576,
+    "theme": 0,
+    "collapsed": {
+      "width": 1024,
+      "height": 576,
+      "pageHeight": 576,
+      "pageWidth": 1024,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 12,
+          "bottom": 73,
+          "left": 24,
+          "right": 1000
+        },
+        {
+          "element": "",
+          "top": 127,
+          "bottom": 232.96875,
+          "left": 24,
+          "right": 448.796875
+        },
+        {
+          "element": "",
+          "top": 170.59375,
+          "bottom": 254.59375,
+          "left": 549.328125,
+          "right": 633.328125
+        },
+        {
+          "element": "",
+          "top": 170.59375,
+          "bottom": 254.59375,
+          "left": 698.390625,
+          "right": 782.390625
+        },
+        {
+          "element": "",
+          "top": 170.59375,
+          "bottom": 254.59375,
+          "left": 847.453125,
+          "right": 931.453125
+        },
+        {
+          "element": "",
+          "top": 268.59375,
+          "bottom": 352.59375,
+          "left": 549.328125,
+          "right": 633.328125
+        },
+        {
+          "element": "",
+          "top": 268.59375,
+          "bottom": 352.59375,
+          "left": 698.390625,
+          "right": 782.390625
+        },
+        {
+          "element": "",
+          "top": 268.59375,
+          "bottom": 352.59375,
+          "left": 847.453125,
+          "right": 931.453125
+        },
+        {
+          "element": "pager",
+          "top": 368.59375,
+          "bottom": 428.59375,
+          "left": 507.796875,
+          "right": 973
+        },
+        {
+          "element": "",
+          "top": 466.4375,
+          "bottom": 526.4375,
+          "left": 26,
+          "right": 998
+        },
+        {
+          "element": "footer",
+          "top": 536,
+          "bottom": 564,
+          "left": 24,
+          "right": 1000
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v3-moonboat",
+    "width": 1024,
+    "height": 576,
+    "theme": 1,
+    "collapsed": {
+      "width": 1024,
+      "height": 576,
+      "pageHeight": 576,
+      "pageWidth": 1024,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 12,
+          "bottom": 73,
+          "left": 24,
+          "right": 1000
+        },
+        {
+          "element": "",
+          "top": 127,
+          "bottom": 232.96875,
+          "left": 24,
+          "right": 448.796875
+        },
+        {
+          "element": "",
+          "top": 170.59375,
+          "bottom": 254.59375,
+          "left": 549.328125,
+          "right": 633.328125
+        },
+        {
+          "element": "",
+          "top": 170.59375,
+          "bottom": 254.59375,
+          "left": 698.390625,
+          "right": 782.390625
+        },
+        {
+          "element": "",
+          "top": 170.59375,
+          "bottom": 254.59375,
+          "left": 847.453125,
+          "right": 931.453125
+        },
+        {
+          "element": "",
+          "top": 268.59375,
+          "bottom": 352.59375,
+          "left": 549.328125,
+          "right": 633.328125
+        },
+        {
+          "element": "",
+          "top": 268.59375,
+          "bottom": 352.59375,
+          "left": 698.390625,
+          "right": 782.390625
+        },
+        {
+          "element": "",
+          "top": 268.59375,
+          "bottom": 352.59375,
+          "left": 847.453125,
+          "right": 931.453125
+        },
+        {
+          "element": "pager",
+          "top": 368.59375,
+          "bottom": 428.59375,
+          "left": 507.796875,
+          "right": 973
+        },
+        {
+          "element": "",
+          "top": 466.4375,
+          "bottom": 526.4375,
+          "left": 26,
+          "right": 998
+        },
+        {
+          "element": "footer",
+          "top": 536,
+          "bottom": 564,
+          "left": 24,
+          "right": 1000
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v3-moonboat",
+    "width": 1024,
+    "height": 576,
+    "theme": 2,
+    "collapsed": {
+      "width": 1024,
+      "height": 576,
+      "pageHeight": 576,
+      "pageWidth": 1024,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 12,
+          "bottom": 73,
+          "left": 24,
+          "right": 1000
+        },
+        {
+          "element": "",
+          "top": 127,
+          "bottom": 232.96875,
+          "left": 24,
+          "right": 448.796875
+        },
+        {
+          "element": "",
+          "top": 170.59375,
+          "bottom": 254.59375,
+          "left": 549.328125,
+          "right": 633.328125
+        },
+        {
+          "element": "",
+          "top": 170.59375,
+          "bottom": 254.59375,
+          "left": 698.390625,
+          "right": 782.390625
+        },
+        {
+          "element": "",
+          "top": 170.59375,
+          "bottom": 254.59375,
+          "left": 847.453125,
+          "right": 931.453125
+        },
+        {
+          "element": "",
+          "top": 268.59375,
+          "bottom": 352.59375,
+          "left": 549.328125,
+          "right": 633.328125
+        },
+        {
+          "element": "",
+          "top": 268.59375,
+          "bottom": 352.59375,
+          "left": 698.390625,
+          "right": 782.390625
+        },
+        {
+          "element": "",
+          "top": 268.59375,
+          "bottom": 352.59375,
+          "left": 847.453125,
+          "right": 931.453125
+        },
+        {
+          "element": "pager",
+          "top": 368.59375,
+          "bottom": 428.59375,
+          "left": 507.796875,
+          "right": 973
+        },
+        {
+          "element": "",
+          "top": 466.4375,
+          "bottom": 526.4375,
+          "left": 26,
+          "right": 998
+        },
+        {
+          "element": "footer",
+          "top": 536,
+          "bottom": 564,
+          "left": 24,
+          "right": 1000
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v3-moonboat",
+    "width": 1280,
+    "height": 720,
+    "theme": 0,
+    "collapsed": {
+      "width": 1280,
+      "height": 720,
+      "pageHeight": 720,
+      "pageWidth": 1280,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 16,
+          "bottom": 77,
+          "left": 24,
+          "right": 1256
+        },
+        {
+          "element": "",
+          "top": 135,
+          "bottom": 267.4375,
+          "left": 24,
+          "right": 564
+        },
+        {
+          "element": "",
+          "top": 184.59375,
+          "bottom": 288.59375,
+          "left": 678,
+          "right": 782
+        },
+        {
+          "element": "",
+          "top": 184.59375,
+          "bottom": 288.59375,
+          "left": 874,
+          "right": 978
+        },
+        {
+          "element": "",
+          "top": 184.59375,
+          "bottom": 288.59375,
+          "left": 1070,
+          "right": 1174
+        },
+        {
+          "element": "",
+          "top": 302.59375,
+          "bottom": 406.59375,
+          "left": 678,
+          "right": 782
+        },
+        {
+          "element": "",
+          "top": 302.59375,
+          "bottom": 406.59375,
+          "left": 874,
+          "right": 978
+        },
+        {
+          "element": "",
+          "top": 302.59375,
+          "bottom": 406.59375,
+          "left": 1070,
+          "right": 1174
+        },
+        {
+          "element": "pager",
+          "top": 424.59375,
+          "bottom": 484.59375,
+          "left": 623,
+          "right": 1229
+        },
+        {
+          "element": "",
+          "top": 524.90625,
+          "bottom": 584.90625,
+          "left": 26,
+          "right": 1254
+        },
+        {
+          "element": "footer",
+          "top": 660,
+          "bottom": 704,
+          "left": 24,
+          "right": 1256
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v3-moonboat",
+    "width": 1280,
+    "height": 720,
+    "theme": 1,
+    "collapsed": {
+      "width": 1280,
+      "height": 720,
+      "pageHeight": 720,
+      "pageWidth": 1280,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 16,
+          "bottom": 77,
+          "left": 24,
+          "right": 1256
+        },
+        {
+          "element": "",
+          "top": 135,
+          "bottom": 267.4375,
+          "left": 24,
+          "right": 564
+        },
+        {
+          "element": "",
+          "top": 184.59375,
+          "bottom": 288.59375,
+          "left": 678,
+          "right": 782
+        },
+        {
+          "element": "",
+          "top": 184.59375,
+          "bottom": 288.59375,
+          "left": 874,
+          "right": 978
+        },
+        {
+          "element": "",
+          "top": 184.59375,
+          "bottom": 288.59375,
+          "left": 1070,
+          "right": 1174
+        },
+        {
+          "element": "",
+          "top": 302.59375,
+          "bottom": 406.59375,
+          "left": 678,
+          "right": 782
+        },
+        {
+          "element": "",
+          "top": 302.59375,
+          "bottom": 406.59375,
+          "left": 874,
+          "right": 978
+        },
+        {
+          "element": "",
+          "top": 302.59375,
+          "bottom": 406.59375,
+          "left": 1070,
+          "right": 1174
+        },
+        {
+          "element": "pager",
+          "top": 424.59375,
+          "bottom": 484.59375,
+          "left": 623,
+          "right": 1229
+        },
+        {
+          "element": "",
+          "top": 524.90625,
+          "bottom": 584.90625,
+          "left": 26,
+          "right": 1254
+        },
+        {
+          "element": "footer",
+          "top": 660,
+          "bottom": 704,
+          "left": 24,
+          "right": 1256
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v3-moonboat",
+    "width": 1280,
+    "height": 720,
+    "theme": 2,
+    "collapsed": {
+      "width": 1280,
+      "height": 720,
+      "pageHeight": 720,
+      "pageWidth": 1280,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 16,
+          "bottom": 77,
+          "left": 24,
+          "right": 1256
+        },
+        {
+          "element": "",
+          "top": 135,
+          "bottom": 267.4375,
+          "left": 24,
+          "right": 564
+        },
+        {
+          "element": "",
+          "top": 184.59375,
+          "bottom": 288.59375,
+          "left": 678,
+          "right": 782
+        },
+        {
+          "element": "",
+          "top": 184.59375,
+          "bottom": 288.59375,
+          "left": 874,
+          "right": 978
+        },
+        {
+          "element": "",
+          "top": 184.59375,
+          "bottom": 288.59375,
+          "left": 1070,
+          "right": 1174
+        },
+        {
+          "element": "",
+          "top": 302.59375,
+          "bottom": 406.59375,
+          "left": 678,
+          "right": 782
+        },
+        {
+          "element": "",
+          "top": 302.59375,
+          "bottom": 406.59375,
+          "left": 874,
+          "right": 978
+        },
+        {
+          "element": "",
+          "top": 302.59375,
+          "bottom": 406.59375,
+          "left": 1070,
+          "right": 1174
+        },
+        {
+          "element": "pager",
+          "top": 424.59375,
+          "bottom": 484.59375,
+          "left": 623,
+          "right": 1229
+        },
+        {
+          "element": "",
+          "top": 524.90625,
+          "bottom": 584.90625,
+          "left": 26,
+          "right": 1254
+        },
+        {
+          "element": "footer",
+          "top": 660,
+          "bottom": 704,
+          "left": 24,
+          "right": 1256
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v3-moonboat",
+    "width": 1366,
+    "height": 768,
+    "theme": 0,
+    "collapsed": {
+      "width": 1366,
+      "height": 768,
+      "pageHeight": 768,
+      "pageWidth": 1366,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 16,
+          "bottom": 77,
+          "left": 24,
+          "right": 1342
+        },
+        {
+          "element": "",
+          "top": 135,
+          "bottom": 273,
+          "left": 24,
+          "right": 602.6875
+        },
+        {
+          "element": "",
+          "top": 184.59375,
+          "bottom": 288.59375,
+          "left": 724.5625,
+          "right": 828.5625
+        },
+        {
+          "element": "",
+          "top": 184.59375,
+          "bottom": 288.59375,
+          "left": 936.328125,
+          "right": 1040.328125
+        },
+        {
+          "element": "",
+          "top": 184.59375,
+          "bottom": 288.59375,
+          "left": 1148.09375,
+          "right": 1252.09375
+        },
+        {
+          "element": "",
+          "top": 302.59375,
+          "bottom": 406.59375,
+          "left": 724.5625,
+          "right": 828.5625
+        },
+        {
+          "element": "",
+          "top": 302.59375,
+          "bottom": 406.59375,
+          "left": 936.328125,
+          "right": 1040.328125
+        },
+        {
+          "element": "",
+          "top": 302.59375,
+          "bottom": 406.59375,
+          "left": 1148.09375,
+          "right": 1252.09375
+        },
+        {
+          "element": "pager",
+          "top": 424.59375,
+          "bottom": 484.59375,
+          "left": 661.6875,
+          "right": 1315
+        },
+        {
+          "element": "",
+          "top": 530.46875,
+          "bottom": 590.46875,
+          "left": 26,
+          "right": 1340
+        },
+        {
+          "element": "footer",
+          "top": 708,
+          "bottom": 752,
+          "left": 24,
+          "right": 1342
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v3-moonboat",
+    "width": 1366,
+    "height": 768,
+    "theme": 1,
+    "collapsed": {
+      "width": 1366,
+      "height": 768,
+      "pageHeight": 768,
+      "pageWidth": 1366,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 16,
+          "bottom": 77,
+          "left": 24,
+          "right": 1342
+        },
+        {
+          "element": "",
+          "top": 135,
+          "bottom": 273,
+          "left": 24,
+          "right": 602.6875
+        },
+        {
+          "element": "",
+          "top": 184.59375,
+          "bottom": 288.59375,
+          "left": 724.5625,
+          "right": 828.5625
+        },
+        {
+          "element": "",
+          "top": 184.59375,
+          "bottom": 288.59375,
+          "left": 936.328125,
+          "right": 1040.328125
+        },
+        {
+          "element": "",
+          "top": 184.59375,
+          "bottom": 288.59375,
+          "left": 1148.09375,
+          "right": 1252.09375
+        },
+        {
+          "element": "",
+          "top": 302.59375,
+          "bottom": 406.59375,
+          "left": 724.5625,
+          "right": 828.5625
+        },
+        {
+          "element": "",
+          "top": 302.59375,
+          "bottom": 406.59375,
+          "left": 936.328125,
+          "right": 1040.328125
+        },
+        {
+          "element": "",
+          "top": 302.59375,
+          "bottom": 406.59375,
+          "left": 1148.09375,
+          "right": 1252.09375
+        },
+        {
+          "element": "pager",
+          "top": 424.59375,
+          "bottom": 484.59375,
+          "left": 661.6875,
+          "right": 1315
+        },
+        {
+          "element": "",
+          "top": 530.46875,
+          "bottom": 590.46875,
+          "left": 26,
+          "right": 1340
+        },
+        {
+          "element": "footer",
+          "top": 708,
+          "bottom": 752,
+          "left": 24,
+          "right": 1342
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v3-moonboat",
+    "width": 1366,
+    "height": 768,
+    "theme": 2,
+    "collapsed": {
+      "width": 1366,
+      "height": 768,
+      "pageHeight": 768,
+      "pageWidth": 1366,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 16,
+          "bottom": 77,
+          "left": 24,
+          "right": 1342
+        },
+        {
+          "element": "",
+          "top": 135,
+          "bottom": 273,
+          "left": 24,
+          "right": 602.6875
+        },
+        {
+          "element": "",
+          "top": 184.59375,
+          "bottom": 288.59375,
+          "left": 724.5625,
+          "right": 828.5625
+        },
+        {
+          "element": "",
+          "top": 184.59375,
+          "bottom": 288.59375,
+          "left": 936.328125,
+          "right": 1040.328125
+        },
+        {
+          "element": "",
+          "top": 184.59375,
+          "bottom": 288.59375,
+          "left": 1148.09375,
+          "right": 1252.09375
+        },
+        {
+          "element": "",
+          "top": 302.59375,
+          "bottom": 406.59375,
+          "left": 724.5625,
+          "right": 828.5625
+        },
+        {
+          "element": "",
+          "top": 302.59375,
+          "bottom": 406.59375,
+          "left": 936.328125,
+          "right": 1040.328125
+        },
+        {
+          "element": "",
+          "top": 302.59375,
+          "bottom": 406.59375,
+          "left": 1148.09375,
+          "right": 1252.09375
+        },
+        {
+          "element": "pager",
+          "top": 424.59375,
+          "bottom": 484.59375,
+          "left": 661.6875,
+          "right": 1315
+        },
+        {
+          "element": "",
+          "top": 530.46875,
+          "bottom": 590.46875,
+          "left": 26,
+          "right": 1340
+        },
+        {
+          "element": "footer",
+          "top": 708,
+          "bottom": 752,
+          "left": 24,
+          "right": 1342
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v3-moonboat",
+    "width": 1440,
+    "height": 900,
+    "theme": 0,
+    "collapsed": {
+      "width": 1440,
+      "height": 900,
+      "pageHeight": 900,
+      "pageWidth": 1440,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 24,
+          "bottom": 89,
+          "left": 32,
+          "right": 1408
+        },
+        {
+          "element": "",
+          "top": 161,
+          "bottom": 310.03125,
+          "left": 32,
+          "right": 635
+        },
+        {
+          "element": "",
+          "top": 239.796875,
+          "bottom": 373.796875,
+          "left": 751.5,
+          "right": 885.5
+        },
+        {
+          "element": "",
+          "top": 239.796875,
+          "bottom": 373.796875,
+          "left": 972.5,
+          "right": 1106.5
+        },
+        {
+          "element": "",
+          "top": 239.796875,
+          "bottom": 373.796875,
+          "left": 1193.5,
+          "right": 1327.5
+        },
+        {
+          "element": "",
+          "top": 393.796875,
+          "bottom": 527.796875,
+          "left": 751.5,
+          "right": 885.5
+        },
+        {
+          "element": "",
+          "top": 393.796875,
+          "bottom": 527.796875,
+          "left": 972.5,
+          "right": 1106.5
+        },
+        {
+          "element": "",
+          "top": 393.796875,
+          "bottom": 527.796875,
+          "left": 1193.5,
+          "right": 1327.5
+        },
+        {
+          "element": "pager",
+          "top": 551.796875,
+          "bottom": 611.796875,
+          "left": 700,
+          "right": 1379
+        },
+        {
+          "element": "",
+          "top": 660.796875,
+          "bottom": 724.796875,
+          "left": 34,
+          "right": 1406
+        },
+        {
+          "element": "footer",
+          "top": 832,
+          "bottom": 876,
+          "left": 32,
+          "right": 1408
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v3-moonboat",
+    "width": 1440,
+    "height": 900,
+    "theme": 1,
+    "collapsed": {
+      "width": 1440,
+      "height": 900,
+      "pageHeight": 900,
+      "pageWidth": 1440,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 24,
+          "bottom": 89,
+          "left": 32,
+          "right": 1408
+        },
+        {
+          "element": "",
+          "top": 161,
+          "bottom": 310.03125,
+          "left": 32,
+          "right": 635
+        },
+        {
+          "element": "",
+          "top": 239.796875,
+          "bottom": 373.796875,
+          "left": 751.5,
+          "right": 885.5
+        },
+        {
+          "element": "",
+          "top": 239.796875,
+          "bottom": 373.796875,
+          "left": 972.5,
+          "right": 1106.5
+        },
+        {
+          "element": "",
+          "top": 239.796875,
+          "bottom": 373.796875,
+          "left": 1193.5,
+          "right": 1327.5
+        },
+        {
+          "element": "",
+          "top": 393.796875,
+          "bottom": 527.796875,
+          "left": 751.5,
+          "right": 885.5
+        },
+        {
+          "element": "",
+          "top": 393.796875,
+          "bottom": 527.796875,
+          "left": 972.5,
+          "right": 1106.5
+        },
+        {
+          "element": "",
+          "top": 393.796875,
+          "bottom": 527.796875,
+          "left": 1193.5,
+          "right": 1327.5
+        },
+        {
+          "element": "pager",
+          "top": 551.796875,
+          "bottom": 611.796875,
+          "left": 700,
+          "right": 1379
+        },
+        {
+          "element": "",
+          "top": 660.796875,
+          "bottom": 724.796875,
+          "left": 34,
+          "right": 1406
+        },
+        {
+          "element": "footer",
+          "top": 832,
+          "bottom": 876,
+          "left": 32,
+          "right": 1408
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v3-moonboat",
+    "width": 1440,
+    "height": 900,
+    "theme": 2,
+    "collapsed": {
+      "width": 1440,
+      "height": 900,
+      "pageHeight": 900,
+      "pageWidth": 1440,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 24,
+          "bottom": 89,
+          "left": 32,
+          "right": 1408
+        },
+        {
+          "element": "",
+          "top": 161,
+          "bottom": 310.03125,
+          "left": 32,
+          "right": 635
+        },
+        {
+          "element": "",
+          "top": 239.796875,
+          "bottom": 373.796875,
+          "left": 751.5,
+          "right": 885.5
+        },
+        {
+          "element": "",
+          "top": 239.796875,
+          "bottom": 373.796875,
+          "left": 972.5,
+          "right": 1106.5
+        },
+        {
+          "element": "",
+          "top": 239.796875,
+          "bottom": 373.796875,
+          "left": 1193.5,
+          "right": 1327.5
+        },
+        {
+          "element": "",
+          "top": 393.796875,
+          "bottom": 527.796875,
+          "left": 751.5,
+          "right": 885.5
+        },
+        {
+          "element": "",
+          "top": 393.796875,
+          "bottom": 527.796875,
+          "left": 972.5,
+          "right": 1106.5
+        },
+        {
+          "element": "",
+          "top": 393.796875,
+          "bottom": 527.796875,
+          "left": 1193.5,
+          "right": 1327.5
+        },
+        {
+          "element": "pager",
+          "top": 551.796875,
+          "bottom": 611.796875,
+          "left": 700,
+          "right": 1379
+        },
+        {
+          "element": "",
+          "top": 660.796875,
+          "bottom": 724.796875,
+          "left": 34,
+          "right": 1406
+        },
+        {
+          "element": "footer",
+          "top": 832,
+          "bottom": 876,
+          "left": 32,
+          "right": 1408
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v3-moonboat",
+    "width": 768,
+    "height": 1024,
+    "theme": 0,
+    "collapsed": {
+      "width": 768,
+      "height": 1024,
+      "pageHeight": 1024,
+      "pageWidth": 768,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 18,
+          "bottom": 83,
+          "left": 24,
+          "right": 744
+        },
+        {
+          "element": "",
+          "top": 141,
+          "bottom": 251.375,
+          "left": 24,
+          "right": 564
+        },
+        {
+          "element": "",
+          "top": 465.796875,
+          "bottom": 579.796875,
+          "left": 111.65625,
+          "right": 225.65625
+        },
+        {
+          "element": "",
+          "top": 465.796875,
+          "bottom": 579.796875,
+          "left": 326.984375,
+          "right": 440.984375
+        },
+        {
+          "element": "",
+          "top": 465.796875,
+          "bottom": 579.796875,
+          "left": 542.3125,
+          "right": 656.3125
+        },
+        {
+          "element": "",
+          "top": 599.796875,
+          "bottom": 713.796875,
+          "left": 111.65625,
+          "right": 225.65625
+        },
+        {
+          "element": "",
+          "top": 599.796875,
+          "bottom": 713.796875,
+          "left": 326.984375,
+          "right": 440.984375
+        },
+        {
+          "element": "",
+          "top": 599.796875,
+          "bottom": 713.796875,
+          "left": 542.3125,
+          "right": 656.3125
+        },
+        {
+          "element": "pager",
+          "top": 737.796875,
+          "bottom": 797.796875,
+          "left": 53,
+          "right": 715
+        },
+        {
+          "element": "",
+          "top": 842.796875,
+          "bottom": 906.796875,
+          "left": 26,
+          "right": 742
+        },
+        {
+          "element": "footer",
+          "top": 962,
+          "bottom": 1006,
+          "left": 24,
+          "right": 744
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v3-moonboat",
+    "width": 768,
+    "height": 1024,
+    "theme": 1,
+    "collapsed": {
+      "width": 768,
+      "height": 1024,
+      "pageHeight": 1024,
+      "pageWidth": 768,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 18,
+          "bottom": 83,
+          "left": 24,
+          "right": 744
+        },
+        {
+          "element": "",
+          "top": 141,
+          "bottom": 251.375,
+          "left": 24,
+          "right": 564
+        },
+        {
+          "element": "",
+          "top": 465.796875,
+          "bottom": 579.796875,
+          "left": 111.65625,
+          "right": 225.65625
+        },
+        {
+          "element": "",
+          "top": 465.796875,
+          "bottom": 579.796875,
+          "left": 326.984375,
+          "right": 440.984375
+        },
+        {
+          "element": "",
+          "top": 465.796875,
+          "bottom": 579.796875,
+          "left": 542.3125,
+          "right": 656.3125
+        },
+        {
+          "element": "",
+          "top": 599.796875,
+          "bottom": 713.796875,
+          "left": 111.65625,
+          "right": 225.65625
+        },
+        {
+          "element": "",
+          "top": 599.796875,
+          "bottom": 713.796875,
+          "left": 326.984375,
+          "right": 440.984375
+        },
+        {
+          "element": "",
+          "top": 599.796875,
+          "bottom": 713.796875,
+          "left": 542.3125,
+          "right": 656.3125
+        },
+        {
+          "element": "pager",
+          "top": 737.796875,
+          "bottom": 797.796875,
+          "left": 53,
+          "right": 715
+        },
+        {
+          "element": "",
+          "top": 842.796875,
+          "bottom": 906.796875,
+          "left": 26,
+          "right": 742
+        },
+        {
+          "element": "footer",
+          "top": 962,
+          "bottom": 1006,
+          "left": 24,
+          "right": 744
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v3-moonboat",
+    "width": 768,
+    "height": 1024,
+    "theme": 2,
+    "collapsed": {
+      "width": 768,
+      "height": 1024,
+      "pageHeight": 1024,
+      "pageWidth": 768,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 18,
+          "bottom": 83,
+          "left": 24,
+          "right": 744
+        },
+        {
+          "element": "",
+          "top": 141,
+          "bottom": 251.375,
+          "left": 24,
+          "right": 564
+        },
+        {
+          "element": "",
+          "top": 465.796875,
+          "bottom": 579.796875,
+          "left": 111.65625,
+          "right": 225.65625
+        },
+        {
+          "element": "",
+          "top": 465.796875,
+          "bottom": 579.796875,
+          "left": 326.984375,
+          "right": 440.984375
+        },
+        {
+          "element": "",
+          "top": 465.796875,
+          "bottom": 579.796875,
+          "left": 542.3125,
+          "right": 656.3125
+        },
+        {
+          "element": "",
+          "top": 599.796875,
+          "bottom": 713.796875,
+          "left": 111.65625,
+          "right": 225.65625
+        },
+        {
+          "element": "",
+          "top": 599.796875,
+          "bottom": 713.796875,
+          "left": 326.984375,
+          "right": 440.984375
+        },
+        {
+          "element": "",
+          "top": 599.796875,
+          "bottom": 713.796875,
+          "left": 542.3125,
+          "right": 656.3125
+        },
+        {
+          "element": "pager",
+          "top": 737.796875,
+          "bottom": 797.796875,
+          "left": 53,
+          "right": 715
+        },
+        {
+          "element": "",
+          "top": 842.796875,
+          "bottom": 906.796875,
+          "left": 26,
+          "right": 742
+        },
+        {
+          "element": "footer",
+          "top": 962,
+          "bottom": 1006,
+          "left": 24,
+          "right": 744
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v3-moonboat",
+    "width": 1920,
+    "height": 1080,
+    "theme": 0,
+    "collapsed": {
+      "width": 1920,
+      "height": 1080,
+      "pageHeight": 1080,
+      "pageWidth": 1920,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 36,
+          "bottom": 101,
+          "left": 212,
+          "right": 1708
+        },
+        {
+          "element": "",
+          "top": 185,
+          "bottom": 355.1875,
+          "left": 212,
+          "right": 869
+        },
+        {
+          "element": "",
+          "top": 263.796875,
+          "bottom": 443.796875,
+          "left": 973.5,
+          "right": 1153.5
+        },
+        {
+          "element": "",
+          "top": 263.796875,
+          "bottom": 443.796875,
+          "left": 1216.5,
+          "right": 1396.5
+        },
+        {
+          "element": "",
+          "top": 263.796875,
+          "bottom": 443.796875,
+          "left": 1459.5,
+          "right": 1639.5
+        },
+        {
+          "element": "",
+          "top": 463.796875,
+          "bottom": 643.796875,
+          "left": 973.5,
+          "right": 1153.5
+        },
+        {
+          "element": "",
+          "top": 463.796875,
+          "bottom": 643.796875,
+          "left": 1216.5,
+          "right": 1396.5
+        },
+        {
+          "element": "",
+          "top": 463.796875,
+          "bottom": 643.796875,
+          "left": 1459.5,
+          "right": 1639.5
+        },
+        {
+          "element": "pager",
+          "top": 675.796875,
+          "bottom": 735.796875,
+          "left": 934,
+          "right": 1679
+        },
+        {
+          "element": "",
+          "top": 792.796875,
+          "bottom": 856.796875,
+          "left": 214,
+          "right": 1706
+        },
+        {
+          "element": "footer",
+          "top": 1012,
+          "bottom": 1056,
+          "left": 212,
+          "right": 1708
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v3-moonboat",
+    "width": 1920,
+    "height": 1080,
+    "theme": 1,
+    "collapsed": {
+      "width": 1920,
+      "height": 1080,
+      "pageHeight": 1080,
+      "pageWidth": 1920,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 36,
+          "bottom": 101,
+          "left": 212,
+          "right": 1708
+        },
+        {
+          "element": "",
+          "top": 185,
+          "bottom": 355.1875,
+          "left": 212,
+          "right": 869
+        },
+        {
+          "element": "",
+          "top": 263.796875,
+          "bottom": 443.796875,
+          "left": 973.5,
+          "right": 1153.5
+        },
+        {
+          "element": "",
+          "top": 263.796875,
+          "bottom": 443.796875,
+          "left": 1216.5,
+          "right": 1396.5
+        },
+        {
+          "element": "",
+          "top": 263.796875,
+          "bottom": 443.796875,
+          "left": 1459.5,
+          "right": 1639.5
+        },
+        {
+          "element": "",
+          "top": 463.796875,
+          "bottom": 643.796875,
+          "left": 973.5,
+          "right": 1153.5
+        },
+        {
+          "element": "",
+          "top": 463.796875,
+          "bottom": 643.796875,
+          "left": 1216.5,
+          "right": 1396.5
+        },
+        {
+          "element": "",
+          "top": 463.796875,
+          "bottom": 643.796875,
+          "left": 1459.5,
+          "right": 1639.5
+        },
+        {
+          "element": "pager",
+          "top": 675.796875,
+          "bottom": 735.796875,
+          "left": 934,
+          "right": 1679
+        },
+        {
+          "element": "",
+          "top": 792.796875,
+          "bottom": 856.796875,
+          "left": 214,
+          "right": 1706
+        },
+        {
+          "element": "footer",
+          "top": 1012,
+          "bottom": 1056,
+          "left": 212,
+          "right": 1708
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  },
+  {
+    "game": "v3-moonboat",
+    "width": 1920,
+    "height": 1080,
+    "theme": 2,
+    "collapsed": {
+      "width": 1920,
+      "height": 1080,
+      "pageHeight": 1080,
+      "pageWidth": 1920,
+      "boxes": [
+        {
+          "element": "header",
+          "top": 36,
+          "bottom": 101,
+          "left": 212,
+          "right": 1708
+        },
+        {
+          "element": "",
+          "top": 185,
+          "bottom": 355.1875,
+          "left": 212,
+          "right": 869
+        },
+        {
+          "element": "",
+          "top": 263.796875,
+          "bottom": 443.796875,
+          "left": 973.5,
+          "right": 1153.5
+        },
+        {
+          "element": "",
+          "top": 263.796875,
+          "bottom": 443.796875,
+          "left": 1216.5,
+          "right": 1396.5
+        },
+        {
+          "element": "",
+          "top": 263.796875,
+          "bottom": 443.796875,
+          "left": 1459.5,
+          "right": 1639.5
+        },
+        {
+          "element": "",
+          "top": 463.796875,
+          "bottom": 643.796875,
+          "left": 973.5,
+          "right": 1153.5
+        },
+        {
+          "element": "",
+          "top": 463.796875,
+          "bottom": 643.796875,
+          "left": 1216.5,
+          "right": 1396.5
+        },
+        {
+          "element": "",
+          "top": 463.796875,
+          "bottom": 643.796875,
+          "left": 1459.5,
+          "right": 1639.5
+        },
+        {
+          "element": "pager",
+          "top": 675.796875,
+          "bottom": 735.796875,
+          "left": 934,
+          "right": 1679
+        },
+        {
+          "element": "",
+          "top": 792.796875,
+          "bottom": 856.796875,
+          "left": 214,
+          "right": 1706
+        },
+        {
+          "element": "footer",
+          "top": 1012,
+          "bottom": 1056,
+          "left": 212,
+          "right": 1708
+        }
+      ]
+    },
+    "correctOnly": true,
+    "paging": "A–Z",
+    "badges": "matched preview"
+  }
+]

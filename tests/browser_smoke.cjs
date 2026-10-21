@@ -60,13 +60,28 @@ async function run() {
           await page.goto(pathToFileURL(path.join(root, game, 'index.html')).href);
           await page.selectOption('#theme', String(theme));
           await settle(); await page.evaluate(() => document.fonts.ready);
-          assert.deepEqual(await page.locator('[data-letter]').evaluateAll(nodes => nodes.map(n => n.dataset.letter)), alphabet);
-          assert(await page.locator('.picker-shelf').evaluate(n => n.scrollHeight <= n.clientHeight+2), 'Letter shelf grows with the page');
+          const shown = [];
+          for (let index = 0; index < 5; index++) {
+            shown.push(...await page.locator('[data-letter]').evaluateAll(nodes => nodes.map(n => n.dataset.letter)));
+            if (index < 4) await page.locator('[data-action=letters-next]').click();
+          }
+          assert.deepEqual(shown, alphabet);
+          for (let index = 0; index < 4; index++) await page.locator('[data-action=letters-previous]').click();
+          const showLetter = async letter => {
+            while (!await page.locator(`[data-letter="${letter}"]`).count()) {
+              const range = await page.locator('.page-range').innerText();
+              await page.locator(`[data-action=letters-${letter < range[0] ? 'previous' : 'next'}]`).click();
+            }
+          };
+          assert.equal(await page.locator('.picker-shelf').evaluate(n => getComputedStyle(n).overflowY), 'visible', 'Paged cards keep their decorative shadows without an inner scroller');
+          await page.locator('.collection-preview summary').click();
           assert(await page.locator('.collection-slots').evaluate(n => n.scrollWidth <= n.clientWidth+2 && n.scrollHeight <= n.clientHeight+2), 'All collection rows fit without an inner scroller');
+          await page.locator('.collection-preview summary').click();
           if (game === 'v3-moonboat') assert.match(await page.locator('.captain-panel .lead').innerText(), /A whole sky\s+of little sounds\./, 'Introduction keeps spaces on phones');
           await fits(); await capture('home');
           let count = 0;
           for (const letter of ['B', 'J', 'X', 'Z']) {
+            await showLetter(letter);
             await page.locator(`[data-letter="${letter}"]`).click();
             await screen('listen'); await settle(); await fits();
             if (letter === 'J') await capture('listen-J');
@@ -98,11 +113,14 @@ async function run() {
             const next = alphabet[(alphabet.indexOf(letter) + 1) % 26];
             assert((await page.locator('.listen-letter').getAttribute('aria-label')).includes(`letter ${next} `));
             await page.locator('.back[data-action="home"]').click(); await screen('home'); await settle();
-            assert.equal(await page.locator('.visited').count(), count);
+            assert((await page.locator('.collection-heading').innerText()).includes(`${count} of 26`));
           }
+          await showLetter('Z');
           await page.locator('[data-letter="Z"]').focus(); await page.keyboard.press('ArrowRight');
           assert.equal(await page.locator(':focus').getAttribute('data-letter'), 'A');
+          await showLetter('Z');
           await page.locator('[data-letter=Z]').scrollIntoViewIfNeeded();
+          await page.locator('.collection-preview summary').click();
           await page.locator('.collection-slot').last().scrollIntoViewIfNeeded();
           await fits(); await capture('home-end-of-alphabet');
           assert.deepEqual(errors, [], `${prefix}: browser errors`);

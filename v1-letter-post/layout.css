@@ -1,0 +1,226 @@
+/* Approved home layout. Loaded only by Letter Post and Moonboat. */
+.layout-built[data-screen="home"].post{--letter-size:106px}.layout-built[data-screen="home"].space{--letter-size:134px}
+.layout-built[data-screen="home"] .app{max-width:1560px;padding:24px 32px;min-height:100svh}
+.layout-built[data-screen="home"] #header{min-height:62px;padding-bottom:14px}
+.layout-built[data-screen="home"] .brand{min-height:48px}
+.layout-built[data-screen="home"] #main{display:block;padding:24px 0 0;flex:1}
+.layout-built[data-screen="home"] .home-layout{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:36px;align-items:start;max-width:none;margin:0}
+.layout-built[data-screen="home"] .post-intro,.layout-built[data-screen="home"] .captain-panel{padding:14px 0 0;justify-content:flex-start;display:block}
+.layout-built[data-screen="home"] .eyebrow{font-size:10px;margin-bottom:20px}
+.layout-built[data-screen="home"] .post-intro h1{font-size:clamp(56px,6vw,94px);margin-bottom:20px}
+.layout-built[data-screen="home"] .captain-panel h1{font-size:clamp(45px,4.5vw,70px);margin-bottom:16px}
+.layout-built[data-screen="home"] .post-intro .lead,.layout-built[data-screen="home"] .captain-panel .lead{font-size:21px;margin:0;max-width:28ch}
+.layout-built[data-screen="home"] .route-card{margin-top:28px;padding:12px 0}
+.layout-built[data-screen="home"] .post-office{border-radius:100px 100px 20px 20px;box-shadow:6px 6px 0 var(--shadow)}
+.layout-built[data-screen="home"] .office-top{height:146px;padding-top:24px}
+.layout-built[data-screen="home"] .office-top .lucy{width:104px}
+.layout-built[data-screen="home"] .office-top .speech{font-size:12px;padding:7px 14px}
+.layout-built[data-screen="home"] .open-sign{bottom:26px;font-size:9px;padding:6px 10px}
+.layout-built[data-screen="home"] .open-sign strong{font-size:13px}
+.layout-built[data-screen="home"] .office-number{font-size:11px;bottom:24px}
+.layout-built[data-screen="home"] .sorting-shelf{padding:18px 22px}
+.layout-built[data-screen="home"] .shelf-title{margin-bottom:12px;font-size:15px}
+.layout-built[data-screen="home"] .shelf-title>.icon{transform:rotate(-90deg)}
+.layout-built[data-screen="home"] .picker-shelf{padding:6px 8px;max-height:none;overflow:visible;margin:0}
+.layout-built[data-screen="home"] .envelopes,.layout-built[data-screen="home"] .planets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,var(--letter-size));gap:16px 20px;padding:0;margin:0;max-width:none;width:100%}
+.layout-built[data-screen="home"] .envelopes button{height:106px;min-height:106px;aspect-ratio:auto}
+.layout-built[data-screen="home"] .pick-glyph,.layout-built[data-screen="home"] .planets .pick-glyph{font-size:40px}
+.layout-built[data-screen="home"] .pager{display:grid;grid-template-columns:60px 1fr 60px;align-items:center;gap:16px;margin-top:12px;text-align:center}
+.layout-built[data-screen="home"] .pager>div{display:grid;gap:1px}
+.layout-built[data-screen="home"] .pager strong{font-size:21px;line-height:1.2}
+.layout-built[data-screen="home"] .pager span{font-size:11px;font-weight:800;color:var(--muted)}
+.layout-built[data-screen="home"] .pager button{width:60px;height:60px;border:2px solid var(--line);border-radius:50%;background:var(--surface);display:grid;place-items:center;box-shadow:0 3px 0 var(--shadow)}
+.layout-built[data-screen="home"] .pager button:disabled{opacity:.3;cursor:default;box-shadow:none}
+.layout-built[data-screen="home"] .pager .icon{width:26px;height:26px}
+.layout-built[data-screen="home"] .captain{width:150px;max-width:none;margin:52px 0 0 34px}
+.layout-built[data-screen="home"] .captain .speech{font-size:12px;padding:9px;white-space:nowrap;left:-30px;right:-30px}
+.layout-built[data-screen="home"] .captain-label{font-size:8px;margin-top:14px;white-space:nowrap}
+.layout-built[data-screen="home"] .star-map{padding:18px 26px 20px;border-radius:70px 70px 24px 24px;max-height:none;justify-content:flex-start;overflow:hidden}
+.layout-built[data-screen="home"] .map-heading{font-size:8px;gap:16px}
+.layout-built[data-screen="home"] .map-caption{font-size:17px;margin:8px 0 20px}
+.layout-built[data-screen="home"] .planets{gap:20px 24px;padding:6px 12px;justify-items:center}
+.layout-built[data-screen="home"] .planets button{width:100%;max-width:134px;min-height:0;aspect-ratio:1;transform:none!important}
+.layout-built[data-screen="home"] .planets button:nth-child(3) .letter-decoration{inset:40% -8%;border-width:3px}
+.layout-built[data-screen="home"] .map-orbit{pointer-events:none;width:70%;left:15%;top:22%}
+.layout-built[data-screen="home"] .collection-preview{border:2px solid var(--line);background:var(--surface);border-radius:18px;margin-top:24px;box-shadow:0 3px 0 var(--shadow)}
+.layout-built[data-screen="home"] .collection-preview summary{min-height:64px;display:flex;gap:14px;align-items:center;padding:10px 20px;cursor:pointer;list-style:none}
+.layout-built[data-screen="home"] summary::-webkit-details-marker{display:none}
+.layout-built[data-screen="home"] summary:focus-visible{outline:4px solid var(--focus);outline-offset:4px;border-radius:16px}
+.layout-built[data-screen="home"] summary>span:nth-child(2){display:grid;gap:2px}
+.layout-built[data-screen="home"] summary strong{font-size:17px}
+.layout-built[data-screen="home"] summary small{font-size:12px;color:var(--muted)}
+.layout-built[data-screen="home"] .collection-symbol{width:34px;display:grid;place-items:center;color:var(--accent-text)}
+.layout-built[data-screen="home"] .collection-toggle{margin-left:auto;display:flex;align-items:center;gap:14px;font-size:14px;font-weight:900}
+.layout-built[data-screen="home"] .chevron{font-size:24px}
+.layout-built[data-screen="home"] .when-open,.layout-built[data-screen="home"] details[open] .when-closed{display:none}
+.layout-built[data-screen="home"] details[open] .when-open{display:inline}
+.layout-built[data-screen="home"] details[open] .chevron{rotate:180deg}
+.layout-built[data-screen="home"] .album-content{padding:4px 20px 18px;border-top:1px solid var(--line)}
+.layout-built[data-screen="home"] .album-content>p{font-size:14px;margin:14px 0}
+.layout-built[data-screen="home"] .album-grid{display:grid;grid-template-columns:repeat(13,minmax(0,1fr));gap:10px}
+.layout-built[data-screen="home"] .album-slot{min-height:94px;border:1.5px dashed var(--line);border-radius:8px;display:grid;place-items:center;align-content:center;gap:3px;background:var(--bg);min-width:0}
+.layout-built[data-screen="home"] .album-slot b{font-size:24px}
+.layout-built[data-screen="home"] .album-slot .icon{width:16px;height:16px}
+.layout-built[data-screen="home"] .album-slot small{font-size:10px}
+.layout-built[data-screen="home"] .album-slot.collected{border-style:solid;background:var(--accent2);color:var(--card-ink);box-shadow:0 3px 0 var(--shadow)}
+.layout-built[data-screen="home"].space .album-slot{border-radius:50%}
+.layout-built[data-screen="home"] .album-note{color:var(--muted)}
+.layout-built[data-screen="home"] #footer{font-size:11px;padding-top:12px;min-height:36px}
+.layout-built[data-screen="home"] #footer a{min-height:32px;padding:6px 0}
+.layout-built[data-screen="home"] [data-letter][aria-pressed=true]{outline:4px solid var(--focus);outline-offset:4px}
+@media(min-width:900px) and (max-height:800px){
+  .layout-built[data-screen="home"].post{--letter-size:80px}.layout-built[data-screen="home"].space{--letter-size:104px}
+  .layout-built[data-screen="home"] .app{padding:16px 24px}
+  .layout-built[data-screen="home"] #header{padding-bottom:10px;min-height:58px}
+  .layout-built[data-screen="home"] #main{padding-top:16px}
+  .layout-built[data-screen="home"] .home-layout{gap:32px}
+  .layout-built[data-screen="home"] .post-intro,.layout-built[data-screen="home"] .captain-panel{padding-top:8px}
+  .layout-built[data-screen="home"] .post-intro h1{font-size:clamp(56px,5.6vw,76px)}
+  .layout-built[data-screen="home"] .captain-panel h1{font-size:clamp(44px,4.5vw,60px)}
+  .layout-built[data-screen="home"] .lead,.layout-built[data-screen="home"] .post-intro .lead,.layout-built[data-screen="home"] .captain-panel .lead{font-size:18px}
+  .layout-built[data-screen="home"] .route-card{margin-top:20px}
+  .layout-built[data-screen="home"] .office-top{height:100px;padding-top:15px}
+  .layout-built[data-screen="home"] .office-top .lucy{width:75px}
+  .layout-built[data-screen="home"] .office-top .speech{font-size:11px;padding:5px 12px;bottom:92%}
+  .layout-built[data-screen="home"] .lucy figcaption{font-size:9px;padding:5px 15px;margin-top:-12px}
+  .layout-built[data-screen="home"] .open-sign{bottom:18px;font-size:8px;padding:4px 9px}
+  .layout-built[data-screen="home"] .open-sign strong{font-size:11px}
+  .layout-built[data-screen="home"] .office-number{bottom:17px;font-size:10px}
+  .layout-built[data-screen="home"] .sorting-shelf{padding:12px 18px}
+  .layout-built[data-screen="home"] .shelf-title{font-size:14px;margin-bottom:8px}
+  .layout-built[data-screen="home"] .envelopes button{height:80px;min-height:80px}
+  .layout-built[data-screen="home"] .envelopes{gap:12px 20px}
+  .layout-built[data-screen="home"] .pick-glyph,.layout-built[data-screen="home"] .planets .pick-glyph{font-size:34px}
+  .layout-built[data-screen="home"] .pager{margin-top:8px}
+  .layout-built[data-screen="home"] .captain{width:112px;margin-top:48px}
+  .layout-built[data-screen="home"] .captain-label{margin-top:10px}
+  .layout-built[data-screen="home"] .star-map{padding:10px 24px 14px}
+  .layout-built[data-screen="home"] .map-caption{margin:4px 0 10px;font-size:15px}
+  .layout-built[data-screen="home"] .map-mark{font-size:24px}
+  .layout-built[data-screen="home"] .planets{gap:14px 26px;padding:4px 14px}
+  .layout-built[data-screen="home"] .planets button{max-width:104px}
+  .layout-built[data-screen="home"] .collection-preview{margin-top:16px}
+  .layout-built[data-screen="home"] .collection-preview summary{min-height:60px;padding:8px 16px}
+}
+@media(min-width:1500px){
+  .layout-built[data-screen="home"].post{--letter-size:140px}.layout-built[data-screen="home"].space{--letter-size:180px}
+  .layout-built[data-screen="home"] .app{padding-top:36px}
+  .layout-built[data-screen="home"] #main{padding-top:36px}
+  .layout-built[data-screen="home"] .office-top{height:180px}
+  .layout-built[data-screen="home"] .office-top .lucy{width:135px}
+  .layout-built[data-screen="home"] .envelopes button{height:140px;min-height:140px}
+  .layout-built[data-screen="home"] .planets button{max-width:180px}
+  .layout-built[data-screen="home"] .captain{width:220px;margin-top:66px}
+  .layout-built[data-screen="home"] .post-intro h1{font-size:100px}
+  .layout-built[data-screen="home"] .captain-panel h1{font-size:74px}
+  .layout-built[data-screen="home"] .pager{margin-top:20px}
+  .layout-built[data-screen="home"] .collection-preview{margin-top:32px}
+}
+@media(min-width:900px) and (max-height:620px){
+  .layout-built[data-screen="home"].post{--letter-size:72px}.layout-built[data-screen="home"].space{--letter-size:84px}
+  .layout-built[data-screen="home"] .app{padding:12px 24px}
+  .layout-built[data-screen="home"] #main{padding-top:12px}
+  .layout-built[data-screen="home"] .office-top{height:80px;padding-top:10px}
+  .layout-built[data-screen="home"] .office-top .lucy{width:60px}
+  .layout-built[data-screen="home"] .office-top .speech{font-size:10px;padding:4px 10px}
+  .layout-built[data-screen="home"] .open-sign{bottom:12px;padding:3px 7px}
+  .layout-built[data-screen="home"] .office-number{bottom:10px}
+  .layout-built[data-screen="home"] .sorting-shelf{padding:10px 16px}
+  .layout-built[data-screen="home"] .shelf-title{height:22px;font-size:13px;margin-bottom:6px}
+  .layout-built[data-screen="home"] .envelopes button{height:72px;min-height:72px}
+  .layout-built[data-screen="home"] .picker-shelf{padding-block:4px}
+  .layout-built[data-screen="home"] .planets button{max-width:84px}
+  .layout-built[data-screen="home"] .captain{margin-top:28px}
+  .layout-built[data-screen="home"] .map-caption{margin-bottom:6px}
+  .layout-built[data-screen="home"] .collection-preview{margin-top:12px}
+  .layout-built[data-screen="home"] #footer{padding-top:4px;min-height:24px;font-size:10px}
+  .layout-built[data-screen="home"] #footer a{padding:2px 0;min-height:20px}
+}
+@media(max-width:899px){
+  .layout-built[data-screen="home"].post{--letter-size:94px}.layout-built[data-screen="home"].space{--letter-size:114px}
+  .layout-built[data-screen="home"] .app{padding:18px 24px}
+  .layout-built[data-screen="home"] .home-layout{grid-template-columns:1fr;gap:24px}
+  .layout-built[data-screen="home"] .post-intro,.layout-built[data-screen="home"] .captain-panel{position:relative;padding:0}
+  .layout-built[data-screen="home"] .post-intro h1{font-size:56px;margin-bottom:14px}
+  .layout-built[data-screen="home"] .captain-panel h1{font-size:48px;margin-bottom:14px}
+  .layout-built[data-screen="home"] .post-intro .lead{position:absolute;left:55%;top:60px;font-size:19px}
+  .layout-built[data-screen="home"] .route-card{margin-top:4px;width:100%;padding:10px 0}
+  .layout-built[data-screen="home"] .route-card>span{display:none}
+  .layout-built[data-screen="home"] .route-card p{justify-content:flex-start;margin:0;gap:16px}
+  .layout-built[data-screen="home"] .captain-panel{padding-right:180px;min-height:208px}
+  .layout-built[data-screen="home"] .captain{position:absolute;right:24px;top:44px;width:128px;margin:0}
+  .layout-built[data-screen="home"] .captain .speech{display:none}
+  .layout-built[data-screen="home"] .captain-label{white-space:normal}
+  .layout-built[data-screen="home"] .office-top{height:110px;padding-top:16px}
+  .layout-built[data-screen="home"] .office-top .lucy{width:80px}
+  .layout-built[data-screen="home"] .office-top .speech{font-size:11px;padding:6px 12px}
+  .layout-built[data-screen="home"] .lucy figcaption{font-size:9px;padding:5px 15px;margin-top:-12px}
+  .layout-built[data-screen="home"] .envelopes button{height:94px;min-height:94px}
+  .layout-built[data-screen="home"] .planets button{max-width:114px}
+  .layout-built[data-screen="home"] .collection-preview{margin-top:20px}
+  .layout-built[data-screen="home"] .album-grid{grid-template-columns:repeat(7,minmax(0,1fr))}
+}
+@media(max-width:550px){
+  .layout-built[data-screen="home"].post{--letter-size:76px}
+  .layout-built[data-screen="home"] .app{padding:16px}
+  .layout-built[data-screen="home"] .brand small{display:none}
+  .layout-built[data-screen="home"] .brand{font-size:15px}
+  .layout-built[data-screen="home"] .post-intro .lead{font-size:15px;left:58%}
+  .layout-built[data-screen="home"] .post-intro h1{font-size:42px}
+  .layout-built[data-screen="home"] .captain-panel h1{font-size:36px}
+  .layout-built[data-screen="home"] .captain-panel{padding-right:100px}
+  .layout-built[data-screen="home"] .captain{width:85px;right:0}
+  .layout-built[data-screen="home"] .captain-label{display:none}
+  .layout-built[data-screen="home"] .eyebrow{font-size:8px}
+  .layout-built[data-screen="home"] .sorting-shelf,.layout-built[data-screen="home"] .star-map{padding-inline:12px}
+  .layout-built[data-screen="home"] .map-heading{font-size:6px;gap:8px}
+  .layout-built[data-screen="home"] .envelopes,.layout-built[data-screen="home"] .planets{gap:12px;padding-inline:2px}
+  .layout-built[data-screen="home"] .envelopes button{height:76px;min-height:76px}
+  .layout-built[data-screen="home"] .pick-glyph,.layout-built[data-screen="home"] .planets .pick-glyph{font-size:28px}
+  .layout-built[data-screen="home"] summary{padding-inline:12px}
+  .layout-built[data-screen="home"] summary strong{font-size:15px}
+  .layout-built[data-screen="home"] .album-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .layout-built[data-screen="home"] #footer{align-items:start;flex-direction:column;gap:0}
+}
+
+/* The same expandable collection appears on the reward screen. */
+.layout-built .collection-preview{border:2px solid var(--line);background:var(--surface);border-radius:18px;margin-top:24px;box-shadow:0 3px 0 var(--shadow)}
+.layout-built .collection-preview summary{min-height:64px;display:flex;gap:14px;align-items:center;padding:10px 20px;cursor:pointer;list-style:none}
+.layout-built summary::-webkit-details-marker{display:none}
+.layout-built summary:focus-visible{outline:4px solid var(--focus);outline-offset:4px;border-radius:16px}
+.layout-built summary>span:nth-child(2){display:grid;gap:2px}
+.layout-built summary strong{font-size:17px}
+.layout-built summary small{font-size:12px;color:var(--muted)}
+.layout-built .collection-symbol{width:34px;display:grid;place-items:center;color:var(--accent-text)}
+.layout-built .collection-toggle{margin-left:auto;display:flex;align-items:center;gap:14px;font-size:14px;font-weight:900}
+.layout-built .chevron{font-size:24px}
+.layout-built .when-open,.layout-built details[open] .when-closed{display:none}
+.layout-built details[open] .when-open{display:inline}
+.layout-built details[open] .chevron{rotate:180deg}
+.layout-built .album-content{padding:4px 20px 18px;border-top:1px solid var(--line)}
+.layout-built .album-content>p{font-size:14px;margin:14px 0}
+.layout-built .album-grid{display:grid;grid-template-columns:repeat(13,minmax(0,1fr));gap:10px}
+.layout-built .album-slot{min-height:94px;border:1.5px dashed var(--line);border-radius:8px;display:grid;place-items:center;align-content:center;gap:3px;background:var(--bg);min-width:0}
+.layout-built .album-slot b{font-size:24px}
+.layout-built .album-slot .icon{width:16px;height:16px}
+.layout-built .album-slot small{font-size:10px}
+.layout-built .album-slot.collected{border-style:solid;background:var(--accent2);color:var(--card-ink);box-shadow:0 3px 0 var(--shadow)}
+.layout-built.space .album-slot{border-radius:50%}
+.layout-built .album-note{color:var(--muted)}
+
+.layout-built .collection-heading{display:grid;gap:2px;justify-content:start;align-items:start;margin:0;letter-spacing:normal}
+.layout-built .done-badge{box-sizing:border-box;position:absolute;top:-10px;right:-8px;width:36px;height:36px;display:grid;place-items:center;border:3px solid #fff;border-radius:50%;background:#176b3a;color:#fff;opacity:1;z-index:3;pointer-events:none}
+.layout-built .done-badge svg{width:24px;height:24px;display:block}
+.layout-built.space .letter-list .done-badge{top:-12px;right:-10px}
+.layout-built .letter-list button{position:relative}
+.layout-built .pick-caption{font-size:12px;line-height:1.2;letter-spacing:.04em;font-weight:900}
+.layout-built .planets .pick-caption{font-size:12px;margin-top:4px}
+.layout-built .album-slot .done-badge{position:static;width:24px;height:24px;border-width:2px}
+.layout-built .album-slot .done-badge svg{width:18px;height:18px}
+.layout-built .album-slot.collected{gap:3px}
+.layout-built .post-sticker{display:none}
+@media(min-width:1500px){.layout-built .letter-list .done-badge{width:44px;height:44px}.layout-built .letter-list .done-badge svg{width:30px;height:30px}}
+@media(min-width:900px) and (max-height:620px){.layout-built.space .letter-list .done-badge{width:32px;height:32px;top:-16px;right:-24px}.layout-built.space .letter-list .done-badge svg{width:22px;height:22px}}
+@media(max-width:899px){.layout-built .album-grid{grid-template-columns:repeat(7,minmax(0,1fr))}}
+@media(max-width:550px){.layout-built .album-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.layout-built[data-screen="home"] .letter-list button{animation:none}

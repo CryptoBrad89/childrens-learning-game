@@ -1,0 +1,20 @@
+PASS v1-letter-post 1024x576: all themes, fit, pages, correct-only badges, album
+PASS v1-letter-post 1280x720: all themes, fit, pages, correct-only badges, album
+PASS v1-letter-post 1366x768: all themes, fit, pages, correct-only badges, album
+PASS v1-letter-post 1440x900: all themes, fit, pages, correct-only badges, album
+PASS v1-letter-post 768x1024: all themes, fit, pages, correct-only badges, album
+PASS v1-letter-post 1920x1080: all themes, fit, pages, correct-only badges, album
+PASS v3-moonboat 1024x576: all themes, fit, pages, correct-only badges, album
+PASS v3-moonboat 1280x720: all themes, fit, pages, correct-only badges, album
+PASS v3-moonboat 1366x768: all themes, fit, pages, correct-only badges, album
+PASS v3-moonboat 1440x900: all themes, fit, pages, correct-only badges, album
+PASS v3-moonboat 768x1024: all themes, fit, pages, correct-only badges, album
+PASS v3-moonboat 1920x1080: all themes, fit, pages, correct-only badges, album
+PASS v1-letter-post completion motion: motion
+PASS v1-letter-post completion motion: calm
+PASS v1-letter-post completion motion: reduced
+PASS v1-letter-post restricted pools: one, six, seven letters
+PASS v3-moonboat completion motion: motion
+PASS v3-moonboat completion motion: calm
+PASS v3-moonboat completion motion: reduced
+PASS v3-moonboat restricted pools: one, six, seven letters

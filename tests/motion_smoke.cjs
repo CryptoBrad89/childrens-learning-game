@@ -29,6 +29,12 @@ async function run() {
           const page = await context.newPage();
           page.on('pageerror', error => errors.push(error.message));
           const prefix = `${game}-${viewport.width}-${reduced ? 'reduced' : 'motion'}`;
+          const showLetter = async letter => {
+            while (!await page.locator(`[data-letter="${letter}"]`).count()) {
+              const range = await page.locator('.page-range').innerText();
+              await page.locator(`[data-action=letters-${letter < range[0] ? 'previous' : 'next'}]`).click();
+            }
+          };
           const screen = name => page.waitForFunction(name => document.body.dataset.screen === name, name);
           const settled = () => page.waitForFunction(() => !document.body.dataset.effect && !document.body.classList.contains('talking'));
           const capture = async name => {
@@ -113,9 +119,11 @@ async function run() {
             await page.keyboard.press('Escape');
             await screen('home'); await settled();
             assert.equal(await page.locator('.listen-letter').count(), 0, 'Escape during a pending exit keeps the latest route');
+            await showLetter('X');
             await page.locator('[data-letter="X"]').click(); await screen('listen');
             await page.keyboard.press('Escape'); await screen('home'); await settled();
             assert.equal(await page.locator('.listen-letter').count(), 0, 'Cancelled route must stay home');
+            await showLetter('B');
             await page.locator('[data-letter="B"]').click(); await screen('listen'); await settled();
             await page.locator('.listen-letter').click();
             await page.emulateMedia({reducedMotion: 'reduce'});

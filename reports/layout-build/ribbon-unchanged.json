@@ -1,0 +1,156 @@
+[
+  {
+    "width": 390,
+    "height": 844,
+    "baseline": "20e7acf",
+    "screens": {
+      "home": {
+        "beforeHash": "2cff499ce99b78a1d1ba002a5cbb671bdae75368791246f17a1a5d6b91e0c84a",
+        "afterHash": "2cff499ce99b78a1d1ba002a5cbb671bdae75368791246f17a1a5d6b91e0c84a",
+        "pixelIdentical": true,
+        "controlRasterRounding": null
+      },
+      "listen": {
+        "beforeHash": "a6d954f14aee2ba7481b1d3d69f7cc3652df4723f21c79fd4754cb2dc6fd2f3b",
+        "afterHash": "a6d954f14aee2ba7481b1d3d69f7cc3652df4723f21c79fd4754cb2dc6fd2f3b",
+        "pixelIdentical": true,
+        "controlRasterRounding": null
+      },
+      "match": {
+        "beforeHash": "ab8204a548ac366491c258e8d402c1ed76f227240088d70bb9affdf118b116d3",
+        "afterHash": "ab8204a548ac366491c258e8d402c1ed76f227240088d70bb9affdf118b116d3",
+        "pixelIdentical": true,
+        "controlRasterRounding": null
+      },
+      "reward": {
+        "beforeHash": "8363ed30d0ae717ff3afef18e06a1f234b3b0063c0e6b635ac4738c467446ef7",
+        "afterHash": "8363ed30d0ae717ff3afef18e06a1f234b3b0063c0e6b635ac4738c467446ef7",
+        "pixelIdentical": true,
+        "controlRasterRounding": null
+      },
+      "completedHome": {
+        "beforeHash": "3bd3cbd86062547b066bb90c34f438259b0b532112cd10573ff6b3b875b26d7c",
+        "afterHash": "3bd3cbd86062547b066bb90c34f438259b0b532112cd10573ff6b3b875b26d7c",
+        "pixelIdentical": true,
+        "controlRasterRounding": null
+      }
+    },
+    "markupStylesAndGeometryIdentical": true
+  },
+  {
+    "width": 1180,
+    "height": 900,
+    "baseline": "20e7acf",
+    "screens": {
+      "home": {
+        "beforeHash": "b6d395889515c6705f32cbfb53c9405160c34b3d60f30e429ea767685c664f5c",
+        "afterHash": "26405459808946063e09b95dd1ea13f218d13fad445b838b74e5e783e6c2b976",
+        "pixelIdentical": false,
+        "controlRasterRounding": {
+          "bbox": [
+            1032,
+            24,
+            1112,
+            26
+          ],
+          "maxChannelDifference": 1
+        }
+      },
+      "listen": {
+        "beforeHash": "a0b2899cd5c3d8fb60c2a32841920331dfd63f084b7206ed55bcbed41cee2905",
+        "afterHash": "f37aad3fedcdb7000bd56ff53d926d37811627d153ee5f2363d179f93ee97010",
+        "pixelIdentical": false,
+        "controlRasterRounding": {
+          "bbox": [
+            1032,
+            24,
+            1112,
+            26
+          ],
+          "maxChannelDifference": 1
+        }
+      },
+      "match": {
+        "beforeHash": "a8247edd4acb80698b0a594ffe310812eb6162bf4788b34755948c40092e17d0",
+        "afterHash": "a8247edd4acb80698b0a594ffe310812eb6162bf4788b34755948c40092e17d0",
+        "pixelIdentical": true,
+        "controlRasterRounding": null
+      },
+      "reward": {
+        "beforeHash": "4ebd7c77bb5a1026fcbad07ab63f5fac5f225947993b77d4e85ce162cebacc7b",
+        "afterHash": "4ebd7c77bb5a1026fcbad07ab63f5fac5f225947993b77d4e85ce162cebacc7b",
+        "pixelIdentical": true,
+        "controlRasterRounding": null
+      },
+      "completedHome": {
+        "beforeHash": "37eb344338fcd3806403a113d94fe98d23b7d96e44aacd5bc65b69ef7362252c",
+        "afterHash": "37eb344338fcd3806403a113d94fe98d23b7d96e44aacd5bc65b69ef7362252c",
+        "pixelIdentical": true,
+        "controlRasterRounding": null
+      }
+    },
+    "markupStylesAndGeometryIdentical": true
+  },
+  {
+    "width": 1920,
+    "height": 1080,
+    "baseline": "20e7acf",
+    "screens": {
+      "home": {
+        "beforeHash": "b8a9a5587a4ac75e0999c5b721960a11b09f5daba956916af9787acf364d6061",
+        "afterHash": "b4564d46a5951627c8822581ffba0a8207a29633e299ca155d5d36a5d2145cb1",
+        "pixelIdentical": false,
+        "controlRasterRounding": {
+          "bbox": [
+            1482,
+            24,
+            1632,
+            27
+          ],
+          "maxChannelDifference": 1
+        }
+      },
+      "listen": {
+        "beforeHash": "4f83466c5f7fc9ddfee974bda1c93ec62945574dff85a5a9fe1110065b50a0c9",
+        "afterHash": "42d9fe64a179f257c4770bb21bf2409acfe7f84722c1ffe2ea844ee558f991ab",
+        "pixelIdentical": false,
+        "controlRasterRounding": {
+          "bbox": [
+            1482,
+            24,
+            1632,
+            27
+          ],
+          "maxChannelDifference": 1
+        }
+      },
+      "match": {
+        "beforeHash": "b7022580cde022f04ae25794781710f43ac07578955deaffd570d6ecc7d50929",
+        "afterHash": "029653896e7377e6540169f177287bfe7d116da1a707839b8f1b51d70d99f4b4",
+        "pixelIdentical": false,
+        "controlRasterRounding": {
+          "bbox": [
+            1482,
+            24,
+            1632,
+            27
+          ],
+          "maxChannelDifference": 1
+        }
+      },
+      "reward": {
+        "beforeHash": "926d5427ed38fe3921e4ae989df99435a6e237d408479fd23207270e4b424b33",
+        "afterHash": "926d5427ed38fe3921e4ae989df99435a6e237d408479fd23207270e4b424b33",
+        "pixelIdentical": true,
+        "controlRasterRounding": null
+      },
+      "completedHome": {
+        "beforeHash": "9c6f62ab24b75016b5e6bbfac90e0b38bff9372579016bc2d01d46a29400bc52",
+        "afterHash": "9c6f62ab24b75016b5e6bbfac90e0b38bff9372579016bc2d01d46a29400bc52",
+        "pixelIdentical": true,
+        "controlRasterRounding": null
+      }
+    },
+    "markupStylesAndGeometryIdentical": true
+  }
+]
