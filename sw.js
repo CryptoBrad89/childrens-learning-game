@@ -2,7 +2,7 @@
  * Supabase itself is a different origin and is never cached: play waits
  * in the browser and merges when the network comes back.
  */
-const CACHE = 'little-woof-shell-2';
+const CACHE = 'little-woof-shell-3';
 const PRECACHE = [
   'audio/wrong/lucy-uh-oh.mp3',
   'audio/wrong/lucy-try-again.mp3',
