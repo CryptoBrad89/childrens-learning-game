@@ -25,8 +25,9 @@ if(!isHome&&!isAdmin){
   const strip=document.createElement('aside');strip.id='account-strip';strip.setAttribute('aria-label','Your account');
   const menu=document.createElement('details'),avatar=document.createElement('summary'),items=document.createElement('div');items.className='account-menu';
   avatar.setAttribute('aria-label','Open your profile');
-  const name=document.createElement('strong'),link=document.createElement('a'),settings=document.createElement('a'),done=document.createElement('button');
+  const name=document.createElement('strong'),link=document.createElement('a'),portal=document.createElement('a'),settings=document.createElement('a'),done=document.createElement('button');
   link.href=new URL('accounts/index.html',base).href;link.textContent='Profile and progress';
+  portal.href=new URL('accounts/index.html#kids',base).href;portal.textContent='Grown-up portal';portal.hidden=true;
   settings.href=new URL('grown-ups/index.html',base).href;settings.textContent='Game settings';done.type='button';done.textContent='👋 Sign out';
   items.append(name,link,settings,done);menu.append(avatar,items);
   const guestLink=document.createElement('a');guestLink.href=new URL('index.html',base).href;guestLink.textContent='Sign in to save';
@@ -35,12 +36,19 @@ if(!isHome&&!isAdmin){
   function render(){
     menu.hidden=!A.profile;guestLink.hidden=Boolean(A.profile);
     name.textContent=A.profile?.display_name||'';
+    if(A.profile?.role==='grownup'){items.insertBefore(portal,settings);portal.hidden=false;}else{portal.hidden=true;portal.remove();}
     link.href=new URL('accounts/index.html'+(A.profile?.role==='grownup'?'#account':''),base).href;
     avatar.replaceChildren();
     const img=document.createElement('img');img.src=A.profile?.avatar?.startsWith('data:image/')?A.profile.avatar:new URL('accounts/lucy/garden.jpg',base).href;img.alt='';avatar.append(img);
   }
   function place(){const header=document.querySelector('#header'),controls=header.querySelector('.controls');if(controls&&!header.contains(strip)){const group=document.createElement('div');group.className='player-controls';controls.replaceWith(group);group.append(controls,strip);}}
   new MutationObserver(place).observe(document.querySelector('#header'),{childList:true,subtree:true});place();
+  const close=()=>{menu.open=false;};
+  new MutationObserver(close).observe(document.querySelector('#main'),{childList:true});
+  document.addEventListener('pointerdown',event=>{if(!menu.contains(event.target))close();});
+  document.addEventListener('click',event=>{if(!menu.contains(event.target)||event.target.closest('a'))close();});
+  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&menu.open){close();avatar.focus();}});
+  window.addEventListener('pagehide',close);
   done.addEventListener('click',async()=>{done.disabled=true;await A.signOut();location.href=new URL('index.html',base).href;});
   A.subscribe(render);A.ready.then(render).catch(()=>{});render();
 }

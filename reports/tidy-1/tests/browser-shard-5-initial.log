@@ -1,0 +1,8 @@
+PASS v3-moonboat-1440-theme0: B/J/X/Z flow, no hints, replay, collection, wrap, keyboard and layout
+PASS v3-moonboat-1440-theme1: B/J/X/Z flow, no hints, replay, collection, wrap, keyboard and layout
+page.waitForFunction: Timeout 30000ms exceeded.
+    at settle (/workspace/clg-codex/tests/browser_smoke.cjs:38:37)
+    at run (/workspace/clg-codex/tests/browser_smoke.cjs:88:65) {
+  log: [],
+  name: 'TimeoutError'
+}

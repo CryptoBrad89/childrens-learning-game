@@ -14,7 +14,7 @@ Open `v1-letter-post/index.html` and `v3-moonboat/index.html` with `pathToFileUR
 
 Select `#theme` values 0, 1, and 2. Click `#mute` and inspect `aria-pressed`. Click `.collection-preview summary` to open the full collection. A correct round adds a green `.done-badge` and a "Done" caption. Opening a letter or answering incorrectly must not add either. Returning home after a new correct answer settles the new badge once; paging, reopening, and repeated success do not replay that settle. Calm and reduced motion are static. Progress remains limited to the current visit.
 
-Run `node tests/layout_build.cjs` for all themes at 1024×576, 1280×720, 1366×768, 1440×900, 768×1024, and 1920×1080, real answer paths, motion, restricted letter pools, and screenshots under `reports/layout-build/`. `tests/browser_smoke.cjs` covers B/J/X/Z journeys, hints, replay, keyboard wrap, and collection expansion. `tests/motion_smoke.cjs` covers the existing route and reward effects.
+Run `node tests/layout_build.cjs` for all themes at 1024×576, 1280×720, 1366×768, 1440×900, 768×1024, and 1920×1080, real answer paths, motion, restricted letter pools, and screenshots under `reports/layout-build/`. `tests/browser_smoke.cjs` covers B/J/X/Z journeys, no hints, replay, keyboard wrap, and collection expansion. `tests/motion_smoke.cjs` covers the existing route and reward effects.
 
 ## Gotchas
 

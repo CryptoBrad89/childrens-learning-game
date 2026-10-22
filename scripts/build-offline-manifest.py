@@ -11,6 +11,7 @@ for folder in folders:
     files.extend(path for path in (root / folder).rglob('*') if path.is_file() and path.suffix in allowed)
 files.sort()
 version = hashlib.sha256()
+version.update((root / 'sw.js').read_bytes())
 for path in files:
     version.update(path.relative_to(root).as_posix().encode())
     version.update(path.read_bytes())

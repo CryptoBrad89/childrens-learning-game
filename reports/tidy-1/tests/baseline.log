@@ -1,0 +1,20 @@
+AssertionError [ERR_ASSERTION]: Opening the picture screen must be silent
++ actual - expected
+
++ [
++   {
++     end: 2270.60000000149,
++     file: 'b-sound-trim.mp3',
++     overlap: 0,
++     start: 1706.2000000029802
++   }
++ ]
+- []
+    at nativeAudio (/workspace/clg-codex/tests/tidy_1.cjs:44:9)
+    at async /workspace/clg-codex/tests/tidy_1.cjs:118:38 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: [Array],
+  expected: [],
+  operator: 'deepStrictEqual'
+}

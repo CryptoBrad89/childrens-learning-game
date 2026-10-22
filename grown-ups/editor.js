@@ -22,7 +22,7 @@ function unlock() {
 /* ---------- Settings ---------- */
 const A=window.ACCOUNTS, hosted=location.protocol!=='file:';
 let targets=[], children=[], draft={...G.settings}, patch={}, mixed=new Set(), applying=false;
-const LABELS={voice:"Lucy's voice",volume:'Voice volume',effects:'Sound effects',calm:'Calm motion',letters:'Letters',hintAfter:'Help when stuck',games:'Worlds',kidControls:"Children's buttons"};
+const LABELS={voice:"Lucy's voice",volume:'Voice volume',effects:'Sound effects',calm:'Calm motion',letters:'Letters',games:'Worlds',kidControls:"Children's buttons"};
 const same=(a,b)=>JSON.stringify(a)===JSON.stringify(b);
 const current = () => structuredClone(draft);
 function scopeValues(){
@@ -104,8 +104,6 @@ function render() {
   }
   const n = s.letters.length;
   $('#letter-count').textContent = n === 26 ? 'All 26 letters are in play.' : `${n} of 26 letters in play: ${s.letters.join(' ').toLowerCase()}.`;
-  const checked = [...$$('#hint input')].findIndex(input => input.checked);
-  $('#hint .segments').style.setProperty('--index', Math.max(0, checked));
 }
 async function commit(next, message = 'Saved.', touched=Object.keys(LABELS)) {
   if(hosted){

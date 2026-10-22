@@ -1,0 +1,4 @@
+PASS grown-up settings: defaults, validation, save/load, corrupt and blocked storage
+PASS v1-letter-post: chosen letters, counts, wrap, legacy hints ignored, voice off, volume and hidden children's buttons
+PASS v3-moonboat: chosen letters, counts, wrap, legacy hints ignored, voice off, volume and hidden children's buttons
+PASS v4-silk-thread: chosen letters, counts, wrap, legacy hints ignored, voice off, volume and hidden children's buttons

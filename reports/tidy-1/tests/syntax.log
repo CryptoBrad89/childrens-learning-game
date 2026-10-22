@@ -1,0 +1,7 @@
+PASS syntax v1-letter-post/app.js
+PASS syntax v3-moonboat/app.js
+PASS syntax accounts/navigation.js
+PASS syntax sw.js
+PASS syntax tests/tidy_1.cjs
+PASS syntax tests/tidy_1_update.cjs
+PASS syntax scripts/build-tidy-1-preview.cjs

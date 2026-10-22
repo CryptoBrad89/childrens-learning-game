@@ -94,10 +94,10 @@ async function game(name, saved) {
   }
   const noEffect = async () => true;
   const Fun = {cancel() {}, voice() {}, mute() {}, home: noEffect, open: noEffect, press: noEffect, replay: noEffect,
-    hint: noEffect, lucy: noEffect, exit: noEffect, correct: noEffect, reward: noEffect, weather: noEffect, evidence: {reduced: false}};
+    wrong: noEffect, lucy: noEffect, exit: noEffect, correct: noEffect, reward: noEffect, weather: noEffect, evidence: {reduced: false}};
   const window = {Fun, scrollTo() {}};
   const localStorage = storage({'little-woof-grown-ups': JSON.stringify(saved)});
-  const context = vm.createContext({window, document, Audio, queueMicrotask, localStorage, location: {protocol: 'file:'}});
+  const context = vm.createContext({window, document, Audio, setTimeout, clearTimeout, queueMicrotask, localStorage, location: {protocol: 'file:'}});
   const html = fs.readFileSync(path.join(root, name, 'index.html'), 'utf8');
   const scripts = [...html.matchAll(/<script src="([^"]+)"/g)].map(m => m[1]);
   assert(scripts.indexOf('../grown-ups/settings.js') > -1 && scripts.indexOf('../grown-ups/settings.js') < scripts.findIndex(s => s.endsWith('app.js')),
@@ -139,7 +139,7 @@ async function worldChecks(name) {
     const wrong = t.app.choices.find(l => l.letter !== 'S'), button = t.getNode(`[data-answer="${wrong.letter}"]`);
     button.dataset.answer = wrong.letter;
     await t.app.answer(button); await t.flush();
-    assert(t.getNode('[data-answer="S"]').classList.values.has('hint'), `${name}: hint after one miss`);
+    assert(!t.getNode('[data-answer="S"]').classList.values.has('hint'), `${name}: legacy one-miss setting cannot enable hints`);
     const correct = t.getNode('[data-answer="S"]'); correct.dataset.answer = 'S';
     await t.app.answer(correct); await t.flush();
     assert(t.main().includes('1 of 6 · this visit'));
@@ -181,7 +181,7 @@ async function worldChecks(name) {
     t.getNode('#main').listeners.click({target: next}); await t.flush();
     assert.equal(t.app.current.letter, 'Q', `${name}: a single letter wraps to itself`);
   }
-  console.log(`PASS ${name}: chosen letters, counts, wrap, hints (1 / never), voice off, volume and hidden children's buttons`);
+  console.log(`PASS ${name}: chosen letters, counts, wrap, legacy hints ignored, voice off, volume and hidden children's buttons`);
 }
 
 (async () => {

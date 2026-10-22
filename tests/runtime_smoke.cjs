@@ -35,7 +35,7 @@ async function smoke(game) {
     },
     addEventListener() {}
   };
-  let activeAudio = null, previousRetry = null;
+  let activeAudio = null;
   class Audio {
     constructor(file) {
       assert.equal(typeof file, 'string', 'Undefined audio path');
@@ -48,12 +48,12 @@ async function smoke(game) {
   const noEffect = async () => true;
   const Fun = {
     cancel() {}, voice() {}, mute() {}, home: noEffect, open: noEffect,
-    press: noEffect, replay: noEffect, hint: noEffect, lucy: noEffect,
+    press: noEffect, replay: noEffect, wrong: noEffect, lucy: noEffect,
     exit: noEffect, correct: noEffect, reward: noEffect, weather: noEffect, evidence: {reduced: false}
   };
   const window = {Fun, scrollTo() {}};
   const context = vm.createContext({
-    window, document, Audio, queueMicrotask, location: {protocol: 'file:'},
+    window, document, Audio, setTimeout, clearTimeout, queueMicrotask, location: {protocol: 'file:'},
     localStorage: {getItem() {return null;}, setItem() {}}
   });
   const scripts = [...fs.readFileSync(path.join(root, game, 'index.html'), 'utf8').matchAll(/<script src="([^"]+)"/g)].map(match => match[1]);
@@ -87,7 +87,9 @@ async function smoke(game) {
       assert.deepEqual(played, [window.GAME_AUDIO.letters[letter].name, window.GAME_AUDIO.letters[letter].sound]);
       await app.replay(); await flush();
       assert.deepEqual(played.slice(-2), [window.GAME_AUDIO.letters[letter].name, window.GAME_AUDIO.letters[letter].sound]);
+      played.length=0;
       await app.continueMatch(makeNode()); await flush();
+      assert.deepEqual(played, [], 'Picture screen opens silently');
       assert.equal(document.body.dataset.screen, 'match');
       assert(html().includes(letter === 'X' ? 'What ends' : 'What starts'));
       assert.equal(app.choices.length, 3);
@@ -98,18 +100,20 @@ async function smoke(game) {
         if (letter !== 'X') assert.notEqual(choice.word[0], app.current.word[0], 'Ambiguous starting-word distractor');
         const button = getNode(`[data-answer="${choice.letter}"]`);
         button.dataset.answer = choice.letter;
+        const before=played.length;
         const feedbackBefore = played.filter(file=>file.includes('/audio/feedback/')).length;
         await app.answer(button); await flush();
         const feedback = played.filter(file=>file.includes('/audio/feedback/'));
         assert.equal(feedback.length, feedbackBefore+1, 'Each wrong answer plays one Lucy retry');
-        assert.notEqual(feedback.at(-1), previousRetry, 'Successive retry clips vary'); previousRetry=feedback.at(-1);
+        assert.match(feedback.at(-1), /lucy-(uh-oh|try-again|oops-try-again)\.mp3$/);
+        assert.equal(played.length,before+2,'Only word and retry');
+        assert.equal(played[before],audioPath(window.GAME_AUDIO.words[choice.word]));
         assert.equal(document.body.dataset.screen, 'match');
-        assert.equal(button.getAttribute('aria-disabled'), null);
       }
-      assert(getNode('.feedback').textContent.includes(letter === 'X' ? 'ends with' : 'starts with'));
+      assert(!getNode('.feedback').textContent.includes(app.current.sound));
       const correct = getNode(`[data-answer="${letter}"]`);
-      assert(correct.classList.values.has('hint'), 'Two misses must reveal a hint');
-      assert(played.includes(audioPath(window.GAME_AUDIO.words[app.current.word])), 'Hint must play the target word');
+      assert(!correct.classList.values.has('hint'), 'Repeated misses never reveal a hint');
+      assert(!played.includes(audioPath(window.GAME_AUDIO.words[app.current.word])), 'Never say the target word after a wrong tap');
       correct.dataset.answer = letter;
       await app.answer(correct); await flush();
       assert.equal(document.body.dataset.screen, 'celebrate');

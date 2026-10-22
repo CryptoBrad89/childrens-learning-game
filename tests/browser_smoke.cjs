@@ -34,8 +34,9 @@ async function run() {
           await context.route(/^https?:/, route => route.abort());
           const page = await context.newPage(), errors = [];
           page.on('pageerror', error => errors.push(error.message));
+          await page.addInitScript(()=>{const play=HTMLMediaElement.prototype.play;HTMLMediaElement.prototype.play=function(){window.lastMedia=this;return play.call(this);};});
           const prefix = `${game}-${viewport.width}-theme${theme}`;
-          const settle = () => page.waitForFunction(() => !document.body.dataset.effect && !document.body.classList.contains('talking'));
+          const settle = async () => {try{await page.waitForFunction(() => !document.body.dataset.effect && !document.body.classList.contains('talking'));}catch(error){console.error('Stalled playback',await page.evaluate(()=>({screen:document.body.dataset.screen,effect:document.body.dataset.effect,talking:document.body.classList.contains('talking'),hidden:document.hidden,fun:Fun.evidence,media:window.lastMedia&&{src:lastMedia.src,paused:lastMedia.paused,ended:lastMedia.ended,currentTime:lastMedia.currentTime,duration:lastMedia.duration,readyState:lastMedia.readyState,error:lastMedia.error?.message},animations:document.getAnimations().filter(a=>a.playState==='paused').map(a=>({target:a.effect.target.className,time:a.currentTime}))})));throw error;}};
           const screen = value => page.waitForFunction(value => document.body.dataset.screen === value, value);
           const capture = label => process.env.NO_SCREENSHOTS ? Promise.resolve() : page.screenshot({path: path.join(shots, `${prefix}-${label}.png`), fullPage: true});
           const fits = async () => {
@@ -93,12 +94,12 @@ async function run() {
             assert.equal(await wrong.count(), 2);
             for (let miss = 0; miss < 2; miss++) {
               await wrong.nth(miss).click();
-              await page.waitForFunction(() => [...document.querySelectorAll('.choice')].every(n => !n.hasAttribute('aria-disabled')));
+              await settle();
             }
-            assert(await page.locator(`[data-answer="${letter}"]`).evaluate(n => n.classList.contains('hint')));
+            assert.equal(await page.locator('.hint,.hint-tag').count(),0);
             if (letter === 'X') {
-              assert((await page.locator('.feedback').textContent()).includes('ends with /ks/'));
-              await fits(); await capture('match-X-hint');
+              assert(!(await page.locator('.feedback').textContent()).includes('/ks/'));
+              await fits(); await capture('match-X-no-hints');
             }
             await page.locator(`[data-answer="${letter}"]`).click();
             await screen('celebrate'); await settle(); await fits(); count++;
@@ -125,7 +126,7 @@ async function run() {
           await fits(); await capture('home-end-of-alphabet');
           assert.deepEqual(errors, [], `${prefix}: browser errors`);
           await context.close(); cases++;
-          console.log(`PASS ${prefix}: B/J/X/Z flow, hints, replay, collection, wrap, keyboard and layout`);
+          console.log(`PASS ${prefix}: B/J/X/Z flow, no hints, replay, collection, wrap, keyboard and layout`);
         }
       }
     }

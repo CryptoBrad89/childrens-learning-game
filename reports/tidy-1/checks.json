@@ -1,0 +1,257 @@
+[
+  {
+    "game": "v1-letter-post",
+    "nativeAudio": true,
+    "pauseMs": [
+      200.40000000223517,
+      200.30000000074506,
+      200.19999999925494,
+      200.60000000149012,
+      200.29999999701977
+    ],
+    "retryClips": [
+      "lucy-uh-oh.mp3",
+      "lucy-try-again.mp3",
+      "lucy-oops-try-again.mp3",
+      "lucy-try-again.mp3",
+      "lucy-oops-try-again.mp3"
+    ],
+    "interruptions": [
+      "new picture",
+      "replay during word",
+      "replay during pause",
+      "replay during retry"
+    ],
+    "correctOnly": true
+  },
+  {
+    "game": "v1-letter-post",
+    "role": "grownup",
+    "width": 1024,
+    "height": 576,
+    "portal": true,
+    "outsideTap": true,
+    "navigationClose": true,
+    "liveDatabaseRequestsSent": 0
+  },
+  {
+    "game": "v3-moonboat",
+    "nativeAudio": true,
+    "pauseMs": [
+      200.40000000223517,
+      200.39999999850988,
+      200.39999999850988,
+      200.30000000074506,
+      200.30000000074506
+    ],
+    "retryClips": [
+      "lucy-oops-try-again.mp3",
+      "lucy-uh-oh.mp3",
+      "lucy-try-again.mp3",
+      "lucy-try-again.mp3",
+      "lucy-oops-try-again.mp3"
+    ],
+    "interruptions": [
+      "new picture",
+      "replay during word",
+      "replay during pause",
+      "replay during retry"
+    ],
+    "correctOnly": true
+  },
+  {
+    "game": "v3-moonboat",
+    "role": "grownup",
+    "width": 1024,
+    "height": 576,
+    "portal": true,
+    "outsideTap": true,
+    "navigationClose": true,
+    "liveDatabaseRequestsSent": 0
+  },
+  {
+    "game": "v4-silk-thread",
+    "nativeAudio": true,
+    "pauseMs": [
+      200.30000000074506,
+      200.19999999925494,
+      200.29999999701977,
+      200.30000000074506,
+      200.30000000074506
+    ],
+    "retryClips": [
+      "lucy-try-again.mp3",
+      "lucy-uh-oh.mp3",
+      "lucy-oops-try-again.mp3",
+      "lucy-try-again.mp3",
+      "lucy-oops-try-again.mp3"
+    ],
+    "interruptions": [
+      "new picture",
+      "replay during word",
+      "replay during pause",
+      "replay during retry"
+    ],
+    "correctOnly": true
+  },
+  {
+    "game": "v4-silk-thread",
+    "role": "grownup",
+    "width": 1024,
+    "height": 576,
+    "portal": true,
+    "outsideTap": true,
+    "navigationClose": true,
+    "liveDatabaseRequestsSent": 0
+  },
+  {
+    "game": "v1-letter-post",
+    "role": "child",
+    "width": 1024,
+    "height": 576,
+    "portal": false,
+    "outsideTap": true,
+    "navigationClose": true,
+    "liveDatabaseRequestsSent": 0
+  },
+  {
+    "game": "v3-moonboat",
+    "role": "child",
+    "width": 1024,
+    "height": 576,
+    "portal": false,
+    "outsideTap": true,
+    "navigationClose": true,
+    "liveDatabaseRequestsSent": 0
+  },
+  {
+    "game": "v4-silk-thread",
+    "role": "child",
+    "width": 1024,
+    "height": 576,
+    "portal": false,
+    "outsideTap": true,
+    "navigationClose": true,
+    "liveDatabaseRequestsSent": 0
+  },
+  {
+    "game": "v1-letter-post",
+    "role": "grownup",
+    "width": 768,
+    "height": 1024,
+    "portal": true,
+    "outsideTap": true,
+    "navigationClose": true,
+    "liveDatabaseRequestsSent": 0
+  },
+  {
+    "game": "v3-moonboat",
+    "role": "grownup",
+    "width": 768,
+    "height": 1024,
+    "portal": true,
+    "outsideTap": true,
+    "navigationClose": true,
+    "liveDatabaseRequestsSent": 0
+  },
+  {
+    "game": "v4-silk-thread",
+    "role": "grownup",
+    "width": 768,
+    "height": 1024,
+    "portal": true,
+    "outsideTap": true,
+    "navigationClose": true,
+    "liveDatabaseRequestsSent": 0
+  },
+  {
+    "game": "v1-letter-post",
+    "role": "child",
+    "width": 768,
+    "height": 1024,
+    "portal": false,
+    "outsideTap": true,
+    "navigationClose": true,
+    "liveDatabaseRequestsSent": 0
+  },
+  {
+    "game": "v3-moonboat",
+    "role": "child",
+    "width": 768,
+    "height": 1024,
+    "portal": false,
+    "outsideTap": true,
+    "navigationClose": true,
+    "liveDatabaseRequestsSent": 0
+  },
+  {
+    "game": "v4-silk-thread",
+    "role": "child",
+    "width": 768,
+    "height": 1024,
+    "portal": false,
+    "outsideTap": true,
+    "navigationClose": true,
+    "liveDatabaseRequestsSent": 0
+  },
+  {
+    "game": "v1-letter-post",
+    "role": "grownup",
+    "width": 1920,
+    "height": 1080,
+    "portal": true,
+    "outsideTap": true,
+    "navigationClose": true,
+    "liveDatabaseRequestsSent": 0
+  },
+  {
+    "game": "v3-moonboat",
+    "role": "grownup",
+    "width": 1920,
+    "height": 1080,
+    "portal": true,
+    "outsideTap": true,
+    "navigationClose": true,
+    "liveDatabaseRequestsSent": 0
+  },
+  {
+    "game": "v4-silk-thread",
+    "role": "grownup",
+    "width": 1920,
+    "height": 1080,
+    "portal": true,
+    "outsideTap": true,
+    "navigationClose": true,
+    "liveDatabaseRequestsSent": 0
+  },
+  {
+    "game": "v1-letter-post",
+    "role": "child",
+    "width": 1920,
+    "height": 1080,
+    "portal": false,
+    "outsideTap": true,
+    "navigationClose": true,
+    "liveDatabaseRequestsSent": 0
+  },
+  {
+    "game": "v3-moonboat",
+    "role": "child",
+    "width": 1920,
+    "height": 1080,
+    "portal": false,
+    "outsideTap": true,
+    "navigationClose": true,
+    "liveDatabaseRequestsSent": 0
+  },
+  {
+    "game": "v4-silk-thread",
+    "role": "child",
+    "width": 1920,
+    "height": 1080,
+    "portal": false,
+    "outsideTap": true,
+    "navigationClose": true,
+    "liveDatabaseRequestsSent": 0
+  }
+]

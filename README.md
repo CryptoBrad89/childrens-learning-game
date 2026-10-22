@@ -12,13 +12,13 @@ All three games work offline from local files, without a build step.
 Vanilla HTML, CSS, and JavaScript; no dependencies.
 
 All three games cover A–Z with their screens, typography, palettes, Lucy
-photos, screen animations, themes, hints, replay and visit collections.
+photos, screen animations, themes, replay and visit collections.
 Envelope/planet cards scroll vertically within their shelves; stamp
 strips/constellations scroll horizontally and count up to 26. A newly earned
 letter is brought into view on the celebration screen. The in-world collections last for
 the current visit. Signed-in progress pages keep lasting progress and milestones.
 
-G uses goat. X uses fox's ending /ks/: the question and hint say “ends with,”
+G uses goat. X uses fox's ending /ks/: the question says “ends with,”
 and the celebration says “Fox ends with x.” Distractors exclude matching
 sounds (cat/kite) and matching starting words (fish/fox). Word pictures are
 code-native SVGs.
@@ -59,7 +59,7 @@ CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/grown_ups_smoke.cjs
 
 - `runtime_smoke.cjs` (no browser) plays 234 rounds (26 letters × 3 themes ×
   3 games) with browser APIs stubbed: listen/replay, wrong answers and
-  two-miss hints, celebration, next-letter wraparound, collections and mute.
+  no hints after repeated misses, celebration, next-letter wraparound, collections and mute.
 - `browser_smoke.cjs` uses local Playwright and file URLs to check B/J/X/Z
   at 390×844, 768×1024 and 1440×1000 in all themes, including touch targets
   and horizontal overflow. Screenshots go to `/tmp/lpmb-shots`. Set
@@ -74,8 +74,9 @@ CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/grown_ups_smoke.cjs
   themes at phone and whiteboard sizes. Screenshots go to
   `/tmp/confetti-shots`.
 - `grown_ups_runtime.cjs` (no browser) checks that settings are validated and
-  saved, and that every world's real renderer obeys chosen letters, hint
-  timing, a quiet start, voice volume and hidden children's buttons.
+  saved, and that every world's real renderer obeys chosen letters, a quiet
+  start, voice volume and hidden children's buttons. Legacy hint values cannot
+  enable hints.
 - `grown_ups_smoke.cjs` checks the grown-ups' corner at phone, tablet,
   Chromebook and whiteboard sizes: the portal door, settings without a keypad, the
   three-miss pause and unlock, every setting, the last-world and last-letter
@@ -123,11 +124,11 @@ Game settings always shows its target. Only the master can change game defaults.
 - **Letters:** any set of letters, or quick sets (all 26, s a t p i n,
   vowels). Pickers, collections, counts and "Another sound" use only the
   chosen letters. Wrong-answer pictures can still come from any letter.
-- **Help:** the right picture is outlined after one miss, after two (the
-  default), or never.
 - **Motion:** *Calm motion* behaves exactly like a reduced-motion preference.
 - **Worlds and buttons:** which worlds the chooser shows (at least one), and
   whether children see the sound and color buttons.
+
+Wrong taps play only the tapped word, a 200 ms pause, and one existing Lucy retry clip. A new tap or letter replay interrupts that sequence. Games never reveal the correct picture or add hints after repeated misses. The picture screen opens silently; tapping its letter replays only the sound.
 
 `grown-ups/settings.js` is the shared, validated store. `grown-ups/in-game.css`
 mirrors the reduced-motion rules for calm motion. The defaults leave every
@@ -136,6 +137,8 @@ dotted texture as child sign-in, including on devices that prefer dark mode. Des
 [grown-ups/DESIGN.md](grown-ups/DESIGN.md). Opened straight from `file://`,
 some browsers (Firefox, for example) may keep separate storage for each page. Serve the
 folder (see above) to share settings in every browser.
+
+The focused tidy-up checks are `node tests/tidy_1.cjs` for native audio and menus, and `node tests/tidy_1_update.cjs` for real old-to-new worker upgrades and offline play. Both use isolated local browsers and block live account requests. Run `node scripts/build-tidy-1-preview.cjs` to rebuild the visual comparisons for items 6 and 8. See [the tidy-up report](reports/tidy-1.md) for results and links.
 
 ## Rules
 
@@ -149,7 +152,9 @@ Serve the repository on HTTPS, or use `python3 -m http.server 8000` for localhos
 
 Grown-ups manage their own profile, password and game progress through **My account**. The master sees every kid and every grown-up. Kid rows show every linked grown-up, and search matches their names and logins. Other grown-ups see only their linked kids. Open a person to manage their profile, password, settings or progress. Deletion requires a named confirmation and the account count. Select kids for bulk settings, progress reset or deletion; select regular grown-ups for bulk deletion. Only the master can share existing kids, transfer links between grown-ups, or reset another grown-up's game progress. A transfer preserves other grown-up links, the kid's login and progress. Unlinking the last regular grown-up rehomes the kid to the master. The master cannot remove the last link to themselves.
 
-The header says **Games ready for offline play** after the whole game is cached. A previously signed-in person can reopen and play offline. A new sign-in requires a connection. Completed rounds and field-level setting edits wait in IndexedDB until reconnecting; repeated delivery cannot count a round twice. Settings include every grown-up option, sound choice and each world's theme. Opening a new world uses the latest synchronized choices. The in-world letter collection remains a collection for this visit; the progress page is permanent history.
+The in-game profile menu includes a **Grown-up portal** link only for grown-ups. It closes on screen changes and outside taps.
+
+The header says **Games ready for offline play** after the whole game is cached. Online loads request the current build; updates replace the offline copy and refresh open game pages without closing tabs or clearing cache. Open account and settings pages stay in place. A previously signed-in person can reopen and play offline. A new sign-in requires a connection. Completed rounds and field-level setting edits wait in IndexedDB until reconnecting; repeated delivery cannot count a round twice. Settings include every grown-up option, sound choice and each world's theme. Opening a new world uses the latest synchronized choices. The in-world letter collection remains a collection for this visit; the progress page is permanent history.
 
 Only the publishable client key is in `accounts/config.js`. The database and account-provisioning function are recorded in [supabase/](supabase/README.md). [Build report](reports/accounts-build.md) and [design notes](reports/accounts-design.md) explain the choices and limits.
 

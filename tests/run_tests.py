@@ -132,14 +132,10 @@ def wiring():
         for path in strings(audio):
             require(inside(folder / path).is_file(), f'{game}: missing audio {path}')
         app = (folder / 'app.js').read_text()
-        # Guard the actual playback sites, including match and two-miss hints.
+        # Guard the approved audio mapping. Browser tests cover playback behavior.
         for fragment in ('const A=window.GAME_AUDIO;', 'new Audio(file)',
                          'return [A.letters[current.letter].name,A.letters[current.letter].sound];',
                          'return A.words[l.word];', 'voice(letterAudio())',
-                         'voice([A.letters[current.letter].sound])',
-                         'voice(reward?[wordAudio(current)]:letterAudio())',
-                         '...letterAudio(),wordAudio(current)',
-                         ':[A.letters[current.letter].sound]',
                          'A.feedback.cheers[visited.size%2]'):
             require(fragment in app, f'{game}: missing playback wiring {fragment}')
         require(app.count('new Audio(') == 1, f'{game}: unexpected playback entry point')
