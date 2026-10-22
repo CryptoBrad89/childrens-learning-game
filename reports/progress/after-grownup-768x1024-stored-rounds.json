@@ -1,0 +1,18 @@
+{
+  "local": [
+    {
+      "id": "2538d5be-0ef7-43bf-bc55-bd5506733f03",
+      "world": "post",
+      "letter": "B",
+      "misses": 0
+    }
+  ],
+  "remote": [
+    {
+      "id": "2538d5be-0ef7-43bf-bc55-bd5506733f03",
+      "world": "post",
+      "letter": "B",
+      "misses": 0
+    }
+  ]
+}

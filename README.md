@@ -12,11 +12,11 @@ All three games work offline from local files, without a build step.
 Vanilla HTML, CSS, and JavaScript; no dependencies.
 
 All three games cover A–Z with their screens, typography, palettes, Lucy
-photos, screen animations, themes, replay and visit collections.
+photos, screen animations, themes, replay and letter collections.
 Envelope/planet cards scroll vertically within their shelves; stamp
 strips/constellations scroll horizontally and count up to 26. A newly earned
-letter is brought into view on the celebration screen. The in-world collections last for
-the current visit. Signed-in progress pages keep lasting progress and milestones.
+letter is brought into view on the celebration screen. Signed-in collections show saved correct answers shared across all three games.
+Play without saving keeps collections for the current visit. Progress pages keep round history and milestones.
 
 G uses goat. X uses fox's ending /ks/: the question says “ends with,”
 and the celebration says “Fox ends with x.” Distractors exclude matching
@@ -154,7 +154,7 @@ Grown-ups manage their own profile, password and game progress through **My acco
 
 The in-game profile menu includes a **Grown-up portal** link only for grown-ups. It closes on screen changes and outside taps.
 
-The header says **Games ready for offline play** after the whole game is cached. Online loads request the current build; updates replace the offline copy and refresh open game pages without closing tabs or clearing cache. Open account and settings pages stay in place. A previously signed-in person can reopen and play offline. A new sign-in requires a connection. Completed rounds and field-level setting edits wait in IndexedDB until reconnecting; repeated delivery cannot count a round twice. Settings include every grown-up option, sound choice and each world's theme. Opening a new world uses the latest synchronized choices. The in-world letter collection remains a collection for this visit; the progress page is permanent history.
+The header says **Games ready for offline play** after the whole game is cached. Online loads request the current build; updates replace the offline copy and refresh open game pages without closing tabs or clearing cache. Open account and settings pages stay in place. A previously signed-in person can reopen and play offline. A new sign-in requires a connection. Completed rounds and field-level setting edits wait in IndexedDB until reconnecting; repeated delivery cannot count a round twice. Settings include every grown-up option, sound choice and each world's theme. Opening a new world uses the latest synchronized choices. Signed-in letter collections use saved correct answers across all games, including pending offline rounds. Guest collections last for the current visit; the progress page keeps round history.
 
 Only the publishable client key is in `accounts/config.js`. The database and account-provisioning function are recorded in [supabase/](supabase/README.md). [Build report](reports/accounts-build.md) and [design notes](reports/accounts-design.md) explain the choices and limits.
 

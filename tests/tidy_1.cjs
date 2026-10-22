@@ -36,6 +36,7 @@ async function closeMenuChecks(page,role){
  await page.keyboard.press('Escape');await screen(page,'home');await settle(page);
 }
 async function nativeAudio(page,game,fixture){
+ const roundsBefore=[...fixture.events.values()].filter(e=>e.kind==='round').length;
  if(await page.locator('#mute').getAttribute('aria-pressed')==='true')await page.locator('#mute').click();
  await clear(page);
  await page.locator('[data-letter=B]').click();await screen(page,'listen');await settle(page);
@@ -56,7 +57,7 @@ async function nativeAudio(page,game,fixture){
   assert.equal(await page.locator('.hint,.hint-tag').count(),0);
   assert.equal(await page.locator('.choice').count(),3);
   assert(!(await page.locator('.feedback').innerText()).includes('/b/'));
-  assert.equal([...fixture.events.values()].filter(e=>e.kind==='round').length,0);
+  assert.equal([...fixture.events.values()].filter(e=>e.kind==='round').length,roundsBefore);
   if(i===4)await page.screenshot({path:path.join(out,game+'-repeated-misses.png'),fullPage:true});
  }
  assert.equal(new Set(retries.slice(0,3)).size,3);assert(retries.includes('lucy-uh-oh.mp3'));
@@ -79,7 +80,7 @@ async function nativeAudio(page,game,fixture){
  // Muting suppresses the complete wrong-answer sequence.
  await page.locator('#mute').click();await clear(page);await wrong.first().click();await settle(page);assert.deepEqual(await speech(page),[]);
  await page.locator('#mute').click();await page.locator('[data-answer=B]').click();await screen(page,'celebrate');await settle(page);
- assert.equal([...fixture.events.values()].filter(e=>e.kind==='round').length,1);
+ assert.equal([...fixture.events.values()].filter(e=>e.kind==='round').length,roundsBefore+1);
  await page.keyboard.press('Escape');await screen(page,'home');await settle(page);
  if(game!=='v4-silk-thread')assert.equal(await page.locator('[data-letter=B] .done-badge').count(),1);
  else assert.equal(await page.locator('[data-letter=B] .visited').count(),1);
@@ -116,8 +117,6 @@ async function nativeAudio(page,game,fixture){
   for(const game of baseline?[games[0]]:games){
    await page.goto(local.url+'/'+game+'/');await screen(page,'home');await settle(page);
    if(width===1024&&role==='grownup')await nativeAudio(page,game,fixture);
-   // Later games use their own round count for the detailed native-audio checks.
-   fixture.events.clear();
    if(baseline)continue;
    if(await page.locator('#mute').getAttribute('aria-pressed')==='false')await page.locator('#mute').click();
    await closeMenuChecks(page,role);

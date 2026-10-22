@@ -1,0 +1,21 @@
+[
+  {
+    "crossDeviceAutomaticSync": true,
+    "normalMotionLoadedSettle": false,
+    "newCorrectSettle": true,
+    "repeatedCorrectSettle": false,
+    "pagerAlbumAndFocusPreserved": true,
+    "lessonPreserved": true,
+    "rewardCollectionRefreshed": true,
+    "ownerScoped": true,
+    "pendingAnswerOwnerIsolation": true,
+    "restrictedPoolCount": true,
+    "liveDatabaseRequestsSent": 0
+  },
+  {
+    "offlinePendingSaved": true,
+    "offlineReloadSharedGames": 3,
+    "reconnectOneRound": true,
+    "liveDatabaseRequestsSent": 0
+  }
+]

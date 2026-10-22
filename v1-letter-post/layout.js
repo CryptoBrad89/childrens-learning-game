@@ -1,17 +1,17 @@
 'use strict';
-window.createLetterLayout = ({pool, visited, post, main, ico, grown}) => {
+window.createLetterLayout = ({pool, visited, post, main, ico, grown, saved=()=>false}) => {
   document.body.classList.add('layout-built');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   let page = 0, albumOpen = false, pendingCompletion = null;
   const pages = Math.ceil(pool.length / 6);
   const badge = () => '<span class="done-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="m5 12 4.5 4.5L19 7" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
-  const cards = () => pool.slice(page * 6, page * 6 + 6).map((letter, index) => `<button data-letter="${letter.letter}" aria-label="Play letter ${letter.letter}${visited.has(letter.letter) ? ', completed this visit' : ''}" style="--i:${index};--tilt:${[-3,2,-2,2,-2,3][index]}deg"><span class="letter-decoration" aria-hidden="true"></span><span class="pick-glyph">${letter.letter}<small>${letter.letter.toLowerCase()}</small></span><span class="pick-caption">${visited.has(letter.letter) ? 'Done' : post ? 'OPEN ME' : 'explore'}</span>${visited.has(letter.letter) ? badge() : ''}</button>`).join('');
+  const cards = () => pool.slice(page * 6, page * 6 + 6).map((letter, index) => `<button data-letter="${letter.letter}" aria-label="Play letter ${letter.letter}${visited.has(letter.letter) ? saved() ? ', completed' : ', completed this visit' : ''}" style="--i:${index};--tilt:${[-3,2,-2,2,-2,3][index]}deg"><span class="letter-decoration" aria-hidden="true"></span><span class="pick-glyph">${letter.letter}<small>${letter.letter.toLowerCase()}</small></span><span class="pick-caption">${visited.has(letter.letter) ? 'Done' : post ? 'OPEN ME' : 'explore'}</span>${visited.has(letter.letter) ? badge() : ''}</button>`).join('');
   const range = () => `${pool[page * 6].letter}–${pool[Math.min(pool.length - 1, page * 6 + 5)].letter}`;
   function pickers(type) {
     return `<div class="picker-shelf ${type}-shelf" role="region" aria-label="Choose a letter"><div class="letter-list ${type}" aria-label="Choose a letter">${cards()}</div></div><nav class="pager" aria-label="Letter pages"><button data-action="letters-previous" aria-label="Previous six letters"${page === 0 ? ' disabled' : ''}>${ico('back')}</button><div><strong class="page-range" aria-live="polite">${range()}</strong><span class="page-number">Page ${page + 1} of ${pages}</span></div><button data-action="letters-next" aria-label="Next six letters"${page === pages - 1 ? ' disabled' : ''}>${ico('arrow')}</button></nav>`;
   }
   function collection() {
-    return `<details class="collection-preview"${albumOpen ? ' open' : ''}><summary><span class="collection-symbol">${ico(post ? 'paw' : 'star')}</span><span class="collection-heading"><strong>${post ? 'Your stamp album' : 'Your constellation'}</strong><small>${visited.size} of ${pool.length} collected · this visit</small></span><span class="collection-toggle"><span class="when-closed">Open</span><span class="when-open">Close</span><span class="chevron">⌄</span></span></summary><div class="album-content"><p>${post ? 'A stamp for each sound you deliver.' : 'A star for each sound you explore.'} Your whole alphabet, together.</p><div class="collection-slots album-grid">${pool.map(letter => `<div class="collection-slot album-slot ${visited.has(letter.letter) ? 'collected' : ''}" data-collection-letter="${letter.letter}" aria-label="${letter.letter}, ${visited.has(letter.letter) ? 'completed this visit' : 'ready to explore'}">${visited.has(letter.letter) ? badge() : `<span>${ico('star')}</span>`}<b>${letter.letter}</b><small>${visited.has(letter.letter) ? 'Done' : 'Ready'}</small></div>`).join('')}</div><p class="album-note">${post ? 'Your sound deliveries.' : 'Your little sound discoveries.'} Yours for this visit.</p></div></details>`;
+    return `<details class="collection-preview"${albumOpen ? ' open' : ''}><summary><span class="collection-symbol">${ico(post ? 'paw' : 'star')}</span><span class="collection-heading"><strong>${post ? 'Your stamp album' : 'Your constellation'}</strong><small>${pool.filter(letter=>visited.has(letter.letter)).length} of ${pool.length} collected · ${saved()?'saved progress':'this visit'}</small></span><span class="collection-toggle"><span class="when-closed">Open</span><span class="when-open">Close</span><span class="chevron">⌄</span></span></summary><div class="album-content"><p>${post ? 'A stamp for each sound you deliver.' : 'A star for each sound you explore.'} Your whole alphabet, together.</p><div class="collection-slots album-grid">${pool.map(letter => `<div class="collection-slot album-slot ${visited.has(letter.letter) ? 'collected' : ''}" data-collection-letter="${letter.letter}" aria-label="${letter.letter}, ${visited.has(letter.letter) ? saved() ? 'completed' : 'completed this visit' : 'ready to explore'}">${visited.has(letter.letter) ? badge() : `<span>${ico('star')}</span>`}<b>${letter.letter}</b><small>${visited.has(letter.letter) ? 'Done' : 'Ready'}</small></div>`).join('')}</div><p class="album-note">${post ? 'Your sound deliveries.' : 'Your little sound discoveries.'} ${saved()?'Saved across all games.':'Yours for this visit.'}</p></div></details>`;
   }
   function home(pic) {
     const intro = post
@@ -39,6 +39,15 @@ window.createLetterLayout = ({pool, visited, post, main, ico, grown}) => {
   }, true);
   return {
     home, pickers, collection,
+    refresh() {
+      const focused=main.querySelector('.letter-list :focus')?.dataset.letter;
+      const summaryFocused=document.activeElement===main.querySelector('.collection-preview summary');
+      if(main.querySelector('.letter-list'))renderPage();
+      const album=main.querySelector('.collection-preview');
+      if(album){albumOpen=album.open;album.outerHTML=collection();}
+      if(focused)main.querySelector(`[data-letter="${focused}"]`)?.focus({preventScroll:true});
+      else if(summaryFocused)main.querySelector('.collection-preview summary')?.focus({preventScroll:true});
+    },
     select(letter) { page = Math.floor(pool.findIndex(item => item.letter === letter) / 6); },
     complete(letter) { pendingCompletion = letter; },
     enter(screen) {

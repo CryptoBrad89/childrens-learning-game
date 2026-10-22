@@ -1,0 +1,80 @@
+[
+  {
+    "role": "grownup",
+    "width": 1024,
+    "height": 576,
+    "persisted": true,
+    "sharedGames": 3,
+    "signInRestored": true,
+    "openingAndWrongDoNotCount": true,
+    "accountIsolation": true,
+    "guestVisitOnly": true,
+    "loadedSettle": false,
+    "liveDatabaseRequestsSent": 0
+  },
+  {
+    "role": "child",
+    "width": 1024,
+    "height": 576,
+    "persisted": true,
+    "sharedGames": 3,
+    "signInRestored": true,
+    "openingAndWrongDoNotCount": true,
+    "accountIsolation": true,
+    "guestVisitOnly": true,
+    "loadedSettle": false,
+    "liveDatabaseRequestsSent": 0
+  },
+  {
+    "role": "grownup",
+    "width": 768,
+    "height": 1024,
+    "persisted": true,
+    "sharedGames": 3,
+    "signInRestored": true,
+    "openingAndWrongDoNotCount": true,
+    "accountIsolation": true,
+    "guestVisitOnly": true,
+    "loadedSettle": false,
+    "liveDatabaseRequestsSent": 0
+  },
+  {
+    "role": "child",
+    "width": 768,
+    "height": 1024,
+    "persisted": true,
+    "sharedGames": 3,
+    "signInRestored": true,
+    "openingAndWrongDoNotCount": true,
+    "accountIsolation": true,
+    "guestVisitOnly": true,
+    "loadedSettle": false,
+    "liveDatabaseRequestsSent": 0
+  },
+  {
+    "role": "grownup",
+    "width": 1920,
+    "height": 1080,
+    "persisted": true,
+    "sharedGames": 3,
+    "signInRestored": true,
+    "openingAndWrongDoNotCount": true,
+    "accountIsolation": true,
+    "guestVisitOnly": true,
+    "loadedSettle": false,
+    "liveDatabaseRequestsSent": 0
+  },
+  {
+    "role": "child",
+    "width": 1920,
+    "height": 1080,
+    "persisted": true,
+    "sharedGames": 3,
+    "signInRestored": true,
+    "openingAndWrongDoNotCount": true,
+    "accountIsolation": true,
+    "guestVisitOnly": true,
+    "loadedSettle": false,
+    "liveDatabaseRequestsSent": 0
+  }
+]

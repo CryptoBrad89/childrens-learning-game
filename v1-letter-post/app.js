@@ -17,8 +17,10 @@ const F=window.Fun, post=C.kind==='post';
 const key='little-woof-'+C.kind+'-theme';
 const grown=window.GROWN_UPS?.settings||{}, chosen=letters.filter(l=>!grown.letters||grown.letters.includes(l.letter)), pool=chosen.length?chosen:letters;
 const volume=Math.min(1,Math.max(0,(grown.volume??100)/100)), all=pool.length===letters.length;
-let theme=0, storageOK=true, muted=grown.voice===false, state='home', current=letters[0], visited=new Set(), misses=0, choices=[], busy=false, route=0, voiceToken=0, player=null, resolveClip=null, pauseTimer=null, roundId=null;
-const layout=window.createLetterLayout?.({pool,visited,post,main,ico,grown});
+const accounts=location.protocol==='file:'?null:window.ACCOUNTS;
+let progressOwner=accounts?.owner?.id||null;
+let theme=0, storageOK=true, muted=grown.voice===false, state='home', current=letters[0], visited=new Set(progressOwner?accounts.snapshot.rounds.map(round=>round.letter):[]), misses=0, choices=[], busy=false, route=0, voiceToken=0, player=null, resolveClip=null, pauseTimer=null, roundId=null;
+const layout=window.createLetterLayout?.({pool,visited,post,main,ico,grown,saved:()=>Boolean(progressOwner)});
 try { const saved=Number(window.ACCOUNTS?.guest ? 0 : window.ACCOUNTS?.owner && location.protocol !== 'file:' ? window.ACCOUNTS.snapshot.themes[C.kind] : localStorage.getItem(key)); if(Number.isInteger(saved)&&saved>=0&&saved<C.themes.length) theme=saved; }catch(e){storageOK=false;}
 function setTheme(value){F.cancel();theme=value;document.body.dataset.theme=String(value);try{if(window.ACCOUNTS?.guest){}else if(window.ACCOUNTS?.owner && location.protocol !== 'file:'){if(window.ACCOUNTS.snapshot.themes[C.kind]!==value)window.ACCOUNTS.setSetting('theme.'+C.kind,value).catch(()=>announce('Could not save your color.'));}else localStorage.setItem(key,String(value));}catch(e){storageOK=false;$('#storage').textContent='Theme saved for this visit only.';} }
 const wave=()=>'<span class="sound-wave" aria-hidden="true">'+Array.from({length:5},(_,i)=>`<i style="--i:${i}"></i>`).join('')+'</span>';
@@ -35,9 +37,39 @@ async function voice(files){stopVoice();const mine=voiceToken;if(muted||document
 function letterAudio(){return [A.letters[current.letter].name,A.letters[current.letter].sound];}
 function wordAudio(l){return A.words[l.word];}
 function shuffle(a){return a.map(x=>({x,r:Math.random()})).sort((a,b)=>a.r-b.r).map(o=>o.x);}
-function badges(l){return visited.has(l.letter)?`<span class="visited" aria-label="played this visit">${ico('check')}</span>`:'';}
-function pickers(type){if(layout)return layout.pickers(type);return `<div class="picker-shelf ${type}-shelf" role="region" aria-label="${all?'Choose a letter, A to Z. Scroll for more letters.':'Choose a letter. '+pool.length+' chosen for today.'}"><div class="letter-list ${type}" aria-label="Choose a letter">${pool.map((l,i)=>`<button data-letter="${l.letter}" aria-label="Play letter ${l.letter}" style="--i:${i};--tilt:${[-5,3,-2,4,-3,5][i%6]}deg"><span class="letter-decoration" aria-hidden="true"></span><span class="pick-glyph">${l.letter}<small>${l.letter.toLowerCase()}</small></span><span class="pick-caption">${C.kind==='post'?'OPEN ME':C.kind==='garden'?'plant me':C.kind==='silk'?'follow me':'explore'}</span>${badges(l)}</button>`).join('')}</div></div>`;}
-function collection(){if(layout)return layout.collection();return `<aside class="collection ${post?'stamp-album':'constellation'}" aria-label="${post?'Stamp collection':C.kind==='silk'?'Sound thread':'Sound constellation'} for this visit"><div class="collection-heading"><strong>${post?'YOUR STAMP STRIP':C.kind==='silk'?'YOUR SOUND THREAD':'YOUR LITTLE CONSTELLATION'}</strong><span>${visited.size} of ${pool.length} · this visit</span></div><div class="collection-slots" role="region" tabindex="0" aria-label="${all?'All 26 letters':pool.length===1?'1 letter':'All '+pool.length+' letters'}. Scroll to see more.">${pool.map(l=>`<div class="collection-slot ${visited.has(l.letter)?'collected':''}" aria-label="${l.letter}${visited.has(l.letter)?', collected this visit':', ready to explore'}"><span class="collection-symbol" aria-hidden="true">${visited.has(l.letter)?(post?ico('paw'):ico('star')):ico('star')}</span><b>${l.letter}</b><span>${visited.has(l.letter)?l.word:'·'}</span></div>`).join('')}</div><p>${post?'A stamp for each sound you deliver.':C.kind==='silk'?'A little sparkle for each sound you find.':'A star for each sound you explore.'} Yours for this visit.</p></aside>`;}
+const progressScope=()=>progressOwner?'saved progress':'this visit';
+const progressNote=()=>progressOwner?'Saved across all games.':'Yours for this visit.';
+const completedCount=()=>pool.filter(letter=>visited.has(letter.letter)).length;
+const pickerLabel=letter=>'Play letter '+letter+(progressOwner&&visited.has(letter)?', completed':'');
+function badges(l){return visited.has(l.letter)?`<span class="visited" aria-label="${progressOwner?'completed':'played this visit'}">${ico('check')}</span>`:'';}
+function pickers(type){if(layout)return layout.pickers(type);return `<div class="picker-shelf ${type}-shelf" role="region" aria-label="${all?'Choose a letter, A to Z. Scroll for more letters.':'Choose a letter. '+pool.length+' chosen for today.'}"><div class="letter-list ${type}" aria-label="Choose a letter">${pool.map((l,i)=>`<button data-letter="${l.letter}" aria-label="${pickerLabel(l.letter)}" style="--i:${i};--tilt:${[-5,3,-2,4,-3,5][i%6]}deg"><span class="letter-decoration" aria-hidden="true"></span><span class="pick-glyph">${l.letter}<small>${l.letter.toLowerCase()}</small></span><span class="pick-caption">${C.kind==='post'?'OPEN ME':C.kind==='garden'?'plant me':C.kind==='silk'?'follow me':'explore'}</span>${badges(l)}</button>`).join('')}</div></div>`;}
+function collection(){if(layout)return layout.collection();return `<aside class="collection ${post?'stamp-album':'constellation'}" aria-label="${post?'Stamp collection':C.kind==='silk'?'Sound thread':'Sound constellation'}: ${progressScope()}"><div class="collection-heading"><strong>${post?'YOUR STAMP STRIP':C.kind==='silk'?'YOUR SOUND THREAD':'YOUR LITTLE CONSTELLATION'}</strong><span>${completedCount()} of ${pool.length} · ${progressScope()}</span></div><div class="collection-slots" role="region" tabindex="0" aria-label="${all?'All 26 letters':pool.length===1?'1 letter':'All '+pool.length+' letters'}. Scroll to see more.">${pool.map(l=>`<div class="collection-slot ${visited.has(l.letter)?'collected':''}" aria-label="${l.letter}${visited.has(l.letter)?progressOwner?', completed':', collected this visit':', ready to explore'}"><span class="collection-symbol" aria-hidden="true">${visited.has(l.letter)?(post?ico('paw'):ico('star')):ico('star')}</span><b>${l.letter}</b><span>${visited.has(l.letter)?l.word:'·'}</span></div>`).join('')}</div><p>${post?'A stamp for each sound you deliver.':C.kind==='silk'?'A little sparkle for each sound you find.':'A star for each sound you explore.'} ${progressNote()}</p></aside>`;}
+function renderProgress(){
+ if(layout){layout.refresh();return;}
+ main.querySelectorAll('.letter-list [data-letter]').forEach(button=>{
+  button.querySelector('.visited')?.remove();
+  button.insertAdjacentHTML('beforeend',badges({letter:button.dataset.letter}));
+  button.setAttribute('aria-label',pickerLabel(button.dataset.letter));
+ });
+ const old=$('.collection');
+ if(old){
+  const left=old.querySelector('.collection-slots').scrollLeft;
+  old.outerHTML=collection();
+  $('.collection-slots').scrollLeft=left;
+ }
+}
+function refreshProgress(){
+ const owner=accounts.owner?.id||null,ownerChanged=owner!==progressOwner;
+ if(!owner&&!ownerChanged)return;
+ const next=new Set(owner?accounts.snapshot.rounds.map(round=>round.letter):[]);
+ if(!ownerChanged&&next.size===visited.size&&[...next].every(letter=>visited.has(letter)))return;
+ progressOwner=owner;
+ visited.clear();for(const letter of next)visited.add(letter);
+ if(ownerChanged){
+  layout?.complete(null);
+  go('home',{focus:false,transition:false});
+ }else if(!busy)renderProgress();
+}
 function home(){
  if(layout)return layout.home(pic);
  if(C.home)return C.home({pic,pickers,collection,ico,count:pool.length});
@@ -50,7 +82,7 @@ function soundCard(){return `<button class="listen-letter" data-action="replay" 
 function listen(){const wording=C.kind==='post'?['You’ve got sound mail!','Open your ears. Listen with Lucy.','Find its picture']:C.kind==='garden'?['A tiny sound is growing.','Listen. Can you say it with Lucy?','Let’s grow!']:C.kind==='silk'?['Follow a little sound.','Listen. Can you say it with Lucy?','Find its picture']:['A sound from the stars.','Listen closely, little explorer.','Find its picture'];return `<section class="screen play listen">${stepbar(1)}<div class="listen-layout"><div class="listen-intro"><p class="eyebrow">${C.kind==='post'?'SPECIAL DELIVERY':C.kind==='garden'?'IN OUR GARDEN':C.kind==='silk'?'ALONG RIBBON ROAD':'INCOMING TRANSMISSION'}</p><h1 class="play-title">${wording[0]}</h1><p class="play-copy">${wording[1]}</p><div class="guide-lucy">${pic('specs',current.letter+' says '+current.sound)}</div></div><div class="listen-work">${soundCard()}<button class="primary continue" data-action="match">${wording[2]} ${ico('arrow')}</button><p class="small-note">Tap the letter to hear it again.</p></div></div></section>`;}
 function match(){return `<section class="screen play match">${stepbar(2)}<div class="match-layout"><div class="match-prompt"><div><p class="eyebrow">${C.kind==='post'?'SORT THE SOUND MAIL':C.kind==='garden'?'A LITTLE HELP TO GROW':C.kind==='silk'?'A LITTLE DISCOVERY':'LOOK THROUGH THE TELESCOPE'}</p><h1 class="play-title">What ${current.letter==='X'?'ends':'starts'} <br>with ${current.sound}?</h1><p class="play-copy">Tap a picture.</p></div><div class="match-sound">${soundCard()}</div><div class="match-lucy">${pic('specs')}</div></div><div class="match-work"><div class="choices">${choices.map(l=>`<button class="choice" data-answer="${l.letter}" aria-label="${l.word}">${draw(l.word)}<span class="word">${l.word} ${ico('sound')}</span></button>`).join('')}</div><p class="feedback" role="status">${C.kind==='post'?'Which picture belongs in this letter?':C.kind==='garden'?'Find a picture to make your flower bloom.':'Which picture has our little sound?'}</p></div></div></section>`;}
 function celebrate(){const labels=C.kind==='post'?['Delivered with love!','ONE HAPPY DELIVERY','Sound mail, delivered.']:C.kind==='garden'?['Look what you grew!','A LITTLE SOUND BLOSSOM','Your garden has a new flower.']:C.kind==='silk'?['You found a little sparkle!','A NEW SOUND ON YOUR THREAD','Follow a sound. Find a little wonder.']:['You lit up the sky!','A NEW STAR IS SHINING','A little sound. A big discovery.'];return `<section class="screen celebration">${stepbar(3)}<div class="celebration-layout"><div class="reward-art"><div class="reward-ring" aria-hidden="true"></div><span class="burst-label">${labels[1]}</span>${draw(current.word)}<span class="reward-letter">${current.letter}<small>${current.letter.toLowerCase()}</small></span><span class="reward-stamp" aria-hidden="true">${post?'<b>DELIVERED</b>':ico('star')}</span>${post||F.evidence.reduced?'':'<span class="world-stars" aria-hidden="true"><i data-particle="reward">✦</i><i data-particle="reward">✦</i><i data-particle="reward">✦</i><i data-particle="reward">✦</i><i data-particle="reward">✦</i><i data-particle="reward">✦</i></span>'}</div><div class="celebration-copy"><p class="eyebrow">${labels[2]}</p><h1 class="finish-title">${labels[0]}</h1><p class="word-line">${current.letter==='X'?'Fox ends with x.':current.letter+' is for '+current.word+'.'}</p><div class="finish-actions"><button class="primary" data-action="next">Another sound ${ico('arrow')}</button><button class="secondary" data-action="home">${ico('home')} Home</button></div><button class="replay-prompt reward-replay" data-action="reward-replay">${ico('sound')} Hear ${current.word} again</button></div><div class="celebration-lucy">${pic('celebrate','We did it!')}</div></div>${collection()}</section>`;}
-async function go(next,{focus=true}={}){stopVoice();F.cancel();const mine=++route;state=next;busy=true;await F.exit();if(route!==mine)return false;main.innerHTML=next==='home'?home():next==='listen'?listen():next==='match'?match():celebrate();document.body.dataset.screen=next;busy=false;if(focus){main.focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'});} layout?.enter(next);if(next==='home')F.home();if(next==='celebrate'){if(!layout){const strip=$('.collection-slots'),slot=strip.children[Math.max(0,pool.indexOf(current))];strip.scrollLeft=slot.offsetLeft-(strip.clientWidth-slot.offsetWidth)/2;}celebrationMoment(mine);}return true;}
+async function go(next,{focus=true,transition=true}={}){stopVoice();F.cancel();const mine=++route;state=next;busy=true;if(transition)await F.exit();if(route!==mine)return false;main.innerHTML=next==='home'?home():next==='listen'?listen():next==='match'?match():celebrate();document.body.dataset.screen=next;busy=false;if(focus){main.focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'});} layout?.enter(next);if(next==='home'&&transition)F.home();if(next==='celebrate'){if(!layout){const strip=$('.collection-slots'),slot=strip.children[Math.max(0,pool.indexOf(current))];strip.scrollLeft=slot.offsetLeft-(strip.clientWidth-slot.offsetWidth)/2;}celebrationMoment(mine);}return true;}
 async function celebrationMoment(mine){if(!await F.reward()||route!==mine)return;if(!await F.lucy('nod')||route!==mine)return;voice([A.feedback.cheers[visited.size%2]]);}
 async function start(letter){layout?.select(letter);roundId=window.ACCOUNTS?.owner?crypto.randomUUID():null;current=letters.find(l=>l.letter===letter)||letters[0];misses=0;choices=shuffle([current,...shuffle(letters.filter(l=>l!==current&&l.sound!==current.sound&&(current.letter==='X'||l.word[0]!==current.word[0]))).slice(0,2)]);if(!await go('listen'))return;const mine=route;if(!await F.open())return;if(route===mine)voice(letterAudio());}
 async function continueMatch(button){if(busy||state!=='listen')return;busy=true;stopVoice();const mine=route;if(await F.press(button)&&route===mine){await go('match');}}
@@ -78,12 +110,14 @@ async function answer(button){
  if(!spoken||document.hidden){unlock();return;}
  await F.correct(button);
  if(route!==mine)return;
+ if((accounts?.owner?.id||null)!==progressOwner){refreshProgress();return;}
+ const newCompletion=!visited.has(current.letter);
  if(window.ACCOUNTS?.owner){
   try{await window.ACCOUNTS.recordRound(C.kind,current.letter,misses,roundId);}
   catch{unlock();announce('Could not save this sound. Free some browser storage and try again.');return;}
  }
  if(route!==mine)return;
- if(!visited.has(current.letter))layout?.complete(current.letter);
+ if(newCompletion)layout?.complete(current.letter);
  visited.add(current.letter);go('celebrate');
 }
 main.addEventListener('click',async e=>{const b=e.target.closest('button');if(!b||!main.contains(b)||b.getAttribute('aria-disabled')==='true'||(busy&&b.dataset.action!=='home'))return;if(layout?.click(b))return;if(b.dataset.letter){start(b.dataset.letter);return;}if(b.dataset.answer){answer(b);return;}const a=b.dataset.action;if(a==='home')go('home');if(a==='start')start(pool[0].letter);if(a==='listen'){if(await go('listen'))replay();}if(a==='match'&&state==='listen')continueMatch(b);if(a==='replay')replay();if(a==='next')start(pool[(pool.indexOf(current)+1)%pool.length].letter);if(a==='reward-replay')replay(true);});
@@ -91,4 +125,5 @@ main.addEventListener('keydown',e=>{if(layout?.keydown(e))return;if(!['ArrowLeft
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&state!=='home'){go('home');}});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)stopVoice();});
 header();go('home',{focus:false});
+accounts?.subscribe(refreshProgress);
 })();

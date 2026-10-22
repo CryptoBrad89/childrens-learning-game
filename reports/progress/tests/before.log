@@ -1,0 +1,11 @@
+AssertionError [ERR_ASSERTION]: A saved correct answer must restore the badge after reload
+
+0 !== 1
+
+    at /workspace/clg-codex/tests/progress.cjs:74:10 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 0,
+  expected: 1,
+  operator: 'strictEqual'
+}
