@@ -26,3 +26,5 @@ Run `tests/silk_smoke.cjs` to verify Ribbon Road palettes in Pink, Purple, Yello
 The root home page now starts at the child login dialog. Click **Play without saving** to open the layout picker, whose first highlighted choice is Ribbon Road. A fresh home entry always shows the dialog; the explicit **Choose a layout** return from a game restores the picker for the current account or unsaved session. Unsaved play deliberately ignores stored settings. Keep direct-file settings-renderer checks separate from this unsaved journey.
 
 Run `node tests/home_flow.cjs` for the complete hosted journey and unsaved persistence assertions. No screenshots are taken.
+
+Hosted games use a 42 px profile picture inside a 50 px button, aligned with the sound and theme controls. Letter Post has no OPEN FOR PLAY! tag. Run `node tests/tidy_1b.cjs` to compare the live controls with the approved previews across all games, themes, grown-up and child fixtures, and the three required viewports. Screenshots and measurements go to `reports/tidy-1b/`; live account requests are intercepted.

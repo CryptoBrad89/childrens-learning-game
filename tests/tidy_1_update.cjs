@@ -2,7 +2,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),os=require('node:os'),http=require('node:http');
 const {execFileSync}=require('node:child_process');
 const {playwright}=require('./accounts_sync.cjs');
-const root=path.resolve(__dirname,'..'),out=path.join(root,'reports/tidy-1');
+const root=path.resolve(__dirname,'..'),out=path.resolve(root,process.env.TIDY_REPORT_DIR||'reports/tidy-1');
 const prefix='/CryptoBrad89/childrens-learning-game/refs/heads/codex/home-flow-ribbon';
 const temp=fs.mkdtempSync(path.join(os.tmpdir(),'tidy-1-upgrade-'));
 const evidence=[];
@@ -21,7 +21,7 @@ const server=http.createServer((req,res)=>{
  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
  const origin='http://127.0.0.1:'+server.address().port,base=origin+prefix;
  try{
- for(const revision of ['20e7acf','3d874eb']){
+ for(const revision of (process.env.TIDY_UPDATE_REVISIONS||'20e7acf,3d874eb').split(',')){
   const old=path.join(temp,revision);fs.mkdirSync(old);
   const archive=execFileSync('git',['archive',revision,'index.html','sw.js','sw-assets.js','audio-map.js','accounts','grown-ups','home','audio','v1-letter-post','v3-moonboat','v4-silk-thread'],{cwd:root,maxBuffer:32*1024*1024});
   execFileSync('tar',['-x','-C',old],{input:archive});build=old;nextBuild=false;
@@ -33,6 +33,7 @@ const server=http.createServer((req,res)=>{
   await page.evaluate(()=>navigator.serviceWorker.ready);await page.waitForFunction(()=>Boolean(navigator.serviceWorker.controller));
   await page.goto(base+'/v1-letter-post/');await page.waitForFunction(()=>document.body.dataset.screen==='home');
   assert.equal(await page.locator('[data-letter]').count(),revision==='20e7acf'?26:6);
+  if(revision==='e31c9af')assert.equal(await page.locator('.open-sign').count(),1,'Tidy 1B baseline still has the tag');
   const oldKeys=await page.evaluate(()=>caches.keys());assert.equal(oldKeys.length,1);
   await page.screenshot({path:path.join(out,`upgrade-${revision}-old.png`)});
   const portal=await context.newPage();await portal.goto(base+'/accounts/index.html');
@@ -59,6 +60,11 @@ const server=http.createServer((req,res)=>{
   for(const game of ['v1-letter-post','v3-moonboat','v4-silk-thread']){
    await page.goto(base+'/'+game+'/');await page.waitForFunction(()=>document.body.dataset.screen==='home');
    assert.equal(await page.locator('[data-letter]').count(),game==='v4-silk-thread'?26:6);
+   if(revision==='e31c9af'){
+    assert.equal(await page.locator('.open-sign').count(),0,'Updated offline game has no tag');
+    const avatar=await page.locator('#account-strip img').evaluate(image=>({width:getComputedStyle(image).width,height:getComputedStyle(image).height}));
+    assert.deepEqual(avatar,{width:'42px',height:'42px'},'Offline game applies the approved avatar size');
+   }
    await page.locator('[data-letter=B]').click();await page.waitForFunction(()=>document.body.dataset.screen==='listen'&&!document.body.classList.contains('talking'));
    assert.deepEqual(await page.evaluate(()=>clips),['b-name-trim.mp3','b-sound-trim.mp3']);
    await page.locator('[data-action=match]').click();await page.waitForFunction(()=>document.body.dataset.screen==='match'&&!document.body.classList.contains('talking'));

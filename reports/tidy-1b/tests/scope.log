@@ -1,0 +1,5 @@
+PASS v1-letter-post/app.js: only the approved tag markup removed
+PASS v3-moonboat/app.js: only the approved tag markup removed
+PASS v1-letter-post/layout.js: only the approved tag markup removed
+PASS accounts/navigation.js: only approved avatar and button CSS changed
+PASS protected code and approved previews unchanged; no audio, database, account-client, settings, or worker-logic changes

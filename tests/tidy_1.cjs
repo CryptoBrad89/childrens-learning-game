@@ -3,7 +3,7 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const {staticServer,backend,playwright,form}=require('./accounts_sync.cjs');
-const root=path.resolve(__dirname,'..'),out=path.join(root,'reports/tidy-1');
+const root=path.resolve(__dirname,'..'),out=path.resolve(root,process.env.TIDY_REPORT_DIR||'reports/tidy-1');
 const games=['v1-letter-post','v3-moonboat','v4-silk-thread'];
 const baseline=process.argv.includes('--baseline');
 const sizes=baseline?[[1024,576]]:[[1024,576],[768,1024],[1920,1080]];
