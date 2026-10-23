@@ -1,11 +1,11 @@
 'use strict';
 const assert=require('node:assert/strict'),fs=require('node:fs'),cp=require('node:child_process');
 const {staticServer,playwright}=require('./accounts_sync.cjs');
-const dirs=['v1-letter-post','v3-moonboat','v4-silk-thread'];
-const sizes=[{width:1024,height:576},{width:768,height:1024},{width:1920,height:1080}];
-const baseline=cp.execFileSync('git',['show','67cf3c2:v1-letter-post/app.js'],{encoding:'utf8'});
+const dirs=['v1-letter-post','v3-moonboat','v4-silk-thread'].filter(dir=>!process.env.CELEBRATE_LAYOUT||dir===process.env.CELEBRATE_LAYOUT);
+const sizes=[{width:1024,height:576},{width:768,height:1024},{width:1920,height:1080}].filter(viewport=>!process.env.CELEBRATE_WIDTH||viewport.width===Number(process.env.CELEBRATE_WIDTH));
+const baseline=cp.execFileSync('git',['show',`${process.env.CELEBRATE_BASELINE_REF||'67cf3c2'}:v1-letter-post/app.js`],{encoding:'utf8'});
 const initial=process.argv.includes('--baseline'),runs=initial?1:5;
-const out='reports/celebrate-delay';fs.mkdirSync(out,{recursive:true});
+const out=process.env.CELEBRATE_REPORT_DIR||'reports/celebrate-delay';fs.mkdirSync(out,{recursive:true});
 async function instrument(context){
  await context.addInitScript(()=>{
   window.audioEvidence=[];window.motionEvidence=[];window.tapAt=null;
@@ -34,7 +34,7 @@ async function enter(page,url,dir){await page.goto(url+'/');await page.locator('
      await enter(page,local.url,dir);await page.evaluate(()=>{window.audioEvidence=[];window.motionEvidence=[];});
      await page.locator('[data-answer="A"]').click();
      await page.waitForFunction(()=>window.audioEvidence.some(e=>e.src?.includes('lucy-cheer')&&e.started),{},{timeout:15000});
-     const evidence=await page.evaluate(()=>({audio:window.audioEvidence,motion:window.motionEvidence,tapAt:window.tapAt}));
+     const evidence=await page.evaluate(()=>({audio:window.audioEvidence,motion:window.motionEvidence,tapAt:window.tapAt,resources:performance.getEntriesByType('resource').filter(e=>e.name.includes('lucy-cheer')).map(e=>e.toJSON())}));
      assert.deepEqual(errors,[]);assert(evidence.audio.filter(e=>e.src).every(e=>!e.error));
      const cheer=evidence.audio.find(e=>e.src?.includes('lucy-cheer'));
      if(phase==='after'){assert(cheer.delay<300,`Celebrate starts promptly: ${cheer.delay}`);assert.equal(evidence.audio.filter(e=>e.src).length,1,'Only celebrate speech follows correct tap');}

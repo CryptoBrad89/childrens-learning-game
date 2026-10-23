@@ -1,0 +1,354 @@
+[
+  {
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "offline": false,
+    "delay": 15.799999999813735,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerCheerOnly": true,
+    "errors": []
+  },
+  {
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "offline": false,
+    "delay": 17.399999999441206,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerCheerOnly": true,
+    "errors": []
+  },
+  {
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "offline": false,
+    "delay": 15.900000000372529,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerCheerOnly": true,
+    "errors": []
+  },
+  {
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "offline": false,
+    "delay": 14.200000000186265,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerCheerOnly": true,
+    "errors": []
+  },
+  {
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "offline": true,
+    "delay": 10.5,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerCheerOnly": true,
+    "errors": []
+  },
+  {
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "offline": false,
+    "delay": 17.799999999813735,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerCheerOnly": true,
+    "errors": []
+  },
+  {
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "offline": true,
+    "delay": 10.799999999813735,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerCheerOnly": true,
+    "errors": []
+  },
+  {
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "offline": true,
+    "delay": 13,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerCheerOnly": true,
+    "errors": []
+  },
+  {
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "externalRequestsBlocked": 7,
+    "liveRequestsSent": 0
+  },
+  {
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "offline": false,
+    "delay": 15.200000000186265,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerCheerOnly": true,
+    "errors": []
+  },
+  {
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "offline": false,
+    "delay": 14.700000000186265,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerCheerOnly": true,
+    "errors": []
+  },
+  {
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "offline": false,
+    "delay": 9.299999999813735,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerCheerOnly": true,
+    "errors": []
+  },
+  {
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "offline": true,
+    "delay": 11.700000000186265,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerCheerOnly": true,
+    "errors": []
+  },
+  {
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "offline": false,
+    "delay": 15.700000000186265,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerCheerOnly": true,
+    "errors": []
+  },
+  {
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "offline": true,
+    "delay": 11.099999999627471,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerCheerOnly": true,
+    "errors": []
+  },
+  {
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "offline": true,
+    "delay": 11.699999999254942,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerCheerOnly": true,
+    "errors": []
+  },
+  {
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "offline": true,
+    "delay": 9.799999999813735,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerCheerOnly": true,
+    "errors": []
+  },
+  {
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "externalRequestsBlocked": 7,
+    "liveRequestsSent": 0
+  },
+  {
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "offline": true,
+    "delay": 14.200000000186265,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerCheerOnly": true,
+    "errors": []
+  },
+  {
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "offline": true,
+    "delay": 10,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerCheerOnly": true,
+    "errors": []
+  },
+  {
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "externalRequestsBlocked": 7,
+    "liveRequestsSent": 0
+  },
+  {
+    "regularFixtureSavedProgress": true,
+    "masterAccountAccessed": false
+  }
+]

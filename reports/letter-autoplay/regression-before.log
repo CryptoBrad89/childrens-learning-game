@@ -1,0 +1,16 @@
+AssertionError [ERR_ASSERTION]: Letter entry automatically says the name then sound
++ actual - expected
+
++ []
+- [
+-   '../audio/letters/a-name-trim.mp3',
+-   '../audio/letters/a-sound-trim.mp3'
+- ]
+    at smoke (/workspace/clg-codex/tests/runtime_smoke.cjs:87:14)
+    at async /workspace/clg-codex/tests/runtime_smoke.cjs:149:75 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: [],
+  expected: [Array],
+  operator: 'deepStrictEqual'
+}

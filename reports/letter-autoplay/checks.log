@@ -1,0 +1,8 @@
+Offline manifest contains 150 files, version 15e87cc24c836db0.
+PASS JavaScript syntax: v1-letter-post/app.js
+PASS JavaScript syntax: v3-moonboat/app.js
+PASS JavaScript syntax: tests/celebrate_audio_rules.cjs
+PASS JavaScript syntax: tests/celebrate_delay.cjs
+PASS JavaScript syntax: tests/runtime_smoke.cjs
+PASS offline manifest is reproducible
+PASS git diff --check

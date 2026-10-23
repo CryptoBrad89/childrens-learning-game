@@ -1,0 +1,652 @@
+[
+  {
+    "phase": "before",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 0,
+    "delay": 22.40000000037253,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:35465/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2219,
+        "started": 2240.800000000745,
+        "delay": 22.40000000037253,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2219.100000000559
+      }
+    ],
+    "tapAt": 2218.4000000003725,
+    "resources": [
+      {
+        "name": "http://127.0.0.1:35465/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "entryType": "resource",
+        "startTime": 2230.800000000745,
+        "duration": 5.7999999998137355,
+        "navigationId": 851,
+        "initiatorType": "audio",
+        "deliveryType": "",
+        "nextHopProtocol": "http/1.1",
+        "renderBlockingStatus": "non-blocking",
+        "contentType": "audio/mpeg",
+        "contentEncoding": "",
+        "workerStart": 0,
+        "workerRouterEvaluationStart": 0,
+        "workerCacheLookupStart": 0,
+        "workerMatchedSourceType": "",
+        "workerFinalSourceType": "",
+        "redirectStart": 0,
+        "redirectEnd": 0,
+        "fetchStart": 2230.800000000745,
+        "domainLookupStart": 2230.800000000745,
+        "domainLookupEnd": 2230.800000000745,
+        "connectStart": 2230.800000000745,
+        "secureConnectionStart": 0,
+        "connectEnd": 2230.800000000745,
+        "requestStart": 2235.100000000559,
+        "responseStart": 2236.300000000745,
+        "firstInterimResponseStart": 0,
+        "finalResponseHeadersStart": 2236.300000000745,
+        "responseEnd": 2236.600000000559,
+        "transferSize": 35023,
+        "encodedBodySize": 34723,
+        "decodedBodySize": 34723,
+        "responseStatus": 200,
+        "serverTiming": []
+      }
+    ]
+  },
+  {
+    "phase": "after",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 0,
+    "delay": 18.5,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:35465/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2610.7000000001863,
+        "started": 2628.899999999441,
+        "delay": 18.5,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2610.7000000001863
+      }
+    ],
+    "tapAt": 2610.399999999441,
+    "resources": [
+      {
+        "name": "http://127.0.0.1:35465/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "entryType": "resource",
+        "startTime": 2623.5,
+        "duration": 2.7000000001862645,
+        "navigationId": 9765,
+        "initiatorType": "audio",
+        "deliveryType": "",
+        "nextHopProtocol": "http/1.1",
+        "renderBlockingStatus": "non-blocking",
+        "contentType": "audio/mpeg",
+        "contentEncoding": "",
+        "workerStart": 0,
+        "workerRouterEvaluationStart": 0,
+        "workerCacheLookupStart": 0,
+        "workerMatchedSourceType": "",
+        "workerFinalSourceType": "",
+        "redirectStart": 0,
+        "redirectEnd": 0,
+        "fetchStart": 2623.5,
+        "domainLookupStart": 2623.5,
+        "domainLookupEnd": 2623.5,
+        "connectStart": 2623.5,
+        "secureConnectionStart": 0,
+        "connectEnd": 2623.5,
+        "requestStart": 2625.2000000001863,
+        "responseStart": 2625.899999999441,
+        "firstInterimResponseStart": 0,
+        "finalResponseHeadersStart": 2625.899999999441,
+        "responseEnd": 2626.2000000001863,
+        "transferSize": 35023,
+        "encodedBodySize": 34723,
+        "decodedBodySize": 34723,
+        "responseStatus": 200,
+        "serverTiming": []
+      }
+    ]
+  },
+  {
+    "phase": "before",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 1,
+    "delay": 20.300000000745058,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:35465/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2996.7000000001863,
+        "started": 3016.4000000003725,
+        "delay": 20.300000000745058,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2996.9000000003725
+      }
+    ],
+    "tapAt": 2996.0999999996275,
+    "resources": [
+      {
+        "name": "http://127.0.0.1:35465/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "entryType": "resource",
+        "startTime": 3008.0999999996275,
+        "duration": 4.7000000001862645,
+        "navigationId": 7310,
+        "initiatorType": "audio",
+        "deliveryType": "",
+        "nextHopProtocol": "http/1.1",
+        "renderBlockingStatus": "non-blocking",
+        "contentType": "audio/mpeg",
+        "contentEncoding": "",
+        "workerStart": 0,
+        "workerRouterEvaluationStart": 0,
+        "workerCacheLookupStart": 0,
+        "workerMatchedSourceType": "",
+        "workerFinalSourceType": "",
+        "redirectStart": 0,
+        "redirectEnd": 0,
+        "fetchStart": 3008.0999999996275,
+        "domainLookupStart": 3008.0999999996275,
+        "domainLookupEnd": 3008.0999999996275,
+        "connectStart": 3008.0999999996275,
+        "secureConnectionStart": 0,
+        "connectEnd": 3008.0999999996275,
+        "requestStart": 3011,
+        "responseStart": 3012,
+        "firstInterimResponseStart": 0,
+        "finalResponseHeadersStart": 3012,
+        "responseEnd": 3012.7999999998137,
+        "transferSize": 35023,
+        "encodedBodySize": 34723,
+        "decodedBodySize": 34723,
+        "responseStatus": 200,
+        "serverTiming": []
+      }
+    ]
+  },
+  {
+    "phase": "after",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 1,
+    "delay": 17.5,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:35465/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2629.4000000003725,
+        "started": 2646.600000000559,
+        "delay": 17.5,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2629.5
+      }
+    ],
+    "tapAt": 2629.100000000559,
+    "resources": [
+      {
+        "name": "http://127.0.0.1:35465/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "entryType": "resource",
+        "startTime": 2641.5,
+        "duration": 2.900000000372529,
+        "navigationId": 9454,
+        "initiatorType": "audio",
+        "deliveryType": "",
+        "nextHopProtocol": "http/1.1",
+        "renderBlockingStatus": "non-blocking",
+        "contentType": "audio/mpeg",
+        "contentEncoding": "",
+        "workerStart": 0,
+        "workerRouterEvaluationStart": 0,
+        "workerCacheLookupStart": 0,
+        "workerMatchedSourceType": "",
+        "workerFinalSourceType": "",
+        "redirectStart": 0,
+        "redirectEnd": 0,
+        "fetchStart": 2641.5,
+        "domainLookupStart": 2641.5,
+        "domainLookupEnd": 2641.5,
+        "connectStart": 2641.5,
+        "secureConnectionStart": 0,
+        "connectEnd": 2641.5,
+        "requestStart": 2643.300000000745,
+        "responseStart": 2644.100000000559,
+        "firstInterimResponseStart": 0,
+        "finalResponseHeadersStart": 2644.100000000559,
+        "responseEnd": 2644.4000000003725,
+        "transferSize": 35023,
+        "encodedBodySize": 34723,
+        "decodedBodySize": 34723,
+        "responseStatus": 200,
+        "serverTiming": []
+      }
+    ]
+  },
+  {
+    "phase": "before",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 2,
+    "delay": 20.699999999254942,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:35465/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2996.100000000559,
+        "started": 3016.2999999998137,
+        "delay": 20.699999999254942,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2996.2999999998137
+      }
+    ],
+    "tapAt": 2995.600000000559,
+    "resources": [
+      {
+        "name": "http://127.0.0.1:35465/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "entryType": "resource",
+        "startTime": 3007.4000000003725,
+        "duration": 4.7999999998137355,
+        "navigationId": 2481,
+        "initiatorType": "audio",
+        "deliveryType": "",
+        "nextHopProtocol": "http/1.1",
+        "renderBlockingStatus": "non-blocking",
+        "contentType": "audio/mpeg",
+        "contentEncoding": "",
+        "workerStart": 0,
+        "workerRouterEvaluationStart": 0,
+        "workerCacheLookupStart": 0,
+        "workerMatchedSourceType": "",
+        "workerFinalSourceType": "",
+        "redirectStart": 0,
+        "redirectEnd": 0,
+        "fetchStart": 3007.4000000003725,
+        "domainLookupStart": 3007.4000000003725,
+        "domainLookupEnd": 3007.4000000003725,
+        "connectStart": 3007.4000000003725,
+        "secureConnectionStart": 0,
+        "connectEnd": 3007.4000000003725,
+        "requestStart": 3010.4000000003725,
+        "responseStart": 3011.7000000001863,
+        "firstInterimResponseStart": 0,
+        "finalResponseHeadersStart": 3011.7000000001863,
+        "responseEnd": 3012.2000000001863,
+        "transferSize": 35023,
+        "encodedBodySize": 34723,
+        "decodedBodySize": 34723,
+        "responseStatus": 200,
+        "serverTiming": []
+      }
+    ]
+  },
+  {
+    "phase": "after",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 2,
+    "delay": 19,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:35465/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2676.7999999998137,
+        "started": 2695.600000000559,
+        "delay": 19,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2676.7999999998137
+      }
+    ],
+    "tapAt": 2676.600000000559,
+    "resources": [
+      {
+        "name": "http://127.0.0.1:35465/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "entryType": "resource",
+        "startTime": 2688.9000000003725,
+        "duration": 3.3999999994412065,
+        "navigationId": 9926,
+        "initiatorType": "audio",
+        "deliveryType": "",
+        "nextHopProtocol": "http/1.1",
+        "renderBlockingStatus": "non-blocking",
+        "contentType": "audio/mpeg",
+        "contentEncoding": "",
+        "workerStart": 0,
+        "workerRouterEvaluationStart": 0,
+        "workerCacheLookupStart": 0,
+        "workerMatchedSourceType": "",
+        "workerFinalSourceType": "",
+        "redirectStart": 0,
+        "redirectEnd": 0,
+        "fetchStart": 2688.9000000003725,
+        "domainLookupStart": 2688.9000000003725,
+        "domainLookupEnd": 2688.9000000003725,
+        "connectStart": 2688.9000000003725,
+        "secureConnectionStart": 0,
+        "connectEnd": 2688.9000000003725,
+        "requestStart": 2691.4000000003725,
+        "responseStart": 2692,
+        "firstInterimResponseStart": 0,
+        "finalResponseHeadersStart": 2692,
+        "responseEnd": 2692.2999999998137,
+        "transferSize": 35023,
+        "encodedBodySize": 34723,
+        "decodedBodySize": 34723,
+        "responseStatus": 200,
+        "serverTiming": []
+      }
+    ]
+  },
+  {
+    "phase": "before",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 3,
+    "delay": 21.5,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:35465/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2111.2999999998137,
+        "started": 2132.2999999998137,
+        "delay": 21.5,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2111.399999999441
+      }
+    ],
+    "tapAt": 2110.7999999998137,
+    "resources": [
+      {
+        "name": "http://127.0.0.1:35465/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "entryType": "resource",
+        "startTime": 2124.399999999441,
+        "duration": 3.7999999998137355,
+        "navigationId": 9310,
+        "initiatorType": "audio",
+        "deliveryType": "",
+        "nextHopProtocol": "http/1.1",
+        "renderBlockingStatus": "non-blocking",
+        "contentType": "audio/mpeg",
+        "contentEncoding": "",
+        "workerStart": 0,
+        "workerRouterEvaluationStart": 0,
+        "workerCacheLookupStart": 0,
+        "workerMatchedSourceType": "",
+        "workerFinalSourceType": "",
+        "redirectStart": 0,
+        "redirectEnd": 0,
+        "fetchStart": 2124.399999999441,
+        "domainLookupStart": 2124.399999999441,
+        "domainLookupEnd": 2124.399999999441,
+        "connectStart": 2124.399999999441,
+        "secureConnectionStart": 0,
+        "connectEnd": 2124.399999999441,
+        "requestStart": 2127.0999999996275,
+        "responseStart": 2127.7999999998137,
+        "firstInterimResponseStart": 0,
+        "finalResponseHeadersStart": 2127.7999999998137,
+        "responseEnd": 2128.199999999255,
+        "transferSize": 35023,
+        "encodedBodySize": 34723,
+        "decodedBodySize": 34723,
+        "responseStatus": 200,
+        "serverTiming": []
+      }
+    ]
+  },
+  {
+    "phase": "after",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 3,
+    "delay": 18.799999999813735,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:35465/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2677.5999999996275,
+        "started": 2696.0999999996275,
+        "delay": 18.799999999813735,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2677.699999999255
+      }
+    ],
+    "tapAt": 2677.2999999998137,
+    "resources": [
+      {
+        "name": "http://127.0.0.1:35465/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "entryType": "resource",
+        "startTime": 2689.399999999441,
+        "duration": 3.400000000372529,
+        "navigationId": 1198,
+        "initiatorType": "audio",
+        "deliveryType": "",
+        "nextHopProtocol": "http/1.1",
+        "renderBlockingStatus": "non-blocking",
+        "contentType": "audio/mpeg",
+        "contentEncoding": "",
+        "workerStart": 0,
+        "workerRouterEvaluationStart": 0,
+        "workerCacheLookupStart": 0,
+        "workerMatchedSourceType": "",
+        "workerFinalSourceType": "",
+        "redirectStart": 0,
+        "redirectEnd": 0,
+        "fetchStart": 2689.399999999441,
+        "domainLookupStart": 2689.399999999441,
+        "domainLookupEnd": 2689.399999999441,
+        "connectStart": 2689.399999999441,
+        "secureConnectionStart": 0,
+        "connectEnd": 2689.399999999441,
+        "requestStart": 2691.5999999996275,
+        "responseStart": 2692.399999999441,
+        "firstInterimResponseStart": 0,
+        "finalResponseHeadersStart": 2692.399999999441,
+        "responseEnd": 2692.7999999998137,
+        "transferSize": 35023,
+        "encodedBodySize": 34723,
+        "decodedBodySize": 34723,
+        "responseStatus": 200,
+        "serverTiming": []
+      }
+    ]
+  },
+  {
+    "phase": "before",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 4,
+    "delay": 19.799999999813735,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:35465/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2978.300000000745,
+        "started": 2997.5,
+        "delay": 19.799999999813735,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2978.4000000003725
+      }
+    ],
+    "tapAt": 2977.7000000001863,
+    "resources": [
+      {
+        "name": "http://127.0.0.1:35465/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "entryType": "resource",
+        "startTime": 2990.2000000001863,
+        "duration": 3.7000000001862645,
+        "navigationId": 5405,
+        "initiatorType": "audio",
+        "deliveryType": "",
+        "nextHopProtocol": "http/1.1",
+        "renderBlockingStatus": "non-blocking",
+        "contentType": "audio/mpeg",
+        "contentEncoding": "",
+        "workerStart": 0,
+        "workerRouterEvaluationStart": 0,
+        "workerCacheLookupStart": 0,
+        "workerMatchedSourceType": "",
+        "workerFinalSourceType": "",
+        "redirectStart": 0,
+        "redirectEnd": 0,
+        "fetchStart": 2990.2000000001863,
+        "domainLookupStart": 2990.2000000001863,
+        "domainLookupEnd": 2990.2000000001863,
+        "connectStart": 2990.2000000001863,
+        "secureConnectionStart": 0,
+        "connectEnd": 2990.2000000001863,
+        "requestStart": 2992.300000000745,
+        "responseStart": 2993.5,
+        "firstInterimResponseStart": 0,
+        "finalResponseHeadersStart": 2993.5,
+        "responseEnd": 2993.9000000003725,
+        "transferSize": 35023,
+        "encodedBodySize": 34723,
+        "decodedBodySize": 34723,
+        "responseStatus": 200,
+        "serverTiming": []
+      }
+    ]
+  },
+  {
+    "phase": "after",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 4,
+    "delay": 19.799999999813735,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:35465/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2626.2000000001863,
+        "started": 2645.5999999996275,
+        "delay": 19.799999999813735,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2626.2000000001863
+      }
+    ],
+    "tapAt": 2625.7999999998137,
+    "resources": [
+      {
+        "name": "http://127.0.0.1:35465/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "entryType": "resource",
+        "startTime": 2638.899999999441,
+        "duration": 3.7000000001862645,
+        "navigationId": 8450,
+        "initiatorType": "audio",
+        "deliveryType": "",
+        "nextHopProtocol": "http/1.1",
+        "renderBlockingStatus": "non-blocking",
+        "contentType": "audio/mpeg",
+        "contentEncoding": "",
+        "workerStart": 0,
+        "workerRouterEvaluationStart": 0,
+        "workerCacheLookupStart": 0,
+        "workerMatchedSourceType": "",
+        "workerFinalSourceType": "",
+        "redirectStart": 0,
+        "redirectEnd": 0,
+        "fetchStart": 2638.899999999441,
+        "domainLookupStart": 2638.899999999441,
+        "domainLookupEnd": 2638.899999999441,
+        "connectStart": 2638.899999999441,
+        "secureConnectionStart": 0,
+        "connectEnd": 2638.899999999441,
+        "requestStart": 2641.399999999441,
+        "responseStart": 2642.2000000001863,
+        "firstInterimResponseStart": 0,
+        "finalResponseHeadersStart": 2642.2000000001863,
+        "responseEnd": 2642.5999999996275,
+        "transferSize": 35023,
+        "encodedBodySize": 34723,
+        "decodedBodySize": 34723,
+        "responseStatus": 200,
+        "serverTiming": []
+      }
+    ]
+  }
+]

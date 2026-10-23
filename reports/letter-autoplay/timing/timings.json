@@ -1,0 +1,2432 @@
+[
+  {
+    "phase": "before",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 0,
+    "delay": 19.200000000186265,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 2237.5,
+        "started": 2256.2000000001863,
+        "delay": 19.200000000186265,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2237.5999999996275
+      }
+    ],
+    "tapAt": 2237
+  },
+  {
+    "phase": "before",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 0,
+    "delay": 13.799999999813735,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 3147.5999999996275,
+        "started": 3160.899999999441,
+        "delay": 13.799999999813735,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3147.699999999255
+      }
+    ],
+    "tapAt": 3147.0999999996275
+  },
+  {
+    "phase": "before",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 0,
+    "delay": 23.799999999813735,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 3206,
+        "started": 3229.2999999998137,
+        "delay": 23.799999999813735,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3206.0999999996275
+      }
+    ],
+    "tapAt": 3205.5
+  },
+  {
+    "phase": "after",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 0,
+    "delay": 20.09999999962747,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 2805.199999999255,
+        "started": 2824.899999999441,
+        "delay": 20.09999999962747,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2805.399999999441
+      }
+    ],
+    "tapAt": 2804.7999999998137
+  },
+  {
+    "phase": "after",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 0,
+    "delay": 20.5,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2662.4000000003725,
+        "started": 2682.5999999996275,
+        "delay": 20.5,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2662.4000000003725
+      }
+    ],
+    "tapAt": 2662.0999999996275
+  },
+  {
+    "phase": "after",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 0,
+    "delay": 63.40000000037253,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 3717.5999999996275,
+        "started": 3780.7000000001863,
+        "delay": 63.40000000037253,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3717.7000000001863
+      }
+    ],
+    "tapAt": 3717.2999999998137
+  },
+  {
+    "phase": "before",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 1,
+    "delay": 20.299999999813735,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 2273.100000000559,
+        "started": 2293,
+        "delay": 20.299999999813735,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2273.2000000001863
+      }
+    ],
+    "tapAt": 2272.7000000001863
+  },
+  {
+    "phase": "before",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 1,
+    "delay": 20.899999999441206,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2262.399999999441,
+        "started": 2282.899999999441,
+        "delay": 20.899999999441206,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2262.5999999996275
+      }
+    ],
+    "tapAt": 2262
+  },
+  {
+    "phase": "before",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 1,
+    "delay": 19.5,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2141.100000000559,
+        "started": 2160.300000000745,
+        "delay": 19.5,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2141.300000000745
+      }
+    ],
+    "tapAt": 2140.800000000745
+  },
+  {
+    "phase": "after",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 1,
+    "delay": 20.59999999962747,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 2642.100000000559,
+        "started": 2662.4000000003725,
+        "delay": 20.59999999962747,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2642.2000000001863
+      }
+    ],
+    "tapAt": 2641.800000000745
+  },
+  {
+    "phase": "after",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 1,
+    "delay": 19.200000000186265,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2627.2000000001863,
+        "started": 2646.0999999996275,
+        "delay": 19.200000000186265,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2627.2999999998137
+      }
+    ],
+    "tapAt": 2626.899999999441
+  },
+  {
+    "phase": "after",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 1,
+    "delay": 19.40000000037253,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 3596.300000000745,
+        "started": 3615.300000000745,
+        "delay": 19.40000000037253,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3596.4000000003725
+      }
+    ],
+    "tapAt": 3595.9000000003725
+  },
+  {
+    "phase": "before",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 2,
+    "delay": 72.5,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 2185.0999999996275,
+        "started": 2256.7999999998137,
+        "delay": 72.5,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2185.5
+      }
+    ],
+    "tapAt": 2184.2999999998137
+  },
+  {
+    "phase": "before",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 2,
+    "delay": 22.200000000186265,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2292.600000000559,
+        "started": 2314.2000000001863,
+        "delay": 22.200000000186265,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2292.7000000001863
+      }
+    ],
+    "tapAt": 2292
+  },
+  {
+    "phase": "before",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 2,
+    "delay": 19.700000000186265,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 3076.4000000003725,
+        "started": 3095.5,
+        "delay": 19.700000000186265,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3076.4000000003725
+      }
+    ],
+    "tapAt": 3075.7999999998137
+  },
+  {
+    "phase": "after",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 2,
+    "delay": 21.299999999813735,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 2660.4000000003725,
+        "started": 2681.4000000003725,
+        "delay": 21.299999999813735,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2660.5
+      }
+    ],
+    "tapAt": 2660.100000000559
+  },
+  {
+    "phase": "after",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 2,
+    "delay": 19.5,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2690.7000000001863,
+        "started": 2710,
+        "delay": 19.5,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2690.899999999441
+      }
+    ],
+    "tapAt": 2690.5
+  },
+  {
+    "phase": "after",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 2,
+    "delay": 18.600000000558794,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 3494.2000000001863,
+        "started": 3512.5,
+        "delay": 18.600000000558794,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3494.2999999998137
+      }
+    ],
+    "tapAt": 3493.899999999441
+  },
+  {
+    "phase": "before",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 3,
+    "delay": 18.09999999962747,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 3044.7999999998137,
+        "started": 3062.199999999255,
+        "delay": 18.09999999962747,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3045
+      }
+    ],
+    "tapAt": 3044.0999999996275
+  },
+  {
+    "phase": "before",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 3,
+    "delay": 22.399999999441206,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2177,
+        "started": 2198.899999999441,
+        "delay": 22.399999999441206,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2177.0999999996275
+      }
+    ],
+    "tapAt": 2176.5
+  },
+  {
+    "phase": "before",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 3,
+    "delay": 19.90000000037253,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2144.4000000003725,
+        "started": 2163.9000000003725,
+        "delay": 19.90000000037253,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2144.5
+      }
+    ],
+    "tapAt": 2144
+  },
+  {
+    "phase": "after",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 3,
+    "delay": 18.59999999962747,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 2626,
+        "started": 2644.399999999441,
+        "delay": 18.59999999962747,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2626.0999999996275
+      }
+    ],
+    "tapAt": 2625.7999999998137
+  },
+  {
+    "phase": "after",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 3,
+    "delay": 17.100000000558794,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2657.2000000001863,
+        "started": 2674.100000000559,
+        "delay": 17.100000000558794,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2657.2999999998137
+      }
+    ],
+    "tapAt": 2657
+  },
+  {
+    "phase": "before",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 4,
+    "delay": 20.200000000186265,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 2125.4000000003725,
+        "started": 2145.2000000001863,
+        "delay": 20.200000000186265,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2125.5
+      }
+    ],
+    "tapAt": 2125
+  },
+  {
+    "phase": "after",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 3,
+    "delay": 19.09999999962747,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 3576.9000000003725,
+        "started": 3595.7000000001863,
+        "delay": 19.09999999962747,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3577
+      }
+    ],
+    "tapAt": 3576.600000000559
+  },
+  {
+    "phase": "before",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 4,
+    "delay": 19.09999999962747,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2246.399999999441,
+        "started": 2264.7999999998137,
+        "delay": 19.09999999962747,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2246.7000000001863
+      }
+    ],
+    "tapAt": 2245.7000000001863
+  },
+  {
+    "phase": "before",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 4,
+    "delay": 18,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2998.600000000559,
+        "started": 3016.100000000559,
+        "delay": 18,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2998.7999999998137
+      }
+    ],
+    "tapAt": 2998.100000000559
+  },
+  {
+    "phase": "after",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 4,
+    "delay": 17.200000000186265,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 3545.2999999998137,
+        "started": 3562.2000000001863,
+        "delay": 17.200000000186265,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3545.4000000003725
+      }
+    ],
+    "tapAt": 3545
+  },
+  {
+    "phase": "after",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 4,
+    "delay": 16.799999999813735,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 3596.2999999998137,
+        "started": 3612.7999999998137,
+        "delay": 16.799999999813735,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3596.399999999441
+      }
+    ],
+    "tapAt": 3596
+  },
+  {
+    "phase": "after",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 4,
+    "delay": 18.700000000186265,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2703.600000000559,
+        "started": 2721.9000000003725,
+        "delay": 18.700000000186265,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2703.600000000559
+      }
+    ],
+    "tapAt": 2703.2000000001863
+  },
+  {
+    "phase": "before",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 0,
+    "delay": 21.100000000558794,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2208.0999999996275,
+        "started": 2228.7000000001863,
+        "delay": 21.100000000558794,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2208.2000000001863
+      }
+    ],
+    "tapAt": 2207.5999999996275
+  },
+  {
+    "phase": "before",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 0,
+    "delay": 18.700000000186265,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 3082.100000000559,
+        "started": 3100.4000000003725,
+        "delay": 18.700000000186265,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3082.2000000001863
+      }
+    ],
+    "tapAt": 3081.7000000001863
+  },
+  {
+    "phase": "before",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 0,
+    "delay": 15,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 3160.2000000001863,
+        "started": 3174.7000000001863,
+        "delay": 15,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3160.300000000745
+      }
+    ],
+    "tapAt": 3159.7000000001863
+  },
+  {
+    "phase": "after",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 0,
+    "delay": 20.799999999813735,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2628.600000000559,
+        "started": 2649,
+        "delay": 20.799999999813735,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2628.600000000559
+      }
+    ],
+    "tapAt": 2628.2000000001863
+  },
+  {
+    "phase": "after",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 0,
+    "delay": 18.5,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 2857.0999999996275,
+        "started": 2875.2999999998137,
+        "delay": 18.5,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2857.0999999996275
+      }
+    ],
+    "tapAt": 2856.7999999998137
+  },
+  {
+    "phase": "after",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 0,
+    "delay": 19.600000000558794,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 3595.5999999996275,
+        "started": 3614.9000000003725,
+        "delay": 19.600000000558794,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3595.7000000001863
+      }
+    ],
+    "tapAt": 3595.2999999998137
+  },
+  {
+    "phase": "before",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 1,
+    "delay": 18.899999999441206,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2659.7999999998137,
+        "started": 2678.2999999998137,
+        "delay": 18.899999999441206,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2659.9000000003725
+      }
+    ],
+    "tapAt": 2659.4000000003725
+  },
+  {
+    "phase": "before",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 1,
+    "delay": 18.700000000186265,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 3196.4000000003725,
+        "started": 3214.600000000559,
+        "delay": 18.700000000186265,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3196.5
+      }
+    ],
+    "tapAt": 3195.9000000003725
+  },
+  {
+    "phase": "before",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 1,
+    "delay": 19.899999999441206,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 3109.5,
+        "started": 3129,
+        "delay": 19.899999999441206,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3109.600000000559
+      }
+    ],
+    "tapAt": 3109.100000000559
+  },
+  {
+    "phase": "after",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 1,
+    "delay": 18.200000000186265,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 3590.7999999998137,
+        "started": 3608.7000000001863,
+        "delay": 18.200000000186265,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3590.9000000003725
+      }
+    ],
+    "tapAt": 3590.5
+  },
+  {
+    "phase": "after",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 1,
+    "delay": 21.59999999962747,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 2691,
+        "started": 2712.2999999998137,
+        "delay": 21.59999999962747,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2691.0999999996275
+      }
+    ],
+    "tapAt": 2690.7000000001863
+  },
+  {
+    "phase": "after",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 1,
+    "delay": 17.700000000186265,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2676.600000000559,
+        "started": 2693.9000000003725,
+        "delay": 17.700000000186265,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2676.600000000559
+      }
+    ],
+    "tapAt": 2676.2000000001863
+  },
+  {
+    "phase": "before",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 2,
+    "delay": 22.299999999813735,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2111.7000000001863,
+        "started": 2133.5,
+        "delay": 22.299999999813735,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2111.7000000001863
+      }
+    ],
+    "tapAt": 2111.2000000001863
+  },
+  {
+    "phase": "before",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 2,
+    "delay": 19.200000000186265,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 2127.7000000001863,
+        "started": 2146.5,
+        "delay": 19.200000000186265,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2127.7999999998137
+      }
+    ],
+    "tapAt": 2127.2999999998137
+  },
+  {
+    "phase": "before",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 2,
+    "delay": 18.5,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 3080.2000000001863,
+        "started": 3098,
+        "delay": 18.5,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3080.300000000745
+      }
+    ],
+    "tapAt": 3079.5
+  },
+  {
+    "phase": "after",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 2,
+    "delay": 18.399999999441206,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2647.2999999998137,
+        "started": 2665.2999999998137,
+        "delay": 18.399999999441206,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2647.2999999998137
+      }
+    ],
+    "tapAt": 2646.9000000003725
+  },
+  {
+    "phase": "after",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 2,
+    "delay": 29.300000000745058,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 2659.7000000001863,
+        "started": 2688.7000000001863,
+        "delay": 29.300000000745058,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2659.7000000001863
+      }
+    ],
+    "tapAt": 2659.399999999441
+  },
+  {
+    "phase": "before",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 3,
+    "delay": 21.5,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 2127,
+        "started": 2148.0999999996275,
+        "delay": 21.5,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2127.199999999255
+      }
+    ],
+    "tapAt": 2126.5999999996275
+  },
+  {
+    "phase": "before",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 3,
+    "delay": 19.200000000186265,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 3011.5,
+        "started": 3030.2999999998137,
+        "delay": 19.200000000186265,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3011.5999999996275
+      }
+    ],
+    "tapAt": 3011.0999999996275
+  },
+  {
+    "phase": "after",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 2,
+    "delay": 18.09999999962747,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 3610.9000000003725,
+        "started": 3628.7000000001863,
+        "delay": 18.09999999962747,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3610.9000000003725
+      }
+    ],
+    "tapAt": 3610.600000000559
+  },
+  {
+    "phase": "after",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 3,
+    "delay": 19.09999999962747,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 2660.899999999441,
+        "started": 2679.699999999255,
+        "delay": 19.09999999962747,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2661.0999999996275
+      }
+    ],
+    "tapAt": 2660.5999999996275
+  },
+  {
+    "phase": "before",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 3,
+    "delay": 20.899999999441206,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 3111.4000000003725,
+        "started": 3131.7000000001863,
+        "delay": 20.899999999441206,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3111.5
+      }
+    ],
+    "tapAt": 3110.800000000745
+  },
+  {
+    "phase": "after",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 3,
+    "delay": 19.600000000558794,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 3546.9000000003725,
+        "started": 3566.300000000745,
+        "delay": 19.600000000558794,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3547
+      }
+    ],
+    "tapAt": 3546.7000000001863
+  },
+  {
+    "phase": "before",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 4,
+    "delay": 22.40000000037253,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 3026.4000000003725,
+        "started": 3048.2000000001863,
+        "delay": 22.40000000037253,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3026.5
+      }
+    ],
+    "tapAt": 3025.7999999998137
+  },
+  {
+    "phase": "before",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 4,
+    "delay": 18.799999999813735,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2142.9000000003725,
+        "started": 2161.2000000001863,
+        "delay": 18.799999999813735,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2142.9000000003725
+      }
+    ],
+    "tapAt": 2142.4000000003725
+  },
+  {
+    "phase": "after",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 3,
+    "delay": 11.900000000372529,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 3600.5999999996275,
+        "started": 3612.2000000001863,
+        "delay": 11.900000000372529,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3600.5999999996275
+      }
+    ],
+    "tapAt": 3600.2999999998137
+  },
+  {
+    "phase": "after",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 4,
+    "delay": 18.100000000558794,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 2676.199999999255,
+        "started": 2694,
+        "delay": 18.100000000558794,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2676.2999999998137
+      }
+    ],
+    "tapAt": 2675.899999999441
+  },
+  {
+    "phase": "before",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 4,
+    "delay": 22.100000000558794,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2210.199999999255,
+        "started": 2231.7999999998137,
+        "delay": 22.100000000558794,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2210.2999999998137
+      }
+    ],
+    "tapAt": 2209.699999999255
+  },
+  {
+    "phase": "after",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 4,
+    "delay": 17.40000000037253,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 3559.100000000559,
+        "started": 3576.300000000745,
+        "delay": 17.40000000037253,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3559.300000000745
+      }
+    ],
+    "tapAt": 3558.9000000003725
+  },
+  {
+    "phase": "after",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 4,
+    "delay": 18,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2693.9000000003725,
+        "started": 2711.5999999996275,
+        "delay": 18,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2693.9000000003725
+      }
+    ],
+    "tapAt": 2693.5999999996275
+  },
+  {
+    "phase": "before",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 0,
+    "delay": 19.299999999813735,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2296.100000000559,
+        "started": 2314.7999999998137,
+        "delay": 19.299999999813735,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2296.2999999998137
+      }
+    ],
+    "tapAt": 2295.5
+  },
+  {
+    "phase": "before",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 0,
+    "delay": 29.40000000037253,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 3463.899999999441,
+        "started": 3492.7000000001863,
+        "delay": 29.40000000037253,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3464
+      }
+    ],
+    "tapAt": 3463.2999999998137
+  },
+  {
+    "phase": "before",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 0,
+    "delay": 21.799999999813735,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 3833.7000000001863,
+        "started": 3855,
+        "delay": 21.799999999813735,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3833.9000000003725
+      }
+    ],
+    "tapAt": 3833.2000000001863
+  },
+  {
+    "phase": "after",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 0,
+    "delay": 20.5,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2625.5999999996275,
+        "started": 2645.7000000001863,
+        "delay": 20.5,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2625.5999999996275
+      }
+    ],
+    "tapAt": 2625.2000000001863
+  },
+  {
+    "phase": "after",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 0,
+    "delay": 15.600000000558794,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 2992.0999999996275,
+        "started": 3007.4000000003725,
+        "delay": 15.600000000558794,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2992.2000000001863
+      }
+    ],
+    "tapAt": 2991.7999999998137
+  },
+  {
+    "phase": "after",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 0,
+    "delay": 17.59999999962747,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 3846.4000000003725,
+        "started": 3863.5999999996275,
+        "delay": 17.59999999962747,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3846.4000000003725
+      }
+    ],
+    "tapAt": 3846
+  },
+  {
+    "phase": "before",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 1,
+    "delay": 13.299999999813735,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2186.2000000001863,
+        "started": 2198.7999999998137,
+        "delay": 13.299999999813735,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2186.4000000003725
+      }
+    ],
+    "tapAt": 2185.5
+  },
+  {
+    "phase": "before",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 1,
+    "delay": 20.40000000037253,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 3029.2999999998137,
+        "started": 3049.2000000001863,
+        "delay": 20.40000000037253,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3029.399999999441
+      }
+    ],
+    "tapAt": 3028.7999999998137
+  },
+  {
+    "phase": "before",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 1,
+    "delay": 22.40000000037253,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 3030.5,
+        "started": 3052.2999999998137,
+        "delay": 22.40000000037253,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3030.5999999996275
+      }
+    ],
+    "tapAt": 3029.899999999441
+  },
+  {
+    "phase": "after",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 1,
+    "delay": 16.199999999254942,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2722.7999999998137,
+        "started": 2738.699999999255,
+        "delay": 16.199999999254942,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2722.899999999441
+      }
+    ],
+    "tapAt": 2722.5
+  },
+  {
+    "phase": "after",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 1,
+    "delay": 20.90000000037253,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 2658.800000000745,
+        "started": 2679.4000000003725,
+        "delay": 20.90000000037253,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2658.9000000003725
+      }
+    ],
+    "tapAt": 2658.5
+  },
+  {
+    "phase": "after",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 1,
+    "delay": 18.299999999813735,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 3589.7999999998137,
+        "started": 3607.7000000001863,
+        "delay": 18.299999999813735,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3589.7999999998137
+      }
+    ],
+    "tapAt": 3589.4000000003725
+  },
+  {
+    "phase": "before",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 2,
+    "delay": 20,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 3027.199999999255,
+        "started": 3046.5999999996275,
+        "delay": 20,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3027.2999999998137
+      }
+    ],
+    "tapAt": 3026.5999999996275
+  },
+  {
+    "phase": "before",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 2,
+    "delay": 28.799999999813735,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 2238.5,
+        "started": 2266.699999999255,
+        "delay": 28.799999999813735,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2238.5999999996275
+      }
+    ],
+    "tapAt": 2237.899999999441
+  },
+  {
+    "phase": "before",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 2,
+    "delay": 21.100000000558794,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2179.2999999998137,
+        "started": 2199.9000000003725,
+        "delay": 21.100000000558794,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2179.4000000003725
+      }
+    ],
+    "tapAt": 2178.7999999998137
+  },
+  {
+    "phase": "after",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 2,
+    "delay": 18.699999999254942,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2759.100000000559,
+        "started": 2777.5,
+        "delay": 18.699999999254942,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2759.2000000001863
+      }
+    ],
+    "tapAt": 2758.800000000745
+  },
+  {
+    "phase": "after",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 2,
+    "delay": 19,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 3528.699999999255,
+        "started": 3547.399999999441,
+        "delay": 19,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3528.7999999998137
+      }
+    ],
+    "tapAt": 3528.399999999441
+  },
+  {
+    "phase": "after",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 2,
+    "delay": 18.40000000037253,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2677,
+        "started": 2695.100000000559,
+        "delay": 18.40000000037253,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2677.100000000559
+      }
+    ],
+    "tapAt": 2676.7000000001863
+  },
+  {
+    "phase": "before",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 3,
+    "delay": 29.100000000558794,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2172.7999999998137,
+        "started": 2201.5,
+        "delay": 29.100000000558794,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2173
+      }
+    ],
+    "tapAt": 2172.399999999441
+  },
+  {
+    "phase": "before",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 3,
+    "delay": 78.59999999962747,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2425.2000000001863,
+        "started": 2502.5,
+        "delay": 78.59999999962747,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2425.5
+      }
+    ],
+    "tapAt": 2423.9000000003725
+  },
+  {
+    "phase": "before",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 3,
+    "delay": 100.09999999962747,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 3346.9000000003725,
+        "started": 3443.7000000001863,
+        "delay": 100.09999999962747,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3347.600000000559
+      }
+    ],
+    "tapAt": 3343.600000000559
+  },
+  {
+    "phase": "after",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 3,
+    "delay": 18.799999999813735,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 3909,
+        "started": 3927.4000000003725,
+        "delay": 18.799999999813735,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3909
+      }
+    ],
+    "tapAt": 3908.600000000559
+  },
+  {
+    "phase": "after",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 3,
+    "delay": 19.200000000186265,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2715.7999999998137,
+        "started": 2734.5999999996275,
+        "delay": 19.200000000186265,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2715.899999999441
+      }
+    ],
+    "tapAt": 2715.399999999441
+  },
+  {
+    "phase": "after",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 3,
+    "delay": 8,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 2684.2999999998137,
+        "started": 2692,
+        "delay": 8,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2684.399999999441
+      }
+    ],
+    "tapAt": 2684
+  },
+  {
+    "phase": "before",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 4,
+    "delay": 17.700000000186265,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 3175.4000000003725,
+        "started": 3192.7000000001863,
+        "delay": 17.700000000186265,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3175.5
+      }
+    ],
+    "tapAt": 3175
+  },
+  {
+    "phase": "before",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 4,
+    "delay": 21.59999999962747,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 2148.100000000559,
+        "started": 2169.2000000001863,
+        "delay": 21.59999999962747,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2148.2000000001863
+      }
+    ],
+    "tapAt": 2147.600000000559
+  },
+  {
+    "phase": "before",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 4,
+    "delay": 14.700000000186265,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2195.2999999998137,
+        "started": 2209.600000000559,
+        "delay": 14.700000000186265,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2195.4000000003725
+      }
+    ],
+    "tapAt": 2194.9000000003725
+  },
+  {
+    "phase": "after",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 4,
+    "delay": 26.199999999254942,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 3645.5999999996275,
+        "started": 3671.399999999441,
+        "delay": 26.199999999254942,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3645.5999999996275
+      }
+    ],
+    "tapAt": 3645.2000000001863
+  },
+  {
+    "phase": "after",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 4,
+    "delay": 17.600000000558794,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 2662.800000000745,
+        "started": 2680.100000000559,
+        "delay": 17.600000000558794,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 2662.9000000003725
+      }
+    ],
+    "tapAt": 2662.5
+  },
+  {
+    "phase": "after",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 4,
+    "delay": 16.5,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:39347/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 3594.9000000003725,
+        "started": 3611.100000000559,
+        "delay": 16.5,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3595
+      }
+    ],
+    "tapAt": 3594.600000000559
+  }
+]

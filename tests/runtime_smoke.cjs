@@ -84,7 +84,7 @@ async function smoke(game) {
       played.length = 0;
       await app.start(letter); await flush();
       assert.equal(document.body.dataset.screen, 'listen');
-      assert.deepEqual(played, [], 'Letter entry never autoplays speech');
+      assert.deepEqual(played, [window.GAME_AUDIO.letters[letter].name, window.GAME_AUDIO.letters[letter].sound], 'Letter entry automatically says the name then sound');
       await app.replay(); await flush();
       assert.deepEqual(played.slice(-2), [window.GAME_AUDIO.letters[letter].name, window.GAME_AUDIO.letters[letter].sound]);
       played.length=0;

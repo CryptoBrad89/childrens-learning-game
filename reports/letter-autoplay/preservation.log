@@ -1,0 +1,9 @@
+PASS v1-letter-post/app.js: async function answer(button) unchanged from 4a9067c, SHA-256 92a757da39c2dd82f7a1c63de32c178382ff8f4663d0d1fe5215a045e61c84a5
+PASS v1-letter-post/app.js: async function celebrationMoment( unchanged from 4a9067c, SHA-256 3179be4df0735364074621e86547dca0210b5b90c3a9294617ca1be5a91ecfbf
+PASS v1-letter-post/app.js: async function continueMatch( unchanged from 4a9067c, SHA-256 7ccedc55e967bc2a66dc33b368758ef2ecf61ebc39b8ac66ebaf5768988358df
+PASS v1-letter-post/app.js: letter entry restored exactly to pre-4a9067c
+PASS v3-moonboat/app.js: async function answer(button) unchanged from 4a9067c, SHA-256 92a757da39c2dd82f7a1c63de32c178382ff8f4663d0d1fe5215a045e61c84a5
+PASS v3-moonboat/app.js: async function celebrationMoment( unchanged from 4a9067c, SHA-256 3179be4df0735364074621e86547dca0210b5b90c3a9294617ca1be5a91ecfbf
+PASS v3-moonboat/app.js: async function continueMatch( unchanged from 4a9067c, SHA-256 7ccedc55e967bc2a66dc33b368758ef2ecf61ebc39b8ac66ebaf5768988358df
+PASS v3-moonboat/app.js: letter entry restored exactly to pre-4a9067c
+PASS Ribbon Road uses ../v1-letter-post/app.js

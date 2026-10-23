@@ -1,0 +1,4 @@
+90 main runs and 10 focused follow-up runs reached real playback.
+Main new-build median 18.7 ms, range 8.0-63.4 ms; 44/45 below 30 ms.
+Follow-up new-build median 18.8 ms, range 17.5-19.8 ms; 5/5 below 50 ms.
+Every main new-build cheer request occurred within 0.4 ms of the correct tap.
