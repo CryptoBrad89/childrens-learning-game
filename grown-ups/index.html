@@ -118,17 +118,6 @@
       <div class="letter-grid" id="letter-grid" role="group" aria-label="Letters to include"></div>
       <p class="count" id="letter-count" aria-live="polite"></p>
 
-      <h3 class="sub" id="help">Help when stuck</h3>
-      <fieldset class="segmented" id="hint">
-        <legend>After a wrong picture, Lucy can outline the right one and say its word. Choose when that happens.</legend>
-        <div class="segments">
-          <span class="pill-slide" aria-hidden="true"></span>
-          <label><input type="radio" name="hintAfter" value="1" data-setting="hintAfter"><span>After 1 miss</span></label>
-          <label><input type="radio" name="hintAfter" value="2" data-setting="hintAfter"><span>After 2 misses</span></label>
-          <label><input type="radio" name="hintAfter" value="0" data-setting="hintAfter"><span>Don't outline</span></label>
-        </div>
-      </fieldset>
-
       <h3 class="sub" id="motion">Motion</h3>
       <label class="row">
         <span class="row-text"><strong>Calm motion</strong><small>Turns off confetti, bouncing and drifting backgrounds. Devices set to reduce motion are always calm.</small></span>
@@ -185,7 +174,7 @@
   </section>
 
   <section class="panel" id="you" aria-labelledby="you-title">
-    <div class="panel-head"><h2 id="you-title">You</h2></div>
+    <div class="panel-head"><h2 id="you-title" tabindex="-1">You</h2></div>
     <p class="section-help" id="you-line"></p>
     <div class="panel-foot">
       <button type="button" class="quiet-button" id="password-mine">Change my password</button>
@@ -198,7 +187,7 @@
 <dialog class="lw-dialog form-dialog" id="confirm" aria-labelledby="confirm-title" aria-describedby="confirm-text">
   <form method="dialog">
     <h2 id="confirm-title">Reset these settings?</h2>
-    <p id="confirm-text">Sound, letters, help, motion and games go back to how they started for <span id="confirm-who">this child</span>. This can't be undone.</p>
+    <p id="confirm-text">Sound, letters, motion and games go back to how they started for <span id="confirm-who">this child</span>. This can't be undone.</p>
     <div class="dialog-actions">
       <button value="cancel" class="quiet-button">Keep my settings</button>
       <button value="reset" class="go-button" id="confirm-reset">Reset settings</button>

@@ -95,13 +95,13 @@ function createPaperRain(){
 async function lucy(pose){const el=(pose==='paw'||pose==='salute')?$('.lucy-paw'):pose==='glint'?$('.visor-glint'):$('.lucy-portrait');const transform=(pose==='paw'||pose==='salute')?['rotate(-15deg) translateY(10px)','rotate(0) translateY(-5px)','rotate(-15deg) translateY(0)']:pose==='tilt'?['rotate(0)','rotate(-5deg)','rotate(0)']:pose==='glint'?['translateX(-8px)','translateX(14px)','translateX(0)']:['rotate(0)','rotate(4deg) translateY(3px)','rotate(0)'];return moment(el,transform.map(transform=>({transform})),{duration:380,name:'lucy-'+pose});}
 async function home(){
  const mine=epoch;
- if(!await moment($(post?'.open-sign':'.map-ship .art'),post?[{transform:'rotate(-15deg)'},{transform:'rotate(-4deg)'},{transform:'rotate(-7deg)'}]:[{transform:'translate(-28px,14px) rotate(2deg)'},{transform:'translate(-8px,-8px) rotate(15deg)'},{transform:'rotate(22deg)'}],{duration:650,name:'intro'}))return;
+ if(!await moment($(post?'.office-top .lucy-portrait':'.map-ship .art'),post?[{transform:'translateY(8px) rotate(-4deg)'},{transform:'translateY(-4px) rotate(2deg)'},{transform:'translateY(0) rotate(0)'}]:[{transform:'translate(-28px,14px) rotate(2deg)'},{transform:'translate(-8px,-8px) rotate(15deg)'},{transform:'rotate(22deg)'}],{duration:650,name:'intro'}))return;
  // Each route gets one finite idle greeting, never a repeating timer.
  if(document.body.dataset.screen!=='home'||epoch!==mine+1)return;
  if(!await lucy(post?'paw':'salute'))return;
  if(!post&&!await lucy('glint'))return;
  if(!await lucy('tilt'))return;
- await moment($(post?'.open-sign':'.map-mark'),post?[{transform:'rotate(-7deg)'},{transform:'rotate(-3deg)'},{transform:'rotate(-7deg)'}]:[{transform:'scale(1)'},{transform:'scale(1.16)'},{transform:'scale(1)'}],{duration:500,name:'idle-once'});
+ await moment($(post?'.office-number':'.map-mark'),[{transform:'scale(1)'},{transform:'scale(1.16)'},{transform:'scale(1)'}],{duration:500,name:'idle-once'});
 }
 window.Fun={cancel,home,lucy,
  exit(){return moment($('.screen'),[{opacity:1,transform:'translateY(0)'},{opacity:0,transform:'translateY(-8px)'}],{duration:180,name:'screen-exit'});},
@@ -111,7 +111,8 @@ window.Fun={cancel,home,lucy,
  press(button){return moment(button,[{transform:'scale(1)'},{transform:'scale(.96)'},{transform:'scale(1)'}],{duration:160,name:post?'paper-press':'orbit-squish'});},
  open(){return post?moment($('.listen .mail-flap'),[{transform:'rotateX(0)'},{transform:'rotateX(160deg)'}],{duration:500,name:'envelope-open',cue:'open'}):moment($('.listen .signal-orbit'),[{transform:'rotate(-55deg) scale(.87)',opacity:.4},{transform:'rotate(0) scale(1)',opacity:1}],{duration:500,name:'orbit-tune',cue:'open'});},
  replay(){return moment($('.listen-letter')||$('.reward-art'),[{transform:'scale(1)'},{transform:'scale(1.055) rotate(-2deg)'},{transform:'scale(1)'}],{duration:330,name:post?'ink-ring':'signal-ring',cue:'tap'});},
- async hint(button){button.classList.add('miss-active');try{return await moment(button,[{transform:'translateX(0)'},{transform:'translateX(-5px) rotate(-1deg)',offset:.23},{transform:'translateX(4px) rotate(1deg)',offset:.48},{transform:'translateX(-2px)',offset:.72},{transform:'translateX(0)'}],{duration:480,name:'gentle-miss',cue:'tap'});}finally{button.classList.remove('miss-active');}},
+ // A small wiggle on the tapped picture only, with no chime: Lucy's voice is the only sound after a miss.
+ async miss(button){button.classList.add('miss-active');try{return await moment(button,[{transform:'translateX(0)'},{transform:'translateX(-5px) rotate(-1deg)',offset:.23},{transform:'translateX(4px) rotate(1deg)',offset:.48},{transform:'translateX(-2px)',offset:.72},{transform:'translateX(0)'}],{duration:480,name:'gentle-miss'});}finally{button.classList.remove('miss-active');}},
  reward(){return moment($(post?'.reward-stamp':'.reward-art'),post?[{transform:'translateY(-16px) rotate(-8deg) scale(1.2)'},{transform:'translateY(0) rotate(12deg) scale(1)',offset:704/4400},{transform:'translateY(0) rotate(12deg) scale(1)'}]:[{transform:'scale(.92) rotate(-7deg)',opacity:.4},{transform:'scale(1.04) rotate(3deg)',opacity:1,offset:396/4400},{transform:'scale(1) rotate(0)',opacity:1,offset:792/4400},{transform:'scale(1) rotate(0)',opacity:1}],{duration:4400,name:post?'delivery-stamp':'world-awakens',cue:'reward',setup:createPaperRain});},
  get evidence(){return {...stats,particles:document.querySelectorAll('[data-particle]').length,active:active?1:0,sources:sources.size,muted,speaking,reduced:reduce.matches};}
 };

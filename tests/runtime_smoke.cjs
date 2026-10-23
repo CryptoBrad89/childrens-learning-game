@@ -19,9 +19,13 @@ async function smoke(game) {
     setAttribute(name, value) {this.attributes[name] = value;},
     removeAttribute(name) {delete this.attributes[name];},
     getAttribute(name) {return this.attributes[name] ?? null;},
-    focus() {}, contains() {return true;}, closest() {return this;}
+    focus() {}, contains() {return true;}, closest() {return this;},
+    querySelector() {return null;}, querySelectorAll() {return [];}
   });
+  // Parts only the browser lays out (pages of letters, the collection sheet) aren't stubbed.
+  const ABSENT = /paged|collection-sheet|collection-summary|summary-text/;
   const getNode = selector => {
+    if (ABSENT.test(selector)) return null;
     if (!nodes.has(selector)) nodes.set(selector, makeNode());
     return nodes.get(selector);
   };
@@ -33,7 +37,7 @@ async function smoke(game) {
       return [...getNode('#main').innerHTML.matchAll(/data-answer="([A-Z])"/g)]
         .map(match => getNode(`[data-answer="${match[1]}"]`));
     },
-    addEventListener() {}
+    addEventListener() {}, dispatchEvent() {}
   };
   class Audio {
     constructor(file) {
@@ -47,12 +51,16 @@ async function smoke(game) {
   const noEffect = async () => true;
   const Fun = {
     cancel() {}, voice() {}, mute() {}, home: noEffect, open: noEffect,
-    press: noEffect, replay: noEffect, hint: noEffect, lucy: noEffect,
+    press: noEffect, replay: noEffect, miss: noEffect, lucy: noEffect,
     exit: noEffect, correct: noEffect, reward: noEffect, weather: noEffect, evidence: {reduced: false}
   };
   const window = {Fun, scrollTo() {}};
+  // Timers run straight away; the pauses asked for are kept to check.
+  const pauses = [];
   const context = vm.createContext({
-    window, document, Audio, queueMicrotask,
+    window, document, Audio, queueMicrotask, CustomEvent: class {},
+    setTimeout(fn, ms) {pauses.push(ms); setImmediate(fn); return pauses.length;}, clearTimeout() {},
+    matchMedia: () => ({matches: false, addEventListener() {}}), ResizeObserver: class {observe() {}},
     localStorage: {getItem() {return null;}, setItem() {}}
   });
   const scripts = [...fs.readFileSync(path.join(root, game, 'index.html'), 'utf8').matchAll(/<script src="([^"]+)"/g)].map(match => match[1]);
@@ -86,8 +94,10 @@ async function smoke(game) {
       assert.deepEqual(played, [window.GAME_AUDIO.letters[letter].name, window.GAME_AUDIO.letters[letter].sound]);
       await app.replay(); await flush();
       assert.deepEqual(played.slice(-2), [window.GAME_AUDIO.letters[letter].name, window.GAME_AUDIO.letters[letter].sound]);
+      const beforeMatch = played.length;
       await app.continueMatch(makeNode()); await flush();
       assert.equal(document.body.dataset.screen, 'match');
+      assert.equal(played.length, beforeMatch, '"Find the picture" opens without replaying the letter');
       assert(html().includes(letter === 'X' ? 'What ends' : 'What starts'));
       assert.equal(app.choices.length, 3);
       assert.equal(new Set(app.choices.map(l => l.letter)).size, 3);
@@ -97,18 +107,24 @@ async function smoke(game) {
         if (letter !== 'X') assert.notEqual(choice.word[0], app.current.word[0], 'Ambiguous starting-word distractor');
         const button = getNode(`[data-answer="${choice.letter}"]`);
         button.dataset.answer = choice.letter;
-        await app.answer(button); await flush();
+        button.removeAttribute('aria-disabled'); // the stub outlives the screen; a real one is new each round
+        const before = played.length; pauses.length = 0;
+        await app.answer(button); await flush(); await flush();
         assert.equal(document.body.dataset.screen, 'match');
         assert.equal(button.getAttribute('aria-disabled'), null);
+        // Only the tapped word, a short pause, then one try-again clip.
+        assert.deepEqual(played.slice(before), [audioPath(window.GAME_AUDIO.words[choice.word]), audioPath(window.GAME_AUDIO.feedback.retry[0])]);
+        assert(pauses.length === 1 && pauses[0] >= 150 && pauses[0] <= 250, `Pause between word and try-again: ${pauses}`);
+        assert.equal(getNode('.feedback').textContent, `That’s ${choice.word}. Try another picture.`);
       }
-      assert(getNode('.feedback').textContent.includes(letter === 'X' ? 'ends with' : 'starts with'));
       const correct = getNode(`[data-answer="${letter}"]`);
-      assert(correct.classList.values.has('hint'), 'Two misses must reveal a hint');
-      assert(played.includes(audioPath(window.GAME_AUDIO.words[app.current.word])), 'Hint must play the target word');
+      assert(!correct.classList.values.has('hint') && !html().includes('hint'), 'No hint, ever');
+      assert(!played.includes(audioPath(window.GAME_AUDIO.words[app.current.word])), 'Misses never say the right word');
       correct.dataset.answer = letter;
-      await app.answer(correct); await flush();
+      await app.answer(correct); await flush(); await flush();
       assert.equal(document.body.dataset.screen, 'celebrate');
       assert(html().includes('of 26 · this visit'));
+      assert(window.GAME_AUDIO.feedback.cheers.map(audioPath).includes(played.at(-1)), 'The cheer plays on the found-it page');
       if (letter === 'X') assert(html().includes('Fox ends with x.'));
       await app.replay(true); await flush();
       assert.equal(played.at(-1), audioPath(window.GAME_AUDIO.words[app.current.word]));
@@ -120,7 +136,9 @@ async function smoke(game) {
     }
     await app.go('home');
     assert(html().includes('26 of 26 · this visit'));
-    assert.equal((html().match(/aria-label="played this visit"/g) || []).length, 26);
+    assert.equal((html().match(/, done"/g) || []).length, 26);
+    assert.equal((html().match(/class="done-badge"/g) || []).length, 26 * 2, 'Every card and collection slot has the done badge');
+    assert(!html().includes('played this visit'));
     const mute = getNode('#mute');
     mute.onclick(); played.length = 0;
     await app.start('X'); await flush();
@@ -128,7 +146,7 @@ async function smoke(game) {
     assert.equal(played.length, 0, 'Mute must suppress all voice clips');
     mute.onclick();
   }
-  console.log(`PASS ${game}: ${rounds} rounds, all themes, listen/replay, two misses, collection, next/wrap and mute (browser APIs stubbed)`);
+  console.log(`PASS ${game}: ${rounds} rounds, all themes, listen/replay, quiet match step, misses with only the word and a try-again, no hints, cheer, done badges, collection, next/wrap and mute (browser APIs stubbed)`);
 }
 
 (async () => {

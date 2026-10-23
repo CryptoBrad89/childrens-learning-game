@@ -60,8 +60,10 @@ function openPortal() {
   C.retarget();
   show('portal');
   renderHello(); renderTarget(); render(); C.render();
-  window.scrollTo({top: 0});
-  $('#title').focus({preventScroll: true});
+  // "My account" from a game's picture menu opens at the You card.
+  const you = location.hash === '#you';
+  if (you) $('#you').scrollIntoView({block: 'start'}); else window.scrollTo({top: 0});
+  $(you ? '#you-title' : '#title').focus({preventScroll: true});
   C.refresh().then(() => { C.retarget(); renderHello(); renderTarget(); render(); C.render(); });
 }
 function renderHello() {
@@ -218,8 +220,6 @@ function render() {
   }
   const n = s.letters.length;
   $('#letter-count').textContent = n === 26 ? 'All 26 letters are in play.' : `${n} of 26 letters in play: ${s.letters.join(' ').toLowerCase()}.`;
-  const checked = [...$$('#hint input')].findIndex(input => input.checked);
-  $('#hint .segments').style.setProperty('--index', Math.max(0, checked));
 }
 function commit(next, message) {
   const ids = C.ids(), diff = G.changes(G.settings, next);

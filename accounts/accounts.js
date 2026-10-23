@@ -322,6 +322,16 @@ function begin(id, {as, keep, offline}) {
   return {...publicPerson(person(id)), offline, ready};
 }
 function endTurn(slot = KEY.active) { setActive(null, {slot}); }
+// A grown-up who is playing opens their corner from the game in one tap: the same
+// session, in this tab, past the reading gate (the corner's own `lw:gate-ok`).
+// Children are never let in here, and the corner's functions refuse them anyway.
+function enterCorner(id) {
+  const p = person(id);
+  if (!p || p.role !== 'grownup' || !p.session || activeId() !== id) return false;
+  tabSet(KEY.corner, id); tabSet('lw:gate-ok', id);
+  emit('active', {id, slot: KEY.corner});
+  return true;
+}
 // Removes a person's copy from this device. Refused while anything waits to upload.
 async function forget(id) {
   if (waiting(id)) throw new LWError('still_waiting');
@@ -411,7 +421,8 @@ setTimeout(() => syncAll(), 0);
 
 // The game shell works offline once a page has been opened over http(s).
 if (SELF && 'serviceWorker' in navigator && /^https?:$/.test(location.protocol) && !CFG.noServiceWorker) {
-  const start = () => navigator.serviceWorker.register(new URL('../sw.js', SELF), {scope: new URL('../', SELF).pathname}).catch(() => {});
+  // `updateViaCache: 'none'`: the browser always asks the server for a new sw.js.
+  const start = () => navigator.serviceWorker.register(new URL('../sw.js', SELF), {scope: new URL('../', SELF).pathname, updateViaCache: 'none'}).catch(() => {});
   if (document.readyState === 'complete') start(); else window.addEventListener('load', start);
 }
 
@@ -421,7 +432,7 @@ window.LW = {
   player: () => publicPerson(person(activeId())), playerId: () => activeId(),
   grownup: () => publicPerson(person(activeId(KEY.corner))), grownupId: () => activeId(KEY.corner),
   keptGrownup: () => read(KEY.corner, null) === activeId(KEY.corner) && !!activeId(KEY.corner),
-  signIn, endTurn, endCorner: () => endTurn(KEY.corner), forget,
+  signIn, endTurn, endCorner: () => endTurn(KEY.corner), enterCorner, forget,
   values, settingsOf, setSettings, progress, summary, badges, recordRound, adopt,
   lettersIn: (id, world) => Object.entries(progress(id)[world] || {}).filter(([, c]) => c.n > 0).map(([l]) => l),
   shown, showHere, hideHere, isShownHere: by => shown().some(x => x.by === by),

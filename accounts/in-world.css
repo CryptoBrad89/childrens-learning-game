@@ -1,4 +1,5 @@
-/* Inside a world: who is playing (footer) and a sticker toast when one is earned. */
+/* Inside a world: the player's picture and menu (top right), who is playing (footer)
+ * and a sticker toast when one is earned. */
 .lw-avatar{display:inline-grid;place-items:center;flex:none;width:44px;height:44px;border-radius:50%;background:var(--tone,#b9dce6);border:2px solid currentColor;overflow:hidden}
 .lw-avatar svg{width:84%;height:84%;display:block}
 .lw-avatar img{width:100%;height:100%;object-fit:cover;display:block}
@@ -13,3 +14,29 @@
 }
 html[data-calm] .lw-toast{animation:none!important}
 .lw-unsaved{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border:2px dashed currentColor;border-radius:999px;font-weight:900;font-size:.9em}
+/* The picture button lines up with the sound and theme buttons: 50px (60px in Ribbon
+   Road, 46px on phones in Letter Post and Moonboat), with the picture filling most of it. */
+.header-end{display:flex;align-items:center;gap:10px;margin-left:auto}
+.lw-profile{position:relative;flex:none}
+.lw-profile-button{display:grid;place-items:center;width:50px;height:50px;padding:0;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);color:var(--ink)}
+.post .lw-profile-button{border-width:2px}
+.lw-profile-button .lw-avatar{width:42px;height:42px;border-width:2px}
+.silk .lw-profile-button{width:60px;height:60px;box-shadow:0 4px 0 var(--shadow)}
+.silk .lw-profile-button .lw-avatar{width:50px;height:50px}
+@media(max-width:700px){
+  .post .lw-profile-button,.space .lw-profile-button{width:46px;height:46px}
+  .post .lw-profile-button .lw-avatar,.space .lw-profile-button .lw-avatar{width:40px;height:40px}
+}
+.lw-menu{position:absolute;right:0;top:calc(100% + 10px);z-index:40;display:grid;gap:6px;min-width:270px;padding:12px;border:3px solid #253f65;border-radius:22px;background:#fffaf0;color:#253f65;box-shadow:0 6px 0 #253f65;font:800 18px/1.25 Nunito,system-ui,sans-serif}
+.lw-menu[hidden]{display:none}
+.lw-menu-name{display:flex;align-items:center;gap:12px;margin:0 0 4px;padding:4px 6px 10px;border-bottom:2px solid #253f6526;font-weight:900}
+.lw-menu-name .lw-avatar{width:40px;height:40px;border-width:2px}
+.lw-menu a{display:flex;flex-direction:column;justify-content:center;min-height:60px;padding:8px 14px;border-radius:14px;color:#253f65;text-decoration:none}
+.lw-menu a small{font-size:14px;font-weight:700;color:#536078}
+.lw-menu a:hover{background:#253f6512}
+.lw-menu a:focus-visible{outline:4px solid #007a95;outline-offset:2px}
+/* Short laptop screens: the footer's player line is a little slimmer. */
+@media(min-width:700px) and (max-height:700px){
+  #footer .lw-player .lw-avatar{width:36px;height:36px}
+  #footer .lw-player a{min-height:48px}
+}

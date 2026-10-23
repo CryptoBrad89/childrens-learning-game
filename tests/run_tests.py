@@ -132,17 +132,25 @@ def wiring():
         for path in strings(audio):
             require(inside(folder / path).is_file(), f'{game}: missing audio {path}')
         app = (folder / 'app.js').read_text()
-        # Guard the actual playback sites, including match and two-miss hints.
+        # Guard the actual playback sites. A wrong picture plays its own word, a pause
+        # and one try-again clip; nothing plays the letter, its sound or the right word
+        # unless the child taps for it (no hints anywhere).
         for fragment in ('const A=window.GAME_AUDIO;', 'new Audio(file)',
                          'return [A.letters[current.letter].name,A.letters[current.letter].sound];',
                          'return A.words[l.word];', 'voice(letterAudio())',
-                         'voice([A.letters[current.letter].sound])',
                          'voice(reward?[wordAudio(current)]:letterAudio())',
-                         '...letterAudio(),wordAudio(current)',
-                         ':[A.letters[current.letter].sound]',
+                         'voice([wordAudio(selected),{pause:150+Math.round(Math.random()*100)},retryAudio()])',
+                         'const clips=A.feedback.retry;return clips[Math.floor(Math.random()*clips.length)];',
+                         'voice([wordAudio(selected)])',
                          'A.feedback.cheers[visited.size%2]'):
             require(fragment in app, f'{game}: missing playback wiring {fragment}')
         require(app.count('new Audio(') == 1, f'{game}: unexpected playback entry point')
+        calls = re.findall(r'(?<![.\w])voice\((?!files\))', app)
+        require(len(calls) == 5, f'{game}: unexpected voice call (hint path?): {len(calls)}')
+        for gone in ('hint', 'Listen for', 'outlined'):
+            require(gone not in app.replace('hinted:false', '').lower(), f'{game}: hint path still present: {gone}')
+        require(audio['feedback']['retry'] and all(clip in strings(audio['feedback']) for clip in audio['feedback']['retry']),
+                'Try-again clips must be approved feedback clips')
         require(set(audio['words']) == set(WORDS.values()), 'Picture word map must cover the 26 A-Z words')
     # Scan every game JS/HTML, including files not currently loaded.
     for file in sorted(ROOT.rglob('*')):

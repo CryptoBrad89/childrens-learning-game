@@ -162,13 +162,6 @@ input[type="range"]::-moz-range-thumb{width:36px;height:36px;border-radius:50%;b
 fieldset{border:0;margin:0;padding:0;min-width:0}
 legend{padding:0;margin:6px 0 14px;color:var(--muted);max-width:60ch;font-size:.95rem;font-weight:700}
 .group legend{margin:8px 0 0;font-weight:900;color:var(--ink)}
-.segments{--index:1;position:relative;display:grid;grid-template-columns:repeat(3,1fr);padding:6px;border:3px solid var(--ink);border-radius:24px;background:#fff}
-.segments .pill-slide{position:absolute;top:6px;bottom:6px;left:6px;width:calc((100% - 12px)/3);border-radius:18px;background:var(--ink);transform:translateX(calc(100% * var(--index)));transition:transform 300ms var(--ease-emph)}
-.segments label{position:relative;display:grid;place-items:center;min-height:var(--target);padding:8px 10px;text-align:center;cursor:pointer;border-radius:18px;line-height:1.2}
-.segments input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
-.segments input:checked+span{color:var(--paper)}
-.segments span{position:relative;transition:color var(--dur-base) var(--ease-standard)}
-.segments label:has(input:focus-visible){outline:4px solid var(--focus);outline-offset:2px}
 
 /* Progress */
 .progress-total{max-width:62ch;margin:4px 0 8px}
@@ -254,7 +247,7 @@ legend{padding:0;margin:6px 0 14px;color:var(--muted);max-width:60ch;font-size:.
 
 /* Whiteboards: bigger targets from across the room. */
 @media(min-width:1600px){html{font-size:20px}:root{--target:72px}.portal{max-width:1240px}.keypad button{min-height:84px}}
-@media(max-width:600px){body{padding:26px 20px 48px}.segments{grid-template-columns:1fr;border-radius:20px}.segments .pill-slide{width:calc(100% - 12px);height:calc((100% - 12px)/3);bottom:auto;transform:translateY(calc(100% * var(--index)))}.top .pill{flex:1 1 100%}.panel{border-radius:24px}.mini-letters{grid-template-columns:repeat(9,minmax(0,1fr))}.panel-head .go-button,.panel-head .quiet-button{flex:1 1 100%}.head-buttons{flex:1 1 100%}.bulk-buttons .quiet-button{flex:1 1 calc(50% - 10px)}.for{flex:1 1 100%}.for select{flex:1}}
+@media(max-width:600px){body{padding:26px 20px 48px}.top .pill{flex:1 1 100%}.panel{border-radius:24px}.mini-letters{grid-template-columns:repeat(9,minmax(0,1fr))}.panel-head .go-button,.panel-head .quiet-button{flex:1 1 100%}.head-buttons{flex:1 1 100%}.bulk-buttons .quiet-button{flex:1 1 calc(50% - 10px)}.for{flex:1 1 100%}.for select{flex:1}}
 
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.stamp{display:none}}
 html[data-calm] *,html[data-calm] *::before,html[data-calm] *::after{animation:none!important;transition:none!important}

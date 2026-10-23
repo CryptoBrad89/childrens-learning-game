@@ -1,10 +1,12 @@
 /* Offline shell for Letters with Lucy. On first load every file the games need is
  * stored, so they work offline afterwards; accounts sync separately (see
- * accounts/accounts.js). Pages, scripts and styles are refreshed in the
- * background when online; pictures, fonts and audio never change in place.
+ * accounts/accounts.js). Pages, scripts and styles come from the network first,
+ * so a new build shows on the next load, with the stored copy for offline play;
+ * pictures, fonts and audio never change in place, so they come from the store.
+ * A new version takes over at once and deletes the older stores.
  * tests/offline_shell.cjs checks this list against the files in the repo. */
 'use strict';
-const VERSION = 'little-woof-shell-4';
+const VERSION = 'little-woof-shell-5';
 const FILES = [
   './',
   "accounts/accounts.js",
@@ -147,28 +149,32 @@ const FILES = [
   "v4-ribbon-road/style.css"
 ];
 self.addEventListener('install', event => {
-  event.waitUntil(caches.open(VERSION).then(cache => cache.addAll(FILES)).then(() => self.skipWaiting()));
+  // `reload` skips the browser's own HTTP cache, so the store gets this build's files.
+  event.waitUntil(caches.open(VERSION).then(cache => cache.addAll(FILES.map(file => new Request(file, {cache: 'reload'})))).then(() => self.skipWaiting()));
 });
 self.addEventListener('activate', event => {
   event.waitUntil(caches.keys()
     .then(keys => Promise.all(keys.filter(k => k.startsWith('little-woof-shell-') && k !== VERSION).map(k => caches.delete(k))))
     .then(() => self.clients.claim()));
 });
-const FRESHEN = /\.(html|js|css)$|\/$/;
+const FRESH = /\.(html|js|css)$|\/$/, SLOW_MS = 4000;
 self.addEventListener('fetch', event => {
   const request = event.request, url = new URL(request.url);
   if (request.method !== 'GET' || url.origin !== self.location.origin) return;
   event.respondWith(caches.open(VERSION).then(async cache => {
     const key = url.pathname.endsWith('/') ? url.pathname + 'index.html' : url.pathname;
-    const cached = await cache.match(key, {ignoreSearch: true}) || await cache.match(request, {ignoreSearch: true});
-    const update = fetch(request).then(response => {
-      if (response.ok && response.type === 'basic' && !request.headers.has('range')) cache.put(key, response.clone());
+    const stored = async () => await cache.match(key, {ignoreSearch: true}) || await cache.match(request, {ignoreSearch: true});
+    const offline = async () => await stored() || await cache.match(new URL('index.html', self.registration.scope).pathname) || Response.error();
+    const network = () => fetch(request, FRESH.test(url.pathname) ? {cache: 'no-cache'} : {}).then(response => {
+      if (response.ok && response.type === 'basic' && !request.headers.has('range')) event.waitUntil(cache.put(key, response.clone()));
       return response;
     });
-    if (cached) {
-      if (FRESHEN.test(url.pathname)) event.waitUntil(update.catch(() => {}));
-      return cached;
+    if (FRESH.test(url.pathname)) {
+      // Network first. A very slow connection gets the stored copy after a few seconds.
+      const fresh = network();
+      const slow = new Promise(resolve => setTimeout(resolve, SLOW_MS)).then(stored).then(copy => copy || fresh);
+      try { return await Promise.race([fresh, slow]); } catch (e) { return offline(); }
     }
-    return update.catch(() => cache.match(new URL('index.html', self.registration.scope).pathname) || Response.error());
+    return await stored() || network().catch(offline);
   }));
 });

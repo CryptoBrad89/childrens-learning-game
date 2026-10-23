@@ -12,10 +12,13 @@ const alphabet = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
 const settingsSource = fs.readFileSync(path.join(root, 'grown-ups/settings.js'), 'utf8');
 
 // A stand-in for accounts/accounts.js: one person signed in, with these settings.
-function account(values, {signedIn = true} = {}) {
-  const rounds = [], edits = [];
-  return {rounds, edits, playerId: () => signedIn ? 'child-1' : null, values: id => id === 'child-1' ? values : {},
-    lettersIn: () => [], recordRound(r) { rounds.push(r); return {saved: true, newBadges: []}; },
+// `saved` is their saved correct answers by game, as the server keeps them.
+function account(values, {signedIn = true, saved = {}} = {}) {
+  const rounds = [], edits = [], listeners = [];
+  return {rounds, edits, saved, WORLDS: ['post', 'space', 'silk'], playerId: () => signedIn ? 'child-1' : null, values: id => id === 'child-1' ? values : {},
+    lettersIn: (id, world) => id === 'child-1' ? [...(saved[world] || []), ...rounds.filter(r => r.world === world).map(r => r.letter)] : [],
+    on(name, fn) { if (name === 'change') listeners.push(fn); }, change() { listeners.forEach(fn => fn({})); },
+    recordRound(r) { rounds.push(r); return {saved: true, newBadges: []}; },
     setSettings(actor, targets, changes) { edits.push({actor, targets, changes}); return true; }};
 }
 function loadSettings(LW) {
@@ -29,17 +32,19 @@ function settingsChecks() {
   const {api, documentElement} = loadSettings(undefined);
   assert.deepEqual(JSON.parse(JSON.stringify(api.settings)), {
     voice: true, effects: true, calm: false, kidControls: true, volume: 100,
-    letters: alphabet, hintAfter: 2, games: ['post', 'space', 'silk']
+    letters: alphabet, games: ['post', 'space', 'silk']
   }, 'Defaults must leave the game exactly as before');
   assert(!('calm' in documentElement.dataset));
   const junk = api.normalize({voice: 'no', volume: 250, letters: ['z', 'Q', 'A', 'Q', 7], hintAfter: 5, games: ['moon'], calm: 1});
   assert.equal(junk.voice, true); assert.equal(junk.calm, false);
   assert.equal(junk.volume, 100); assert.equal(api.normalize({volume: -4}).volume, 0); assert.equal(api.normalize({volume: '35'}).volume, 35);
   assert.deepEqual([...junk.letters], ['A', 'Q'], 'Letters are upper case A-Z, unique and in order');
-  assert.equal(junk.hintAfter, 2);
+  assert(!('hintAfter' in junk) && !api.FIELDS.includes('hintAfter'), 'No hint setting');
   assert.deepEqual([...junk.games], ['post', 'space', 'silk'], 'At least one world always stays');
   assert.deepEqual([...api.normalize({letters: []}).letters], alphabet, 'At least one letter always stays');
-  assert.equal(api.normalize({hintAfter: 0}).hintAfter, 0);
+  // A value stored before hints were removed is left alone: never read, never saved over.
+  assert.equal(api.normalize({hintAfter: 1}).hintAfter, undefined);
+  assert.deepEqual(JSON.parse(JSON.stringify(api.changes({hintAfter: 1}, {...api.DEFAULTS, hintAfter: 2}))), {});
 
   // The signed-in player's own settings apply, before anything renders.
   const mine = loadSettings(account({calm: true, letters: ['T', 'S', 'A'], theme_post: 2}));
@@ -55,7 +60,7 @@ function settingsChecks() {
   console.log('PASS grown-up settings: defaults, validation, the player\'s own settings, nobody signed in, changed fields only');
 }
 
-async function game(name, saved) {
+async function game(name, saved, done = {}) {
   const nodes = new Map(), played = [], volumes = [];
   const makeNode = () => ({
     innerHTML: '', textContent: '', value: '', dataset: {}, listeners: {},
@@ -66,9 +71,11 @@ async function game(name, saved) {
     setAttribute(key, value) {this.attributes[key] = value;},
     removeAttribute(key) {delete this.attributes[key];},
     getAttribute(key) {return this.attributes[key] ?? null;},
-    focus() {}, contains() {return true;}, closest() {return this;}
+    focus() {}, contains() {return true;}, closest() {return this;},
+    querySelector() {return null;}, querySelectorAll() {return [];}
   });
   const getNode = selector => {
+    if (/paged|collection-sheet|collection-summary|summary-text/.test(selector)) return null;
     if (!nodes.has(selector)) nodes.set(selector, makeNode());
     return nodes.get(selector);
   };
@@ -79,7 +86,7 @@ async function game(name, saved) {
       if (selector !== '.choice') throw new Error(`Unhandled selector: ${selector}`);
       return [...getNode('#main').innerHTML.matchAll(/data-answer="([A-Z])"/g)].map(m => getNode(`[data-answer="${m[1]}"]`));
     },
-    addEventListener() {}
+    addEventListener() {}, dispatchEvent() {}
   };
   class Audio {
     constructor(file) {
@@ -92,11 +99,13 @@ async function game(name, saved) {
   }
   const noEffect = async () => true;
   const Fun = {cancel() {}, voice() {}, mute() {}, home: noEffect, open: noEffect, press: noEffect, replay: noEffect,
-    hint: noEffect, lucy: noEffect, exit: noEffect, correct: noEffect, reward: noEffect, weather: noEffect, evidence: {reduced: false}};
-  const LW = saved ? account(saved) : account({}, {signedIn: false});
+    miss: noEffect, lucy: noEffect, exit: noEffect, correct: noEffect, reward: noEffect, weather: noEffect, evidence: {reduced: false}};
+  const LW = saved ? account(saved, {saved: done}) : account({}, {signedIn: false});
   const window = {Fun, scrollTo() {}, LW};
   const localStorage = {getItem() {return null;}, setItem() {}};
-  const context = vm.createContext({window, document, Audio, queueMicrotask, localStorage});
+  const context = vm.createContext({window, document, Audio, queueMicrotask, localStorage, CustomEvent: class {},
+    setTimeout(fn) {setImmediate(fn); return 1;}, clearTimeout() {},
+    matchMedia: () => ({matches: false, addEventListener() {}}), ResizeObserver: class {observe() {}}});
   const html = fs.readFileSync(path.join(root, name, 'index.html'), 'utf8');
   const scripts = [...html.matchAll(/<script src="([^"]+)"/g)].map(m => m[1]);
   assert(scripts.indexOf('../grown-ups/settings.js') > -1 && scripts.indexOf('../grown-ups/settings.js') < scripts.findIndex(s => s.endsWith('app.js')),
@@ -122,6 +131,7 @@ async function game(name, saved) {
 async function worldChecks(name) {
   const letters = ['S', 'A', 'T', 'P', 'I', 'N'], pool = ['A', 'I', 'N', 'P', 'S', 'T'];
   {
+    // An old "outline after 1 miss" value is still stored for this child: it must do nothing.
     const t = await game(name, {letters, hintAfter: 1, voice: false, volume: 40, kidControls: false});
     await t.app.go('home');
     assert.deepEqual([...t.main().matchAll(/data-letter="([A-Z])"/g)].map(m => m[1]), pool, `${name}: pickers show only the chosen letters, A-Z`);
@@ -139,11 +149,11 @@ async function worldChecks(name) {
     const wrong = t.app.choices.find(l => l.letter !== 'S'), button = t.getNode(`[data-answer="${wrong.letter}"]`);
     button.dataset.answer = wrong.letter;
     await t.app.answer(button); await t.flush();
-    assert(t.getNode('[data-answer="S"]').classList.values.has('hint'), `${name}: hint after one miss`);
+    assert(!t.getNode('[data-answer="S"]').classList.values.has('hint') && !t.main().includes('hint'), `${name}: a stored hint setting never brings hints back`);
     const correct = t.getNode('[data-answer="S"]'); correct.dataset.answer = 'S';
     await t.app.answer(correct); await t.flush();
     assert(t.main().includes('1 of 6 · yours to keep'));
-    assert.deepEqual(JSON.parse(JSON.stringify(t.LW.rounds)), [{world: {'v1-letter-post': 'post', 'v3-moonboat': 'space', 'v4-ribbon-road': 'silk'}[name], letter: 'S', misses: 1, hinted: true}], `${name}: the finished round is recorded once for the player`);
+    assert.deepEqual(JSON.parse(JSON.stringify(t.LW.rounds)), [{world: {'v1-letter-post': 'post', 'v3-moonboat': 'space', 'v4-ribbon-road': 'silk'}[name], letter: 'S', misses: 1, hinted: false}], `${name}: the finished round is recorded once for the player`);
     const order = [];
     for (let i = 0; i < 7; i++) {
       const next = t.makeNode(); next.dataset.action = 'next';
@@ -158,7 +168,7 @@ async function worldChecks(name) {
     }
   }
   {
-    const t = await game(name, {hintAfter: 0, volume: 40});
+    const t = await game(name, {volume: 40});
     await t.app.go('home');
     assert.equal([...t.main().matchAll(/data-letter="/g)].length, 26);
     assert(t.getNode('#header').innerHTML.includes('<div class="controls">'), `${name}: controls shown by default`);
@@ -169,8 +179,8 @@ async function worldChecks(name) {
       const button = t.getNode(`[data-answer="${choice.letter}"]`); button.dataset.answer = choice.letter;
       await t.app.answer(button); await t.flush();
     }
-    assert(!t.getNode('[data-answer="B"]').classList.values.has('hint'), `${name}: "Don't outline" never outlines`);
-    assert(!t.played.includes(t.window.GAME_AUDIO.words.ball), `${name}: no hint word without the outline`);
+    assert(!t.getNode('[data-answer="B"]').classList.values.has('hint'), `${name}: two misses never outline`);
+    assert(!t.played.includes(t.window.GAME_AUDIO.words.ball), `${name}: misses never say the right word`);
   }
   {
     const t = await game(name, {letters: ['Q']});
@@ -189,7 +199,15 @@ async function worldChecks(name) {
     assert(t.main().includes('0 of 26 · this visit'), `${name}: play without saving keeps the one-visit collection`);
     assert.equal(t.LW.rounds.length, 0);
   }
-  console.log(`PASS ${name}: chosen letters, counts, wrap, hints (1 / never), voice off, volume, hidden children's buttons, rounds recorded`);
+  {
+    // Done letters come from the account's saved correct answers in every game.
+    const t = await game(name, {}, {post: ['A'], space: ['B'], silk: ['C']});
+    await t.app.go('home');
+    for (const l of ['A', 'B', 'C']) assert(t.main().includes(`aria-label="Play letter ${l}, done"`), `${name}: ${l} saved in another game shows done`);
+    assert(!t.main().includes('aria-label="Play letter D, done"') && t.main().includes('3 of 26 · yours to keep') && !t.main().includes('this visit'), `${name}: signed-in wording`);
+    assert.equal((t.main().match(/>Done</g) || []).length, 3, `${name}: done cards say Done`);
+  }
+  console.log(`PASS ${name}: chosen letters, counts, wrap, no hints whatever is stored, voice off, volume, hidden children's buttons, rounds recorded, done from every game`);
 }
 
 (async () => {

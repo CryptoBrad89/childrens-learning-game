@@ -6,10 +6,13 @@
 'use strict';
 const ALL = [...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'];
 const GAMES = ['post', 'space', 'silk'];
-const FIELDS = ['voice', 'volume', 'effects', 'calm', 'letters', 'hintAfter', 'games', 'kidControls'];
+// The fields grown-ups set. The games give no hints, so `hintAfter` (the old "Help when
+// stuck" setting) is no longer one of them: nothing reads it or saves it, and a value
+// already stored for someone stays as it is.
+const FIELDS = ['voice', 'volume', 'effects', 'calm', 'letters', 'games', 'kidControls'];
 const DEFAULTS = Object.freeze({
   voice: true, volume: 100, effects: true, calm: false,
-  letters: ALL, hintAfter: 2, games: GAMES, kidControls: true
+  letters: ALL, games: GAMES, kidControls: true
 });
 
 function normalize(raw) {
@@ -22,7 +25,6 @@ function normalize(raw) {
     voice: flag('voice'), effects: flag('effects'), calm: flag('calm'), kidControls: flag('kidControls'),
     volume: Number.isFinite(volume) ? Math.round(Math.min(100, Math.max(0, volume))) : DEFAULTS.volume,
     letters: letters.length ? letters : [...ALL],
-    hintAfter: [0, 1, 2].includes(value.hintAfter) ? value.hintAfter : DEFAULTS.hintAfter,
     games: games.length ? games : [...GAMES]
   };
 }

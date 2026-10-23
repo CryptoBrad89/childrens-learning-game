@@ -139,6 +139,9 @@ window.GAME_AUDIO = {
       "assets/lucy-cheer-1.mp3",
       "assets/lucy-cheer-2.mp3"
     ],
-    "nudge": "assets/lucy-nudge-1.mp3"
+    "nudge": "assets/lucy-nudge-1.mp3",
+    "retry": [
+      "assets/lucy-nudge-1.mp3"
+    ]
   }
 };
