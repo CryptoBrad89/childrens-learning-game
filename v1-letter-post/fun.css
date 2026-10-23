@@ -144,8 +144,9 @@ body[data-screen="listen"] .lucy-portrait>img,body[data-screen="match"] .lucy-po
 .letter-list button.settle{animation:none}
 .settle .done-badge{animation:done-settle 220ms cubic-bezier(.34,1.45,.64,1) both}
 @keyframes done-settle{from{transform:scale(.35);opacity:.2}to{transform:scale(1);opacity:1}}
-.collection-slot .done-badge{--badge:22px;top:-5px;right:-5px}
-.collection-slot.collected .collection-symbol{visibility:hidden}
+/* In the collection the badge takes the place of the slot's star or paw. */
+.collection-slot .done-badge{--badge:24px;position:static;order:-1;justify-self:center}
+.collection-slot.collected .collection-symbol{display:none}
 @media(max-width:699px){.letter-list{--badge:32px}.envelopes{column-gap:24px}}
 @media(min-width:1500px) and (min-height:900px){.letter-list{--badge:44px}}
 

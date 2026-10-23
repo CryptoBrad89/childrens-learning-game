@@ -27,8 +27,9 @@ settles once (220ms, none in calm or reduced motion). Signed in, done letters
 are the account's saved correct answers from **every** game, refreshed after
 each sync; playing without saving keeps them for the current visit.
 
-There are no hints. “Find the picture” opens quietly (tap the letter to hear
-it). A wrong picture plays only its own word, a short pause and one try-again
+There are no hints. Opening a letter, from its card or with “◀ Listen”,
+Lucy says the letter and then its sound. “Find the picture” opens quietly (tap
+the letter to hear it). A wrong picture plays only its own word, a short pause and one try-again
 clip picked at random from `GAME_AUDIO.feedback.retry` (today only “Not
 quite!”); the pictures stay live and any new tap cuts it off. After a correct
 answer the cheer starts as the found-it page appears.

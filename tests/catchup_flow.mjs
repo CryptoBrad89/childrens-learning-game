@@ -103,7 +103,12 @@ try {
   assert.deepEqual(after.slice(-2), ['b-name-trim.mp3', 'b-sound-trim.mp3'], 'the letter tap plays the letter');
   ok(`C4/C5: a miss plays only the tapped word, ${Math.round(gap)}ms, then "Not quite!"; no hint; a new tap cuts it off`);
 
+  // ◀ Listen opens the letter page again, and it says the letter and its sound by itself.
+  const back = await a.evaluate(() => window.__clips.length);
   await a.locator('.back').click(); await screen(a, 'listen');
+  await a.waitForFunction(n => window.__clips.slice(n).some(c => c.kind === 'ended' && /b-sound/.test(c.src)), back, {timeout: 15000});
+  assert.deepEqual(await clips(a, back), ['b-name-trim.mp3', 'b-sound-trim.mp3'], '◀ Listen: the letter page says the letter and its sound');
+  ok('C3: back on the letter page with ◀ Listen, Lucy says the letter and its sound');
   await a.locator('.back[data-action="home"]').click(); await screen(a, 'home');
   assert.equal(await done(a), '', 'Wrong taps never make a letter done');
 
