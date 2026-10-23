@@ -1385,5 +1385,71 @@
    "stt_ok": true
   },
   "sha256": "6d963659455815fec0b92b749971711440125a2cf2095e10aa5fca632f2f827b"
+ },
+ {
+  "file": "audio/wrong/lucy-uh-oh.mp3",
+  "text": "Uh-oh.",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "kind": "short",
+  "status": "approved",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech, copied byte for byte",
+   "prompt": "The word is \"Uh-oh.\"",
+   "generation_id": "Lw3dqK6Hi4ThYuZl2KmT",
+   "flow": "qf00rNe71dXtPbyboPhK",
+   "kept_take": "6 of 6",
+   "duration_s": 0.84,
+   "median_pitch_hz_reliable": 266.9,
+   "median_pitch_hz_all_voiced": 268.8,
+   "credits": 20,
+   "note": "Excerpt from 1.54 to 2.38 seconds of the generation. The carrier sentence was removed at the silence gap, with a 15 ms fade-in and a 30 ms fade-out, encoded at 128 kbps. No pitch or tempo shift."
+  },
+  "sha256": "dd3c9e20d407a4f9f0d219c18611d60ca93e37a3490d654106490e614ef40c1d"
+ },
+ {
+  "file": "audio/wrong/lucy-try-again.mp3",
+  "text": "Try again.",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "kind": "short",
+  "status": "approved",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech, copied byte for byte",
+   "prompt": "Try again.",
+   "generation_id": "fHxR8ND1RQjcLzX0nkK3",
+   "flow": "qf00rNe71dXtPbyboPhK",
+   "kept_take": "6 of 7",
+   "duration_s": 1.12,
+   "median_pitch_hz_reliable": 272.6,
+   "median_pitch_hz_all_voiced": 254.2,
+   "credits": 10,
+   "note": "Unchanged downloaded generation. No pitch or tempo shift. The unfiltered pitch median stays below the approximate 265–310 Hz range; reliable frames are inside it."
+  },
+  "sha256": "95fd1d29517f47697f931772366af8fb29032f1434844754d607c40580398563"
+ },
+ {
+  "file": "audio/wrong/lucy-oops-try-again.mp3",
+  "text": "Oops! Try again.",
+  "voice_id": "FgiNpTIapnCbaD6xiqIo",
+  "voice_name": "Lucy",
+  "model": "eleven_v4",
+  "kind": "short",
+  "status": "approved",
+  "provenance": {
+   "source": "ElevenLabs creative_generate_speech, copied byte for byte",
+   "prompt": "Oops! Try again.",
+   "generation_id": "MfV3RTVlD0Xnofd5EcWt",
+   "flow": "qf00rNe71dXtPbyboPhK",
+   "kept_take": "5 of 5",
+   "duration_s": 2.08,
+   "median_pitch_hz_reliable": 305.3,
+   "median_pitch_hz_all_voiced": 306.9,
+   "credits": 16,
+   "note": "Unchanged downloaded generation. No pitch or tempo shift."
+  },
+  "sha256": "0801e708f3140092603988b081c066a76e135ff7160723d1db972e98a26c9d65"
  }
 ]

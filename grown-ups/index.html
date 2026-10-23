@@ -3,40 +3,40 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#faf2df" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#14233a" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#faf2df">
 <meta name="robots" content="noindex">
-<title>Grown-ups' corner · Little Woof</title>
+<title>Grown-ups' corner · Letters with Lucy</title>
 <link rel="stylesheet" href="grown-ups.css">
+<link rel="stylesheet" href="../accounts/ui.css">
+<script src="../accounts/vendor/supabase.js"></script>
+<script src="../accounts/merge.js"></script>
+<script src="../accounts/avatars.js"></script>
+<script src="../accounts/store.js"></script>
+<script src="../accounts/config.js"></script>
+<script src="../accounts/client.js"></script>
+<script src="../accounts/session.js"></script>
+<script src="../accounts/pictures.js"></script>
+<script src="../accounts/boot.js"></script>
 <script src="settings.js"></script>
 <script src="../audio-map.js" defer></script>
 <script src="paper-shader.js" defer></script>
 <script src="grown-ups.js" defer></script>
+<script src="../accounts/grown.js" defer></script>
 </head>
 <body>
-<div class="band" aria-hidden="true"><canvas id="paper"></canvas><span class="postmark"><b>GROWN-UPS</b><i>LITTLE WOOF POST</i><b>ONLY</b></span></div>
+<p class="chrome"><strong>Letters with Lucy</strong><small>Little Sounds Big Discovery</small></p>
+<div class="band" aria-hidden="true"><canvas id="paper"></canvas></div>
 <div class="page">
   <header class="masthead">
-    <div>
-      <p class="label">For grown-ups</p>
+    <div class="hello"><img src="../v1-letter-post/assets/lucy-default.jpg" width="150" height="150" alt="Lucy the golden retriever"></div>
+    <div class="masthead-copy">
       <h1 class="title" id="title">Grown-ups' corner</h1>
+      <p class="lead">Add a child, choose their picture, and keep their secret.</p>
     </div>
     <a class="fill-button" id="leave" href="../index.html"><span class="fill-label">Back to the games</span><span class="fill-layer" aria-hidden="true"><span class="fill-label">Back to the games</span></span><span class="fill-dot" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></span></a>
   </header>
 
-  <main id="gate" class="gate" aria-labelledby="gate-title">
-    <div class="gate-copy">
-      <h2 id="gate-title">A quick check that a grown-up is here.</h2>
-      <p class="challenge-label" id="challenge-label">Tap these numbers in order</p>
-      <p class="challenge" id="challenge" aria-describedby="challenge-label"></p>
-      <p class="why">Why the check? Little ones can't read number words yet, so this keeps the settings out of small hands. Number keys on a keyboard work too.</p>
-    </div>
-    <div class="gate-pad">
-      <div class="slots" id="slots" aria-label="Numbers tapped so far"><span></span><span></span><span></span></div>
-      <div class="keypad" id="keypad" role="group" aria-label="Number keypad"></div>
-      <p class="gate-status" id="gate-status" role="status" aria-live="polite"></p>
-    </div>
-  </main>
+  <div id="gate" hidden></div>
 
   <div id="settings" class="settings" hidden>
     <nav class="index" aria-label="Settings sections">
@@ -50,7 +50,8 @@
       </ol>
     </nav>
     <main class="sheet" id="sheet" tabindex="-1" aria-label="Grown-up settings">
-      <p class="intro">Changes save straight away on this device and apply the next time a world opens.</p>
+      <p class="intro" id="settings-target">Editing: this device</p>
+      <p class="section-help"><a class="quiet-button" href="#view-kids">Back to children</a></p>
 
       <section id="sound" aria-labelledby="sound-title">
         <h2 id="sound-title"><span>01</span>Sound</h2>
@@ -83,21 +84,8 @@
         <p class="count" id="letter-count" aria-live="polite"></p>
       </section>
 
-      <section id="help" aria-labelledby="help-title">
-        <h2 id="help-title"><span>03</span>Help when stuck</h2>
-        <fieldset class="segmented" id="hint">
-          <legend>After a wrong picture, Lucy can outline the right one and say its word. Choose when that happens.</legend>
-          <div class="segments">
-            <span class="pill" aria-hidden="true"></span>
-            <label><input type="radio" name="hintAfter" value="1" data-setting="hintAfter"><span>After 1 miss</span></label>
-            <label><input type="radio" name="hintAfter" value="2" data-setting="hintAfter"><span>After 2 misses</span></label>
-            <label><input type="radio" name="hintAfter" value="0" data-setting="hintAfter"><span>Don't outline</span></label>
-          </div>
-        </fieldset>
-      </section>
-
       <section id="motion" aria-labelledby="motion-title">
-        <h2 id="motion-title"><span>04</span>Motion</h2>
+        <h2 id="motion-title"><span>03</span>Motion</h2>
         <label class="row">
           <span class="row-text"><strong>Calm motion</strong><small>Turns off confetti, bouncing and drifting backgrounds. Devices set to reduce motion are always calm.</small></span>
           <input type="checkbox" role="switch" data-setting="calm">
@@ -105,12 +93,12 @@
       </section>
 
       <section id="worlds" aria-labelledby="worlds-title">
-        <h2 id="worlds-title"><span>05</span>Worlds &amp; buttons</h2>
+        <h2 id="worlds-title"><span>04</span>Worlds &amp; buttons</h2>
         <fieldset class="group" id="games">
           <legend>Worlds on the home page</legend>
           <label class="row"><span class="row-text"><strong><i class="swatch post" aria-hidden="true"></i>Lucy's Letter Post</strong></span><input type="checkbox" role="switch" data-game="post"></label>
           <label class="row"><span class="row-text"><strong><i class="swatch space" aria-hidden="true"></i>Lucy's Moonboat</strong></span><input type="checkbox" role="switch" data-game="space"></label>
-          <label class="row"><span class="row-text"><strong><i class="swatch silk" aria-hidden="true"></i>Lucy's Silk Thread</strong></span><input type="checkbox" role="switch" data-game="silk"></label>
+          <label class="row"><span class="row-text"><strong><i class="swatch silk" aria-hidden="true"></i>Ribbon Road</strong></span><input type="checkbox" role="switch" data-game="silk"></label>
         </fieldset>
         <label class="row">
           <span class="row-text"><strong>Children's buttons</strong><small>Shows the sound and color buttons at the top of each world. Turn off so your sound choices stay put.</small></span>
@@ -119,10 +107,10 @@
       </section>
 
       <section id="about" aria-labelledby="about-title">
-        <h2 id="about-title"><span>06</span>About the game</h2>
+        <h2 id="about-title"><span>05</span>About the game</h2>
         <dl class="notes">
           <div><dt>Each round</dt><dd>Children hear a letter's name and sound, find the picture that starts with it, then celebrate. X is the exception: fox <em>ends</em> with x.</dd></div>
-          <div><dt>Collections</dt><dd>Stamps and stars last for one visit. They reset when the page closes.</dd></div>
+          <div><dt>Collections</dt><dd>A signed-in player keeps each sound they get right, in every world. Play without saving lasts for that visit only.</dd></div>
           <div><dt>Privacy</dt><dd>Nothing about the child is recorded or sent anywhere. These settings stay in this browser on this device.</dd></div>
           <div><dt>Shortcuts</dt><dd>In a world, Esc goes back to its home and arrow keys move between letters.</dd></div>
         </dl>
@@ -138,7 +126,7 @@
 <span class="stamp" id="stamp" aria-hidden="true">Saved</span>
 <dialog id="confirm" aria-labelledby="confirm-title" aria-describedby="confirm-text">
   <h2 id="confirm-title">Reset all settings?</h2>
-  <p id="confirm-text">Sound, letters, help, motion and worlds go back to how they started. This can't be undone.</p>
+  <p id="confirm-text">Sound, letters, motion and worlds go back to how they started. This can't be undone.</p>
   <form method="dialog" class="dialog-actions">
     <button value="cancel" class="quiet-button">Keep my settings</button>
     <button value="reset" class="solid-button" id="confirm-reset">Reset settings</button>

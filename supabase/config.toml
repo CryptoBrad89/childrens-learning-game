@@ -1,0 +1,20 @@
+# Auth settings for a rebuild. The hosted project must match:
+# minimum 6 characters, no required character classes, leaked-password
+# protection off. Email confirmation is off because teachers create the
+# accounts and children do not have inboxes.
+project_id = "little-woof"
+
+[auth]
+enabled = true
+site_url = "http://127.0.0.1:8000"
+additional_redirect_urls = ["http://localhost:8000"]
+jwt_expiry = 604800
+enable_signup = true
+minimum_password_length = 6
+password_requirements = ""
+password_hibp_enabled = false
+
+[auth.email]
+enable_signup = true
+double_confirm_changes = false
+enable_confirmations = false

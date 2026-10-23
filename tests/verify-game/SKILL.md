@@ -1,6 +1,6 @@
 ---
 name: verify-game
-description: Drive the Children's Learning Game child-facing Letter Post, Moonboat, and Silk Thread browser games and verify learning journeys, motion, reduced motion, and offline assets. Use after changes to the games.
+description: Drive the Letters with Lucy child-facing Letter Post, Moonboat, and Ribbon Road browser games and verify learning journeys, motion, reduced motion, and offline assets. Use after changes to the games.
 ---
 
 ## Launch
@@ -29,4 +29,4 @@ Both helpers close their own contexts and browser in `finally`, including failed
 
 Invoke the JavaScript helpers with `node` using the commands above; they do not require executable permissions. Maintain this feature map alongside UI changes; `/maintain-verification-skill` provides the maintenance workflow. This skill lives under `tests/verify-game/` and is loaded by its explicit path.
 
-For Silk Thread, run `CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/silk_smoke.cjs`. For continuous confetti in all worlds, run `CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/confetti_smoke.cjs`. Check paper remains visible across multiple fall cycles and replay, then disappears on navigation or a live reduced-motion change.
+For Ribbon Road, run `CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/silk_smoke.cjs`. For continuous confetti in all worlds, run `CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/confetti_smoke.cjs`. Check paper remains visible across multiple fall cycles and replay, then disappears on navigation or a live reduced-motion change.

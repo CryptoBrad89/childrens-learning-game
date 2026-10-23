@@ -132,16 +132,23 @@ def wiring():
         for path in strings(audio):
             require(inside(folder / path).is_file(), f'{game}: missing audio {path}')
         app = (folder / 'app.js').read_text()
-        # Guard the actual playback sites, including match and two-miss hints.
+        # First visit speaks the letter. A correct tap starts the cheer at once.
+        # A wrong tap speaks only the tapped word, then one retry clip.
         for fragment in ('const A=window.GAME_AUDIO;', 'new Audio(file)',
                          'return [A.letters[current.letter].name,A.letters[current.letter].sound];',
                          'return A.words[l.word];', 'voice(letterAudio())',
-                         'voice([A.letters[current.letter].sound])',
                          'voice(reward?[wordAudio(current)]:letterAudio())',
+                         'voice([wordAudio(selected)])',
+                         'A.feedback.cheers[visited.size%2]',
+                         'Try a different picture.'):
+            require(fragment in app, f'{game}: missing playback wiring {fragment}')
+        for fragment in ('voice([A.letters[current.letter].sound])',
                          '...letterAudio(),wordAudio(current)',
                          ':[A.letters[current.letter].sound]',
-                         'A.feedback.cheers[visited.size%2]'):
-            require(fragment in app, f'{game}: missing playback wiring {fragment}')
+                         "classList.add('hint')",
+                         'hint-tag'):
+            require(fragment not in app, f'{game}: hint playback must stay gone ({fragment})')
+        require('hintAfter' not in app, f'{game}: a stored hint setting must not be read')
         require(app.count('new Audio(') == 1, f'{game}: unexpected playback entry point')
         require(set(audio['words']) == set(WORDS.values()), 'Picture word map must cover the 26 A-Z words')
     # Scan every game JS/HTML, including files not currently loaded.

@@ -140,5 +140,10 @@ window.GAME_AUDIO = {
       "assets/lucy-cheer-2.mp3"
     ],
     "nudge": "assets/lucy-nudge-1.mp3"
-  }
+  },
+  "wrong": [
+    "../audio/wrong/lucy-uh-oh.mp3",
+    "../audio/wrong/lucy-try-again.mp3",
+    "../audio/wrong/lucy-oops-try-again.mp3"
+  ]
 };

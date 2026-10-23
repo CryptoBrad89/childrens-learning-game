@@ -1,0 +1,66 @@
+/* Who's playing, and the grown-up account panel.
+ * Layout first (superdesign): one job per screen, pictures before words.
+ * Theme: the chooser's paper, ink and post red. No second palette.
+ * Motion: Better Design panel-reveal (16px, 400ms, no blur) and a small pop
+ * on the chosen picture. Hyperiux's fill button stays on the grown-ups page.
+ * Trickle's stamp is unchanged. Motion-primitives' dialog is unchanged.
+ * prefers-reduced-motion and Calm motion remove all of it.
+ * ui-layouts' password pattern: a real labelled field plus a show control,
+ * large enough for a teacher on a whiteboard. Not a fake segmented pin,
+ * because the secret may contain letters.
+ */
+
+.player{max-width:1040px;margin:0 auto 28px;padding:8px 0 4px}
+.player[hidden]{display:none}
+.player h2{font-size:clamp(32px,5vw,56px);line-height:1.05;letter-spacing:-.04em;margin:0 0 8px}
+.player p{margin:0}
+.player-lead{max-width:42ch;color:#536078;margin:8px 0 18px}
+.player form{display:flex;flex-wrap:wrap;gap:12px;align-items:end;margin-top:16px}
+.player label,.account label{display:flex;flex-direction:column;gap:6px;font-size:16px;letter-spacing:.04em;text-transform:uppercase}
+.player input,.account input,.account select{font:700 22px/1.2 Nunito,system-ui,sans-serif;color:#253f65;background:#fffaf0;border:3px solid #253f65;border-radius:18px;min-height:64px;padding:8px 16px}
+.account label.check{flex-direction:row;align-items:center;gap:12px;text-transform:none;letter-spacing:0;font-size:18px;min-height:60px}
+.account input[type="checkbox"]{width:44px;height:44px;min-width:44px;min-height:44px;padding:0;flex:none}
+.player input:focus-visible,.account input:focus-visible,.account select:focus-visible,.picture:focus-visible,.avatar-pick:focus-visible{outline:4px solid #007a95;outline-offset:4px}
+.player button,.account button,.account .text-button{font:900 18px/1 Nunito,system-ui,sans-serif;min-height:60px;padding:0 18px;border-radius:18px;border:3px solid #253f65;background:#c74234;color:#fffaf0;cursor:pointer}
+.player button.quiet,.account button.quiet{background:#fffaf0;color:#253f65}
+.pictures{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:16px;margin-top:18px}
+.picture{display:flex;flex-direction:column;align-items:center;gap:8px;min-height:148px;padding:16px 10px;border-radius:28px;background:#fffaf0;color:#253f65;box-shadow:0 6px 0 #253f65}
+.picture svg{width:72px;height:72px}
+.picture[aria-pressed="true"]{background:#253f65;color:#fffaf0;transform:translateY(2px);box-shadow:0 4px 0 #253f65}
+.picture span{font-size:20px}
+.player-signed{display:flex;flex-wrap:wrap;align-items:center;gap:14px 18px}
+.player-signed[hidden],.player form[hidden],#roster[hidden]{display:none}
+.player-avatar{width:72px;height:72px;display:grid;place-items:center;border:3px solid #253f65;border-radius:50%;background:#fffaf0}
+.player-avatar svg{width:48px;height:48px}
+.player-name{font-size:clamp(26px,4vw,40px);font-weight:900;letter-spacing:-.03em}
+#kept,#stars{color:#536078;font-size:18px}
+#player-status{min-height:1.4em;margin-top:12px}
+#player-status.bad{color:#b8392c}
+html[data-account='locked'] nav{display:none}
+
+.account{margin:0 0 28px}
+.account .grid{display:grid;gap:14px}
+.account .choices{display:flex;flex-wrap:wrap;gap:10px}
+.avatar-pick{width:84px;height:84px;padding:8px;border-radius:22px;background:#fffaf0;color:#253f65;box-shadow:0 4px 0 #253f65}
+.avatar-pick[aria-pressed="true"]{background:#253f65;color:#fffaf0}
+.avatar-pick svg,.avatar-pick img{width:100%;height:100%;object-fit:cover;border-radius:14px}
+.account .code{font-family:ui-monospace,monospace;font-size:28px;letter-spacing:.18em}
+.account .child-row,.account .kid{display:flex;flex-wrap:wrap;gap:14px;align-items:center;padding:12px 14px;background:#fffaf0;border:3px solid #253f65;border-radius:24px;box-shadow:0 6px 0 #253f65}
+.account .kids{list-style:none;margin:12px 0 8px;padding:0;display:grid;gap:12px}
+.account .kid small{display:block;color:#536078;font-size:16px;letter-spacing:0;text-transform:none}
+.account .kid img,.photo-preview img{width:64px;height:64px;object-fit:cover;border-radius:50%;border:3px solid #253f65}
+.account .status{min-height:1.4em}
+.account h2{margin-top:28px}
+.account .status.bad{color:#b8392c}
+
+@media (prefers-reduced-motion:no-preference){
+  .player,.account{animation:lw-reveal 400ms cubic-bezier(.22,1,.36,1) both}
+  .picture{transition:transform 180ms cubic-bezier(.22,1,.36,1)}
+  .picture[aria-pressed="true"]{animation:lw-pop 300ms cubic-bezier(.34,1.45,.64,1)}
+}
+@keyframes lw-reveal{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes lw-pop{from{transform:translateY(8px) scale(.96)}to{transform:translateY(2px) scale(1)}}
+@media (prefers-reduced-motion:reduce){
+  .player,.account,.picture{animation:none;transition:none}
+}
+html[data-calm] .player,html[data-calm] .account,html[data-calm] .picture{animation:none;transition:none}

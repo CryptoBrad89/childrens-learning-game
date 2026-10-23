@@ -1,4 +1,32 @@
-/* Grown-up settings inside the worlds. Calm motion mirrors the prefers-reduced-motion rules. */
+/* Grown-up settings inside the worlds. Calm motion mirrors the prefers-reduced-motion rules.
+ * The picture chip sits beside the existing controls. The theme select is not moved.
+ * Profile motion is a short Hyperiux-style settle. The kid dialog uses a 180ms
+ * motion-primitives ease. Both are off when motion is reduced.
+ */
+#player-chip{display:flex;align-items:center;flex:none;margin-left:auto;position:relative}
+.controls{margin-left:10px}
+.player-chip{width:50px;height:50px;min-width:50px;min-height:50px;padding:0;border-radius:50%;overflow:hidden;border:2px solid var(--line,#253f65);background:var(--surface,#fffaf0);display:grid;place-items:center;text-decoration:none}
+.tool{width:50px;height:50px;min-width:50px;min-height:50px}
+.theme-control{height:50px;min-height:50px}
+.player-chip img{width:42px;height:42px;border-radius:50%;object-fit:cover;display:block}
+.chip-menu{position:absolute;top:calc(100% + 8px);right:0;z-index:6;display:grid;gap:8px;min-width:180px;padding:12px;border:3px solid var(--line,#253f65);border-radius:18px;background:#fffaf0;box-shadow:0 8px 0 #253f6522}
+.chip-menu a{display:flex;align-items:center;min-height:48px;padding:8px 12px;border-radius:12px;font-weight:900;text-decoration:none;background:#f6e7c1}
+.chip-menu a:focus-visible{outline:4px solid var(--focus,#007a95);outline-offset:3px}
+.chip-mark{font-weight:900}
+.visit-note{font-size:11px;font-weight:800;letter-spacing:.02em;color:var(--muted,#536078);line-height:1.1;text-align:center}
+#kid-sheet{border:3px solid var(--line,#253f65);border-radius:24px;background:#fffaf0;color:#253f65;padding:22px;max-width:min(420px,calc(100vw - 32px))}
+#kid-sheet .chip-name{margin:0;font-size:28px;font-weight:900}
+#kid-sheet .chip-note{margin:8px 0 0}
+#kid-sheet .chip-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:16px}
+#kid-sheet button{min-height:44px;min-width:44px;flex:1}
+@media (prefers-reduced-motion:no-preference){
+  .player-chip{transition:transform 180ms cubic-bezier(.22,1,.36,1)}
+  #kid-sheet[open]{animation:chip-in 180ms cubic-bezier(.22,1,.36,1)}
+}
+@keyframes chip-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  .player-chip,#kid-sheet{animation:none;transition:none}
+}
 .controls[hidden]{display:none!important}
 html[data-calm]{scroll-behavior:auto}
 html[data-calm] *,html[data-calm] *::before,html[data-calm] *::after{animation:none!important;transition:none!important}
@@ -14,3 +42,64 @@ html[data-calm] .post .choice:nth-child(2):hover{transform:rotate(3deg)}
 html[data-calm] .post .choice:nth-child(3):hover{transform:rotate(-2deg)}
 html[data-calm] .primary:hover,html[data-calm] .secondary:hover{transform:none}
 @media(max-width:650px){html[data-calm] .planets button:nth-child(2):hover,html[data-calm] .planets button:nth-child(5):hover{transform:translateY(-12px)}}
+
+/* Done is the same green and white in every theme. It is a status, not a button. */
+.letter-list button,.collection-slot{position:relative}
+.letter-list .done-badge,.collection-slot .done-badge,.done-badge{position:absolute;top:-6px;right:-6px;width:36px;height:36px;border-radius:50%;background:#176b3a;color:#fff;border:3px solid #fff;display:grid;place-items:center;pointer-events:none;z-index:2;box-shadow:none}
+.done-badge .tick{width:20px;height:20px}
+.collection-slot .done-badge{top:-4px;right:-4px}
+@media(min-width:1600px){
+  .letter-list .done-badge,.collection-slot .done-badge,.done-badge{width:52px;height:52px;border-width:4px}
+  .done-badge .tick{width:28px;height:28px}
+  .silk .letter-list .pick-glyph{transform:translateX(-18px)}
+  .silk .collection-slot .done-badge{width:40px;height:40px;top:-10px;right:-2px;border-width:3px}
+  .silk .collection-slot .done-badge .tick{width:22px;height:22px}
+}
+@keyframes done-settle{from{transform:scale(.55)}to{transform:none}}
+.done-badge.settle{animation:done-settle 220ms cubic-bezier(.22,1,.36,1)}
+@media(prefers-reduced-motion:reduce){.done-badge.settle{animation:none}}
+html[data-calm] .done-badge.settle{animation:none}
+
+.letter-page-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 10px}
+.page-arrow{min-width:72px;min-height:64px;padding:8px 14px;border-radius:18px;border:3px solid var(--line,#253f65);background:var(--surface,#fffaf0);color:var(--ink,#253f65);font-weight:900;font-size:28px;display:flex;align-items:center;justify-content:center;gap:6px}
+.page-arrow:disabled{opacity:.35}
+.page-word{font-size:16px}
+.page-label{margin:0;font-weight:900;font-size:22px;letter-spacing:.01em}
+.collection-summary{display:flex;align-items:center;min-height:52px;margin-top:12px;padding:8px 14px;border-radius:16px;border:3px solid var(--line,#253f65);background:#fffaf0;color:inherit;font-weight:900;text-align:left}
+.collection-summary .collection-heading{display:flex;flex-direction:column;gap:2px;margin:0}
+.album-dialog{width:min(920px,calc(100vw - 32px));max-height:min(80vh,720px);overflow:auto;border:3px solid var(--line,#253f65);border-radius:24px;background:#fffaf0;color:#253f65;padding:18px}
+.album-dialog::backdrop{background:#253f6588}
+.album-close{min-height:48px;min-width:48px;margin-bottom:12px;padding:8px 16px;border-radius:14px;background:#176b3a;color:#fff;font-weight:900}
+.post .post-sticker{border-radius:8px;box-shadow:none}
+.space .map-orbit,.space .map-ship{pointer-events:none}
+.space .planets button{z-index:1}
+.letter-list button{overflow:visible}
+
+/* Laptops and Chromebooks: the title stays up top and the letter page fits. */
+@media(max-height:820px){
+  .post .app,.space .app{padding:8px 14px}
+  .post #header,.space #header{padding-bottom:6px}
+  .post #main,.space #main{padding-top:6px!important;padding-bottom:6px!important}
+  .post #footer,.space #footer{padding-top:4px}
+  .post #footer a,.space #footer a{padding-block:6px;min-height:44px}
+  .post-home,.space-home{align-items:start}
+  .post-intro h1{font-size:34px;line-height:.95;margin:0}
+  .post-intro .lead,.post-sticker,.route-card,.post-bottom,.office-top,.post-intro .eyebrow{display:none}
+  .post-home{display:flex;flex-direction:column;gap:8px}
+  .post-office{border-radius:22px;box-shadow:none}
+  .sorting-shelf{padding:10px 12px 12px}
+  .shelf-title{margin-bottom:8px}
+  .envelopes{gap:10px 12px}
+  .envelopes button{height:68px;min-height:68px;aspect-ratio:auto}
+  .envelopes .pick-glyph{font-size:28px;line-height:1}
+  .space-home{display:flex;flex-direction:column;gap:8px}
+  .captain-panel{display:block;padding-top:0}
+  .captain-panel h1{font-size:34px;line-height:1;margin:0}
+  .captain-panel .lead,.captain,.captain-label,.captain-panel .eyebrow,.map-ship,.map-caption{display:none}
+  .star-map{padding:12px 14px 10px;border-radius:28px}
+  .planets{gap:12px;padding:4px}
+  .planets button{height:68px;min-height:68px;max-width:none;aspect-ratio:auto}
+  .planets .pick-glyph{font-size:28px;line-height:1}
+  .planets button:nth-child(2),.planets button:nth-child(5){transform:none}
+  .collection-summary{margin-top:8px}
+}

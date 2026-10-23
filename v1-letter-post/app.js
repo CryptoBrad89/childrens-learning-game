@@ -7,48 +7,183 @@ const audioPath=file=>file.startsWith('assets/')?assetBase+file.slice(6):file;
 const A=window.GAME_AUDIO;
 const F=window.Fun, post=C.kind==='post';
 const key='little-woof-'+C.kind+'-theme';
+const PAGE_SIZE=6;
+function guestPlay(){try{return sessionStorage.getItem('lw-guest')==='1';}catch(e){return false;}}
+function signedIn(){return !guestPlay()&&!!(window.LittleWoof&&window.LittleWoof.learnerName&&window.LittleWoof.learnerName());}
+function savedDone(){
+  if(guestPlay())return [];
+  const api=window.LittleWoof;
+  if(!api)return [];
+  if(api.doneLetters)return api.doneLetters();
+  return api.letters?api.letters(C.kind):[];
+}
 const grown=window.GROWN_UPS?.settings||{}, chosen=letters.filter(l=>!grown.letters||grown.letters.includes(l.letter)), pool=chosen.length?chosen:letters;
-const hintAfter=[0,1,2].includes(grown.hintAfter)?grown.hintAfter:2, volume=Math.min(1,Math.max(0,(grown.volume??100)/100)), all=pool.length===letters.length;
-let theme=0, storageOK=true, muted=grown.voice===false, state='home', current=letters[0], visited=new Set(), misses=0, choices=[], busy=false, route=0, voiceToken=0, player=null, resolveClip=null;
-try { const saved=Number(localStorage.getItem(key)); if(Number.isInteger(saved)&&saved>=0&&saved<C.themes.length) theme=saved; }catch(e){storageOK=false;}
-function setTheme(value){F.cancel();theme=value;document.body.dataset.theme=String(value);try{localStorage.setItem(key,String(value));}catch(e){storageOK=false;$('#storage').textContent='Theme saved for this visit only.';} }
+const volume=Math.min(1,Math.max(0,(grown.volume??100)/100)), all=pool.length===letters.length;
+let theme=0, storageOK=true, muted=grown.voice===false, state='home', current=letters[0], visited=new Set(), misses=0, choices=[], busy=false, route=0, turn=0, voiceToken=0, player=null, resolveClip=null, pauseWait=null, letterPage=0;
+const pendingSettle=new Set();
+const clips=new Map();
+if(!guestPlay()){try { const saved=Number(localStorage.getItem(key)); if(Number.isInteger(saved)&&saved>=0&&saved<C.themes.length) theme=saved; }catch(e){storageOK=false;}}
+try{savedDone().forEach(l=>visited.add(l));}catch(e){}
+function usesPages(){return C.kind==='post'||C.kind==='space';}
+function pageCount(){return Math.max(1,Math.ceil(pool.length/PAGE_SIZE));}
+function motionOff(){
+  const root=document.documentElement;
+  if(root&&root.dataset&&Object.prototype.hasOwnProperty.call(root.dataset,'calm'))return true;
+  try{return !!(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches);}catch(e){return false;}
+}
+function visitPhrase(){return signedIn()?'saved':'this visit';}
+function setTheme(value){F.cancel();theme=value;document.body.dataset.theme=String(value);if(guestPlay()){const note=$('#storage');if(note)note.textContent='Playing without saving. Progress will not be saved.';return;}try{localStorage.setItem(key,String(value));}catch(e){storageOK=false;$('#storage').textContent='Theme saved for this visit only.';} try{window.LittleWoof?.theme(C.kind,value);}catch(e){} }
 const wave=()=>'<span class="sound-wave" aria-hidden="true">'+Array.from({length:5},(_,i)=>`<i style="--i:${i}"></i>`).join('')+'</span>';
 const pic=(mood='default',line='',small=false)=>`<figure class="lucy ${mood==='celebrate'?'mood-happy':''} ${small?'small':''}">${line?`<div class="speech">${line}</div>`:''}<div class="lucy-portrait"><img src="${assetBase}/lucy-${mood}.jpg" alt="Lucy the golden retriever${mood==='celebrate'?', celebrating':''}" draggable="false"><span class="lucy-paw" aria-hidden="true">${ico('paw')}</span><span class="visor-glint" aria-hidden="true"></span></div><figcaption>${ico('paw')} LUCY</figcaption></figure>`;
-function header(){ $('#header').innerHTML=`<a class="brand" href="#main" aria-label="Little Woof, back to this world’s home"><span class="brand-mark">${ico(C.kind==='space'?'star':'paw')}</span><span>Little Woof<small>Little sounds. Big discoveries.</small></span></a><div class="controls"${grown.kidControls===false?' hidden':''}><button class="tool" id="mute" aria-label="${muted?'Turn sound on':'Mute sound'}" aria-pressed="${muted}">${ico(muted?'mute':'sound')}</button><div class="theme-control"><label for="theme" aria-label="Color theme">${ico('palette')}</label><select id="theme" aria-label="Color theme">${C.themes.map((t,i)=>`<option value="${i}">${t}</option>`).join('')}</select></div></div>`;
+const TICK='<svg class="tick" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5 10 17.5 19 7" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+function doneBadge(letter,animate,mark){
+  if(!visited.has(letter))return '';
+  const settle=animate&&pendingSettle.has(letter)&&!motionOff();
+  if(animate&&pendingSettle.has(letter))pendingSettle.delete(letter);
+  return `<span class="done-badge${mark?' visited':''}${settle?' settle':''}" aria-hidden="true">${TICK}</span>`;
+}
+function wrongLine(){const list=A.wrong||[];if(!list.length)return '';return list[Math.floor(Math.random()*list.length)];}
+function header(){ $('#header').innerHTML=`<a class="brand" href="#main" aria-label="Letters with Lucy, back to this world’s home"><span class="brand-mark">${ico(C.kind==='space'?'star':'paw')}</span><span>Letters with Lucy<small>Little Sounds Big Discovery</small></span></a><span id="player-chip"></span><div class="controls"${grown.kidControls===false?' hidden':''}><button class="tool" id="mute" aria-label="${muted?'Turn sound on':'Mute sound'}" aria-pressed="${muted}">${ico(muted?'mute':'sound')}</button><div class="theme-control"><label for="theme" aria-label="Color theme">${ico('palette')}</label><select id="theme" aria-label="Color theme">${C.themes.map((t,i)=>`<option value="${i}">${t}</option>`).join('')}</select></div></div>`;
  $('#theme').value=String(theme); $('#theme').addEventListener('change',e=>{setTheme(Number(e.target.value));announce(C.themes[theme]+' theme');F.weather(theme);}); $('#mute').onclick=()=>{muted=!muted;F.mute(muted);stopVoice();$('#mute').innerHTML=ico(muted?'mute':'sound');$('#mute').setAttribute('aria-pressed',String(muted));$('#mute').setAttribute('aria-label',muted?'Turn sound on':'Mute sound');announce(muted?'Sound off. Follow the pictures.':'Sound on. Tap a speaker to listen.');};
  $('#footer').innerHTML=`<span class="footer-note">${ico('paw')} Made for little explorers · ages 3–4</span><span id="storage" class="storage-notice">${storageOK?pool.length+(pool.length===1?' sound':' sounds')+'. Take your time.':'Theme saved for this visit only.'}</span><a href="../index.html">Choose a game</a>`;
  $('.brand').onclick=e=>{e.preventDefault();go('home');};
  setTheme(theme);
+ try{window.LittleWoofChip&&window.LittleWoofChip.mount();}catch(e){}
 }
-function announce(text){$('#announcer').textContent=text;}
-function stopVoice(){F.voice(false);voiceToken++;if(player){player.pause();player.onended=null;player.onerror=null;player=null;} if(resolveClip){resolveClip(false);resolveClip=null;} document.body.classList.remove('talking');}
-async function voice(files){stopVoice();const mine=voiceToken;if(muted||document.hidden)return true;F.voice(true);document.body.classList.add('talking');for(const source of files){const file=audioPath(source);if(mine!==voiceToken)return false;const ok=await new Promise(resolve=>{const a=new Audio(file);a.volume=volume;player=a;resolveClip=resolve;a.onended=()=>{if(mine===voiceToken)resolveClip=null;resolve(true);};a.onerror=()=>{if(mine===voiceToken){resolveClip=null;announce('Audio could not play. You can still match the pictures.');}resolve(false);};a.play().catch(()=>{if(mine===voiceToken){resolveClip=null;announce('Tap the speaker to hear the sound.');}resolve(false);});});if(!ok||mine!==voiceToken){if(mine===voiceToken){document.body.classList.remove('talking');F.voice(false);}return false;}} if(mine===voiceToken){player=null;document.body.classList.remove('talking');F.voice(false);}return true;}
+function announce(text){const box=$('#announcer');if(box)box.textContent=text;}
+function screenEvent(name){try{document.dispatchEvent(new CustomEvent('little-woof-screen',{detail:name}));}catch(e){}}
+function stopVoice(){F.voice(false);voiceToken++;if(pauseWait){const cancel=pauseWait;pauseWait=null;cancel();}if(player){player.pause();player.onended=null;player.onerror=null;try{player.currentTime=0;}catch(e){}player=null;} if(resolveClip){resolveClip(false);resolveClip=null;} document.body.classList.remove('talking');}
+function makeClip(file){let clip=clips.get(file);if(!clip){clip=new Audio(file);clip.preload='auto';if(typeof clip.load==='function')clip.load();clips.set(file,clip);}return clip;}
+function preloadCelebrate(){for(const source of A.feedback.cheers||[])makeClip(audioPath(source));for(const source of A.wrong||[])makeClip(audioPath(source));}
+function pause(ms){return new Promise(resolve=>{let settled=false;const finish=value=>{if(settled)return;settled=true;resolve(value);};const timer=setTimeout(()=>{pauseWait=null;finish(true);},ms);pauseWait=()=>{clearTimeout(timer);finish(false);};});}
+async function voice(files){stopVoice();const mine=voiceToken;if(muted||document.hidden)return true;F.voice(true);document.body.classList.add('talking');for(const source of files){const file=audioPath(source);if(mine!==voiceToken)return false;const ok=await new Promise(resolve=>{const a=makeClip(file);try{a.currentTime=0;}catch(e){}a.volume=volume;player=a;resolveClip=resolve;a.onended=()=>{if(mine===voiceToken)resolveClip=null;resolve(true);};a.onerror=()=>{if(mine===voiceToken){resolveClip=null;announce('Audio could not play. You can still match the pictures.');}resolve(false);};a.play().catch(()=>{if(mine===voiceToken){resolveClip=null;announce('Tap the speaker to hear the sound.');}resolve(false);});});if(!ok||mine!==voiceToken){if(mine===voiceToken){document.body.classList.remove('talking');F.voice(false);}return false;}} if(mine===voiceToken){player=null;document.body.classList.remove('talking');F.voice(false);}return true;}
 function letterAudio(){return [A.letters[current.letter].name,A.letters[current.letter].sound];}
 function wordAudio(l){return A.words[l.word];}
 function shuffle(a){return a.map(x=>({x,r:Math.random()})).sort((a,b)=>a.r-b.r).map(o=>o.x);}
-function badges(l){return visited.has(l.letter)?`<span class="visited" aria-label="played this visit">${ico('check')}</span>`:'';}
-function pickers(type){return `<div class="picker-shelf ${type}-shelf" role="region" aria-label="${all?'Choose a letter, A to Z. Scroll for more letters.':'Choose a letter. '+pool.length+' chosen for today.'}"><div class="letter-list ${type}" aria-label="Choose a letter">${pool.map((l,i)=>`<button data-letter="${l.letter}" aria-label="Play letter ${l.letter}" style="--i:${i};--tilt:${[-5,3,-2,4,-3,5][i%6]}deg"><span class="letter-decoration" aria-hidden="true"></span><span class="pick-glyph">${l.letter}<small>${l.letter.toLowerCase()}</small></span><span class="pick-caption">${C.kind==='post'?'OPEN ME':C.kind==='garden'?'plant me':C.kind==='silk'?'follow me':'explore'}</span>${badges(l)}</button>`).join('')}</div></div>`;}
-function collection(){return `<aside class="collection ${post?'stamp-album':'constellation'}" aria-label="${post?'Stamp collection':C.kind==='silk'?'Sound thread':'Sound constellation'} for this visit"><div class="collection-heading"><strong>${post?'YOUR STAMP STRIP':C.kind==='silk'?'YOUR SOUND THREAD':'YOUR LITTLE CONSTELLATION'}</strong><span>${visited.size} of ${pool.length} · this visit</span></div><div class="collection-slots" role="region" tabindex="0" aria-label="${all?'All 26 letters':pool.length===1?'1 letter':'All '+pool.length+' letters'}. Scroll to see more.">${pool.map(l=>`<div class="collection-slot ${visited.has(l.letter)?'collected':''}" aria-label="${l.letter}${visited.has(l.letter)?', collected this visit':', ready to explore'}"><span class="collection-symbol" aria-hidden="true">${visited.has(l.letter)?(post?ico('paw'):ico('star')):ico('star')}</span><b>${l.letter}</b><span>${visited.has(l.letter)?l.word:'·'}</span></div>`).join('')}</div><p>${post?'A stamp for each sound you deliver.':C.kind==='silk'?'A little sparkle for each sound you find.':'A star for each sound you explore.'} Yours for this visit.</p></aside>`;}
+function letterButton(l,i){
+  const done=visited.has(l.letter);
+  const caption=done?'Done':(C.kind==='post'?'OPEN ME':C.kind==='garden'?'plant me':C.kind==='silk'?'follow me':'explore');
+  const note=done?(signedIn()?', done':', done this visit'):'';
+  return `<button data-letter="${l.letter}" aria-label="Play letter ${l.letter}${note}" style="--i:${i};--tilt:${[-5,3,-2,4,-3,5][i%6]}deg"><span class="letter-decoration" aria-hidden="true"></span><span class="pick-glyph">${l.letter}<small>${l.letter.toLowerCase()}</small></span><span class="pick-caption">${caption}</span>${doneBadge(l.letter,true,true)}</button>`;
+}
+function pageBar(){
+  const last=letterPage>=pageCount()-1;
+  return `<div class="letter-page-bar"><button type="button" class="page-arrow" data-page="-1" ${letterPage===0?'disabled':''} aria-label="Previous letters"><span aria-hidden="true">‹</span><span class="page-word">Previous</span></button><p class="page-label">Page ${letterPage+1} of ${pageCount()}</p><button type="button" class="page-arrow" data-page="1" ${last?'disabled':''} aria-label="Next letters"><span class="page-word">Next</span><span aria-hidden="true">›</span></button></div>`;
+}
+function pickers(type){
+  const paging=usesPages();
+  if(paging)letterPage=Math.max(0,Math.min(letterPage,pageCount()-1));
+  const slice=paging?pool.slice(letterPage*PAGE_SIZE,letterPage*PAGE_SIZE+PAGE_SIZE):pool;
+  const label=paging?`Choose a letter. Page ${letterPage+1} of ${pageCount()}.`:(all?'Choose a letter, A to Z. Scroll for more letters.':'Choose a letter. '+pool.length+' chosen for today.');
+  return `${paging?pageBar():''}<div class="picker-shelf ${type}-shelf" role="region" aria-label="${label}"><div class="letter-list ${type}" aria-label="Choose a letter">${slice.map((l,i)=>letterButton(l,i)).join('')}</div></div>`;
+}
+function collection(){
+  const noun=post?'Stamp collection':C.kind==='silk'?'Ribbon Road':'Sound constellation';
+  const kept=signedIn()?', done':', collected this visit';
+  return `<aside class="collection ${post?'stamp-album':'constellation'}" aria-label="${noun}"><div class="collection-heading"><strong>${post?'YOUR STAMP STRIP':C.kind==='silk'?'YOUR RIBBON ROAD':'YOUR LITTLE CONSTELLATION'}</strong><span>${visited.size} of ${pool.length} · ${visitPhrase()}</span></div><div class="collection-slots" role="region" tabindex="0" aria-label="${all?'All 26 letters':pool.length===1?'1 letter':'All '+pool.length+' letters'}.">${pool.map(l=>`<div class="collection-slot ${visited.has(l.letter)?'collected':''}" aria-label="${l.letter}${visited.has(l.letter)?kept:', ready to explore'}">${doneBadge(l.letter,false,false)}<span class="collection-symbol" aria-hidden="true">${visited.has(l.letter)?(post?ico('paw'):ico('star')):ico('star')}</span><b>${l.letter}</b><span>${visited.has(l.letter)?l.word:'·'}</span></div>`).join('')}</div><p>${post?'A stamp for each sound you deliver.':C.kind==='silk'?'A little sparkle for each sound you find.':'A star for each sound you explore.'} ${signedIn()?'Saved with this player.':'Yours for this visit.'}</p></aside>`;
+}
+function collectionSummary(){
+  const title=post?'Stamps':'Stars';
+  const phrase=`${visited.size} of ${pool.length} · ${visitPhrase()}`;
+  return `<button type="button" class="collection-summary" data-action="album" aria-label="Open the ${post?'stamp album':'constellation'}. ${phrase}"><span class="collection-heading"><strong>${title}</strong><span>${phrase}</span></span></button>`;
+}
 function home(){
  if(C.home)return C.home({pic,pickers,collection,ico,count:pool.length});
- if(C.kind==='post')return `<section class="screen home post-home"><div class="post-intro"><p class="eyebrow"><span class="tiny-star">✳</span> A special delivery of sounds</p><h1>Lucy’s<br>Letter <em>Post.</em></h1><p class="lead">Little letters.<br>Very big adventures.</p><div class="post-sticker" aria-hidden="true">SOUND<br>MAIL ${ico('paw')}</div><div class="route-card"><span>YOUR LITTLE MISSION</span><p>${ico('sound')} Listen <b>→</b> ${ico('star')} Find <b>→</b> ${ico('check')} Deliver</p></div></div><div class="post-office"><div class="office-top"><div class="open-sign">OPEN FOR<br><strong>WOOFS!</strong></div>${pic('default','A letter for you!')}<span class="office-number" aria-hidden="true">№ 01<br>✳</span></div><div class="sorting-shelf"><div class="shelf-title"><span>Pick a letter to open</span>${ico('back')}</div>${pickers('envelopes')}</div></div>${collection()}<div class="post-bottom"><span>THE LITTLE WOOF POSTAL SERVICE</span><span>Every sound goes somewhere lovely. ${ico('star')}</span></div></section>`;
+ if(C.kind==='post')return `<section class="screen home post-home"><div class="post-intro"><p class="eyebrow"><span class="tiny-star">✳</span> A special delivery of sounds</p><h1>Lucy’s<br>Letter <em>Post.</em></h1><p class="lead">Little letters.<br>Very big adventures.</p><div class="route-card"><span>YOUR LITTLE MISSION</span><p>${ico('sound')} Listen <b>→</b> ${ico('star')} Find <b>→</b> ${ico('check')} Deliver</p></div>${collectionSummary()}</div><div class="post-office"><div class="office-top">${pic('default','A letter for you!')}<span class="office-number" aria-hidden="true">№ 01<br>✳</span></div><div class="sorting-shelf"><div class="shelf-title"><span>Pick a letter to open</span>${ico('back')}</div>${pickers('envelopes')}</div></div><div class="post-bottom"><span>LETTERS WITH LUCY</span><span>Every sound goes somewhere lovely. ${ico('star')}</span></div></section>`;
  if(C.kind==='garden')return `<section class="screen home garden-home"><div class="garden-heading"><p class="eyebrow">A little wonder, every day</p><h1>Lucy’s<br><em>Sound Garden</em></h1><p class="lead">Pick a seed. Hear a sound.<br>See what grows.</p></div><div class="garden-lucy">${pic('default','Let’s grow together!')}<div class="garden-sign">OUR HAPPY PLACE</div></div><div class="garden-bed"><div class="garden-ground" aria-hidden="true"></div><div class="garden-flower left" aria-hidden="true">${draw('flower')}</div><div class="garden-flower right" aria-hidden="true">${draw('leaf')}</div><div class="seed-label">Which sound shall we grow?</div>${pickers('seeds')}<div class="garden-path" aria-hidden="true">· &nbsp; · &nbsp; · &nbsp; · &nbsp; · &nbsp; · &nbsp; · &nbsp; ·</div></div><div class="garden-bottom"><span>${ico('sound')} A sound</span><i></i><span>${ico('paw')} A little discovery</span><i></i><span>${ico('star')} Something lovely grows</span></div></section>`;
- return `<section class="screen home space-home"><div class="captain-panel"><p class="eyebrow">Small steps. Cosmic discoveries.</p><h1>Lucy’s<br><em>Moonboat</em></h1><p class="lead">A whole sky<br>of little sounds.</p><div class="captain">${pic('default','Ready, little explorer?')}<span class="captain-label">CAPTAIN LUCY · READY TO GO</span></div></div><div class="star-map"><div class="map-heading"><span>THE SOUND CONSTELLATION</span><span class="map-mark">✦</span><span>${pool.length===1?'1 LITTLE WORLD':pool.length+' LITTLE WORLDS'}</span></div><div class="map-orbit" aria-hidden="true"></div><div class="map-orbit second" aria-hidden="true"></div><div class="map-caption">Tap a world. Find its sound.</div>${pickers('planets')}${collection()}<div class="map-ship" aria-hidden="true">${draw('rocket')}<span>One tiny adventure at a time.</span></div></div></section>`;
+ return `<section class="screen home space-home"><div class="captain-panel"><p class="eyebrow">Small steps. Cosmic discoveries.</p><h1>Lucy’s<br><em>Moonboat</em></h1><p class="lead">A whole sky<br>of little sounds.</p>${collectionSummary()}<div class="captain">${pic('default','Ready, little explorer?')}<span class="captain-label">CAPTAIN LUCY · READY TO GO</span></div></div><div class="star-map"><div class="map-heading"><span>THE SOUND CONSTELLATION</span><span class="map-mark">✦</span><span>${pool.length===1?'1 LITTLE WORLD':pool.length+' LITTLE WORLDS'}</span></div><div class="map-orbit" aria-hidden="true"></div><div class="map-orbit second" aria-hidden="true"></div><div class="map-caption">Tap a world. Find its sound.</div>${pickers('planets')}<div class="map-ship" aria-hidden="true">${draw('rocket')}<span>One tiny adventure at a time.</span></div></div></section>`;
 }
 function stepbar(n){return `<div class="stepbar"><button class="back" data-action="${state==='match'?'listen':'home'}">${ico('back')} ${state==='match'?'Listen':'Home'}</button><span class="steps-label">${['','Listen','Find','Hooray'][n]}</span><div class="steps" aria-label="Step ${n} of 3">${[1,2,3].map(i=>`<span class="${i<=n?'done':''}"></span>`).join('')}</div></div>`;}
 function soundCard(){return `<button class="listen-letter" data-action="replay" aria-label="Hear letter ${current.letter} and its sound"><span class="letter-corner" aria-hidden="true">${C.kind==='post'?'SOUND MAIL':C.kind==='garden'?'A LITTLE SEED':C.kind==='silk'?'A LITTLE SOUND':'SOUND SIGNAL'}</span><span class="glyph">${current.letter}<small>${current.letter.toLowerCase()}</small></span><span class="sound-label">${ico('sound')} Hear ${current.sound}</span>${wave()}${post?'<span class="mail-flap" aria-hidden="true"></span>':'<span class="signal-orbit" aria-hidden="true"></span>'}</button>`;}
-function listen(){const wording=C.kind==='post'?['You’ve got sound mail!','Open your ears. Listen with Lucy.','Find its picture']:C.kind==='garden'?['A tiny sound is growing.','Listen. Can you say it with Lucy?','Let’s grow!']:C.kind==='silk'?['Follow a little sound.','Listen. Can you say it with Lucy?','Find its picture']:['A sound from the stars.','Listen closely, little explorer.','Find its picture'];return `<section class="screen play listen">${stepbar(1)}<div class="listen-layout"><div class="listen-intro"><p class="eyebrow">${C.kind==='post'?'SPECIAL DELIVERY':C.kind==='garden'?'IN OUR GARDEN':C.kind==='silk'?'ALONG THE SILK THREAD':'INCOMING TRANSMISSION'}</p><h1 class="play-title">${wording[0]}</h1><p class="play-copy">${wording[1]}</p><div class="guide-lucy">${pic('specs',current.letter+' says '+current.sound)}</div></div><div class="listen-work">${soundCard()}<button class="primary continue" data-action="match">${wording[2]} ${ico('arrow')}</button><p class="small-note">Tap the letter to hear it again.</p></div></div></section>`;}
-function match(){return `<section class="screen play match">${stepbar(2)}<div class="match-layout"><div class="match-prompt"><div><p class="eyebrow">${C.kind==='post'?'SORT THE SOUND MAIL':C.kind==='garden'?'A LITTLE HELP TO GROW':C.kind==='silk'?'A LITTLE DISCOVERY':'LOOK THROUGH THE TELESCOPE'}</p><h1 class="play-title">What ${current.letter==='X'?'ends':'starts'}<br>with ${current.sound}?</h1><p class="play-copy">Tap a picture.</p></div><div class="match-sound">${soundCard()}</div><div class="match-lucy">${pic('specs')}</div></div><div class="match-work"><div class="choices">${choices.map(l=>`<button class="choice" data-answer="${l.letter}" aria-label="${l.word}">${draw(l.word)}<span class="word">${l.word} ${ico('sound')}</span><span class="hint-tag">Try this picture</span></button>`).join('')}</div><p class="feedback" role="status">${C.kind==='post'?'Which picture belongs in this letter?':C.kind==='garden'?'Find a picture to make your flower bloom.':'Which picture has our little sound?'}</p><button class="replay-prompt" data-action="replay">${ico('sound')} Hear the sound again</button></div></div></section>`;}
-function celebrate(){const labels=C.kind==='post'?['Delivered with love!','ONE HAPPY DELIVERY','Sound mail, delivered.']:C.kind==='garden'?['Look what you grew!','A LITTLE SOUND BLOSSOM','Your garden has a new flower.']:C.kind==='silk'?['You found a little sparkle!','A NEW SOUND ON YOUR THREAD','Follow a sound. Find a little wonder.']:['You lit up the sky!','A NEW STAR IS SHINING','A little sound. A big discovery.'];return `<section class="screen celebration">${stepbar(3)}<div class="celebration-layout"><div class="reward-art"><div class="reward-ring" aria-hidden="true"></div><span class="burst-label">${labels[1]}</span>${draw(current.word)}<span class="reward-letter">${current.letter}<small>${current.letter.toLowerCase()}</small></span><span class="reward-stamp" aria-hidden="true">${post?'<b>DELIVERED</b>':ico('star')}</span>${post||F.evidence.reduced?'':'<span class="world-stars" aria-hidden="true"><i data-particle="reward">✦</i><i data-particle="reward">✦</i><i data-particle="reward">✦</i><i data-particle="reward">✦</i><i data-particle="reward">✦</i><i data-particle="reward">✦</i></span>'}</div><div class="celebration-copy"><p class="eyebrow">${labels[2]}</p><h1 class="finish-title">${labels[0]}</h1><p class="word-line">${current.letter==='X'?'Fox ends with x.':current.letter+' is for '+current.word+'.'}</p><div class="finish-actions"><button class="primary" data-action="next">Another sound ${ico('arrow')}</button><button class="secondary" data-action="home">${ico('home')} Home</button></div><button class="replay-prompt reward-replay" data-action="reward-replay">${ico('sound')} Hear ${current.word} again</button></div><div class="celebration-lucy">${pic('celebrate','We did it!')}</div></div>${collection()}</section>`;}
-async function go(next,{focus=true}={}){stopVoice();F.cancel();const mine=++route;state=next;busy=true;await F.exit();if(route!==mine)return false;main.innerHTML=next==='home'?home():next==='listen'?listen():next==='match'?match():celebrate();document.body.dataset.screen=next;busy=false;if(focus){main.focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'});} if(next==='home')F.home();if(next==='celebrate'){const strip=$('.collection-slots'),slot=strip.children[Math.max(0,pool.indexOf(current))];strip.scrollLeft=slot.offsetLeft-(strip.clientWidth-slot.offsetWidth)/2;celebrationMoment(mine);}return true;}
-async function celebrationMoment(mine){if(!await F.reward()||route!==mine)return;if(!await F.lucy('nod')||route!==mine)return;voice([A.feedback.cheers[visited.size%2]]);}
-async function start(letter){current=letters.find(l=>l.letter===letter)||letters[0];misses=0;choices=shuffle([current,...shuffle(letters.filter(l=>l!==current&&l.sound!==current.sound&&(current.letter==='X'||l.word[0]!==current.word[0]))).slice(0,2)]);if(!await go('listen'))return;const mine=route;if(!await F.open())return;if(route===mine)voice(letterAudio());}
-async function continueMatch(button){if(busy||state!=='listen')return;busy=true;stopVoice();const mine=route;if(await F.press(button)&&route===mine){if(await go('match'))voice([A.letters[current.letter].sound]);}}
-async function replay(reward=false){if(busy)return;stopVoice();const mine=route;if(!await F.replay())return;if(route===mine)voice(reward?[wordAudio(current)]:letterAudio());}
-async function answer(button){if(busy)return;busy=true;const mine=route,selected=letters.find(l=>l.letter===button.dataset.answer);document.querySelectorAll('.choice').forEach(b=>b.setAttribute('aria-disabled','true'));await voice([wordAudio(selected)]);if(route!==mine)return;if(document.hidden){busy=false;document.querySelectorAll('.choice').forEach(b=>b.removeAttribute('aria-disabled'));return;}if(selected===current){await F.correct(button);if(route!==mine)return;visited.add(current.letter);go('celebrate');}else{misses++;button.classList.add('tried');$('.feedback').textContent=`That’s ${selected.word}. Listen for ${current.sound}. Try another picture.`;if(hintAfter&&misses>=hintAfter){const correct=$(`[data-answer="${current.letter}"]`);correct.classList.add('hint');$('.feedback').textContent=`${current.word} ${current.letter==='X'?'ends':'starts'} with ${current.sound}. Try the outlined picture.`;}await F.hint(button);if(route!==mine)return;await F.lucy('tilt');if(route!==mine)return;await voice(hintAfter&&misses>=hintAfter?[...letterAudio(),wordAudio(current)]:[A.letters[current.letter].sound]);if(route!==mine)return;busy=false;document.querySelectorAll('.choice').forEach(b=>b.removeAttribute('aria-disabled'));}}
-main.addEventListener('click',async e=>{const b=e.target.closest('button');if(!b||!main.contains(b)||b.getAttribute('aria-disabled')==='true'||(busy&&b.dataset.action!=='home'))return;if(b.dataset.letter){start(b.dataset.letter);return;}if(b.dataset.answer){answer(b);return;}const a=b.dataset.action;if(a==='home')go('home');if(a==='start')start(pool[0].letter);if(a==='listen'){if(await go('listen'))replay();}if(a==='match'&&state==='listen')continueMatch(b);if(a==='replay')replay();if(a==='next')start(pool[(pool.indexOf(current)+1)%pool.length].letter);if(a==='reward-replay')replay(true);});
+function listen(){const wording=C.kind==='post'?['You’ve got sound mail!','Open your ears. Listen with Lucy.','Find its picture']:C.kind==='garden'?['A tiny sound is growing.','Listen. Can you say it with Lucy?','Let’s grow!']:C.kind==='silk'?['Follow a little sound.','Listen. Can you say it with Lucy?','Find its picture']:['A sound from the stars.','Listen closely, little explorer.','Find its picture'];return `<section class="screen play listen">${stepbar(1)}<div class="listen-layout"><div class="listen-intro"><p class="eyebrow">${C.kind==='post'?'SPECIAL DELIVERY':C.kind==='garden'?'IN OUR GARDEN':C.kind==='silk'?'ALONG RIBBON ROAD':'INCOMING TRANSMISSION'}</p><h1 class="play-title">${wording[0]}</h1><p class="play-copy">${wording[1]}</p><div class="guide-lucy">${pic('specs',current.letter+' says '+current.sound)}</div></div><div class="listen-work">${soundCard()}<button class="primary continue" data-action="match">${wording[2]} ${ico('arrow')}</button><p class="small-note">Tap the letter to hear it again.</p></div></div></section>`;}
+function match(){return `<section class="screen play match">${stepbar(2)}<div class="match-layout"><div class="match-prompt"><div><p class="eyebrow">${C.kind==='post'?'SORT THE SOUND MAIL':C.kind==='garden'?'A LITTLE HELP TO GROW':C.kind==='silk'?'A LITTLE DISCOVERY':'LOOK THROUGH THE TELESCOPE'}</p><h1 class="play-title">What ${current.letter==='X'?'ends':'starts'}<br>with ${current.sound}?</h1><p class="play-copy">Tap a picture.</p></div><div class="match-sound">${soundCard()}</div><div class="match-lucy">${pic('specs')}</div></div><div class="match-work"><div class="choices">${choices.map(l=>`<button class="choice" data-answer="${l.letter}" aria-label="${l.word}">${draw(l.word)}<span class="word">${l.word} ${ico('sound')}</span></button>`).join('')}</div><p class="feedback" role="status">${C.kind==='post'?'Which picture belongs in this letter?':C.kind==='garden'?'Find a picture to make your flower bloom.':'Which picture has our little sound?'}</p><button class="replay-prompt" data-action="replay">${ico('sound')} Hear the sound again</button></div></div></section>`;}
+function celebrate(){const labels=C.kind==='post'?['Delivered with love!','ONE HAPPY DELIVERY','Sound mail, delivered.']:C.kind==='garden'?['Look what you grew!','A LITTLE SOUND BLOSSOM','Your garden has a new flower.']:C.kind==='silk'?['You found a little sparkle!','A NEW SOUND ON RIBBON ROAD','Follow a sound. Find a little wonder.']:['You lit up the sky!','A NEW STAR IS SHINING','A little sound. A big discovery.'];return `<section class="screen celebration">${stepbar(3)}<div class="celebration-layout"><div class="reward-art"><div class="reward-ring" aria-hidden="true"></div><span class="burst-label">${labels[1]}</span>${draw(current.word)}<span class="reward-letter">${current.letter}<small>${current.letter.toLowerCase()}</small></span><span class="reward-stamp" aria-hidden="true">${post?'<b>DELIVERED</b>':ico('star')}</span>${post||F.evidence.reduced?'':'<span class="world-stars" aria-hidden="true"><i data-particle="reward">✦</i><i data-particle="reward">✦</i><i data-particle="reward">✦</i><i data-particle="reward">✦</i><i data-particle="reward">✦</i><i data-particle="reward">✦</i></span>'}</div><div class="celebration-copy"><p class="eyebrow">${labels[2]}</p><h1 class="finish-title">${labels[0]}</h1><p class="word-line">${current.letter==='X'?'Fox ends with x.':current.letter+' is for '+current.word+'.'}</p><div class="finish-actions"><button class="primary" data-action="next">Another sound ${ico('arrow')}</button><button class="secondary" data-action="home">${ico('home')} Home</button></div><button class="replay-prompt reward-replay" data-action="reward-replay">${ico('sound')} Hear ${current.word} again</button></div><div class="celebration-lucy">${pic('celebrate','We did it!')}</div></div>${collection()}</section>`;}
+function closeAlbum(){const dialog=document.getElementById&&document.getElementById('stamp-album');if(dialog&&dialog.open)dialog.close();}
+function openAlbum(){
+  if(!document.createElement)return;
+  let dialog=document.getElementById('stamp-album');
+  if(!dialog){
+    dialog=document.createElement('dialog');
+    dialog.id='stamp-album';
+    dialog.className='album-dialog';
+    dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close();});
+    dialog.addEventListener('cancel',event=>{event.preventDefault();dialog.close();});
+    document.body.append(dialog);
+  }
+  dialog.innerHTML=`<form method="dialog"><button class="album-close" value="close">Close</button></form>${collection()}`;
+  dialog.showModal();
+}
+async function go(next,{focus=true,paging=false,keepVoice=false}={}){
+  const mine=++route;turn++;state=next;busy=true;
+  if(!keepVoice)stopVoice();
+  F.cancel();
+  closeAlbum();
+  if(!paging&&next!=='celebrate')await F.exit();
+  if(route!==mine)return false;
+  main.innerHTML=next==='home'?home():next==='listen'?listen():next==='match'?match():celebrate();
+  document.body.dataset.screen=next;
+  busy=false;
+  screenEvent(next);
+  if(focus){main.focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'});}
+  if(next==='home'&&!paging)F.home();
+  if(next==='celebrate'){
+    const strip=$('.collection-slots'),slot=strip&&strip.children[Math.max(0,pool.indexOf(current))];
+    if(strip&&slot)strip.scrollLeft=slot.offsetLeft-(strip.clientWidth-slot.offsetWidth)/2;
+    if(!keepVoice)voice([A.feedback.cheers[visited.size%2]]);
+    celebrateVisual(mine);
+  }
+  return true;
+}
+async function celebrateVisual(mine){if(!await F.reward()||route!==mine)return;if(route!==mine)return;await F.lucy('nod');}
+function placePage(letter){if(!usesPages())return;const index=pool.findIndex(l=>l.letter===letter);if(index>=0)letterPage=Math.floor(index/PAGE_SIZE);}
+function shiftPage(delta){if(!usesPages())return;const next=letterPage+delta;if(next<0||next>=pageCount())return;letterPage=next;if(state==='home')go('home',{focus:false,paging:true});}
+async function start(letter){turn++;current=letters.find(l=>l.letter===letter)||letters[0];placePage(current.letter);misses=0;choices=shuffle([current,...shuffle(letters.filter(l=>l!==current&&l.sound!==current.sound&&(current.letter==='X'||l.word[0]!==current.word[0]))).slice(0,2)]);if(!await go('listen'))return;const mine=route;if(!await F.open())return;if(route===mine)voice(letterAudio());}
+async function continueMatch(button){if(state!=='listen')return;turn++;stopVoice();const mine=route;if(await F.press(button)&&route===mine)await go('match');}
+async function replay(reward=false){turn++;stopVoice();const mine=route;if(!await F.replay())return;if(route===mine)voice(reward?[wordAudio(current)]:letterAudio());}
+async function answer(button){
+  const mine=++turn;stopVoice();
+  const selected=letters.find(l=>l.letter===button.dataset.answer);
+  if(!selected)return;
+  if(document.hidden)return;
+  if(selected===current){
+    const first=!visited.has(current.letter);
+    visited.add(current.letter);
+    if(first)pendingSettle.add(current.letter);
+    if(!guestPlay()){try{window.LittleWoof?.earn(C.kind,current.letter);}catch(e){}}
+    voice([A.feedback.cheers[visited.size%2]]);
+    await F.correct(button);
+    if(turn!==mine)return;
+    await go('celebrate',{keepVoice:true});
+    return;
+  }
+  misses++;
+  button.classList.add('tried');
+  const feedback=$('.feedback');
+  if(feedback)feedback.textContent='Try a different picture.';
+  const wiggle=F.hint(button);
+  await voice([wordAudio(selected)]);
+  if(turn!==mine)return;
+  const waited=await pause(200);
+  if(!waited||turn!==mine)return;
+  const gentle=wrongLine();
+  if(gentle)await voice([gentle]);
+  await wiggle;
+}
+function applySaved(){
+  if(guestPlay())return;
+  const saved=new Set(savedDone());
+  let changed=saved.size!==visited.size;
+  if(!changed){for(const letter of saved)if(!visited.has(letter))changed=true;for(const letter of visited)if(!saved.has(letter))changed=true;}
+  visited=saved;
+  if(changed&&state==='home')go('home',{focus:false,paging:true});
+}
+main.addEventListener('click',async e=>{const b=e.target.closest('button');if(!b||!main.contains(b)||b.disabled)return;if(b.dataset.page){shiftPage(Number(b.dataset.page));return;}if(b.dataset.letter){start(b.dataset.letter);return;}if(b.dataset.answer){answer(b);return;}const a=b.dataset.action;if(a==='home')go('home');if(a==='album')openAlbum();if(a==='start')start(pool[0].letter);if(a==='listen'){if(await go('listen'))replay();}if(a==='match'&&state==='listen')continueMatch(b);if(a==='replay')replay();if(a==='next')start(pool[(pool.indexOf(current)+1)%pool.length].letter);if(a==='reward-replay')replay(true);});
 main.addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key))return;const group=e.target.closest('.letter-list,.choices');if(!group)return;const buttons=[...group.querySelectorAll('button')];const i=buttons.indexOf(e.target);if(i<0)return;e.preventDefault();let jump=(e.key==='ArrowLeft'||e.key==='ArrowUp')?-1:1;buttons[(i+jump+buttons.length)%buttons.length].focus();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&state!=='home'){go('home');}});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)stopVoice();});
+document.addEventListener('little-woof-screen',()=>closeAlbum());
+document.addEventListener('little-woof-progress',()=>applySaved());
+document.body.dataset.build='catchup-4';
+preloadCelebrate();
 header();go('home',{focus:false});
 })();

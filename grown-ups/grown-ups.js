@@ -1,75 +1,20 @@
-/* Grown-ups' corner: a reading gate, then settings that save as they change. */
+/* Grown-ups' corner: settings that save as they change. No number gate. */
 (() => {
 'use strict';
 const G = window.GROWN_UPS, $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
-const WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
 const PRESETS = {all: G.ALL, starter: [...'SATPIN'], vowels: [...'AEIOU']};
-const PAUSE_MS = 10000;
-let code = [], typed = [], misses = 0, pausedUntil = 0, checking = false, sample = null;
+let sample = null;
 
-/* ---------- Gate ---------- */
-function shuffle(list) {
-  const copy = [...list];
-  for (let i = copy.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [copy[i], copy[j]] = [copy[j], copy[i]]; }
-  return copy;
-}
-// No easy runs (1-2-3, 9-8-7): those are what small fingers tap by chance.
-function easyRun([a, b, c]) { return (b - a === 1 && c - b === 1) || (a - b === 1 && b - c === 1); }
-function newChallenge() {
-  do code = shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9]).slice(0, 3); while (easyRun(code));
-  typed = [];
-  $('#challenge').innerHTML = code.map(n => `<span>${WORDS[n]}</span>`).join('<i aria-hidden="true">·</i>');
-  $('#challenge').setAttribute('aria-label', code.map(n => WORDS[n]).join(', '));
-  renderSlots();
-}
-function renderSlots() {
-  $$('#slots span').forEach((slot, i) => {
-    const filled = i < typed.length;
-    slot.textContent = filled ? String(typed[i]) : '';
-    slot.classList.toggle('filled', filled);
-  });
-}
-function setPaused(on) {
-  $$('#keypad button').forEach(b => { b.disabled = on; });
-  $('#keypad').toggleAttribute('data-paused', on);
-}
-function press(digit) {
-  if (checking || Date.now() < pausedUntil || typed.length >= 3) return;
-  typed.push(digit); renderSlots();
-  if (typed.length === 3) check();
-}
-function check() {
-  checking = true;
-  if (typed.every((d, i) => d === code[i])) { unlock(); return; }
-  misses++;
-  $('#slots').classList.remove('wrong'); void $('#slots').offsetWidth; $('#slots').classList.add('wrong');
-  if (misses % 3 === 0) {
-    pausedUntil = Date.now() + PAUSE_MS; setPaused(true); typed = []; renderSlots();
-    $('#gate-status').textContent = 'Not quite. Let\'s pause for 10 seconds, then try a new set of numbers.';
-    setTimeout(() => { setPaused(false); checking = false; newChallenge(); $('#gate-status').textContent = 'Ready. Here is a new set of numbers.'; }, PAUSE_MS);
-  } else {
-    $('#gate-status').textContent = 'Not quite. Here is a new set of numbers to tap.';
-    setTimeout(() => { checking = false; newChallenge(); }, 650);
-  }
-}
-function unlock() {
-  $('#gate').hidden = true;
+function openSettings() {
+  const gate = $('#gate');
+  if (gate) gate.hidden = true;
   const settings = $('#settings');
   settings.hidden = false;
   requestAnimationFrame(() => { settings.dataset.open = 'true'; });
-  $('#leave .fill-label').textContent = 'Lock and go to games';
-  $('#leave .fill-layer .fill-label').textContent = 'Lock and go to games';
   document.body.dataset.view = 'settings';
   render();
-  $('#sheet').focus({preventScroll: true}); window.scrollTo({top: 0});
-}
-function buildKeypad() {
-  $('#keypad').innerHTML = [1, 2, 3, 4, 5, 6, 7, 8, 9].map(n => `<button type="button" data-digit="${n}" aria-label="${WORDS[n]}">${n}</button>`).join('');
-  $('#keypad').addEventListener('click', e => { const b = e.target.closest('[data-digit]'); if (b) press(Number(b.dataset.digit)); });
-  document.addEventListener('keydown', e => {
-    if (!$('#gate').hidden && /^[1-9]$/.test(e.key)) { e.preventDefault(); press(Number(e.key)); }
-    else if (!$('#gate').hidden && e.key === 'Backspace' && !checking) { typed.pop(); renderSlots(); }
-  });
+  $('#sheet').focus({preventScroll: true});
+  window.scrollTo({top: 0});
 }
 
 /* ---------- Settings ---------- */
@@ -92,8 +37,6 @@ function render() {
   }
   const n = s.letters.length;
   $('#letter-count').textContent = n === 26 ? 'All 26 letters are in play.' : `${n} of 26 letters in play: ${s.letters.join(' ').toLowerCase()}.`;
-  const checked = [...$$('#hint input')].findIndex(input => input.checked);
-  $('#hint .segments').style.setProperty('--index', Math.max(0, checked));
 }
 function commit(next, message = 'Saved.') {
   const ok = G.save(next);
@@ -147,7 +90,7 @@ function bindSettings() {
   const dialog = $('#confirm');
   $('#reset').addEventListener('click', () => { dialog.showModal(); $('#confirm-reset').focus(); });
   dialog.addEventListener('close', () => {
-    if (dialog.returnValue === 'reset') commit({...G.DEFAULTS}, 'Settings are back to how they started.');
+    if (dialog.returnValue === 'reset') commit({...G.DEFAULTS, hintAfter: G.settings.hintAfter}, 'Settings are back to how they started.');
     $('#reset').focus();
   });
 }
@@ -164,6 +107,11 @@ async function playSample() {
   button.removeAttribute('aria-busy');
 }
 
-buildKeypad(); newChallenge(); bindSettings(); render();
-document.body.dataset.view = 'gate';
+bindSettings();
+render();
+if (location.protocol === 'file:') openSettings();
+else {
+  const settings = $('#settings');
+  if (settings) settings.hidden = true;
+}
 })();

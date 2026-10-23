@@ -87,11 +87,11 @@ function draw() {
   const ratio = Math.min(window.devicePixelRatio || 1, 1.5), box = canvas.getBoundingClientRect();
   const width = Math.max(1, Math.round(box.width * ratio)), height = Math.max(1, Math.round(box.height * ratio));
   canvas.width = width; canvas.height = height; gl.viewport(0, 0, width, height);
-  const colors = palettes[dark.matches ? 'dark' : 'light'];
+  const colors = palettes.light;
   gl.uniform4fv(uniform('u_colors'), colors.flatMap(rgba));
   gl.uniform1f(uniform('u_colorsCount'), colors.length);
   const values = {u_positions: 42, u_waveX: .45, u_waveXShift: .1, u_waveY: .3, u_waveYShift: .6,
-    u_mixing: .55, u_grainMixer: .35, u_grainOverlay: dark.matches ? .18 : .28, u_pixelRatio: ratio};
+    u_mixing: .55, u_grainMixer: .35, u_grainOverlay: .28, u_pixelRatio: ratio};
   for (const [name, value] of Object.entries(values)) gl.uniform1f(uniform(name), value);
   gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT); gl.drawArrays(gl.TRIANGLES, 0, 3);
   canvas.dataset.drawn = String(Number(canvas.dataset.drawn || 0) + 1);
