@@ -95,13 +95,13 @@ function createPaperRain(){
 async function lucy(pose){const el=(pose==='paw'||pose==='salute')?$('.lucy-paw'):pose==='glint'?$('.visor-glint'):$('.lucy-portrait');const transform=(pose==='paw'||pose==='salute')?['rotate(-15deg) translateY(10px)','rotate(0) translateY(-5px)','rotate(-15deg) translateY(0)']:pose==='tilt'?['rotate(0)','rotate(-5deg)','rotate(0)']:pose==='glint'?['translateX(-8px)','translateX(14px)','translateX(0)']:['rotate(0)','rotate(4deg) translateY(3px)','rotate(0)'];return moment(el,transform.map(transform=>({transform})),{duration:380,name:'lucy-'+pose});}
 async function home(){
  const mine=epoch;
- if(!await moment($(post?'.open-sign':'.map-ship .art'),post?[{transform:'rotate(-15deg)'},{transform:'rotate(-4deg)'},{transform:'rotate(-7deg)'}]:[{transform:'translate(-28px,14px) rotate(2deg)'},{transform:'translate(-8px,-8px) rotate(15deg)'},{transform:'rotate(22deg)'}],{duration:650,name:'intro'}))return;
+ if(!await moment($(post?'.post-intro h1':'.map-ship .art'),post?[{transform:'rotate(-2deg)'},{transform:'rotate(1deg)'},{transform:'rotate(0)'}]:[{transform:'translate(-28px,14px) rotate(2deg)'},{transform:'translate(-8px,-8px) rotate(15deg)'},{transform:'rotate(22deg)'}],{duration:650,name:'intro'}))return;
  // Each route gets one finite idle greeting, never a repeating timer.
  if(document.body.dataset.screen!=='home'||epoch!==mine+1)return;
  if(!await lucy(post?'paw':'salute'))return;
  if(!post&&!await lucy('glint'))return;
  if(!await lucy('tilt'))return;
- await moment($(post?'.open-sign':'.map-mark'),post?[{transform:'rotate(-7deg)'},{transform:'rotate(-3deg)'},{transform:'rotate(-7deg)'}]:[{transform:'scale(1)'},{transform:'scale(1.16)'},{transform:'scale(1)'}],{duration:500,name:'idle-once'});
+ await moment($(post?'.office-number':'.map-mark'),post?[{transform:'rotate(-4deg)'},{transform:'rotate(3deg)'},{transform:'rotate(0)'}]:[{transform:'scale(1)'},{transform:'scale(1.16)'},{transform:'scale(1)'}],{duration:500,name:'idle-once'});
 }
 window.Fun={cancel,home,lucy,
  exit(){return moment($('.screen'),[{opacity:1,transform:'translateY(0)'},{opacity:0,transform:'translateY(-8px)'}],{duration:180,name:'screen-exit'});},

@@ -113,6 +113,16 @@
   window.LittleWoof = {
     learnerName() { return active() ? active().displayName : ''; },
     letters(world) { return active() ? Merge.lettersOf(Store.readState(active().learnerId), world) : []; },
+    doneLetters() {
+      const person = active();
+      if (!person) return [];
+      const state = Store.readState(person.learnerId);
+      const found = new Set();
+      for (const world of Merge.WORLDS) {
+        for (const letter of Merge.lettersOf(state, world)) found.add(letter);
+      }
+      return [...found].sort();
+    },
     earn(world, letter) {
       const person = active();
       if (!person) return;
@@ -149,7 +159,17 @@
       document.getElementById('footer').prepend(kept);
     }
     if (document.getElementById('login') && window.LittleWoofHome) window.LittleWoofHome.start();
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});
+    if ('serviceWorker' in navigator) {
+      let reloading = false;
+      if (navigator.serviceWorker.controller) {
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (reloading) return;
+          reloading = true;
+          location.reload();
+        });
+      }
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
+    }
     paintKept();
     const beat = () => { if (navigator.onLine) Client.syncNow().catch(() => {}); };
     beat();

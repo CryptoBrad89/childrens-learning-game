@@ -84,21 +84,8 @@
         <p class="count" id="letter-count" aria-live="polite"></p>
       </section>
 
-      <section id="help" aria-labelledby="help-title">
-        <h2 id="help-title"><span>03</span>Help when stuck</h2>
-        <fieldset class="segmented" id="hint">
-          <legend>After a wrong picture, Lucy can outline the right one and say its word. Choose when that happens.</legend>
-          <div class="segments">
-            <span class="pill" aria-hidden="true"></span>
-            <label><input type="radio" name="hintAfter" value="1" data-setting="hintAfter"><span>After 1 miss</span></label>
-            <label><input type="radio" name="hintAfter" value="2" data-setting="hintAfter"><span>After 2 misses</span></label>
-            <label><input type="radio" name="hintAfter" value="0" data-setting="hintAfter"><span>Don't outline</span></label>
-          </div>
-        </fieldset>
-      </section>
-
       <section id="motion" aria-labelledby="motion-title">
-        <h2 id="motion-title"><span>04</span>Motion</h2>
+        <h2 id="motion-title"><span>03</span>Motion</h2>
         <label class="row">
           <span class="row-text"><strong>Calm motion</strong><small>Turns off confetti, bouncing and drifting backgrounds. Devices set to reduce motion are always calm.</small></span>
           <input type="checkbox" role="switch" data-setting="calm">
@@ -106,7 +93,7 @@
       </section>
 
       <section id="worlds" aria-labelledby="worlds-title">
-        <h2 id="worlds-title"><span>05</span>Worlds &amp; buttons</h2>
+        <h2 id="worlds-title"><span>04</span>Worlds &amp; buttons</h2>
         <fieldset class="group" id="games">
           <legend>Worlds on the home page</legend>
           <label class="row"><span class="row-text"><strong><i class="swatch post" aria-hidden="true"></i>Lucy's Letter Post</strong></span><input type="checkbox" role="switch" data-game="post"></label>
@@ -120,10 +107,10 @@
       </section>
 
       <section id="about" aria-labelledby="about-title">
-        <h2 id="about-title"><span>06</span>About the game</h2>
+        <h2 id="about-title"><span>05</span>About the game</h2>
         <dl class="notes">
           <div><dt>Each round</dt><dd>Children hear a letter's name and sound, find the picture that starts with it, then celebrate. X is the exception: fox <em>ends</em> with x.</dd></div>
-          <div><dt>Collections</dt><dd>Stamps and stars last for one visit. They reset when the page closes.</dd></div>
+          <div><dt>Collections</dt><dd>A signed-in player keeps each sound they get right, in every world. Play without saving lasts for that visit only.</dd></div>
           <div><dt>Privacy</dt><dd>Nothing about the child is recorded or sent anywhere. These settings stay in this browser on this device.</dd></div>
           <div><dt>Shortcuts</dt><dd>In a world, Esc goes back to its home and arrow keys move between letters.</dd></div>
         </dl>
@@ -139,7 +126,7 @@
 <span class="stamp" id="stamp" aria-hidden="true">Saved</span>
 <dialog id="confirm" aria-labelledby="confirm-title" aria-describedby="confirm-text">
   <h2 id="confirm-title">Reset all settings?</h2>
-  <p id="confirm-text">Sound, letters, help, motion and worlds go back to how they started. This can't be undone.</p>
+  <p id="confirm-text">Sound, letters, motion and worlds go back to how they started. This can't be undone.</p>
   <form method="dialog" class="dialog-actions">
     <button value="cancel" class="quiet-button">Keep my settings</button>
     <button value="reset" class="solid-button" id="confirm-reset">Reset settings</button>

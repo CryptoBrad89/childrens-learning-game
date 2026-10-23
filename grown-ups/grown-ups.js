@@ -37,8 +37,6 @@ function render() {
   }
   const n = s.letters.length;
   $('#letter-count').textContent = n === 26 ? 'All 26 letters are in play.' : `${n} of 26 letters in play: ${s.letters.join(' ').toLowerCase()}.`;
-  const checked = [...$$('#hint input')].findIndex(input => input.checked);
-  $('#hint .segments').style.setProperty('--index', Math.max(0, checked));
 }
 function commit(next, message = 'Saved.') {
   const ok = G.save(next);
@@ -92,7 +90,7 @@ function bindSettings() {
   const dialog = $('#confirm');
   $('#reset').addEventListener('click', () => { dialog.showModal(); $('#confirm-reset').focus(); });
   dialog.addEventListener('close', () => {
-    if (dialog.returnValue === 'reset') commit({...G.DEFAULTS}, 'Settings are back to how they started.');
+    if (dialog.returnValue === 'reset') commit({...G.DEFAULTS, hintAfter: G.settings.hintAfter}, 'Settings are back to how they started.');
     $('#reset').focus();
   });
 }

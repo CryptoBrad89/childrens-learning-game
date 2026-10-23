@@ -1,6 +1,7 @@
 /* Small picture in the game header. The theme chooser stays where it is.
  * A child can sign out. A child cannot change their name here.
- * A grown-up's picture opens My account.
+ * A grown-up's picture opens a menu: Kids, and My account.
+ * The menu closes on an outside tap and when the screen changes.
  */
 (function (root) {
   'use strict';
@@ -53,6 +54,14 @@
     } catch (error) { /* already signed out */ }
     location.href = '../index.html';
   }
+  function closeMenus() {
+    const menu = document.getElementById('chip-menu');
+    if (menu) menu.remove();
+    const opener = document.querySelector('.player-chip[aria-expanded="true"]');
+    if (opener) opener.setAttribute('aria-expanded', 'false');
+    const dialog = document.getElementById('kid-sheet');
+    if (dialog && dialog.open) dialog.close();
+  }
   function kidSheet(active) {
     let dialog = document.getElementById('kid-sheet');
     if (!dialog) {
@@ -60,12 +69,29 @@
       dialog.id = 'kid-sheet';
       dialog.innerHTML = '<p class="chip-name"></p><p class="chip-note">Your grown-up looks after your name.</p><form method="dialog" class="chip-actions"><button value="stay" class="secondary">Keep playing</button><button value="out" class="primary" id="kid-sign-out">All done</button></form>';
       document.body.append(dialog);
+      dialog.addEventListener('click', event => {
+        if (event.target === dialog) dialog.close();
+      });
       dialog.addEventListener('close', () => {
         if (dialog.returnValue === 'out') signOutKid();
       });
     }
     dialog.querySelector('.chip-name').textContent = active.displayName || 'Hello';
-    dialog.showModal();
+    if (!dialog.open) dialog.showModal();
+  }
+  function toggleGrownMenu(button) {
+    const existing = document.getElementById('chip-menu');
+    if (existing) {
+      existing.remove();
+      button.setAttribute('aria-expanded', 'false');
+      return;
+    }
+    const menu = document.createElement('div');
+    menu.id = 'chip-menu';
+    menu.className = 'chip-menu';
+    menu.innerHTML = '<a href="../grown-ups/index.html">Kids</a><a href="../grown-ups/account.html">My account</a>';
+    button.parentElement.append(menu);
+    button.setAttribute('aria-expanded', 'true');
   }
   function mount() {
     const slot = document.getElementById('player-chip');
@@ -80,13 +106,17 @@
       return;
     }
     const grown = active.role && active.role !== 'child';
-    const control = document.createElement(grown ? 'a' : 'button');
+    const control = document.createElement('button');
+    control.type = 'button';
     control.className = 'player-chip';
     if (grown) {
-      control.href = '../grown-ups/account.html';
-      control.setAttribute('aria-label', 'My account');
+      control.setAttribute('aria-label', 'Your picture, Kids, and My account');
+      control.setAttribute('aria-expanded', 'false');
+      control.addEventListener('click', event => {
+        event.stopPropagation();
+        toggleGrownMenu(control);
+      });
     } else {
-      control.type = 'button';
       control.setAttribute('aria-label', 'Your picture and sign out');
       control.addEventListener('click', () => kidSheet(active));
     }
@@ -94,5 +124,13 @@
     slot.append(control);
   }
 
-  root.LittleWoofChip = {mount};
+  document.addEventListener('little-woof-screen', closeMenus);
+  document.addEventListener('pointerdown', event => {
+    const menu = document.getElementById('chip-menu');
+    if (!menu) return;
+    if (menu.contains(event.target) || (event.target.closest && event.target.closest('.player-chip'))) return;
+    closeMenus();
+  });
+
+  root.LittleWoofChip = {mount, closeMenus};
 })(typeof globalThis !== 'undefined' ? globalThis : this);

@@ -498,7 +498,8 @@
     panel.querySelector('#kid-settings').addEventListener('click', () => openGameSettings(`Editing: ${child.display_name} (${child.login_name || ''})`, [id]));
     panel.querySelector('#kid-reset-defaults').addEventListener('click', () => {
       const state = Store.readState(id);
-      state.settings = {};
+      const hintAfter = state.settings && state.settings.hintAfter;
+      state.settings = hintAfter ? {hintAfter} : {};
       Store.writeState(id, state);
       Client.scheduleSync(id);
       showStatus(`${child.display_name} is using game defaults.`);
