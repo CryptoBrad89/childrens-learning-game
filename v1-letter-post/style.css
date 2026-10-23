@@ -71,3 +71,6 @@ body.post[data-theme="2"]{--accent2:#355b71}
  .office-top{height:132px;padding-top:30px}
  .office-top .lucy{width:92px}
 }
+/* Stamp strip and pop-up: each word sits whole on one line inside its own stamp, clear of its neighbours. */
+body.post .collection-slots{grid-auto-columns:84px}body.post .collection-slot.collected>b+span{font-size:16px;line-height:1.2;white-space:nowrap;overflow-wrap:normal}
+@media(max-width:700px){body.post .collection-slots{grid-auto-columns:70px}body.post .collection-slot.collected>b+span{font-size:14px}}

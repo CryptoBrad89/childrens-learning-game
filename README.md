@@ -99,10 +99,13 @@ To run the browser suites without writing any screenshots, add
   1366×768, 768×1024, 1920×1080, 1440×900 and 390×844 in every theme: no page
   scroll, nothing cut off, page arrows and labels, and done badges clear of
   the letter, its caption and the next card (Ribbon Road's badges too). It
-  fails if letters overflow at 1024×576. It also checks Ribbon Road's sound
-  ribbon on the home and found-it pages at the same sizes and themes, with
-  all 26 words: each word whole on one line, inside its slot, clear of its
-  done tick and at least 4px from the next word. `FIT_SHOTS=dir` saves screenshots.
+  fails if letters overflow at 1024×576. It also checks every game's
+  collection words at the same sizes and themes, with all 26 showing: on the
+  home (the strip on phones; Letter Post and Moonboat's pop-up on wider
+  screens, which must show all 26 without scrolling) and on the found-it page
+  after a real round. Each word is whole on one line, inside its slot, at
+  least 12px, clear of its done tick and at least 4px from the next word.
+  `FIT_SHOTS=dir` saves screenshots.
 - `catchup_flow.mjs` (accounts backend) checks done letters from saved
   progress in every game, reloads, sign-out, account switching, guests and
   resets; one settle; the quiet match step and misses with real audio; the

@@ -1,9 +1,11 @@
 /* Item A and B: the Letter Post and Moonboat homes fit laptop, Chromebook, portrait
  * tablet and whiteboard screens with no page scroll, in every theme, and the done
  * badges are clear of the letter, its caption and the neighbouring cards. Ribbon Road
- * is checked for its badges, and its sound ribbon on the home and found-it pages:
- * with all 26 words showing, each word is whole on one line, inside its slot, clear
- * of its done tick and at least 4px from the next word. Phones keep scrolling.
+ * is checked for its badges. Every game's collection words are checked with all 26
+ * showing: on the home (the strip on phones, the Letter Post and Moonboat pop-up on
+ * wider screens, which must show all 26 without scrolling) and on the found-it page
+ * after a real round. Each word is whole on one line, inside its slot, at least 12px,
+ * clear of its done tick and at least 4px from the next word. Phones keep scrolling.
  * A signed-in child is set up on this device only (no network, no account).
  *   CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/fit_check.mjs
  * FIT_SHOTS=dir saves a screenshot of every case. FIT_SIZES=1024x576 limits sizes. */
@@ -46,12 +48,12 @@ async function open(kind, slug, width, height, theme, f = fixture()) {
   await page.waitForTimeout(150);
   return {context, page, errors};
 }
-// Ribbon Road's sound ribbon, with every letter done so all 26 words show.
-function ribbonProblems() {
+// A collection strip or pop-up, with every letter done so all 26 words show.
+function wordProblems(root) {
   const out = [], GAP = 4, hit = (a, b) => a.left < b.right - 0.5 && b.left < a.right - 0.5 && a.top < b.bottom - 0.5 && b.top < a.bottom - 0.5;
   const textBox = el => { const range = document.createRange(); range.selectNodeContents(el); return [...range.getClientRects()]; };
-  const slots = [...document.querySelectorAll('.collection-slot')];
-  if (slots.length !== 26) out.push(`ribbon has ${slots.length} slots`);
+  const slots = [...document.querySelectorAll(root + ' .collection-slot')];
+  if (slots.length !== 26) out.push(`collection has ${slots.length} slots`);
   const words = slots.map(slot => {
     const el = slot.querySelector('b+span'), rects = textBox(el), s = slot.getBoundingClientRect(), word = el.textContent;
     const box = {word, left: Math.min(...rects.map(r => r.left)), right: Math.max(...rects.map(r => r.right)), top: Math.min(...rects.map(r => r.top)), bottom: Math.max(...rects.map(r => r.bottom))};
@@ -131,25 +133,46 @@ try {
     cases++;
     await context.close();
   }
+  // Every game's collection words: the home strip (phones) or pop-up (wider), and
+  // the found-it page after a real round. Letter Post and Moonboat share the same
+  // done letters, saved from Ribbon Road.
   const ALL = {silk: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'};
-  for (const [width, height] of sizes) for (let theme = 0; theme < 3; theme++) {
-    const {context, page, errors} = await open('silk', 'v4-ribbon-road', width, height, theme, fixture('fit-kid', ALL));
-    const label = `v4-ribbon-road sound ribbon ${width}x${height} theme ${theme}`, out = [];
-    out.push(...(await page.evaluate(ribbonProblems)).map(p => 'home: ' + p));
-    if (shots) await page.locator('.collection').screenshot({path: path.join(shots, `ribbon-home-${width}x${height}-t${theme}.png`)});
-    // The found-it page, after a real round with the jellyfish.
-    await page.locator('.pearls [data-letter="J"]').click(); await page.waitForFunction(() => document.body.dataset.screen === 'listen');
+  const WORDS = [['post', 'v1-letter-post', 'stamp strip'], ['space', 'v3-moonboat', 'constellation'], ['silk', 'v4-ribbon-road', 'sound ribbon']];
+  for (const [kind, slug, name] of WORDS) for (const [width, height] of sizes) for (let theme = 0; theme < 3; theme++) {
+    const {context, page, errors} = await open(kind, slug, width, height, theme, fixture('fit-kid', ALL));
+    const label = `${slug} ${name} ${width}x${height} theme ${theme}`, out = [], sheet = kind !== 'silk' && width >= 700;
+    if (sheet) {
+      // Laptops and up: the home's collection line opens the whole collection.
+      await page.locator('.collection-summary').click(); await page.waitForSelector('.collection-sheet.open');
+      out.push(...(await page.evaluate(wordProblems, '.collection-sheet')).map(p => 'pop-up: ' + p));
+      // All 26 show at once: the pop-up never needs scrolling inside it.
+      out.push(...await page.evaluate(() => {
+        const sheet = document.querySelector('.collection-sheet'), box = sheet.getBoundingClientRect(), out = [];
+        if (sheet.scrollHeight > sheet.clientHeight + 1 || sheet.scrollWidth > sheet.clientWidth + 1) out.push('pop-up: scrolls inside');
+        for (const slot of sheet.querySelectorAll('.collection-slot')) { const r = slot.getBoundingClientRect(); if (r.top < box.top || r.bottom > box.bottom || r.left < box.left || r.right > box.right) out.push(`pop-up: slot ${slot.querySelector('b').textContent} is out of sight`); }
+        return out;
+      }));
+      if (shots) await page.screenshot({path: path.join(shots, `words-${slug}-popup-${width}x${height}-t${theme}.png`)});
+      await page.keyboard.press('Escape'); await page.waitForFunction(() => !document.querySelector('.collection-sheet.open'));
+    } else {
+      out.push(...(await page.evaluate(wordProblems, '.home')).map(p => 'home: ' + p));
+      if (shots) await page.locator('.home .collection').screenshot({path: path.join(shots, `words-${slug}-home-${width}x${height}-t${theme}.png`)});
+    }
+    // The found-it page, after a real round: the jellyfish on Ribbon Road, the
+    // first letter on screen in the other two.
+    const pick = kind === 'silk' ? page.locator('.pearls [data-letter="J"]') : page.locator('[data-letter]:not([hidden])').first(), letter = await pick.getAttribute('data-letter');
+    await pick.click(); await page.waitForFunction(() => document.body.dataset.screen === 'listen');
     await page.locator('[data-action="match"]').click(); await page.waitForFunction(() => document.body.dataset.screen === 'match');
-    await page.locator('[data-answer="J"]').click(); await page.waitForFunction(() => document.body.dataset.screen === 'celebrate');
+    await page.locator(`[data-answer="${letter}"]`).click(); await page.waitForFunction(() => document.body.dataset.screen === 'celebrate');
     await page.waitForTimeout(150);
-    out.push(...(await page.evaluate(ribbonProblems)).map(p => 'found it: ' + p));
-    if (shots) await page.locator('.collection').screenshot({path: path.join(shots, `ribbon-found-${width}x${height}-t${theme}.png`)});
+    out.push(...(await page.evaluate(wordProblems, '.celebration')).map(p => 'found it: ' + p));
+    if (shots) await page.locator('.celebration .collection').screenshot({path: path.join(shots, `words-${slug}-found-${width}x${height}-t${theme}.png`)});
     if (errors.length) out.push('page errors: ' + errors.join('; '));
     if (out.length) problems.push(`${label}: ${[...new Set(out)].join(' | ')}`);
-    else console.log(`PASS ${label} (home and found-it page)`);
+    else console.log(`PASS ${label} (${sheet ? 'pop-up' : 'home'} and found-it page)`);
     cases++;
     await context.close();
   }
 } finally { await browser.close(); await web.close(); }
 if (problems.length) { console.error(problems.join('\n')); console.error(`FAIL fit: ${problems.length} of ${cases} cases`); process.exitCode = 1; }
-else console.log(`PASS fit: ${cases} cases, letters on screen with no page scroll and clear done badges, sound ribbon words clear of each other`);
+else console.log(`PASS fit: ${cases} cases, letters on screen with no page scroll and clear done badges, collection words clear of each other`);

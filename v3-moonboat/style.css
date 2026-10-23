@@ -49,3 +49,6 @@ body.space[data-theme="2"]{--bg:#30223e;--surface:#443052;--ink:#fff0df;--muted:
  .captain .speech{display:none}
  .captain-panel .collection-summary{grid-column:1/-1;justify-self:start;margin-top:12px}
 }
+/* Constellation strip and pop-up: each word sits whole on one line under its own star, clear of its neighbours. */
+body.space .constellation .collection-slots{grid-auto-columns:84px}body.space .collection-slot.collected>b+span{font-size:16px;line-height:1.2;white-space:nowrap;overflow-wrap:normal}
+@media(max-width:700px){body.space .constellation .collection-slots{grid-auto-columns:70px}body.space .collection-slot.collected>b+span{font-size:14px}}
