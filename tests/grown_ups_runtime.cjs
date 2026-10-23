@@ -97,7 +97,7 @@ async function game(name, saved) {
     hint: noEffect, lucy: noEffect, exit: noEffect, correct: noEffect, reward: noEffect, weather: noEffect, evidence: {reduced: false}};
   const window = {Fun, scrollTo() {}};
   const localStorage = storage({'little-woof-grown-ups': JSON.stringify(saved)});
-  const context = vm.createContext({window, document, Audio, queueMicrotask, localStorage});
+  const context = vm.createContext({window, document, Audio, queueMicrotask, setTimeout, clearTimeout, localStorage});
   const html = fs.readFileSync(path.join(root, name, 'index.html'), 'utf8');
   const scripts = [...html.matchAll(/<script src="([^"]+)"/g)].map(m => m[1]);
   assert(scripts.indexOf('../grown-ups/settings.js') > -1 && scripts.indexOf('../grown-ups/settings.js') < scripts.findIndex(s => s.endsWith('app.js')),
@@ -110,13 +110,24 @@ async function game(name, saved) {
   vm.runInContext(fs.readFileSync(path.join(root, 'audio-map.js'), 'utf8'), context);
   const source = fs.readFileSync(script('app.js'), 'utf8');
   vm.runInContext(source.slice(0, -6) + `
-    window.testGame = {start, continueMatch, answer, replay, go,
+    window.testGame = {start, continueMatch, answer, replay, go, shiftPage,
       get choices(){return choices;}, get current(){return current;}};
   })();`, context);
   const app = window.testGame;
   const flush = () => new Promise(resolve => setImmediate(resolve));
   const main = () => getNode('#main').innerHTML;
-  return {app, flush, main, getNode, played, volumes, window, makeNode};
+  function homePages() {
+    const pages = [];
+    for (let i = 0; i < 8; i++) app.shiftPage(-1);
+    for (let i = 0; i < 8; i++) {
+      pages.push(main());
+      const before = main();
+      app.shiftPage(1);
+      if (main() === before) break;
+    }
+    return pages;
+  }
+  return {app, flush, main, getNode, played, volumes, window, makeNode, homePages};
 }
 
 async function worldChecks(name) {
@@ -139,7 +150,9 @@ async function worldChecks(name) {
     const wrong = t.app.choices.find(l => l.letter !== 'S'), button = t.getNode(`[data-answer="${wrong.letter}"]`);
     button.dataset.answer = wrong.letter;
     await t.app.answer(button); await t.flush();
-    assert(t.getNode('[data-answer="S"]').classList.values.has('hint'), `${name}: hint after one miss`);
+    assert.equal(t.getNode('[data-answer="S"]').classList.values.has('hint'), false, `${name}: a stored hint setting never outlines`);
+    assert.equal(t.played.length, 0, `${name}: voice off means a miss plays nothing`);
+    assert.equal(t.getNode('.feedback').textContent.includes('Try this picture'), false);
     const correct = t.getNode('[data-answer="S"]'); correct.dataset.answer = 'S';
     await t.app.answer(correct); await t.flush();
     assert(t.main().includes('1 of 6 · this visit'));
@@ -159,7 +172,7 @@ async function worldChecks(name) {
   {
     const t = await game(name, {hintAfter: 0, volume: 40});
     await t.app.go('home');
-    assert.equal([...t.main().matchAll(/data-letter="/g)].length, 26);
+    assert.equal(t.homePages().flatMap(page => [...page.matchAll(/data-letter="/g)]).length, 26);
     assert(t.getNode('#header').innerHTML.includes('<div class="controls">'), `${name}: controls shown by default`);
     await t.app.start('B'); await t.flush();
     assert.equal(t.played.length, 2); assert(t.volumes.length >= 2 && t.volumes.every(v => v === .4), `${name}: voice volume applied`);
@@ -181,7 +194,7 @@ async function worldChecks(name) {
     t.getNode('#main').listeners.click({target: next}); await t.flush();
     assert.equal(t.app.current.letter, 'Q', `${name}: a single letter wraps to itself`);
   }
-  console.log(`PASS ${name}: chosen letters, counts, wrap, hints (1 / never), voice off, volume and hidden children's buttons`);
+  console.log(`PASS ${name}: chosen letters, counts, wrap, hints stay off, voice off, volume and hidden children's buttons`);
 }
 
 (async () => {

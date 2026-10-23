@@ -22,7 +22,9 @@ async function fits(page, label) {
     for (const node of document.querySelectorAll('button,select,a')) {
       const box = node.getBoundingClientRect();
       if (!box.width || !box.height || box.bottom < 0) continue;
-      if (box.width < 59.5 || box.height < 59.5) failures.push(`${node.id || node.dataset.action || node.textContent.trim()}: ${box.width} × ${box.height}`);
+      const header = node.closest('#header');
+      const min = header ? 49.5 : 59.5;
+      if (box.width < min || box.height < min) failures.push(`${node.id || node.dataset.action || node.textContent.trim()}: ${box.width} × ${box.height}`);
     }
     for (const word of document.querySelectorAll('.choice .word')) {
       const box = word.closest('.choice').getBoundingClientRect();

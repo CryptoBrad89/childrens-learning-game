@@ -57,15 +57,35 @@ async function run() {
             });
             assert.deepEqual(failures, [], `${prefix}: layout or touch target failure`);
           };
+          async function showLetter(letter) {
+            for (let i = 0; i < 8; i++) {
+              if (await page.locator(`[data-letter="${letter}"]`).count()) return;
+              const previous = page.locator('[data-page="-1"]');
+              if (await previous.isEnabled()) {await previous.click(); continue;}
+              break;
+            }
+            for (let i = 0; i < 8; i++) {
+              if (await page.locator(`[data-letter="${letter}"]`).count()) return;
+              await page.locator('[data-page="1"]').click();
+            }
+          }
           await page.goto(pathToFileURL(path.join(root, game, 'index.html')).href);
           await page.selectOption('#theme', String(theme));
           await settle(); await page.evaluate(() => document.fonts.ready);
-          assert.deepEqual(await page.locator('[data-letter]').evaluateAll(nodes => nodes.map(n => n.dataset.letter)), alphabet);
-          assert(await page.locator('.picker-shelf').evaluate(n => n.scrollHeight > n.clientHeight), 'Letter shelf must scroll');
-          assert(await page.locator('.collection-slots').evaluate(n => n.scrollWidth > n.clientWidth), 'Collection must scroll');
+          const seen = [];
+          for (let i = 0; i < 8; i++) {
+            seen.push(...await page.locator('[data-letter]').evaluateAll(nodes => nodes.map(n => n.dataset.letter)));
+            const next = page.locator('[data-page="1"]');
+            if (!(await next.count()) || await next.isDisabled()) break;
+            await next.click();
+          }
+          assert.deepEqual(seen, alphabet);
+          assert(await page.locator('.page-label').textContent().then(text => /Page \d+ of \d+/.test(text)));
+          assert.equal(await page.locator('.collection-summary .collection-heading').count(), 1);
           await fits(); await capture('home');
           let count = 0;
           for (const letter of ['B', 'J', 'X', 'Z']) {
+            await showLetter(letter);
             await page.locator(`[data-letter="${letter}"]`).click();
             await screen('listen'); await settle(); await fits();
             if (letter === 'J') await capture('listen-J');
@@ -79,10 +99,11 @@ async function run() {
               await wrong.nth(miss).click();
               await page.waitForFunction(() => [...document.querySelectorAll('.choice')].every(n => !n.hasAttribute('aria-disabled')));
             }
-            assert(await page.locator(`[data-answer="${letter}"]`).evaluate(n => n.classList.contains('hint')));
+            assert.equal(await page.locator('.hint').count(), 0, 'No hint outline');
+            assert.equal((await page.locator('.feedback').textContent()).includes('Try this picture'), false);
             if (letter === 'X') {
-              assert((await page.locator('.feedback').textContent()).includes('ends with /ks/'));
-              await fits(); await capture('match-X-hint');
+              assert.equal((await page.locator('.feedback').textContent()).includes('/ks/'), false);
+              await fits(); await capture('match-X-retry');
             }
             await page.locator(`[data-answer="${letter}"]`).click();
             await screen('celebrate'); await settle(); await fits(); count++;
@@ -97,16 +118,31 @@ async function run() {
             const next = alphabet[(alphabet.indexOf(letter) + 1) % 26];
             assert((await page.locator('.listen-letter').getAttribute('aria-label')).includes(`letter ${next} `));
             await page.locator('.back[data-action="home"]').click(); await screen('home'); await settle();
-            assert.equal(await page.locator('.visited').count(), count);
+            await showLetter(letter);
+            assert.equal(await page.locator(`[data-letter="${letter}"] .visited`).count(), 1);
           }
-          await page.locator('[data-letter="Z"]').focus(); await page.keyboard.press('ArrowRight');
-          assert.equal(await page.locator(':focus').getAttribute('data-letter'), 'A');
-          await page.locator('.picker-shelf').evaluate(n => {n.scrollTop = n.scrollHeight;});
-          await page.locator('.collection-slots').evaluate(n => {n.scrollLeft = n.scrollWidth;});
+          const done = [];
+          for (let i = 0; i < 8; i++) {
+            const previous = page.locator('[data-page="-1"]');
+            if (!(await previous.count()) || await previous.isDisabled()) break;
+            await previous.click();
+          }
+          for (let i = 0; i < 8; i++) {
+            done.push(await page.locator('.visited').count());
+            const next = page.locator('[data-page="1"]');
+            if (!(await next.count()) || await next.isDisabled()) break;
+            await next.click();
+          }
+          assert.equal(done.reduce((sum, n) => sum + n, 0), count);
+          await showLetter('A');
+          const pageLetters = await page.locator('[data-letter]').evaluateAll(nodes => nodes.map(n => n.dataset.letter));
+          await page.locator(`[data-letter="${pageLetters.at(-1)}"]`).focus();
+          await page.keyboard.press('ArrowRight');
+          assert.equal(await page.locator(':focus').getAttribute('data-letter'), pageLetters[0]);
           await fits(); await capture('home-end-of-alphabet');
           assert.deepEqual(errors, [], `${prefix}: browser errors`);
           await context.close(); cases++;
-          console.log(`PASS ${prefix}: B/J/X/Z flow, hints, replay, collection, wrap, keyboard and layout`);
+          console.log(`PASS ${prefix}: B/J/X/Z flow, no hints, replay, pages, wrap, keyboard and layout`);
         }
       }
     }

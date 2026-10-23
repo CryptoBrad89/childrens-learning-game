@@ -68,6 +68,18 @@ async function run() {
             const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth + 1);
             assert.equal(overflow, false, `${prefix} ${label}: horizontal page overflow`);
           }
+          async function showLetter(letter) {
+            for (let i = 0; i < 8; i++) {
+              if (await page.locator(`[data-letter="${letter}"]`).count()) return;
+              const previous = page.locator('[data-page="-1"]');
+              if (await previous.isEnabled()) {await previous.click(); continue;}
+              break;
+            }
+            for (let i = 0; i < 8; i++) {
+              if (await page.locator(`[data-letter="${letter}"]`).count()) return;
+              await page.locator('[data-page="1"]').click();
+            }
+          }
           try {
             await page.goto(pathToFileURL(path.join(root, game, 'index.html')).href);
             await screen('home'); await animations('home entrance'); await fits('home'); await capture('home');
@@ -113,9 +125,11 @@ async function run() {
             await page.keyboard.press('Escape');
             await screen('home'); await settled();
             assert.equal(await page.locator('.listen-letter').count(), 0, 'Escape during a pending exit keeps the latest route');
+            await showLetter('X');
             await page.locator('[data-letter="X"]').click(); await screen('listen');
             await page.keyboard.press('Escape'); await screen('home'); await settled();
             assert.equal(await page.locator('.listen-letter').count(), 0, 'Cancelled route must stay home');
+            await showLetter('B');
             await page.locator('[data-letter="B"]').click(); await screen('listen'); await settled();
             await page.locator('.listen-letter').click();
             await page.emulateMedia({reducedMotion: 'reduce'});

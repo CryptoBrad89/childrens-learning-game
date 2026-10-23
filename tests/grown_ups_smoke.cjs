@@ -95,13 +95,13 @@ async function run() {
       await page.locator('#volume').fill('40');
       await page.locator('label.row:has([data-setting="effects"])').click();
       await page.locator('[data-preset="starter"]').click();
-      await page.locator('.segments label:has(input[value="1"])').click();
+      assert.equal(await page.locator('#hint, .segments').count(), 0, 'No control can turn hints on');
       await page.locator('label.row:has([data-setting="calm"])').click();
       await page.locator('label.row:has([data-game="silk"])').click();
       await page.locator('label.row:has([data-setting="kidControls"])').click();
       await page.locator('[data-letter="T"]').click();
       assert.deepEqual(await saved(page), {voice: false, effects: false, calm: true, kidControls: false, volume: 40,
-        letters: ['A', 'I', 'N', 'P', 'S'], hintAfter: 1, games: ['post', 'space']});
+        letters: ['A', 'I', 'N', 'P', 'S'], hintAfter: 2, games: ['post', 'space']});
       assert.match(await page.locator('#save-status').textContent(), /^Saved\./);
       assert.equal(await page.locator('#volume-value').textContent(), '40%');
       assert.equal(await page.locator('#letter-count').textContent(), '5 of 26 letters in play: a i n p s.');
@@ -133,6 +133,7 @@ async function run() {
       await page.waitForFunction(() => /back to how they started/.test(document.querySelector('#save-status').textContent));
       const defaults = await saved(page);
       assert.deepEqual(defaults.letters.length, 26); assert.equal(defaults.calm, false); assert.equal(defaults.games.length, 3);
+      assert.equal(defaults.hintAfter, 2, 'Reset leaves the stored hint value unused');
       assert.equal(await page.locator('#letter-grid button[aria-pressed="true"]').count(), 26);
       assert.match(await page.locator('#save-status').textContent(), /back to how they started/);
 
@@ -186,8 +187,9 @@ async function run() {
         await page.locator('[data-action="match"]').click();
         await page.waitForFunction(() => document.body?.dataset.screen === 'match');
         await page.locator('.choice:not([data-answer="P"])').first().click();
-        await page.waitForFunction(() => document.querySelector('[data-answer="P"]').classList.contains('hint'));
+        await page.waitForFunction(() => document.querySelector('.choice.tried'));
         await page.waitForFunction(() => [...document.querySelectorAll('.choice')].every(n => !n.hasAttribute('aria-disabled')));
+        assert.equal(await page.locator('.hint').count(), 0, `${world}: a stored hint setting never outlines`);
         await page.locator('[data-answer="P"]').click();
         await page.waitForFunction(() => document.body?.dataset.screen === 'celebrate');
         assert.equal(await page.locator('#confetti [data-particle]').count(), 0, `${world}: no confetti in calm motion`);
@@ -205,7 +207,7 @@ async function run() {
       await page.waitForFunction(() => window.__volumes.length >= 2);
       assert(await page.evaluate(() => window.__volumes.every(v => v === .4)), 'Voice volume applied in the browser');
       await done(label);
-      console.log(`PASS ${label}: hidden world, chosen letters, quiet start, hidden buttons, calm motion, one-miss hint and volume`);
+      console.log(`PASS ${label}: hidden world, chosen letters, quiet start, hidden buttons, calm motion, hints stay off and volume`);
     }
 
     // Reduced motion and dark mode render cleanly.

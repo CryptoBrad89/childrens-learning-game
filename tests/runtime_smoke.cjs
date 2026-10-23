@@ -52,7 +52,7 @@ async function smoke(game) {
   };
   const window = {Fun, scrollTo() {}};
   const context = vm.createContext({
-    window, document, Audio, queueMicrotask,
+    window, document, Audio, queueMicrotask, setTimeout, clearTimeout,
     localStorage: {getItem() {return null;}, setItem() {}}
   });
   const scripts = [...fs.readFileSync(path.join(root, game, 'index.html'), 'utf8').matchAll(/<script src="([^"]+)"/g)].map(match => match[1]);
@@ -65,19 +65,31 @@ async function smoke(game) {
   const source = fs.readFileSync(script('app.js'), 'utf8');
   assert(source.endsWith('})();\n'), 'Unrecognized app wrapper');
   vm.runInContext(source.slice(0, -6) + `
-    window.testGame = {start, continueMatch, answer, replay, go, setTheme,
+    window.testGame = {start, continueMatch, answer, replay, go, setTheme, shiftPage,
       get choices(){return choices;}, get current(){return current;}};
   })();`, context);
   const app = window.testGame;
   const audioPath = file => file.startsWith('assets/') ? (window.CONCEPT.assetBase || 'assets') + file.slice(6) : file;
   const flush = () => new Promise(resolve => setImmediate(resolve));
   const html = () => getNode('#main').innerHTML;
+  const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+  function homePages() {
+    const pages = [];
+    for (let i = 0; i < 8; i++) app.shiftPage(-1);
+    for (let i = 0; i < 8; i++) {
+      pages.push(html());
+      const before = html();
+      app.shiftPage(1);
+      if (html() === before) break;
+    }
+    return pages;
+  }
   let rounds = 0;
   for (let theme = 0; theme < window.CONCEPT.themes.length; theme++) {
     app.setTheme(theme);
     assert.equal(document.body.dataset.theme, String(theme));
     await app.go('home');
-    assert.deepEqual([...html().matchAll(/data-letter="([A-Z])"/g)].map(m => m[1]), alphabet);
+    assert.deepEqual(homePages().flatMap(page => [...page.matchAll(/data-letter="([A-Z])"/g)].map(match => match[1])), alphabet);
     assert(!html().includes('undefined'), 'Invalid card tilt or markup');
     for (const letter of alphabet) {
       played.length = 0;
@@ -88,6 +100,17 @@ async function smoke(game) {
       assert.deepEqual(played.slice(-2), [window.GAME_AUDIO.letters[letter].name, window.GAME_AUDIO.letters[letter].sound]);
       await app.continueMatch(makeNode()); await flush();
       assert.equal(document.body.dataset.screen, 'match');
+      played.length = 0;
+      const back = makeNode();
+      back.dataset.action = 'listen';
+      getNode('#main').listeners.click({target: back});
+      await flush();
+      assert.equal(document.body.dataset.screen, 'listen', 'Listen back returns to the letter page');
+      assert.deepEqual(played, [window.GAME_AUDIO.letters[letter].name, window.GAME_AUDIO.letters[letter].sound], 'Listen back speaks the name and the sound');
+      const heard = played.length;
+      await app.continueMatch(makeNode()); await flush();
+      assert.equal(played.length, heard, 'Find the picture does not replay the letter');
+      assert.equal(document.body.dataset.screen, 'match');
       assert(html().includes(letter === 'X' ? 'What ends' : 'What starts'));
       assert.equal(app.choices.length, 3);
       assert.equal(new Set(app.choices.map(l => l.letter)).size, 3);
@@ -97,17 +120,28 @@ async function smoke(game) {
         if (letter !== 'X') assert.notEqual(choice.word[0], app.current.word[0], 'Ambiguous starting-word distractor');
         const button = getNode(`[data-answer="${choice.letter}"]`);
         button.dataset.answer = choice.letter;
-        await app.answer(button); await flush();
+        played.length = 0;
+        await app.answer(button); await wait(280); await flush();
         assert.equal(document.body.dataset.screen, 'match');
         assert.equal(button.getAttribute('aria-disabled'), null);
+        assert.equal(played.length, 2, 'A wrong tap plays the tapped word and one retry clip');
+        assert.equal(played[0], audioPath(window.GAME_AUDIO.words[choice.word]));
+        assert.ok(window.GAME_AUDIO.wrong.map(audioPath).includes(played[1]), played[1]);
+        assert.equal(played.includes(audioPath(window.GAME_AUDIO.words[app.current.word])), false);
+        assert.equal(played.some(file => file.includes('-name-') || file.includes('-sound-')), false);
       }
-      assert(getNode('.feedback').textContent.includes(letter === 'X' ? 'ends with' : 'starts with'));
+      const feedback = getNode('.feedback').textContent;
+      assert.equal(feedback.includes(app.current.word), false, 'Wrong feedback must not name the right word');
+      assert.equal(feedback.includes(app.current.sound), false, 'Wrong feedback must not say the sound');
+      assert.equal(feedback.includes('Try this picture'), false);
       const correct = getNode(`[data-answer="${letter}"]`);
-      assert(correct.classList.values.has('hint'), 'Two misses must reveal a hint');
-      assert(played.includes(audioPath(window.GAME_AUDIO.words[app.current.word])), 'Hint must play the target word');
+      assert.equal(correct.classList.values.has('hint'), false, 'No hint outline');
+      played.length = 0;
       correct.dataset.answer = letter;
       await app.answer(correct); await flush();
       assert.equal(document.body.dataset.screen, 'celebrate');
+      assert.equal(played[0].includes('cheer'), true, 'Celebrate starts without the correct word');
+      assert.equal(played.includes(audioPath(window.GAME_AUDIO.words[app.current.word])), false);
       assert(html().includes('of 26 · this visit'));
       if (letter === 'X') assert(html().includes('Fox ends with x.'));
       await app.replay(true); await flush();
@@ -119,8 +153,9 @@ async function smoke(game) {
       rounds++;
     }
     await app.go('home');
-    assert(html().includes('26 of 26 · this visit'));
-    assert.equal((html().match(/aria-label="played this visit"/g) || []).length, 26);
+    const pages = homePages();
+    assert(pages.some(page => page.includes('26 of 26 · this visit')));
+    assert.equal(pages.reduce((sum, page) => sum + (page.match(/done this visit/g) || []).length, 0), 26);
     const mute = getNode('#mute');
     mute.onclick(); played.length = 0;
     await app.start('X'); await flush();
