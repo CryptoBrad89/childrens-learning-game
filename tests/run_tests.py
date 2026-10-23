@@ -135,8 +135,7 @@ def wiring():
         # Guard the approved audio mapping. Browser tests cover playback behavior.
         for fragment in ('const A=window.GAME_AUDIO;', 'new Audio(file)',
                          'return [A.letters[current.letter].name,A.letters[current.letter].sound];',
-                         'return A.words[l.word];', 'voice(letterAudio())',
-                         'A.feedback.cheers[visited.size%2]'):
+                         'return A.words[l.word];'):
             require(fragment in app, f'{game}: missing playback wiring {fragment}')
         require(app.count('new Audio(') == 1, f'{game}: unexpected playback entry point')
         require(set(audio['words']) == set(WORDS.values()), 'Picture word map must cover the 26 A-Z words')

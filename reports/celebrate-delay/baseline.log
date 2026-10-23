@@ -1,0 +1,9 @@
+PASS before v4-silk-thread 1024 run 1: 6431.2 ms, native playing event
+PASS before v1-letter-post 1024 run 1: 6455.3 ms, native playing event
+PASS before v3-moonboat 1024 run 1: 6456.0 ms, native playing event
+PASS before v1-letter-post 768 run 1: 6434.0 ms, native playing event
+PASS before v3-moonboat 768 run 1: 6420.1 ms, native playing event
+PASS before v4-silk-thread 768 run 1: 6420.0 ms, native playing event
+PASS before v3-moonboat 1920 run 1: 6563.9 ms, native playing event
+PASS before v1-letter-post 1920 run 1: 6600.1 ms, native playing event
+PASS before v4-silk-thread 1920 run 1: 6491.7 ms, native playing event

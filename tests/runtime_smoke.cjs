@@ -84,7 +84,7 @@ async function smoke(game) {
       played.length = 0;
       await app.start(letter); await flush();
       assert.equal(document.body.dataset.screen, 'listen');
-      assert.deepEqual(played, [window.GAME_AUDIO.letters[letter].name, window.GAME_AUDIO.letters[letter].sound]);
+      assert.deepEqual(played, [], 'Letter entry never autoplays speech');
       await app.replay(); await flush();
       assert.deepEqual(played.slice(-2), [window.GAME_AUDIO.letters[letter].name, window.GAME_AUDIO.letters[letter].sound]);
       played.length=0;
@@ -115,8 +115,11 @@ async function smoke(game) {
       assert(!correct.classList.values.has('hint'), 'Repeated misses never reveal a hint');
       assert(!played.includes(audioPath(window.GAME_AUDIO.words[app.current.word])), 'Never say the target word after a wrong tap');
       correct.dataset.answer = letter;
+      played.length=0;
       await app.answer(correct); await flush();
       assert.equal(document.body.dataset.screen, 'celebrate');
+      assert.equal(played.length,1,'Correct answers play only one cheer');
+      assert(window.GAME_AUDIO.feedback.cheers.map(audioPath).includes(played[0]));
       assert(html().includes('of 26 · this visit'));
       if (letter === 'X') assert(html().includes('Fox ends with x.'));
       await app.replay(true); await flush();

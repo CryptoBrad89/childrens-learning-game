@@ -1,0 +1,452 @@
+[
+  {
+    "phase": "before",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 0,
+    "delay": 6431.199999999953,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:38689/v1-letter-post/assets/lucy-word-a-apple.mp3",
+        "requested": 3330.8000000000466,
+        "started": 3351.5,
+        "delay": 21.0999999998603,
+        "duration": 0.8
+      },
+      {
+        "src": "http://127.0.0.1:38689/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 9743.800000000047,
+        "started": 9761.600000000093,
+        "delay": 6431.199999999953,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 4239.40000000014,
+        "end": 4726.300000000047
+      },
+      {
+        "duration": 180,
+        "start": 4726.5,
+        "end": 4909.700000000186
+      },
+      {
+        "duration": 4400,
+        "start": 4926.5,
+        "end": 9359.90000000014
+      },
+      {
+        "duration": 380,
+        "start": 9360.200000000186,
+        "end": 9743.5
+      }
+    ],
+    "tapAt": 3330.4000000001397
+  },
+  {
+    "phase": "before",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 0,
+    "delay": 6455.300000000047,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:38689/v1-letter-post/assets/lucy-word-a-apple.mp3",
+        "requested": 3941.5999999998603,
+        "started": 3959.5,
+        "delay": 18.200000000186265,
+        "duration": 0.8
+      },
+      {
+        "src": "http://127.0.0.1:38689/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 10384.899999999907,
+        "started": 10396.59999999986,
+        "delay": 6455.300000000047,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 4854.399999999907,
+        "end": 5351.399999999907
+      },
+      {
+        "duration": 180,
+        "start": 5351.59999999986,
+        "end": 5534.5
+      },
+      {
+        "duration": 4400,
+        "start": 5550.699999999953,
+        "end": 10001.5
+      },
+      {
+        "duration": 380,
+        "start": 10001.699999999953,
+        "end": 10384.59999999986
+      }
+    ],
+    "tapAt": 3941.2999999998137
+  },
+  {
+    "phase": "before",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "run": 0,
+    "delay": 6456,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:38689/v3-moonboat/assets/lucy-word-a-apple.mp3",
+        "requested": 3929.4000000001397,
+        "started": 3949.8000000000466,
+        "delay": 20.800000000046566,
+        "duration": 0.8
+      },
+      {
+        "src": "http://127.0.0.1:38689/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 10373.40000000014,
+        "started": 10385,
+        "delay": 6456,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 4835.699999999953,
+        "end": 5326.199999999953
+      },
+      {
+        "duration": 180,
+        "start": 5326.5,
+        "end": 5510.5
+      },
+      {
+        "duration": 4400,
+        "start": 5540.600000000093,
+        "end": 9989.800000000047
+      },
+      {
+        "duration": 380,
+        "start": 9990,
+        "end": 10373.199999999953
+      }
+    ],
+    "tapAt": 3929
+  },
+  {
+    "phase": "before",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 0,
+    "delay": 6434,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:38689/v1-letter-post/assets/lucy-word-a-apple.mp3",
+        "requested": 2844,
+        "started": 2884.399999999907,
+        "delay": 40.89999999990687,
+        "duration": 0.8
+      },
+      {
+        "src": "http://127.0.0.1:38689/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 9265.699999999953,
+        "started": 9277.5,
+        "delay": 6434,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3769.1999999999534,
+        "end": 4265.899999999907
+      },
+      {
+        "duration": 180,
+        "start": 4266.199999999953,
+        "end": 4448.899999999907
+      },
+      {
+        "duration": 4400,
+        "start": 4454.199999999953,
+        "end": 8882.09999999986
+      },
+      {
+        "duration": 380,
+        "start": 8882.199999999953,
+        "end": 9265.5
+      }
+    ],
+    "tapAt": 2843.5
+  },
+  {
+    "phase": "before",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 0,
+    "delay": 6420.09999999986,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:38689/v3-moonboat/assets/lucy-word-a-apple.mp3",
+        "requested": 3810.600000000093,
+        "started": 3828.5,
+        "delay": 18.199999999953434,
+        "duration": 0.8
+      },
+      {
+        "src": "http://127.0.0.1:38689/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 10220.399999999907,
+        "started": 10230.399999999907,
+        "delay": 6420.09999999986,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 4722.899999999907,
+        "end": 5220.199999999953
+      },
+      {
+        "duration": 180,
+        "start": 5220.399999999907,
+        "end": 5403.800000000047
+      },
+      {
+        "duration": 4400,
+        "start": 5410,
+        "end": 9836.899999999907
+      },
+      {
+        "duration": 380,
+        "start": 9837,
+        "end": 10220.300000000047
+      }
+    ],
+    "tapAt": 3810.3000000000466
+  },
+  {
+    "phase": "before",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "run": 0,
+    "delay": 6420,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:38689/v1-letter-post/assets/lucy-word-a-apple.mp3",
+        "requested": 3808.399999999907,
+        "started": 3825.7999999998137,
+        "delay": 17.699999999953434,
+        "duration": 0.8
+      },
+      {
+        "src": "http://127.0.0.1:38689/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 10217.899999999907,
+        "started": 10228.09999999986,
+        "delay": 6420,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 4720.699999999953,
+        "end": 5217.799999999814
+      },
+      {
+        "duration": 180,
+        "start": 5217.899999999907,
+        "end": 5401.299999999814
+      },
+      {
+        "duration": 4400,
+        "start": 5406.799999999814,
+        "end": 9834.5
+      },
+      {
+        "duration": 380,
+        "start": 9834.59999999986,
+        "end": 10217.699999999953
+      }
+    ],
+    "tapAt": 3808.0999999998603
+  },
+  {
+    "phase": "before",
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 0,
+    "delay": 6563.899999999907,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:38689/v3-moonboat/assets/lucy-word-a-apple.mp3",
+        "requested": 2874.3000000000466,
+        "started": 2894.899999999907,
+        "delay": 20.899999999906868,
+        "duration": 0.8
+      },
+      {
+        "src": "http://127.0.0.1:38689/v3-moonboat/assets/lucy-cheer-2.mp3",
+        "requested": 9421.59999999986,
+        "started": 9437.899999999907,
+        "delay": 6563.899999999907,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 3800.0999999998603,
+        "end": 4286.699999999953
+      },
+      {
+        "duration": 180,
+        "start": 4287,
+        "end": 4505.5
+      },
+      {
+        "duration": 4400,
+        "start": 4540.300000000047,
+        "end": 9036.59999999986
+      },
+      {
+        "duration": 380,
+        "start": 9036.899999999907,
+        "end": 9421.199999999953
+      }
+    ],
+    "tapAt": 2874
+  },
+  {
+    "phase": "before",
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 0,
+    "delay": 6600.100000000093,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:38689/v1-letter-post/assets/lucy-word-a-apple.mp3",
+        "requested": 3794.2000000001863,
+        "started": 3820.600000000093,
+        "delay": 26.800000000046566,
+        "duration": 0.8
+      },
+      {
+        "src": "http://127.0.0.1:38689/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 10384.200000000186,
+        "started": 10393.90000000014,
+        "delay": 6600.100000000093,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 4716.300000000047,
+        "end": 5367.600000000093
+      },
+      {
+        "duration": 180,
+        "start": 5367.800000000047,
+        "end": 5564.5
+      },
+      {
+        "duration": 4400,
+        "start": 5574.40000000014,
+        "end": 10001
+      },
+      {
+        "duration": 380,
+        "start": 10001.300000000047,
+        "end": 10384
+      }
+    ],
+    "tapAt": 3793.8000000000466
+  },
+  {
+    "phase": "before",
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "run": 0,
+    "delay": 6491.699999999953,
+    "externalBlocked": 2,
+    "audio": [
+      {
+        "src": "http://127.0.0.1:38689/v1-letter-post/assets/lucy-word-a-apple.mp3",
+        "requested": 3892.6999999999534,
+        "started": 3914.5,
+        "delay": 22.100000000093132,
+        "duration": 0.8
+      },
+      {
+        "src": "http://127.0.0.1:38689/v1-letter-post/assets/lucy-cheer-2.mp3",
+        "requested": 10370.799999999814,
+        "started": 10384.09999999986,
+        "delay": 6491.699999999953,
+        "duration": 1.04
+      }
+    ],
+    "motion": [
+      {
+        "duration": 480,
+        "start": 4812.199999999953,
+        "end": 5370.5
+      },
+      {
+        "duration": 180,
+        "start": 5370.699999999953,
+        "end": 5561.299999999814
+      },
+      {
+        "duration": 4400,
+        "start": 5568,
+        "end": 9987.299999999814
+      },
+      {
+        "duration": 380,
+        "start": 9987.5,
+        "end": 10370.399999999907
+      }
+    ],
+    "tapAt": 3892.399999999907
+  }
+]
