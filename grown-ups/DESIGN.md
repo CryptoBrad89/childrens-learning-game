@@ -55,7 +55,7 @@ needs them.
  │ [Add a child who already has an account] [Print sign-in cards]│
  └──────────────────────────────────────────────────────────────┘
  ┌ Settings ──────────────────────── For [All children (2) ▾] ──┐
- │ Sound · Letters · Help when stuck · Motion · Games           │
+ │ Sound · Letters · Motion · Games                             │
  └──────────────────────────────────────────────────────────────┘
  ┌ Progress ┐  a table for all children; letters and stickers for one
  ┌ Grown-ups ─────────────────────────────── [+ Add a grown-up] ┐
@@ -114,7 +114,6 @@ in on their own device.
 | Digit fills a slot | 8px pop-in, 300ms pop | Better Design `number-pop-in` |
 | Wrong code | 480ms side wiggle | game |
 | Switch thumb | 200ms standard | Better Design `switch` |
-| Help selector | sliding pill under the checked option, 300ms | motion-primitives `AnimatedBackground` |
 | "Saved" | postmark stamp lands once per change | trickle `stamp` |
 
 No loops. `prefers-reduced-motion` and the corner's own *Calm motion* setting

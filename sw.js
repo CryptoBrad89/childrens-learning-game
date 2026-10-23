@@ -157,7 +157,18 @@ self.addEventListener('activate', event => {
     .then(keys => Promise.all(keys.filter(k => k.startsWith('little-woof-shell-') && k !== VERSION).map(k => caches.delete(k))))
     .then(() => self.clients.claim()));
 });
+// A page can ask which offline copy is serving it (tests/sw_update.mjs does).
+self.addEventListener('message', event => { if (event.data === 'version' && event.source) event.source.postMessage({version: VERSION}); });
 const FRESH = /\.(html|js|css)$|\/$/, SLOW_MS = 4000;
+// The page gets pages, scripts and styles marked `no-cache`, so the browser's own
+// memory and HTTP caches always come back here (hosts often say "keep for 10
+// minutes", which would otherwise hide a new build until that runs out).
+function askAgain(response) {
+  if (!response || response.type === 'error' || response.type === 'opaqueredirect') return response;
+  const headers = new Headers(response.headers);
+  headers.set('cache-control', 'no-cache');
+  return new Response(response.body, {status: response.status, statusText: response.statusText, headers});
+}
 self.addEventListener('fetch', event => {
   const request = event.request, url = new URL(request.url);
   if (request.method !== 'GET' || url.origin !== self.location.origin) return;
@@ -165,15 +176,17 @@ self.addEventListener('fetch', event => {
     const key = url.pathname.endsWith('/') ? url.pathname + 'index.html' : url.pathname;
     const stored = async () => await cache.match(key, {ignoreSearch: true}) || await cache.match(request, {ignoreSearch: true});
     const offline = async () => await stored() || await cache.match(new URL('index.html', self.registration.scope).pathname) || Response.error();
-    const network = () => fetch(request, FRESH.test(url.pathname) ? {cache: 'no-cache'} : {}).then(response => {
-      if (response.ok && response.type === 'basic' && !request.headers.has('range')) event.waitUntil(cache.put(key, response.clone()));
+    // Pages, scripts and styles are checked with the server, past the browser's HTTP
+    // cache (by URL: a page's own request can't take extra options).
+    const network = () => (FRESH.test(url.pathname) ? fetch(request.url, {cache: 'no-cache', credentials: 'same-origin'}) : fetch(request)).then(response => {
+      if (response.ok && response.type === 'basic' && !request.headers.has('range')) cache.put(key, response.clone()).catch(() => {});
       return response;
     });
     if (FRESH.test(url.pathname)) {
       // Network first. A very slow connection gets the stored copy after a few seconds.
       const fresh = network();
       const slow = new Promise(resolve => setTimeout(resolve, SLOW_MS)).then(stored).then(copy => copy || fresh);
-      try { return await Promise.race([fresh, slow]); } catch (e) { return offline(); }
+      try { return askAgain(await Promise.race([fresh, slow])); } catch (e) { return askAgain(await offline()); }
     }
     return await stored() || network().catch(offline);
   }));

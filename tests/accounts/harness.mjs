@@ -120,8 +120,16 @@ function watch(page, errors) {
 
 export const screen = (page, name) => page.waitForFunction(n => document.body.dataset.screen === n, name, {timeout: 20000});
 const idle = page => page.waitForFunction(() => [...document.querySelectorAll('.choice')].every(n => !n.hasAttribute('aria-disabled')), null, {timeout: 20000});
+/** Turns the pages of letters (Letter Post and Moonboat on bigger screens) to `letter`. */
+export async function showLetter(page, letter) {
+  for (let i = 0; i < 30 && await page.locator(`.letter-list [data-letter="${letter}"]`).isHidden(); i++) {
+    const on = await page.locator('.letter-list [data-letter]:not([hidden])').first().getAttribute('data-letter');
+    await page.locator(`.page-arrow[data-page="${letter < on ? -1 : 1}"]`).click();
+  }
+}
 /** Plays one round of the current world through its real buttons. */
 export async function playRound(page, letter, misses = 0) {
+  await showLetter(page, letter);
   await page.locator(`.letter-list [data-letter="${letter}"]`).click();
   await screen(page, 'listen');
   await page.locator('[data-action="match"]').click();

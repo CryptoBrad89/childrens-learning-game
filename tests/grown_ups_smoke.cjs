@@ -113,12 +113,11 @@ async function run() {
       await page.locator('#volume').fill('40');
       await page.locator('label.row:has([data-setting="effects"])').click();
       await page.locator('[data-preset="starter"]').click();
-      await page.locator('.segments label:has(input[value="1"])').click();
       await page.locator('label.row:has([data-setting="calm"])').click();
       await page.locator('label.row:has([data-game="silk"])').click();
       await page.locator('label.row:has([data-setting="kidControls"])').click();
       await page.locator('#letter-grid [data-letter="T"]').click();
-      const want = {voice: false, effects: false, calm: true, kidControls: false, volume: 40, letters: ['A', 'I', 'N', 'P', 'S'], hintAfter: 1, games: ['post', 'space']};
+      const want = {voice: false, effects: false, calm: true, kidControls: false, volume: 40, letters: ['A', 'I', 'N', 'P', 'S'], games: ['post', 'space']};
       for (const kid of room.kids) assert.deepEqual(await values(page, kid.id), want);
       assert.match(await page.locator('#save-status').textContent(), /^Saved for all 2 children\./);
       assert.equal(await page.locator('#volume-value').textContent(), '40%');
@@ -240,8 +239,9 @@ async function run() {
         await page.locator('[data-action="match"]').click();
         await page.waitForFunction(() => document.body?.dataset.screen === 'match');
         await page.locator('.choice:not([data-answer="P"])').first().click();
-        await page.waitForFunction(() => document.querySelector('[data-answer="P"]').classList.contains('hint'));
-        await page.waitForFunction(() => [...document.querySelectorAll('.choice')].every(n => !n.hasAttribute('aria-disabled')));
+        // An old "outline after 1 miss" value is stored for Mia; it must never show a hint.
+        assert.equal(await page.locator('.hint,.hint-tag').count(), 0, `${world}: no hint from a stored setting`);
+        assert(await page.locator('.choice').evaluateAll(n => n.every(b => !b.hasAttribute('aria-disabled'))));
         await page.locator('[data-answer="P"]').click();
         await page.waitForFunction(() => document.body?.dataset.screen === 'celebrate');
         assert.equal(await page.locator('#confetti [data-particle]').count(), 0, `${world}: no confetti in calm motion`);
@@ -261,7 +261,7 @@ async function run() {
       assert(await page.evaluate(() => window.__volumes.every(v => v === .4)), 'Voice volume applied in the browser');
       await be.rpc('lw_put_settings', {p_changes: [{profile: mia.id, field: 'voice', v: false, t: Date.now()}]}, grownup.token);
       await done(label);
-      console.log(`PASS ${label}: hidden world, chosen letters, quiet start, hidden buttons, calm motion, one-miss hint and volume`);
+      console.log(`PASS ${label}: hidden world, chosen letters, quiet start, hidden buttons, calm motion, no hint from a stored setting, and volume`);
     }
 
     // Reduced motion, and a device set to dark mode: the corner stays the same cream as the games.

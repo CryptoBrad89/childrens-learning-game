@@ -28,9 +28,11 @@ body.post[data-theme="2"]{--accent2:#355b71}
  .paged .envelopes button{width:100%;height:100%;min-height:0;aspect-ratio:auto}
  .paged .envelopes .pick-glyph{font-size:clamp(30px,calc(var(--card-h,96px)*.38),50px)}
  .post-bottom{padding-top:12px}
- /* Nothing decorative looks like a button here: Lucy's name tag and bubble are flat. */
- .post-home .lucy-paw,.post-home .lucy .speech{box-shadow:none}
 }
+/* Nothing decorative on the Letter Post home looks like a button: Lucy's name tag is
+   plain text, and her paw and speech bubble sit flat. */
+.post-home .lucy-paw,.post-home .lucy .speech{box-shadow:none}
+.post-home .lucy figcaption{background:none;color:var(--card-ink);transform:none;padding:6px 10px}
 @media(min-width:700px) and (max-height:900px){
  body.post[data-screen="home"] .app{padding-block:10px 4px}
  body.post[data-screen="home"] #header{padding-bottom:10px}
@@ -49,6 +51,13 @@ body.post[data-theme="2"]{--accent2:#355b71}
  .office-number{font-size:11px;bottom:16px}
  .sorting-shelf{padding:12px 12px 8px}
  .shelf-title{font-size:13px}
+}
+@media(min-width:700px) and (max-height:640px){
+ .office-top{height:110px;padding-top:28px}
+ .office-top .lucy{width:72px}
+ .office-top .lucy figcaption{display:none}
+ .office-number{bottom:10px}
+ .post-home .page-stage{margin-top:14px}
 }
 /* A portrait tablet: the title above, the post office below. */
 @media(min-width:700px) and (max-aspect-ratio:4/5){

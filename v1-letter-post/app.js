@@ -72,7 +72,7 @@ function layoutPages(){
  if(!wide.matches){shelf.dataset.pages='one';list.removeAttribute('style');cards.forEach(b=>{b.hidden=false;});shelf.querySelector('.page-label').textContent='';perPage=pool.length;pages=1;page=0;settle();return;}
  // As few pages as fit at the smallest card size, then the biggest cards that fill them.
  // Bigger on whiteboards; the gaps leave room for the done badge on each corner.
- const grow=Math.min(1.35,Math.max(1,innerHeight/800)),badge=parseFloat(getComputedStyle(list).getPropertyValue('--badge'))||36;
+ const grow=Math.min(1.35,Math.max(1,Math.min(innerWidth,innerHeight)/800)),badge=parseFloat(getComputedStyle(list).getPropertyValue('--badge'))||36;
  const min=post?{w:104*grow,h:76*grow,gap:Math.round(badge*.45)+12,maxW:220,ratio:1.4}:{w:92*grow,h:92*grow,gap:Math.round(badge*.45)+8,maxW:180,ratio:1};
  const fit=()=>{const W=stage.clientWidth,H=stage.clientHeight,most=Math.max(1,Math.min(6,Math.floor((W+min.gap)/(min.w+min.gap))))*Math.max(1,Math.min(5,Math.floor((H+min.gap)/(min.h+min.gap)))),per=Math.ceil(pool.length/Math.ceil(pool.length/most));let best=null;for(let cols=1;cols<=6;cols++)for(let rows=1;rows<=5;rows++){if(cols*rows<per)continue;const w=Math.min(min.maxW,(W-min.gap*(cols-1))/cols,(H-min.gap*(rows-1))/rows*min.ratio);if(!best||w>best.w+0.5||(Math.abs(w-best.w)<=0.5&&cols*rows<best.cols*best.rows))best={W,H,cols,rows,w};}return best;};
  shelf.dataset.pages='one';let f=fit();
@@ -88,7 +88,8 @@ function layoutPages(){
  settle();
 }
 // A letter that has just become done settles its badge once, the first time its card is on screen.
-function settle(){for(const b of main.querySelectorAll('[data-letter]'))if(!b.hidden&&fresh.has(b.dataset.letter)){b.classList.add('settle');fresh.delete(b.dataset.letter);}}
+// The class comes off again straight after, so showing the page again can't replay it.
+function settle(){for(const b of main.querySelectorAll('[data-letter]'))if(!b.hidden&&fresh.has(b.dataset.letter)){b.classList.add('settle');fresh.delete(b.dataset.letter);setTimeout(()=>b.classList.remove('settle'),400);}}
 function turnPage(step){if(page+step<0||page+step>=pages)return false;anchor=pool[(page+step)*perPage].letter;layoutPages();return true;}
 // Shows done letters as they change (after a sync, or play on another device) without redrawing the screen.
 function paintDone(){

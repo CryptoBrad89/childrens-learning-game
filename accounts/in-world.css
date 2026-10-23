@@ -40,3 +40,4 @@ html[data-calm] .lw-toast{animation:none!important}
   #footer .lw-player .lw-avatar{width:36px;height:36px}
   #footer .lw-player a{min-height:48px}
 }
+@media(max-width:430px){#header:has(.lw-profile) .brand small{display:none}}

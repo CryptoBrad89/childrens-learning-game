@@ -27,7 +27,7 @@ if (end) {
   box.className = 'lw-profile';
   box.innerHTML = `<button type="button" class="lw-profile-button" id="lw-profile" aria-haspopup="menu" aria-expanded="false" aria-controls="lw-menu" aria-label="${P.esc(me.name)}: menu">${P.avatar(me)}</button>`
     + `<div class="lw-menu" id="lw-menu" role="menu" aria-labelledby="lw-profile" hidden><p class="lw-menu-name">${P.avatar(me)}<span>${P.esc(me.name)}</span></p>`
-    + (grownup ? `<a role="menuitem" href="../grown-ups/index.html" data-corner>Grown-ups' corner<small>Your children and their settings</small></a><a role="menuitem" href="../grown-ups/index.html#you" data-corner>My account<small>Your sign-in and password</small></a>` : '')
+    + (grownup ? `<a role="menuitem" href="../grown-ups/index.html" data-corner>Grown-ups' corner<small>Your children and their settings</small></a><a role="menuitem" href="../grown-ups/index.html?show=you" data-corner>My account<small>Your sign-in and password</small></a>` : '')
     + `<a role="menuitem" href="../index.html" data-done>I'm done</a></div>`;
   end.append(box);
   const button = box.querySelector('button'), menu = box.querySelector('.lw-menu');

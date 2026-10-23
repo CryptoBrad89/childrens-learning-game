@@ -96,10 +96,12 @@ try {
   }
   await t.locator('.kid-card:has-text("Leo") [data-act="settings"]').click();
   assert.match(await t.locator('#target-note').textContent(), /Leo only/);
-  await t.locator('.segments label:has(input[value="1"])').click();
+  // There is no hint setting any more ("Help when stuck" is gone).
+  assert.equal(await t.locator('[data-setting="hintAfter"],#hint').count(), 0);
+  await t.locator('label.row:has([data-setting="effects"])').click();
   await waitSynced(t, await t.evaluate(() => window.LW.grownupId()));
-  assert.equal((await be.rpc('lw_child_state', {p_child: leo.id}, leeToken)).settings.hintAfter.v, 1);
-  assert.equal((await be.rpc('lw_child_state', {p_child: mia.id}, leeToken)).settings.hintAfter, undefined);
+  assert.equal((await be.rpc('lw_child_state', {p_child: leo.id}, leeToken)).settings.effects.v, false);
+  assert.equal((await be.rpc('lw_child_state', {p_child: mia.id}, leeToken)).settings.effects, undefined);
   for (const size of sizes) { await t.setViewportSize(size); await fits(t, `corner ${size.name}`, size.width >= 1600 ? 72 : 60); }
   await t.setViewportSize({width: 1366, height: 768});
   ok('corner: settings for all the children and for one child reach the server');

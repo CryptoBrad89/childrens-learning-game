@@ -74,7 +74,7 @@ try {
   assert.match(await a.locator('#playing-sync').textContent(), /Saved on this device/);
   ok('device A offline: pages load from the service worker; 6 rounds, 2 color changes and new stickers wait on the device');
 
-  // Meanwhile, online: B picks a newer Letter Post color, and a grown-up changes Mia's hints.
+  // Meanwhile, online: B picks a newer Letter Post color, and an old hint value is stored for Mia (it must sync untouched).
   await b.selectOption('#theme', '2');
   await waitSynced(b);
   await be.rpc('lw_put_settings', {p_changes: [{profile: mia.id, field: 'hintAfter', v: 1, t: Date.now()}]}, room.grownup.token);
@@ -118,15 +118,17 @@ try {
   assert.equal(total(seen.agg), 7); assert.equal(letters(seen.agg, 'post'), 'ABIPST'); assert.equal(letters(seen.agg, 'space'), 'N');
   assert.deepEqual(seen.agg, server.agg);
   assert.deepEqual(seen.badges, Object.keys(server.badges).sort());
-  assert.equal(seen.settings.hintAfter, 1); assert.equal(seen.values.theme_post, 2); assert.equal(seen.values.theme_space, 2);
+  // The old hint field syncs untouched (kept as stored), but the games never read it.
+  assert.equal(seen.values.hintAfter, 1); assert.equal(seen.settings.hintAfter, undefined); assert.equal(seen.values.theme_post, 2); assert.equal(seen.values.theme_space, 2);
   assert(await b.locator('#stickers .lw-sticker').count() >= 3);
   await b.locator('nav a[data-world="post"]').click(); await screen(b, 'home');
-  assert.match(await b.locator('.collection-heading').textContent(), /6 of 26 · yours to keep/);
+  // Done letters are shared across games: Letter Post's ABIPST plus Moonboat's N.
+  assert.match(await b.locator('.collection-heading').textContent(), /7 of 26 · yours to keep/);
   assert.equal(await b.evaluate(() => document.body.dataset.theme), '2');
   await b.goto(web.url + '/v3-moonboat/index.html'); await screen(b, 'home');
-  assert.match(await b.locator('.collection-heading').textContent(), /1 of 26 · yours to keep/);
+  assert.match(await b.locator('.collection-heading').textContent(), /7 of 26 · yours to keep/); // the same done letters in every game
   assert.equal(await b.evaluate(() => document.body.dataset.theme), '2');
-  ok('device B: same 7 rounds, letters, stickers, colors and hint setting as the server; nothing lost or doubled');
+  ok('device B: same 7 rounds, letters, stickers, colors and stored settings as the server; nothing lost or doubled');
 
   // A agrees too.
   const onA = await a.evaluate(() => window.LW.progress(window.LW.playerId()));

@@ -2,20 +2,42 @@
 
 Serve the repository root over HTTP(S), for example
 `python3 -m http.server 8000`, and visit `/`. After the first visit a service
-worker (`sw.js`) keeps every file, so the games work offline. Opening
+worker (`sw.js`) keeps every file, so the games work offline. Pages, scripts
+and styles come from the network first (the stored copy is for offline), so a
+new build shows on the next load; bump `VERSION` in `sw.js` with every build. Opening
 [index.html](index.html) straight from disk still works too (without the
 offline shell). No build step. Vanilla HTML, CSS, and JavaScript; the only
 runtime service is the Supabase project for accounts (see below).
 
 All three games cover A–Z with their screens, typography, palettes, Lucy
-photos, screen animations, themes, hints, replay and collections.
-Envelope/planet cards scroll vertically within their shelves; stamp
-strips/constellations scroll horizontally and count up to 26. A newly earned
-letter is brought into view on the celebration screen. When a child is signed
-in, collections are theirs to keep on every device; playing without saving
-keeps them for the current visit.
+photos, screen animations, themes, replay and collections.
+On laptops, Chromebooks, tablets and whiteboards (700px wide and up), Letter
+Post and Moonboat fit their home screen with no page scroll: the letters come
+a page at a time, sized to the space left, with big ◀ ▶ arrows and a page
+label, and coming back from a letter opens its page. Their collection is a
+one-line summary that opens the whole collection. On phones the cards scroll
+in their shelves as before. Ribbon Road's home is unchanged. Stamp
+strips/constellations count up to 26, and a newly earned letter is brought
+into view on the celebration screen.
 
-G uses goat. X uses fox's ending /ks/: the question and hint say “ends with,”
+A letter is **done** only after a correct answer. Done cards keep their colors
+and stay tappable, read **Done**, and carry the same dark green `#176b3a`
+badge with a white tick in every game and theme; a newly done letter's badge
+settles once (220ms, none in calm or reduced motion). Signed in, done letters
+are the account's saved correct answers from **every** game, refreshed after
+each sync; playing without saving keeps them for the current visit.
+
+There are no hints. “Find the picture” opens quietly (tap the letter to hear
+it). A wrong picture plays only its own word, a short pause and one try-again
+clip picked at random from `GAME_AUDIO.feedback.retry` (today only “Not
+quite!”); the pictures stay live and any new tap cuts it off. After a correct
+answer the cheer starts as the found-it page appears.
+
+Signed in, the player's picture sits at the top right. Its menu has “I'm done”;
+a grown-up who is playing also gets the grown-ups' corner and their account,
+in one tap. Children never see those links.
+
+G uses goat. X uses fox's ending /ks/: the question says “ends with,”
 and the celebration says “Fox ends with x.” Distractors exclude matching
 sounds (cat/kite) and matching starting words (fish/fox). Word pictures are
 code-native SVGs.
@@ -58,6 +80,10 @@ CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/grown_ups_smoke.cjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/accounts_flow.mjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/accounts_two_devices.mjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/home_flow.mjs
+CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/fit_check.mjs
+CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/catchup_flow.mjs
+CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/celebrate_timing.mjs
+CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/sw_update.mjs
 node tests/names_check.cjs
 ```
 
@@ -65,11 +91,26 @@ To run the browser suites without writing any screenshots, add
 `-r ./tests/no-screenshots.cjs` after `node`.
 
 - `runtime_smoke.cjs` (no browser) plays 234 rounds (26 letters × 3 themes ×
-  3 games) with browser APIs stubbed: listen/replay, wrong answers and
-  two-miss hints, celebration, next-letter wraparound, collections and mute.
+  3 games) with browser APIs stubbed: listen/replay, the quiet match step,
+  wrong answers that play only the word and a try-again (no hints), the cheer,
+  done badges, next-letter wraparound, collections and mute.
+- `fit_check.mjs` checks the Letter Post and Moonboat homes at 1024×576,
+  1366×768, 768×1024, 1920×1080, 1440×900 and 390×844 in every theme: no page
+  scroll, nothing cut off, page arrows and labels, and done badges clear of
+  the letter, its caption and the next card (Ribbon Road's badges too). It
+  fails if letters overflow at 1024×576. `FIT_SHOTS=dir` saves screenshots.
+- `catchup_flow.mjs` (accounts backend) checks done letters from saved
+  progress in every game, reloads, sign-out, account switching, guests and
+  resets; one settle; the quiet match step and misses with real audio; the
+  picture button and menu for children and grown-ups.
+- `celebrate_timing.mjs` measures correct tap → cheer in every layout at
+  1024×576, 768×1024 and 1920×1080.
+- `sw_update.mjs` installs the start build's offline copy, deploys this build
+  and a later one, and checks each shows within one refresh (the later one on
+  the next load) and that offline play still works.
 - `browser_smoke.cjs` uses local Playwright and file URLs to check B/J/X/Z
-  at 390×844, 768×1024 and 1440×1000 in all themes, including touch targets
-  and horizontal overflow. Screenshots go to `/tmp/lpmb-shots`. Set
+  at 390×844, 768×1024 and 1440×1000 in all themes, including pages of
+  letters, the collection sheet, touch targets and horizontal overflow. Screenshots go to `/tmp/lpmb-shots`. Set
   `BROWSER_SMOKE_SHARD` to 0–5 to run one game/viewport pair.
 - `motion_smoke.cjs` drives both worlds at phone, tablet, and whiteboard
   sizes with real interactions, normal and reduced motion, and no network.
@@ -204,8 +245,6 @@ next time a world opens:
 - **Letters:** any set of letters, or quick sets (all 26, s a t p i n,
   vowels). Pickers, collections, counts and "Another sound" use only the
   chosen letters. Wrong-answer pictures can still come from any letter.
-- **Help:** the right picture is outlined after one miss, after two (the
-  default), or never.
 - **Motion:** *Calm motion* behaves exactly like a reduced-motion preference.
 - **Games and buttons:** which worlds the chooser shows (at least one), and
   whether children see the sound and color buttons.

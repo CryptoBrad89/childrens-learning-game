@@ -112,7 +112,8 @@ async function run() {
               assert((await page.locator('.collection-heading').textContent()).includes(`${expected} of 26`));
               await page.locator('[data-action="home"]').last().click(); await screen('home'); await settled();
             }
-            assert.equal(await page.locator('.visited').count(), 26, 'All A–Z sounds are reachable and collectible');
+            assert.equal(await page.locator('.letter-list .is-done .done-badge').count(), 26, 'All A–Z sounds are reachable and collectible');
+            assert.equal(await page.locator('.letter-list .pick-caption:text-is("Done")').count(), 26, 'Finished letters say Done');
             await page.locator('[data-letter="Z"]').focus(); await page.keyboard.press('ArrowRight');
             assert.equal(await page.locator(':focus').getAttribute('data-letter'), 'A');
             console.log('PASS Ribbon Road A–Z: 26 real listen/match/celebrate rounds, full collection, X ending, keyboard wrap');

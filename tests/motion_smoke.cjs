@@ -113,7 +113,7 @@ async function run() {
             await page.keyboard.press('Escape');
             await screen('home'); await settled();
             assert.equal(await page.locator('.listen-letter').count(), 0, 'Escape during a pending exit keeps the latest route');
-            await page.locator('[data-letter="X"]').click(); await screen('listen');
+            await page.locator('[data-letter="C"]').click(); await screen('listen');
             await page.keyboard.press('Escape'); await screen('home'); await settled();
             assert.equal(await page.locator('.listen-letter').count(), 0, 'Cancelled route must stay home');
             await page.locator('[data-letter="B"]').click(); await screen('listen'); await settled();

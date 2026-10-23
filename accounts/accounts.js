@@ -421,8 +421,11 @@ setTimeout(() => syncAll(), 0);
 
 // The game shell works offline once a page has been opened over http(s).
 if (SELF && 'serviceWorker' in navigator && /^https?:$/.test(location.protocol) && !CFG.noServiceWorker) {
-  // `updateViaCache: 'none'`: the browser always asks the server for a new sw.js.
-  const start = () => navigator.serviceWorker.register(new URL('../sw.js', SELF), {scope: new URL('../', SELF).pathname, updateViaCache: 'none'}).catch(() => {});
+  // `updateViaCache: 'none'`: the browser always asks the server for a new sw.js, and
+  // every load asks (the browser's own check can wait a while), so a new build
+  // installs straight away and takes over.
+  const start = () => navigator.serviceWorker.register(new URL('../sw.js', SELF), {scope: new URL('../', SELF).pathname, updateViaCache: 'none'})
+    .then(reg => reg.update()).catch(() => {});
   if (document.readyState === 'complete') start(); else window.addEventListener('load', start);
 }
 

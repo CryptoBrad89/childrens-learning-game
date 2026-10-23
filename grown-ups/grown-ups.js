@@ -61,7 +61,8 @@ function openPortal() {
   show('portal');
   renderHello(); renderTarget(); render(); C.render();
   // "My account" from a game's picture menu opens at the You card.
-  const you = location.hash === '#you';
+  // (A query, not a #fragment: the browser's own jump to a fragment drops the focus.)
+  const you = new URLSearchParams(location.search).get('show') === 'you';
   if (you) $('#you').scrollIntoView({block: 'start'}); else window.scrollTo({top: 0});
   $(you ? '#you-title' : '#title').focus({preventScroll: true});
   C.refresh().then(() => { C.retarget(); renderHello(); renderTarget(); render(); C.render(); });
