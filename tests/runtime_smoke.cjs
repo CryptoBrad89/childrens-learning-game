@@ -118,8 +118,9 @@ async function smoke(game) {
       played.length=0;
       await app.answer(correct); await flush();
       assert.equal(document.body.dataset.screen, 'celebrate');
-      assert.equal(played.length,1,'Correct answers play only one cheer');
-      assert(window.GAME_AUDIO.feedback.cheers.map(audioPath).includes(played[0]));
+      assert.equal(played.length,2,'Correct answers say the tapped word then one cheer');
+      assert.equal(played[0],audioPath(window.GAME_AUDIO.words[app.current.word]));
+      assert(window.GAME_AUDIO.feedback.cheers.map(audioPath).includes(played[1]));
       assert(html().includes('of 26 · this visit'));
       if (letter === 'X') assert(html().includes('Fox ends with x.'));
       await app.replay(true); await flush();

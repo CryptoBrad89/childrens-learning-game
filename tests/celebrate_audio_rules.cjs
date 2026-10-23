@@ -64,7 +64,8 @@ async function quiet(page){await page.waitForFunction(()=>!document.body.classLi
       await wrong.click({force:true});await started(page,'word-');await page.evaluate(()=>window.clips=[]);await page.locator('[data-answer="A"]').click({force:true});
      }else{await page.evaluate(()=>window.clips=[]);await page.locator('[data-answer="A"]').click({force:true});}
      await started(page,'lucy-cheer');await page.waitForFunction(()=>document.body.dataset.screen==='celebrate');
-     const cheer=await page.evaluate(()=>({...clips.find(e=>e.src?.includes('lucy-cheer')),tap:window.correctTap}));assert(cheer.started);assert(cheer.started-cheer.tap<300);assert(!cheer.overlap,'New correct tap cuts off previous speech');
+     const cheer=await page.evaluate(()=>({...clips.find(e=>e.src?.includes('lucy-cheer')),tap:window.correctTap}));assert(cheer.started);const word=await page.evaluate(()=>clips.find(e=>e.src?.includes('apple')));assert(word.started-word.at<300);assert(cheer.started-word.ended>=0&&cheer.started-word.ended<300);assert(!cheer.overlap,'New correct tap cuts off previous speech');
+     await page.evaluate(()=>window.clips=[]);
      await page.locator('[data-action=reward-replay]').click({force:true});await started(page,'apple');
      assert((await page.evaluate(()=>clips)).some(e=>e.pause?.includes('lucy-cheer')),'Word replay interrupts cheer: '+JSON.stringify(await page.evaluate(()=>clips)));
      assert((await page.evaluate(()=>clips.filter(e=>e.src))).every(e=>!e.overlap&&!e.error));
@@ -81,8 +82,9 @@ async function quiet(page){await page.waitForFunction(()=>!document.body.classLi
      await match(page);await page.locator('#mute').click();
      await page.locator('[data-answer="A"]').click({force:true});await started(page,'lucy-cheer');await page.waitForFunction(()=>document.body.dataset.screen==='celebrate');await quiet(page);
      const correctAudio=await page.evaluate(()=>clips.filter(e=>e.src));
-     assert.equal(correctAudio.length,1,'Correct answer automatically plays only the cheer, exactly as at 4a9067c');
-     assert(correctAudio[0].src.includes('lucy-cheer'));
+     assert.equal(correctAudio.length,2,'Correct answer says the tapped word then one cheer');
+     assert(correctAudio[0].src.includes('apple'));
+     assert(correctAudio[1].src.includes('lucy-cheer'));
      await page.evaluate(()=>window.clips=[]);
      await page.locator('[data-action=next]').click();await page.waitForFunction(()=>clips.some(e=>e.src?.includes('b-name')&&e.started));
      await page.locator('[data-action=match]').click({force:true});await page.waitForFunction(()=>document.body.dataset.screen==='match'&&!document.body.dataset.effect);
@@ -90,7 +92,7 @@ async function quiet(page){await page.waitForFunction(()=>!document.body.classLi
      const interrupted=await page.evaluate(()=>clips);
      assert(interrupted.some(e=>e.pause?.includes('b-name')),'Find the picture interrupts automatic letter audio: '+JSON.stringify(interrupted));
      assert(!interrupted.some(e=>e.src?.includes('b-sound')),'Cancelled name never queues a late sound');
-     results.push({dir,viewport,offline,delay:cheer.started-cheer.tap,nativeCheer:true,replay:true,cutoff:true,mute:true,letterEntryAutoplay:true,listenBackAutoplay:true,silentMatch:true,correctAnswerCheerOnly:true,errors:[...errors]});
+     results.push({dir,viewport,offline,wordDelay:word.started-cheer.tap,cheerGap:cheer.started-word.ended,nativeCheer:true,replay:true,cutoff:true,mute:true,letterEntryAutoplay:true,listenBackAutoplay:true,silentMatch:true,correctAnswerWordThenCheer:true,errors:[...errors]});
      console.log(`PASS rules ${dir} ${viewport.width} ${offline?'offline':'online'}`);
     }
    }

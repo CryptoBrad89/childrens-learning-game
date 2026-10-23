@@ -14,6 +14,7 @@ async function instrument(context){
   HTMLMediaElement.prototype.play=function(){
    const entry={src:this.src,requested:performance.now()};window.audioEvidence.push(entry);
    this.addEventListener('playing',()=>{entry.started=performance.now();entry.delay=entry.started-window.tapAt;entry.duration=this.duration;},{once:true});
+   this.addEventListener('ended',()=>entry.ended=performance.now(),{once:true});
    this.addEventListener('error',()=>entry.error=this.error?.message,{once:true});
    return play.call(this).catch(e=>{entry.error=e.message;throw e;});
   };
@@ -37,7 +38,7 @@ async function enter(page,url,dir){await page.goto(url+'/');await page.locator('
      const evidence=await page.evaluate(()=>({audio:window.audioEvidence,motion:window.motionEvidence,tapAt:window.tapAt,resources:performance.getEntriesByType('resource').filter(e=>e.name.includes('lucy-cheer')).map(e=>e.toJSON())}));
      assert.deepEqual(errors,[]);assert(evidence.audio.filter(e=>e.src).every(e=>!e.error));
      const cheer=evidence.audio.find(e=>e.src?.includes('lucy-cheer'));
-     if(phase==='after'){assert(cheer.delay<300,`Celebrate starts promptly: ${cheer.delay}`);assert.equal(evidence.audio.filter(e=>e.src).length,1,'Only celebrate speech follows correct tap');}
+     if(phase==='after'){const word=evidence.audio.find(e=>e.src?.includes('apple'));assert(word?.started&&word.ended,'Tapped word plays fully');assert(word.delay<300,`Word starts promptly: ${word.delay}`);assert(cheer.started-word.ended<300,'Cheer follows word promptly');assert.equal(evidence.audio.filter(e=>e.src).length,2,'Tapped word then cheer follow correct tap');}
      await page.waitForFunction(()=>document.body.dataset.screen==='celebrate');
      if(run===0)await page.screenshot({path:`${out}/${phase}-${dir}-${viewport.width}.png`,fullPage:true});
      results.push({phase,dir,viewport,run,delay:cheer.delay,externalBlocked:external,...evidence});

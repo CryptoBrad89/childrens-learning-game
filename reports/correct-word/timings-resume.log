@@ -1,0 +1,3 @@
+PASS v4-silk-thread 1920 run 3 apple: word 13.6 ms; cheer gap 9.0 ms
+PASS v4-silk-thread 1920 run 4 hat: word 17.2 ms; cheer gap 8.6 ms
+PASS v4-silk-thread 1920 run 5 apple: word 18.4 ms; cheer gap 11.9 ms

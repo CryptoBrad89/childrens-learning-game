@@ -107,7 +107,7 @@ async function answer(button){
  document.querySelectorAll('.choice').forEach(b=>b.setAttribute('aria-disabled','true'));
  if(document.hidden){unlock();return;}
  const completionCount=visited.size+(visited.has(current.letter)?0:1);
- voice([A.feedback.cheers[completionCount%2]]);
+ voice([wordAudio(selected),A.feedback.cheers[completionCount%2]]);
  await F.correct(button);
  if(route!==mine)return;
  if((accounts?.owner?.id||null)!==progressOwner){refreshProgress();return;}

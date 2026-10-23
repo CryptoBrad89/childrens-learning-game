@@ -1,0 +1,12 @@
+AssertionError [ERR_ASSERTION]: Correct answers say the tapped word then one cheer
+
+1 !== 2
+
+    at smoke (/workspace/clg-codex/tests/runtime_smoke.cjs:121:14)
+    at async /workspace/clg-codex/tests/runtime_smoke.cjs:150:75 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 1,
+  expected: 2,
+  operator: 'strictEqual'
+}

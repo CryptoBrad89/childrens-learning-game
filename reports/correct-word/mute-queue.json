@@ -1,0 +1,41 @@
+[
+  {
+    "dir": "v1-letter-post",
+    "queuedCheerCancelled": true,
+    "clips": [
+      {
+        "src": "http://127.0.0.1:45023/v1-letter-post/assets/lucy-word-a-apple.mp3",
+        "started": true
+      },
+      {
+        "pause": "http://127.0.0.1:45023/v1-letter-post/assets/lucy-word-a-apple.mp3"
+      }
+    ]
+  },
+  {
+    "dir": "v3-moonboat",
+    "queuedCheerCancelled": true,
+    "clips": [
+      {
+        "src": "http://127.0.0.1:45023/v3-moonboat/assets/lucy-word-a-apple.mp3",
+        "started": true
+      },
+      {
+        "pause": "http://127.0.0.1:45023/v3-moonboat/assets/lucy-word-a-apple.mp3"
+      }
+    ]
+  },
+  {
+    "dir": "v4-silk-thread",
+    "queuedCheerCancelled": true,
+    "clips": [
+      {
+        "src": "http://127.0.0.1:45023/v1-letter-post/assets/lucy-word-a-apple.mp3",
+        "started": true
+      },
+      {
+        "pause": "http://127.0.0.1:45023/v1-letter-post/assets/lucy-word-a-apple.mp3"
+      }
+    ]
+  }
+]
