@@ -1,0 +1,325 @@
+{
+  "count": 52,
+  "size": [
+    512,
+    512
+  ],
+  "lossless": true,
+  "transparentBorders": true,
+  "recipeMatches": true,
+  "sourceRgbUnchanged": true,
+  "images": [
+    {
+      "image": "moonboat/apple.webp",
+      "source": "v3-moonboat/pictures/apple.webp",
+      "sourceSha256": "cee2faf34aa3ff2bed1db354c323170f0e10b00831a1348249aafbfbd0ea27d7",
+      "outputSha256": "2f28b745713de926d9b8e35316fdcf23835dc65e99543edf2e8a224305446207"
+    },
+    {
+      "image": "moonboat/ball.webp",
+      "source": "v3-moonboat/pictures/ball.webp",
+      "sourceSha256": "d755e9077b22a2f371cff35c2c927e7538bd5a0729d95391c2b018a7a38e9189",
+      "outputSha256": "2bc080b9af282645a114183677399edd15ae9dc6bd0ac5475b614af60884ab58"
+    },
+    {
+      "image": "moonboat/cat.webp",
+      "source": "v3-moonboat/pictures/cat.webp",
+      "sourceSha256": "ef3ae103a6d62178b5f34b488a171e4b609a334957784f2466d000578f83530c",
+      "outputSha256": "6cff30420ed1c1be68d94c87479b1f40325d810f94050a39e6d36634640c280c"
+    },
+    {
+      "image": "moonboat/duck.webp",
+      "source": "v3-moonboat/pictures/duck.webp",
+      "sourceSha256": "30571430f1444ff0e63077b0b83ef1ebb4165902e9c9d43177d76b5976824aa4",
+      "outputSha256": "099022ab9b461305e68193500f69c6c68e0bab83aa41a3c3757a8515adf4793e"
+    },
+    {
+      "image": "moonboat/egg.webp",
+      "source": "v3-moonboat/pictures/egg.webp",
+      "sourceSha256": "4294bdc78d6ba46e6d6ecb66e4b6ea1eecbe2ba3dcd5bb0efd535442a8c70931",
+      "outputSha256": "23f94db41fd790222f6c7bc0829a554551050179b08974a6adfef3f8262ba8f7"
+    },
+    {
+      "image": "moonboat/fish.webp",
+      "source": "v3-moonboat/pictures/fish.webp",
+      "sourceSha256": "48b4dd95d0fddfdc7ef86d0d52ffdcb58bf18b9bf67666b6917a13b41dcab6ee",
+      "outputSha256": "46e85f134298d8d3a132af24dba9b6828ada6854f2016619d4ec44862ae9e7fb"
+    },
+    {
+      "image": "moonboat/goat.webp",
+      "source": "v3-moonboat/pictures/goat.webp",
+      "sourceSha256": "50b34a12c92e942a486f1bbfc98313ebc6f2d011637ebe227fef8bf9eefcb58f",
+      "outputSha256": "4a7e0d7c29c06c3a10485e9d21bec5ecfd3d88bbe2bec3b2ccfdb5f68ebd8ccf"
+    },
+    {
+      "image": "moonboat/hat.webp",
+      "source": "v3-moonboat/pictures/hat.webp",
+      "sourceSha256": "b7a6654dd30a987d8aa9ee1deb10cd4a35a15a4cada26d653ace7a4bd7b18504",
+      "outputSha256": "92ce36d00ec0406307507178d9d0528525544fab5dcc13d2975097202a1cfd4b"
+    },
+    {
+      "image": "moonboat/insect.webp",
+      "source": "v3-moonboat/pictures/insect.webp",
+      "sourceSha256": "d75b03453707d246c866ed1a63e1c508983cf818f98d1ab98fab0f72a2381aa7",
+      "outputSha256": "ebd829a007e7586913469b8e53e16ef83b92563711254ffdae5c70f285a1043b"
+    },
+    {
+      "image": "moonboat/jellyfish.webp",
+      "source": "v3-moonboat/pictures/jellyfish.webp",
+      "sourceSha256": "d51e727887d1a72f42b3adcc4283ff74b97b91a95709b1701a5814b8f958b5e4",
+      "outputSha256": "28c5dbbfb2c0b5bf4d424a4372f681cdb0b324e7111ec6c3f07ae2958374315a"
+    },
+    {
+      "image": "moonboat/kite.webp",
+      "source": "v3-moonboat/pictures/kite.webp",
+      "sourceSha256": "54c508d332719fd800e9a751a72beff038c8914c08d770523f86d22ceb8a32ad",
+      "outputSha256": "d9cb483e647781771949eae6e0aff23b58e46827e46b905ea7a6beb4559b79b6"
+    },
+    {
+      "image": "moonboat/leaf.webp",
+      "source": "v3-moonboat/pictures/leaf.webp",
+      "sourceSha256": "05f553be4b833f0c14283574b99730b225f2b0ea97d1b9689286ca40d4a9fce4",
+      "outputSha256": "2da3e435f3fed92209290e91154ecd9c0babedfbd32a8749b7f99ae473b30c84"
+    },
+    {
+      "image": "moonboat/moon.webp",
+      "source": "v3-moonboat/pictures/moon.webp",
+      "sourceSha256": "29539bf968cef19a13f590993d306eeb8ce3046bc3830a5c6be3c52732af82a9",
+      "outputSha256": "c271ec3196116d366ed0ff94bbb275f95b18f8f32d7093301a303a9b03be81ed"
+    },
+    {
+      "image": "moonboat/nest.webp",
+      "source": "v3-moonboat/pictures/nest.webp",
+      "sourceSha256": "10be36c0ec619b84db3513f1bc672440e8201b031e6b94438ee5232b4deb67eb",
+      "outputSha256": "dc2b9d8f0f7d8b8ab87018120c4a6194c998e6a9b531c40b9c06b853c41de336"
+    },
+    {
+      "image": "moonboat/octopus.webp",
+      "source": "v3-moonboat/pictures/octopus.webp",
+      "sourceSha256": "3595d07c40f7ef00a040486e2c41d0230cafa34994da9fa976ee448bf0cea3d9",
+      "outputSha256": "aa7b6d1975760925ecf430f135745eeee42b1e3b200ef86555912ac0d916a152"
+    },
+    {
+      "image": "moonboat/pig.webp",
+      "source": "v3-moonboat/pictures/pig.webp",
+      "sourceSha256": "afbd4f08ff6c056cc81cd7c86725e9a3a390ecb7d77b64d7851cbef7595ce26e",
+      "outputSha256": "77c98e7fffa8072e2fe48952d9e61a1bddfbc2a85582b1004099ee19a982f903"
+    },
+    {
+      "image": "moonboat/quilt.webp",
+      "source": "v3-moonboat/pictures/quilt.webp",
+      "sourceSha256": "c440120f279674d38b6245822bd285c9c8cc78df316075ec84d62f611d37f50b",
+      "outputSha256": "8152c75fa80b33db3ef59242c621b719a8f752013b237efae64e3a096cc13610"
+    },
+    {
+      "image": "moonboat/rabbit.webp",
+      "source": "v3-moonboat/pictures/rabbit.webp",
+      "sourceSha256": "993a69b6ded03d8670d1df4ca1f1e22a2faad8871e973c3ef439844e2fec8c14",
+      "outputSha256": "f0d63c0aab66826d0762990ddecb602bf51c9c2ed70c4246dbf1d69084bc9bd5"
+    },
+    {
+      "image": "moonboat/sun.webp",
+      "source": "v3-moonboat/pictures/sun.webp",
+      "sourceSha256": "d3507988d66cd90a578e2300273051e7233560ad741091127e17f5e4c3197090",
+      "outputSha256": "6669ef8b20cd09607a2012ecbc6fc74b47a378c0d61326a53b83c8032f72bdfc"
+    },
+    {
+      "image": "moonboat/tiger.webp",
+      "source": "v3-moonboat/pictures/tiger.webp",
+      "sourceSha256": "2d33fadb2587d897314632a5f3485a389a345576cac0fa134f0b41b06fd820f4",
+      "outputSha256": "7d70d3146630c1dd40ebfe3dab7f5caccac2b1ab4ed37731ce30f9ef91c83482"
+    },
+    {
+      "image": "moonboat/umbrella.webp",
+      "source": "v3-moonboat/pictures/umbrella.webp",
+      "sourceSha256": "32f98875a14c7dffb4054402c89e5f565ba7a254799eef39478bd444d07c3452",
+      "outputSha256": "b3e3124fbf6e562f423c94ff17035506263cdc6b616c38a2226ba0063f942c17"
+    },
+    {
+      "image": "moonboat/van.webp",
+      "source": "v3-moonboat/pictures/van.webp",
+      "sourceSha256": "9c19d92d5dcab674cac09e11a71a064bc98ce19528c21e8d37a3c4de000f4873",
+      "outputSha256": "f425700d7b94876d66c0705dca9ab3af603b13d1a71a481b8670c77b960f87f3"
+    },
+    {
+      "image": "moonboat/web.webp",
+      "source": "v3-moonboat/pictures/web.webp",
+      "sourceSha256": "6d7f08a52fc6ff9cee24409afa8f627389e7db9e866d2becfa738b7796679b64",
+      "outputSha256": "662455e74ba945355ecc5ad4e9f68d8d028f6d1721206b26243e66a202e5a9a5"
+    },
+    {
+      "image": "moonboat/fox.webp",
+      "source": "v3-moonboat/pictures/fox.webp",
+      "sourceSha256": "99fdcf9690b8e4000f48c2587f0083814455bece51f571c2312568f78a9b993d",
+      "outputSha256": "5dacc1a1c7acecf1e625d92349a4deae1c7cf12813da658e48ef9c42bbedb69e"
+    },
+    {
+      "image": "moonboat/yak.webp",
+      "source": "v3-moonboat/pictures/yak.webp",
+      "sourceSha256": "33e8163361f6a4c3a4145fa10a4164278513e5ffd3ed015e1412c912adf2f293",
+      "outputSha256": "241325ee530fdf1f203fdbc49a689bdb89eb8c110e219c92f8dd4ff57dd42d45"
+    },
+    {
+      "image": "moonboat/zebra.webp",
+      "source": "v3-moonboat/pictures/zebra.webp",
+      "sourceSha256": "bc99d574a02533b357cd837fa7f13cba72dfa5dc3e65ea4e3124fd497a4422d6",
+      "outputSha256": "a3b609d09a4fc20ce6a34921dd9e48b53b1a2406bc7fe87720cc64634d77173c"
+    },
+    {
+      "image": "ribbon-road/apple.webp",
+      "source": "v4-silk-thread/pictures/apple.webp",
+      "sourceSha256": "e05a7c8eb37f1ad413df039228382830fd677eb36e45bc5b5ca8b11d32cdcfc0",
+      "outputSha256": "940c03c7e954d2ac787afa7e3c4d4f187f5409eb80e48500b9c7cc8d98cd569d"
+    },
+    {
+      "image": "ribbon-road/ball.webp",
+      "source": "v4-silk-thread/pictures/ball.webp",
+      "sourceSha256": "1f159b4e689eeb4f108a9b99c2bd64ae6b596fb89c06206c18859f5b9af96fa5",
+      "outputSha256": "89ad0910936399461aca64e0928d5d9814f4288b9be3c1dfa9f3b0a787078dd1"
+    },
+    {
+      "image": "ribbon-road/cat.webp",
+      "source": "v4-silk-thread/pictures/cat.webp",
+      "sourceSha256": "bfd009e2148979051b70d69bf23f0923f8dd0d5d0b0801688fc0c3f33f8f0aff",
+      "outputSha256": "8ee2bddf75c4ff7ca9e4a68940709326c903bfd1572532c29fdd120c33359945"
+    },
+    {
+      "image": "ribbon-road/duck.webp",
+      "source": "v4-silk-thread/pictures/duck.webp",
+      "sourceSha256": "36707757975a4a352cf7c10f10a7e38f22a29c9bf0b3d13f90b6af5afb55b68f",
+      "outputSha256": "d8ea7f9462d2e1b7a8578c1ce63ec0e946ca807c9f3cc6c06fa70049437f2fda"
+    },
+    {
+      "image": "ribbon-road/egg.webp",
+      "source": "v4-silk-thread/pictures/egg.webp",
+      "sourceSha256": "ee4d3e30841d2b672c6c9db760ac105a94f11365d8fb1502154f91334dfc8949",
+      "outputSha256": "9ea86ce3d6a4b72058f4f8d3083f686dee5ff74ea35876c71e575864850033d7"
+    },
+    {
+      "image": "ribbon-road/fish.webp",
+      "source": "v4-silk-thread/pictures/fish.webp",
+      "sourceSha256": "afc4c49d0c309e45784c9bab2bce2f398ba639ae72fd522867a1c7b20a1b7d6b",
+      "outputSha256": "53f57f79c389a35d5e3886a07fe631339ec62db1ff030070e30226f9e5cf2384"
+    },
+    {
+      "image": "ribbon-road/goat.webp",
+      "source": "v4-silk-thread/pictures/goat.webp",
+      "sourceSha256": "0e7614b29aaa2a1fe5e8ace86e9cacd938b7d2d5f6cbc7851a0dc2fc4c9bbae9",
+      "outputSha256": "26ded3a503dcdd19ff38c50ea12b915a2cc195536e028c26849730992370246f"
+    },
+    {
+      "image": "ribbon-road/hat.webp",
+      "source": "v4-silk-thread/pictures/hat.webp",
+      "sourceSha256": "872906aa94ec6505aa37d269456b5d29347068978c49132a9bdd0e64b493c44a",
+      "outputSha256": "d6670ba3328dfcafb8543015744bec6df8cc40d53b386ed42df045f16ea645d1"
+    },
+    {
+      "image": "ribbon-road/insect.webp",
+      "source": "v4-silk-thread/pictures/insect.webp",
+      "sourceSha256": "ec73a14efee83d035846cfbf4520c9fd1e727c67a9b767e0e1cfd4e6c5e9745f",
+      "outputSha256": "49b69d7cc2f80da8439edf7c355eff6d9d167bf40d86dce86d3cb966a2a3c0d4"
+    },
+    {
+      "image": "ribbon-road/jellyfish.webp",
+      "source": "v4-silk-thread/pictures/jellyfish.webp",
+      "sourceSha256": "3bcd8c83f2a1b184814123e2467277281592dc3fe6795246cac8cd5c23d0b2fa",
+      "outputSha256": "8a486c7559a786dbc2a223ffa6ca35d0ff82892ad2d5e2a97e274f0cb921f635"
+    },
+    {
+      "image": "ribbon-road/kite.webp",
+      "source": "v4-silk-thread/pictures/kite.webp",
+      "sourceSha256": "c84b823fff61a62eff87cbb396ce97557f77ea06f05086fef6dbdb87a4636fa3",
+      "outputSha256": "a02908549743a6496ec4a17653ce813bd3571a84b239cb32990965bf0eb631eb"
+    },
+    {
+      "image": "ribbon-road/leaf.webp",
+      "source": "v4-silk-thread/pictures/leaf.webp",
+      "sourceSha256": "8df5fee249417e5cf5ffcd0af290325425aaa1dac5646fe7715dd1bbe703e84a",
+      "outputSha256": "41dd46a0264fc2c4a01890c8b82f228a9cdb85ff809d0004def45b51f4ba9499"
+    },
+    {
+      "image": "ribbon-road/moon.webp",
+      "source": "v4-silk-thread/pictures/moon.webp",
+      "sourceSha256": "3531b1ffff03ecfc83a934828a6e127d664b8e383ea396345aa58fb07c33eeee",
+      "outputSha256": "5cf1e0e04b8be6717d3b6bdf347d4adf6a1537955486b6779be1eb5a3abdbd67"
+    },
+    {
+      "image": "ribbon-road/nest.webp",
+      "source": "v4-silk-thread/pictures/nest.webp",
+      "sourceSha256": "02c8d72958395e0c57c0cd4b28220bfc31d8538b9828827ded6087f0d717abd6",
+      "outputSha256": "cad1a28e29111a29cbc2187229ba824678af4bb11959c127e49f4dbd64d86b06"
+    },
+    {
+      "image": "ribbon-road/octopus.webp",
+      "source": "v4-silk-thread/pictures/octopus.webp",
+      "sourceSha256": "98b99fa168087bf2e936e853464ceb121d4981e73ff7961bb1dba86391d7fdd5",
+      "outputSha256": "a9c4b615eab46e8342cb533a7d2c8242c5fed35a264e6c52b876e902fbbd3f28"
+    },
+    {
+      "image": "ribbon-road/pig.webp",
+      "source": "v4-silk-thread/pictures/pig.webp",
+      "sourceSha256": "82cf87fc41de357242de8b13de45ca3ed58597fbb48e22bc9565a47621cec3d1",
+      "outputSha256": "3e4375368f83550a924e494a219f91ab39700f35327baf1027aac6f74d39afea"
+    },
+    {
+      "image": "ribbon-road/quilt.webp",
+      "source": "v4-silk-thread/pictures/quilt.webp",
+      "sourceSha256": "e8f7f91f91e74a5a74ca151d1b25a92a6b6e377abb19a88235a0708591e21d73",
+      "outputSha256": "5db0bd329c6292b16bff28daebb5a9be811b9413f5d0bfbd1542728fda9c41a5"
+    },
+    {
+      "image": "ribbon-road/rabbit.webp",
+      "source": "v4-silk-thread/pictures/rabbit.webp",
+      "sourceSha256": "e0fa92920566e9083392508809eab4814a1707bcbfa6484eca4d66ce9767c891",
+      "outputSha256": "f7b33f9ce61d71dcae1b16270e006dd39bce70fb6bda5bbe8be9b954bb49c4b3"
+    },
+    {
+      "image": "ribbon-road/sun.webp",
+      "source": "v4-silk-thread/pictures/sun.webp",
+      "sourceSha256": "2e24c7e57f9f5d125ab712fa8542af9cb3525e92f28f21eda04b2577685839c5",
+      "outputSha256": "8a76700cd483099fc793d7d69f60bb32f698e7b0a9df0b70eabd33e90baf6a32"
+    },
+    {
+      "image": "ribbon-road/tiger.webp",
+      "source": "v4-silk-thread/pictures/tiger.webp",
+      "sourceSha256": "10c05f3ac2bdc96f89767bb63ff8a88363f1542c5bbc88c4b400ab66a6b7d7e8",
+      "outputSha256": "152d3e8b5c57d9a4959b20255fa37f906ba7eea7d6959df7bd03fd8867ae79bb"
+    },
+    {
+      "image": "ribbon-road/umbrella.webp",
+      "source": "v4-silk-thread/pictures/umbrella.webp",
+      "sourceSha256": "5dbc805bedefc190f42a591d60390cc85e46f0bc8114f231ef12733eaebecebd",
+      "outputSha256": "6192dd74fca1a093105bd9d66387c0b53c1ec7de9e0aa5f1e127010dc89d8a03"
+    },
+    {
+      "image": "ribbon-road/van.webp",
+      "source": "v4-silk-thread/pictures/van.webp",
+      "sourceSha256": "8bae70fa2a818306d80451796d3b447e7a179e085445988f87e8ee8bfa48f8f3",
+      "outputSha256": "3bcb208f9ca30094e58eb17e8124116c84583440cdbafc6ab29216f8c3cd85a1"
+    },
+    {
+      "image": "ribbon-road/web.webp",
+      "source": "v4-silk-thread/pictures/web.webp",
+      "sourceSha256": "417b0c3625d685f167b34d0cc94a18a0783ff8d89237fbe399c4f5b5bfc2547e",
+      "outputSha256": "dda67bd51471064d0b216dd1c181f2855784c4c70c2f1d7c0d799b75f445ebee"
+    },
+    {
+      "image": "ribbon-road/fox.webp",
+      "source": "v4-silk-thread/pictures/fox.webp",
+      "sourceSha256": "7a42198a048aa4e281c7aed4327d48e55e50ad5b09491e86891aa4f34740e2e2",
+      "outputSha256": "4fe8bc038306cb2fcd282557b8b6d13d02ad936c845f78b8a6f237c0c1422cdd"
+    },
+    {
+      "image": "ribbon-road/yak.webp",
+      "source": "v4-silk-thread/pictures/yak.webp",
+      "sourceSha256": "0c69e2c12a88086cb01160515653810772ffe2bceed18986c77186a603d3f1c1",
+      "outputSha256": "29a7a5c22bd7142b2f35f2ca8d59d4e06088c464434473b2687632dea04ca5cd"
+    },
+    {
+      "image": "ribbon-road/zebra.webp",
+      "source": "v4-silk-thread/pictures/zebra.webp",
+      "sourceSha256": "98e11f2d9c3102ef8b0687dd42240f702f03f57e879f8ba6ed7a30de5fb76a5c",
+      "outputSha256": "01f387063366e9700f7073f3654f7b550948d8d622aeb8e9d97894302a1c8565"
+    }
+  ]
+}
