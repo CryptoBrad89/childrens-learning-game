@@ -1,0 +1,40 @@
+{
+  "browser": "156.0.8078.47",
+  "desktop": "1440px",
+  "mobile": "390px; no horizontal overflow",
+  "themes": [
+    {
+      "theme": "Ribbon Road · Pink",
+      "cards": 26,
+      "circleExamples": 0
+    },
+    {
+      "theme": "Ribbon Road · Purple",
+      "cards": 26,
+      "circleExamples": 0
+    },
+    {
+      "theme": "Ribbon Road · Yellow",
+      "cards": 26,
+      "circleExamples": 0
+    },
+    {
+      "theme": "Moonboat · Dark",
+      "cards": 26,
+      "circleExamples": 4
+    },
+    {
+      "theme": "Moonboat · Cloud day",
+      "cards": 26,
+      "circleExamples": 4
+    },
+    {
+      "theme": "Moonboat · Plum dusk",
+      "cards": 26,
+      "circleExamples": 4
+    }
+  ],
+  "loadedImages": 168,
+  "errors": [],
+  "externalRequests": 0
+}

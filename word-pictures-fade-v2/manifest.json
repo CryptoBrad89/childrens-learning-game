@@ -1,0 +1,324 @@
+{
+  "size": 512,
+  "format": "lossless WebP",
+  "moonboat_source_size": 420,
+  "moonboat_opaque_radius": 218,
+  "moonboat_outer_radius": 254,
+  "ribbon_outer_half_size": 254,
+  "ribbon_corner_radius": 73.728,
+  "ribbon_fade_width": 30,
+  "pictures": [
+    {
+      "game": "moonboat",
+      "word": "apple",
+      "source_sha256": "505512350796245a6c642cdba8f3f4b23e9eba5acdbe9010584e94b21d73744d",
+      "output_sha256": "bb36dfc4b247c5eb83c7bae4c63a3296f438d85524c3c14145b8c70bcd09f40f"
+    },
+    {
+      "game": "moonboat",
+      "word": "ball",
+      "source_sha256": "e88c276ad769c045796bcd275ac4d7b32d1b7475cae8e2e6e0992bb0c4b9bf4e",
+      "output_sha256": "a80da37d4688e6470c9304226809d333389b9355d8fafb3f4ddc2906101640e7"
+    },
+    {
+      "game": "moonboat",
+      "word": "cat",
+      "source_sha256": "18d457011745197bebe31cb114e5089be228fcda381c71d1a585d645d01f371c",
+      "output_sha256": "f8ebfba02be5b5709c99861d83a0ba3fc1898917b9c6c1f689c11a2390bfc6f6"
+    },
+    {
+      "game": "moonboat",
+      "word": "duck",
+      "source_sha256": "fc69de1e24ad8d6e4938c6acd869bcc939a8440626b82d08bc30a818ef0c128f",
+      "output_sha256": "f5b9cceda57d8e418b703bdc17a1fc50d13356fdaa5c22a890c9e59db74194b8"
+    },
+    {
+      "game": "moonboat",
+      "word": "egg",
+      "source_sha256": "36df2572eb8b8160798ba12aaa1ce7efec996c6f22ed3b086916577f0a1549ff",
+      "output_sha256": "da61e5f191a06ece3e88cacd9ed9af7bf618389c668f92044e943e9483dd7d20"
+    },
+    {
+      "game": "moonboat",
+      "word": "fish",
+      "source_sha256": "3a1b2c77c1374566c4922b22c9a63e1d24fd40aac4a2acfb53b5500d4eb063fe",
+      "output_sha256": "4f19620aac242997349435112ebff174abbc527b901532d87b4773f0d8c400b3"
+    },
+    {
+      "game": "moonboat",
+      "word": "goat",
+      "source_sha256": "8a3c06e13865efe26bec530ee31b6fafde9794c53a0d50581d4370c1b84513bd",
+      "output_sha256": "63d066550d2f7d7b1710bf970cd32611adfb8082e1669d169d5b21e69a70eed1"
+    },
+    {
+      "game": "moonboat",
+      "word": "hat",
+      "source_sha256": "9afebafb74b2401a70584a4882a29b32e725fe8ddf9ed387e701209da65a919d",
+      "output_sha256": "2b42b0e731496e01fc6541161f89f19d11bc3aefff860172b2e6d614629aac82"
+    },
+    {
+      "game": "moonboat",
+      "word": "insect",
+      "source_sha256": "4f4ba598222878d83a88a4300cf7c7ef5d4e060f8e216c4275367ec30a4a0637",
+      "output_sha256": "0f986aef28e4f28f6f42a10803bea3642971ebf6e76cedef987fba98e4cd1ba5"
+    },
+    {
+      "game": "moonboat",
+      "word": "jellyfish",
+      "source_sha256": "4771dc84c3f97bc41a43e446ae37694c54691cfeb754513859ddd38e55e9f27e",
+      "output_sha256": "f3bcaa3c94ba36ebc08c6284ca8675b900e66a9256f52b7189a3d3993fb92339"
+    },
+    {
+      "game": "moonboat",
+      "word": "kite",
+      "source_sha256": "43a2153defa23b28f4bc9069152abb5e224340888cb1393c8377c5f3c891b3e0",
+      "output_sha256": "96f489dd1ae4a19318c8a7eff6002589b3ddbdb1491c9460192021e68cb7d7d0"
+    },
+    {
+      "game": "moonboat",
+      "word": "leaf",
+      "source_sha256": "b3c0dfb10df566c5020183600cf7db25f225fb8250785d559c2b7cfb818c716f",
+      "output_sha256": "bed1667771698b052e9080575fe6eadb7a27eda234568552a7805ca4eb58eca2"
+    },
+    {
+      "game": "moonboat",
+      "word": "moon",
+      "source_sha256": "7cc79e68ffb296a670f46f3f5a54e820e6ee83d279f44cd11037dfef276a3ebf",
+      "output_sha256": "90e4b0ffa6b741b4b0e9f58ce39e1b9f59e42e1485f21103b3421657df242151"
+    },
+    {
+      "game": "moonboat",
+      "word": "nest",
+      "source_sha256": "2586c1cc38e6ee8f3e257c5236b647f20100bf2b6f0f34b1451735231828c5b2",
+      "output_sha256": "f22395d88fcc4127648fead98e93dde62e32a289fa72f1a6a838f0112e413833"
+    },
+    {
+      "game": "moonboat",
+      "word": "octopus",
+      "source_sha256": "45b82d00e39b9b663e755ecaa55a4b5276620f7923da97f0496da33ce79e4830",
+      "output_sha256": "707a832157fe887b084f46ccdfbb0b55b870260793a68b8bc06ab3b6c751893a"
+    },
+    {
+      "game": "moonboat",
+      "word": "pig",
+      "source_sha256": "cb37affd698bd1afd963a43d60738be0d3e476e07caf6d5ba9dbfd4a20ade878",
+      "output_sha256": "eab330dabdee81d52aed6ecdde80b73ecb0f2ef5006928759be69dd77fd65170"
+    },
+    {
+      "game": "moonboat",
+      "word": "quilt",
+      "source_sha256": "583acef34afb5a151cb7dc9d37fd4d4e0dc28cd70e7880004c5f1e89ae5d8c8e",
+      "output_sha256": "cd8236f2f408d4144d0c64c2c3e95cd69e1b50f1ca88a1975065216ffbaf98a5"
+    },
+    {
+      "game": "moonboat",
+      "word": "rabbit",
+      "source_sha256": "e607861256c3e3fc3debd7aed107a5981d5f760a8b0b2a92c03b9c6e9162ac65",
+      "output_sha256": "a514725cbb506411a5a99380a7b064d1309102d1b32ae2277557505292b52e78"
+    },
+    {
+      "game": "moonboat",
+      "word": "sun",
+      "source_sha256": "5b81bb780b57a4c7ccc39bd4df6259c2f70cfa0a0de6abe071b73ef65327fc08",
+      "output_sha256": "3979a63307cafb6158f281df4ce14f458021063b47a739fa89f93e3cfcb77963"
+    },
+    {
+      "game": "moonboat",
+      "word": "tiger",
+      "source_sha256": "75e10a52e3f5fe4edbcc03c9a910aaf7535503adeb03defed927690d43918ca0",
+      "output_sha256": "0b8f0e911ab9d9c1d865efec510a98dd48728e1034360ea08a68cf9a03d560d2"
+    },
+    {
+      "game": "moonboat",
+      "word": "umbrella",
+      "source_sha256": "679a6176eeac65b694f7c216184b1991c4cf84591f8aeaf49797472814eefa17",
+      "output_sha256": "fc0c3d07184513a448a8ca72265256f4f3948e618f688ad6b86c5ceefbee16e6"
+    },
+    {
+      "game": "moonboat",
+      "word": "van",
+      "source_sha256": "203c4a8975155d901fbf9761796a2a166a8e6225cd010644bf73ba0fd8896610",
+      "output_sha256": "62a39b2598b3dc9592e5abd5f092eee9fc5fe5f77737c97b9bae9147a5ee3101"
+    },
+    {
+      "game": "moonboat",
+      "word": "web",
+      "source_sha256": "2836584bd62ddfbccec9850aa5eeeeb760f146f2cd3d74584479cc7ce6aa5931",
+      "output_sha256": "67055fadd87d194f1f06117c95877fdab888bb1c443de5891be14df4b734f81d"
+    },
+    {
+      "game": "moonboat",
+      "word": "fox",
+      "source_sha256": "af5402a46e3c7f03698fdcb87bfa4e60631b5076fedca9667d235c2841a52043",
+      "output_sha256": "6f9ac0a108a13f1a8b31df613c8913fd906ce78abf966429f20a02ca9e24d5b5"
+    },
+    {
+      "game": "moonboat",
+      "word": "yak",
+      "source_sha256": "a45af106c8758804a1427e7b52bc929073aacec3d61f18a3e1f7fe7ca020e050",
+      "output_sha256": "67f59ac4c1ab80dac171d55630022dba7860db57adbb03211654fe4c78d5011d"
+    },
+    {
+      "game": "moonboat",
+      "word": "zebra",
+      "source_sha256": "27cc32a92ffc3226e792f6bee39242a161a288389f6c522433399b2078e8ac58",
+      "output_sha256": "af41dce20f05e0c3bea4e2d709fd92835107a695ea9ee629e43c4873f73db71d"
+    },
+    {
+      "game": "ribbon-road",
+      "word": "apple",
+      "source_sha256": "15bcf67c243e65339a9273bce2799856dce35dda5b278de83f4fbd2e4ffe9264",
+      "output_sha256": "d2c125421f7281bae791e2d3c77017d184b27a449e1f8bf2131d8a7109c2de4e"
+    },
+    {
+      "game": "ribbon-road",
+      "word": "ball",
+      "source_sha256": "92c46e82fad54c2a6190c76211056263e762d71c985113a1d4f0432c7c37d679",
+      "output_sha256": "898578e0448ff9b9bdde05181aca05309122efea6ab3df49f9014e0c3e714529"
+    },
+    {
+      "game": "ribbon-road",
+      "word": "cat",
+      "source_sha256": "50ef4190458a66598819e4e911b7247f4d4a62c983051ea53aa373821d9cfd36",
+      "output_sha256": "969d1fa7853df97b8c04fc7e234599895fb7579d7b2a9713a25805c774516da7"
+    },
+    {
+      "game": "ribbon-road",
+      "word": "duck",
+      "source_sha256": "9bc405c46f1d3882907b78955742f14680990e15b9a13dc94c509cc28fc10fdf",
+      "output_sha256": "0dcaa79692e017448584720fac225aa6888a014b84e34ab54aa11ce5ef157679"
+    },
+    {
+      "game": "ribbon-road",
+      "word": "egg",
+      "source_sha256": "a75ffee563dbb893eaa24f2cc1f35d50f459aa9f3eb19b773b01583cbeee9615",
+      "output_sha256": "a36adf1f5feef265a80473b0946325e7e919f12118478e56be7dc6e09f9e2506"
+    },
+    {
+      "game": "ribbon-road",
+      "word": "fish",
+      "source_sha256": "ab9885e857ee0eac2f8f5c2231b97aff2731acdaf61bbc5cb8492391ffb7a34b",
+      "output_sha256": "e46c07a8df9887c84cc7b836c775a5a3caaed73b0ca09632a21e4931081a95ed"
+    },
+    {
+      "game": "ribbon-road",
+      "word": "goat",
+      "source_sha256": "b75b1b9dc9b9f0991413475552f845793217e950e310fe98fb0846ae70369e5e",
+      "output_sha256": "3632aa87d4a7ef2f30cdd00be384dc135a91b8f870fa00f5297ad4ee727bfd02"
+    },
+    {
+      "game": "ribbon-road",
+      "word": "hat",
+      "source_sha256": "334ec0c6c31eb740247247a631e08e288ea6e87ff4f3734e3ae634e0d2b09f5b",
+      "output_sha256": "c1c8170e1760a9d114a02717449d7527b5042a2867f76097bbdc3a594bae4a76"
+    },
+    {
+      "game": "ribbon-road",
+      "word": "insect",
+      "source_sha256": "0810ff9a7b8a013a70a72bb1e6befc375d05390769f314ffb91361a4bdfb1d36",
+      "output_sha256": "6a443b583ad330274ce880d6ef54efc28fa722c0af4297ad3bc6aa9edc67bfc7"
+    },
+    {
+      "game": "ribbon-road",
+      "word": "jellyfish",
+      "source_sha256": "a3c58fdc4f89a65cdc900c8ac8c338586671a75b6b4073083203fef361348e12",
+      "output_sha256": "9cd3e4d4fe7e44082fbbd498358f1268570f058cf3eb78fe378e44e33dd7ca22"
+    },
+    {
+      "game": "ribbon-road",
+      "word": "kite",
+      "source_sha256": "41fd91c97f85fcce33d13b7017739e45adc94a64fa0821385fc1852bc5b764c7",
+      "output_sha256": "faa5606e268586819ae91501c91f18687e1e17fc24862f5e2da7de0031aa6e18"
+    },
+    {
+      "game": "ribbon-road",
+      "word": "leaf",
+      "source_sha256": "c217170e73b532ef5b6ba25624311f8cac0cb52aef63a8f1620bf4716c659dff",
+      "output_sha256": "2ba3e93c18c5125ab6f2a57e9eb9ccc1a12d429fbba4c131f93741ad3074012a"
+    },
+    {
+      "game": "ribbon-road",
+      "word": "moon",
+      "source_sha256": "ce0dd746a7761b863a1744ca26205e763625b627728b04e09c9e9ecca5eb255c",
+      "output_sha256": "649fed2e77deb2ffcc39d8a5d5fc03e3654fe515e1d82ea2111f0dd7430f4f3d"
+    },
+    {
+      "game": "ribbon-road",
+      "word": "nest",
+      "source_sha256": "9ce348cd0629105739140eca277ae97ea2ecd5f6d997db4c14a29d787dfec409",
+      "output_sha256": "4cf248e8eeffaf952774befd8848c381dbc7cd01af75bae0bc5f4967cc950e0c"
+    },
+    {
+      "game": "ribbon-road",
+      "word": "octopus",
+      "source_sha256": "6e54acd9519b689ed1d3ef89baea73f102ad327698dff36f2d3c59e809e9be77",
+      "output_sha256": "48ebc00f3be4902ac7f217ec5e9b1e74758fba690dddd47b8a3f2550b66351f9"
+    },
+    {
+      "game": "ribbon-road",
+      "word": "pig",
+      "source_sha256": "bfe367946b0df1ecfbe9309bf3f551ae59b57871a077ca976c559821a1269545",
+      "output_sha256": "b199337f669882f640cfa060903f132fc1f2800d3380c8ed2f1ffec84c1cb620"
+    },
+    {
+      "game": "ribbon-road",
+      "word": "quilt",
+      "source_sha256": "5c231af52d29a6c5652af7f7f7eb7f3993faefdff43cc751da27e8342c9e8494",
+      "output_sha256": "761293d39614eef6910468d91598d2b535980c6238f63a059c6dd7a8b0e6b901"
+    },
+    {
+      "game": "ribbon-road",
+      "word": "rabbit",
+      "source_sha256": "807db32d08c32e0646cf5574f8acc6093bd3d628ddbac397e98300913d25ad02",
+      "output_sha256": "c4a5cf82444bfbad38d5587a183b6f74001b0085ce1be323539bc6e752d4d928"
+    },
+    {
+      "game": "ribbon-road",
+      "word": "sun",
+      "source_sha256": "8bf8a8d900ccf921f34a542ee6549e090325ef2d8acfd86680d9cb6261a91985",
+      "output_sha256": "36edc1db206315b04781de61610f2d22fd48a1fa38e6c39d1ff288acc1c89ebb"
+    },
+    {
+      "game": "ribbon-road",
+      "word": "tiger",
+      "source_sha256": "7681fd2d4606f2260b2b9914b74d1b56b9f7fb844194ef25f53c94578ddba690",
+      "output_sha256": "8fcc98e9706bd609279ae219554755b785ce3439e25fa27151c7c2c6ed5ed9c4"
+    },
+    {
+      "game": "ribbon-road",
+      "word": "umbrella",
+      "source_sha256": "ed2ce4f9c3859fba96ead7a40bc862a97486e5cb4e922f949a79314206f55adf",
+      "output_sha256": "3853db60948d4df522eeb0f33b28de712cec636cec7fcdee0edac3c00b07d49b"
+    },
+    {
+      "game": "ribbon-road",
+      "word": "van",
+      "source_sha256": "07fe4b4f05d0f4dcc07da21b9b7cc048f6779d2a8cf1e71bd11b34078eed48aa",
+      "output_sha256": "d8414fcbe605e8ae6c63e4072d28b1ea36ad6aad7957d8f8bbc4ea8f50d2f545"
+    },
+    {
+      "game": "ribbon-road",
+      "word": "web",
+      "source_sha256": "fc3bccecf923d9b3cdfd8478f9de155e0b289ae6a7b10ef5de8f40fdc807c14b",
+      "output_sha256": "a8e6a4e5e7d388200a1ac99bfe8d3b56c8f234d69b606854bcb7d302ba910f78"
+    },
+    {
+      "game": "ribbon-road",
+      "word": "fox",
+      "source_sha256": "919074173b1c997cb42a88822d6f69f0821d3a840cf027b10009eaec68bf5666",
+      "output_sha256": "54175579a3079e8ea0a30206ea5e09794679eccea1066844564f4f03df984073"
+    },
+    {
+      "game": "ribbon-road",
+      "word": "yak",
+      "source_sha256": "7a84211352078083b05f12f447f72e6f013b0c141373305a572dd3b38905ff7a",
+      "output_sha256": "014e4000a321362e5b8406c25f40e545ff69b905494833a531fb0d79825ec776"
+    },
+    {
+      "game": "ribbon-road",
+      "word": "zebra",
+      "source_sha256": "6106b19dc4c42aa3ec4b293cf18c13fd7904272ab81f16d077411869ee5f1037",
+      "output_sha256": "c951f40e0a176b2ddfbd73e23d92255f4568ddb7d8f12d4f642ad8f215d136b4"
+    }
+  ]
+}
