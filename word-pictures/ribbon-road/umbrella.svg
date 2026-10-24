@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="title">
+<title id="title">Umbrella</title>
+<defs>
+<radialGradient id="pink" cx=".28" cy=".2" r=".9"><stop stop-color="#ffc5e7"/><stop offset=".45" stop-color="#ee6bbd"/><stop offset="1" stop-color="#b41468"/></radialGradient>
+<radialGradient id="mint" cx=".25" cy=".18" r=".9"><stop stop-color="#cffff2"/><stop offset=".5" stop-color="#61ead7"/><stop offset="1" stop-color="#199aaf"/></radialGradient>
+<radialGradient id="yellow" cx=".3" cy=".2" r=".9"><stop stop-color="#fff5ba"/><stop offset=".6" stop-color="#ffcd38"/><stop offset="1" stop-color="#e58a35"/></radialGradient>
+<radialGradient id="white" cx=".3" cy=".2" r=".85"><stop stop-color="#ffffff"/><stop offset=".65" stop-color="#fff5fb"/><stop offset="1" stop-color="#d9b3df"/></radialGradient>
+<clipPath id="ball"><circle cx="160" cy="162" r="99"/></clipPath></defs>
+<g fill="#fff5fb" stroke="#b41468" stroke-width="1.4"><path d="M65 75l3 10 10 3-10 3-3 10-3-10-10-3 10-3Z"/><path d="M259 213l3 10 10 3-10 3-3 10-3-10-10-3 10-3Z"/></g>
+<path d="M161 65V233C161 273 212 273 212 238" fill="none" stroke="#432045" stroke-width="16" stroke-linecap="round"/>
+<path d="M161 65V233C161 273 212 273 212 238" fill="none" stroke="url(#yellow)" stroke-width="10" stroke-linecap="round"/>
+<path d="M159 59V44" stroke="#432045" stroke-width="8" stroke-linecap="round"/>
+<path d="M49 173Q66 77 159 59Q252 77 271 173Q241 145 215 173Q187 147 160 175Q132 147 105 173Q77 145 49 173Z" fill="url(#pink)" stroke="#432045" stroke-width="3" stroke-linejoin="round"/>
+<path d="M159 59Q111 98 105 173Q133 147 160 175Q187 147 215 173Q207 97 159 59Z" fill="url(#mint)" stroke="#432045" stroke-width="2"/>
+<path d="M159 59Q146 99 160 175Q187 147 215 173Q207 97 159 59Z" fill="url(#yellow)" stroke="#432045" stroke-width="2"/>
+<path d="M159 59Q252 77 271 173Q241 145 215 173Q207 97 159 59Z" fill="url(#pink)" stroke="#432045" stroke-width="2"/>
+<path d="M75 131Q94 91 130 81M172 78Q192 101 197 125" fill="none" stroke="white" stroke-width="8" stroke-linecap="round" opacity=".75"/>
+<path d="M156 207Q124 181 128 207Q133 227 156 213Q180 233 188 212Q194 189 165 206Z" fill="url(#pink)" stroke="#432045" stroke-width="2"/><circle cx="161" cy="209" r="7" fill="url(#yellow)" stroke="#432045" stroke-width="2"/>
+
+</svg>

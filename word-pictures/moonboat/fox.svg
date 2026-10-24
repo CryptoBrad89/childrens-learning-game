@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="title">
+<title id="title">Fox</title>
+<defs>
+<radialGradient id="moon"><stop stop-color="#fff9df"/><stop offset=".65" stop-color="#f7e6bd"/><stop offset="1" stop-color="#c9b7cf"/></radialGradient>
+<radialGradient id="plum" cx=".32" cy=".25" r=".85"><stop stop-color="#e0d3f3"/><stop offset=".5" stop-color="#9da7d9"/><stop offset="1" stop-color="#655484"/></radialGradient>
+<radialGradient id="peach" cx=".3" cy=".2" r=".9"><stop stop-color="#ffe4bf"/><stop offset=".5" stop-color="#f2b294"/><stop offset="1" stop-color="#ac6a83"/></radialGradient>
+<linearGradient id="cream" x2=".4" y2="1"><stop stop-color="#fff9e8"/><stop offset="1" stop-color="#d8c9e8"/></linearGradient>
+<filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter></defs>
+<g fill="#edc685" stroke="#655484" stroke-width=".7"><path d="M60 94l3 8 8 3-8 3-3 8-3-8-8-3 8-3Z"/><path d="M256 174l2 6 6 2-6 2-2 6-2-6-6-2 6-2Z"/><circle cx="243" cy="65" r="2.5"/><circle cx="83" cy="238" r="2"/></g>
+<path d="M180 196C223 173 274 202 252 247C234 281 182 276 143 250Z" fill="url(#peach)" stroke="#655484" stroke-width="3"/>
+<path d="M234 201C273 211 262 255 227 265L213 249L233 245L221 231L242 226Z" fill="url(#cream)"/>
+<path d="M119 179C97 197 97 245 115 262H193C206 230 193 194 177 180Z" fill="url(#peach)" stroke="#655484" stroke-width="3"/>
+<path d="M133 193Q117 220 130 252H167Q181 220 165 195Z" fill="url(#cream)"/>
+<path d="M98 136L92 61L140 92Q160 85 181 93L227 63L218 141L202 176L159 200L115 176Z" fill="url(#peach)" stroke="#655484" stroke-width="3" stroke-linejoin="round"/>
+<path d="M103 80L108 120L128 98ZM212 82L184 103L210 120Z" fill="#655484"/>
+<path d="M99 139Q127 133 159 179Q188 134 218 141L201 174L159 200L116 174Z" fill="url(#cream)"/>
+<path d="M120 140q10-8 19 3m41 0q10-11 20-3" fill="none" stroke="#373750" stroke-width="4" stroke-linecap="round"/>
+<path d="M148 177Q159 170 170 177L159 187Z" fill="#373750"/>
+<path d="M104 130L101 77M111 259h26m24 0h28" fill="none" stroke="#fff9e8" stroke-width="4" stroke-linecap="round"/>
+
+</svg>

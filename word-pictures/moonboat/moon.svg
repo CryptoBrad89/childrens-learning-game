@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="title">
+<title id="title">Moon</title>
+<defs>
+<radialGradient id="moon"><stop stop-color="#fff9df"/><stop offset=".65" stop-color="#f7e6bd"/><stop offset="1" stop-color="#c9b7cf"/></radialGradient>
+<radialGradient id="plum" cx=".32" cy=".25" r=".85"><stop stop-color="#e0d3f3"/><stop offset=".5" stop-color="#9da7d9"/><stop offset="1" stop-color="#655484"/></radialGradient>
+<radialGradient id="peach" cx=".3" cy=".2" r=".9"><stop stop-color="#ffe4bf"/><stop offset=".5" stop-color="#f2b294"/><stop offset="1" stop-color="#ac6a83"/></radialGradient>
+<linearGradient id="cream" x2=".4" y2="1"><stop stop-color="#fff9e8"/><stop offset="1" stop-color="#d8c9e8"/></linearGradient>
+<filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4"/></filter></defs>
+<g fill="#edc685" stroke="#655484" stroke-width=".7"><path d="M60 94l3 8 8 3-8 3-3 8-3-8-8-3 8-3Z"/><path d="M256 174l2 6 6 2-6 2-2 6-2-6-6-2 6-2Z"/><circle cx="243" cy="65" r="2.5"/><circle cx="83" cy="238" r="2"/></g>
+<path d="M215 49C116 44 76 150 127 226C161 276 224 272 255 224C175 249 118 151 215 49Z" fill="#fff0cf" opacity=".45" filter="url(#glow)"/>
+<path d="M215 49C116 44 76 150 127 226C161 276 224 272 255 224C175 249 118 151 215 49Z" fill="url(#moon)" stroke="#655484" stroke-width="3" stroke-linejoin="round"/>
+<path d="M192 56C100 71 86 171 134 229" fill="none" stroke="#fff9e8" stroke-width="5" stroke-linecap="round"/>
+<g fill="#b5a5c1" opacity=".48"><ellipse cx="131" cy="136" rx="10" ry="15" transform="rotate(25 131 136)"/><circle cx="142" cy="214" r="11"/><circle cx="119" cy="177" r="5"/><ellipse cx="180" cy="243" rx="12" ry="5"/></g>
+<g fill="none" stroke="#fff9e8" stroke-width="2" opacity=".7"><path d="M125 147q-7-16 7-25M134 218q-4-13 11-15"/></g>
+
+</svg>

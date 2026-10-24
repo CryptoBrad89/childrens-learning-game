@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="title">
+<title id="title">Ball</title>
+<defs>
+<radialGradient id="pink" cx=".28" cy=".2" r=".9"><stop stop-color="#ffc5e7"/><stop offset=".45" stop-color="#ee6bbd"/><stop offset="1" stop-color="#b41468"/></radialGradient>
+<radialGradient id="mint" cx=".25" cy=".18" r=".9"><stop stop-color="#cffff2"/><stop offset=".5" stop-color="#61ead7"/><stop offset="1" stop-color="#199aaf"/></radialGradient>
+<radialGradient id="yellow" cx=".3" cy=".2" r=".9"><stop stop-color="#fff5ba"/><stop offset=".6" stop-color="#ffcd38"/><stop offset="1" stop-color="#e58a35"/></radialGradient>
+<radialGradient id="white" cx=".3" cy=".2" r=".85"><stop stop-color="#ffffff"/><stop offset=".65" stop-color="#fff5fb"/><stop offset="1" stop-color="#d9b3df"/></radialGradient>
+<clipPath id="ball"><circle cx="160" cy="162" r="99"/></clipPath></defs>
+<g fill="#fff5fb" stroke="#b41468" stroke-width="1.4"><path d="M65 75l3 10 10 3-10 3-3 10-3-10-10-3 10-3Z"/><path d="M259 213l3 10 10 3-10 3-3 10-3-10-10-3 10-3Z"/></g>
+<ellipse cx="160" cy="273" rx="81" ry="10" fill="#b41468" opacity=".13"/>
+<circle cx="160" cy="162" r="99" fill="url(#yellow)" stroke="#432045" stroke-width="3"/>
+<g clip-path="url(#ball)" stroke="#432045" stroke-width="2.5">
+<path d="M83 94C125 155 184 205 248 213L274 136C191 156 142 112 126 51Z" fill="url(#mint)"/>
+<path d="M95 78C112 142 132 197 104 253L178 276C205 182 149 133 134 60Z" fill="url(#pink)"/>
+<path d="M184 57C216 87 238 101 266 94L276 132C237 142 208 102 184 57Z" fill="url(#pink)"/>
+<path d="M46 170Q78 197 117 189L111 222Q82 233 49 212Z" fill="url(#yellow)"/>
+</g>
+<circle cx="160" cy="162" r="99" fill="none" stroke="#432045" stroke-width="3"/>
+<path d="M89 127Q101 99 121 91" fill="none" stroke="white" stroke-width="13" stroke-linecap="round" opacity=".85"/>
+<ellipse cx="130" cy="85" rx="5" ry="4" fill="white" opacity=".85"/>
+<path d="M218 224q-17 20-42 23" fill="none" stroke="#fff5fb" stroke-width="4" stroke-linecap="round" opacity=".6"/>
+
+</svg>

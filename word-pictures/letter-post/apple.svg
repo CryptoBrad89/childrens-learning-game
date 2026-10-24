@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="title">
+<title id="title">Apple</title>
+<defs>
+<pattern id="grain" width="13" height="17" patternUnits="userSpaceOnUse"><path d="M1 3h2m5 8h1m2-9h1M3 15h2" stroke="#29466b" stroke-opacity=".12" stroke-width=".8"/></pattern>
+<pattern id="hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(32)"><path d="M0 0v7" stroke="#29466b" stroke-opacity=".23" stroke-width="2"/></pattern>
+<linearGradient id="red" x2=".8" y2="1"><stop stop-color="#ef8666"/><stop offset=".55" stop-color="#d34939"/><stop offset="1" stop-color="#a32f35"/></linearGradient>
+<linearGradient id="blue" x2=".7" y2="1"><stop stop-color="#d9edf0"/><stop offset="1" stop-color="#7fb3c9"/></linearGradient></defs>
+<path d="M62 31H258V289H62Z" fill="#fff8e5" stroke="#29466b" stroke-width="2" stroke-dasharray="2 9" stroke-linecap="round"/><path d="M76 45H244V275H76Z" fill="none" stroke="#29466b" stroke-opacity=".2"/>
+<ellipse cx="161" cy="253" rx="63" ry="8" fill="#29466b" opacity=".13"/>
+<path d="M159 104Q155 80 171 65" fill="none" stroke="#29466b" stroke-width="8" stroke-linecap="round"/>
+<path d="M168 85Q190 58 215 77Q193 104 168 85Z" fill="#7fb3c9" stroke="#29466b" stroke-width="3"/><path d="M173 85l30-6" stroke="#29466b" stroke-width="2"/>
+<path d="M160 111C102 76 75 133 88 182C98 229 118 261 160 244C204 261 224 220 233 176C242 126 209 79 160 111Z" fill="url(#red)" stroke="#29466b" stroke-width="4"/>
+<path d="M186 111C222 130 227 200 196 234Q218 221 232 176Q242 125 208 104Z" fill="url(#hatch)"/>
+<path d="M112 133Q100 154 108 177" fill="none" stroke="#fff2ce" stroke-width="12" stroke-linecap="round" opacity=".85"/>
+<path d="M140 116Q157 127 177 115" fill="none" stroke="#29466b" stroke-width="2.5"/>
+<path d="M63 32H257V288H63Z" fill="url(#grain)" pointer-events="none"/>
+</svg>

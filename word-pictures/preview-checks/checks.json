@@ -1,0 +1,273 @@
+{
+  "svg_count": 9,
+  "checks": [
+    {
+      "name": "desktop",
+      "title": "Word pictures \u00b7 Nine little illustrations",
+      "viewport": 1440,
+      "scrollWidth": 1425,
+      "images": [
+        {
+          "src": "letter-post/apple.svg",
+          "loaded": true
+        },
+        {
+          "src": "letter-post/kite.svg",
+          "loaded": true
+        },
+        {
+          "src": "letter-post/van.svg",
+          "loaded": true
+        },
+        {
+          "src": "letter-post/apple.svg",
+          "loaded": true
+        },
+        {
+          "src": "letter-post/kite.svg",
+          "loaded": true
+        },
+        {
+          "src": "letter-post/van.svg",
+          "loaded": true
+        },
+        {
+          "src": "letter-post/apple.svg",
+          "loaded": true
+        },
+        {
+          "src": "letter-post/kite.svg",
+          "loaded": true
+        },
+        {
+          "src": "letter-post/van.svg",
+          "loaded": true
+        },
+        {
+          "src": "moonboat/moon.svg",
+          "loaded": true
+        },
+        {
+          "src": "moonboat/octopus.svg",
+          "loaded": true
+        },
+        {
+          "src": "moonboat/fox.svg",
+          "loaded": true
+        },
+        {
+          "src": "moonboat/moon.svg",
+          "loaded": true
+        },
+        {
+          "src": "moonboat/octopus.svg",
+          "loaded": true
+        },
+        {
+          "src": "moonboat/fox.svg",
+          "loaded": true
+        },
+        {
+          "src": "moonboat/moon.svg",
+          "loaded": true
+        },
+        {
+          "src": "moonboat/octopus.svg",
+          "loaded": true
+        },
+        {
+          "src": "moonboat/fox.svg",
+          "loaded": true
+        },
+        {
+          "src": "ribbon-road/rabbit.svg",
+          "loaded": true
+        },
+        {
+          "src": "ribbon-road/umbrella.svg",
+          "loaded": true
+        },
+        {
+          "src": "ribbon-road/ball.svg",
+          "loaded": true
+        },
+        {
+          "src": "ribbon-road/rabbit.svg",
+          "loaded": true
+        },
+        {
+          "src": "ribbon-road/umbrella.svg",
+          "loaded": true
+        },
+        {
+          "src": "ribbon-road/ball.svg",
+          "loaded": true
+        },
+        {
+          "src": "ribbon-road/rabbit.svg",
+          "loaded": true
+        },
+        {
+          "src": "ribbon-road/umbrella.svg",
+          "loaded": true
+        },
+        {
+          "src": "ribbon-road/ball.svg",
+          "loaded": true
+        }
+      ],
+      "sections": [
+        {
+          "name": "Letter Post",
+          "background": "rgb(250, 242, 223)",
+          "themeCount": 2
+        },
+        {
+          "name": "Moonboat",
+          "background": "rgb(25, 29, 57)",
+          "themeCount": 2
+        },
+        {
+          "name": "Ribbon Road",
+          "background": "rgb(255, 210, 235)",
+          "themeCount": 2
+        }
+      ],
+      "externalResources": []
+    },
+    {
+      "name": "mobile",
+      "title": "Word pictures \u00b7 Nine little illustrations",
+      "viewport": 390,
+      "scrollWidth": 375,
+      "images": [
+        {
+          "src": "letter-post/apple.svg",
+          "loaded": true
+        },
+        {
+          "src": "letter-post/kite.svg",
+          "loaded": true
+        },
+        {
+          "src": "letter-post/van.svg",
+          "loaded": true
+        },
+        {
+          "src": "letter-post/apple.svg",
+          "loaded": true
+        },
+        {
+          "src": "letter-post/kite.svg",
+          "loaded": true
+        },
+        {
+          "src": "letter-post/van.svg",
+          "loaded": true
+        },
+        {
+          "src": "letter-post/apple.svg",
+          "loaded": true
+        },
+        {
+          "src": "letter-post/kite.svg",
+          "loaded": true
+        },
+        {
+          "src": "letter-post/van.svg",
+          "loaded": true
+        },
+        {
+          "src": "moonboat/moon.svg",
+          "loaded": true
+        },
+        {
+          "src": "moonboat/octopus.svg",
+          "loaded": true
+        },
+        {
+          "src": "moonboat/fox.svg",
+          "loaded": true
+        },
+        {
+          "src": "moonboat/moon.svg",
+          "loaded": true
+        },
+        {
+          "src": "moonboat/octopus.svg",
+          "loaded": true
+        },
+        {
+          "src": "moonboat/fox.svg",
+          "loaded": true
+        },
+        {
+          "src": "moonboat/moon.svg",
+          "loaded": true
+        },
+        {
+          "src": "moonboat/octopus.svg",
+          "loaded": true
+        },
+        {
+          "src": "moonboat/fox.svg",
+          "loaded": true
+        },
+        {
+          "src": "ribbon-road/rabbit.svg",
+          "loaded": true
+        },
+        {
+          "src": "ribbon-road/umbrella.svg",
+          "loaded": true
+        },
+        {
+          "src": "ribbon-road/ball.svg",
+          "loaded": true
+        },
+        {
+          "src": "ribbon-road/rabbit.svg",
+          "loaded": true
+        },
+        {
+          "src": "ribbon-road/umbrella.svg",
+          "loaded": true
+        },
+        {
+          "src": "ribbon-road/ball.svg",
+          "loaded": true
+        },
+        {
+          "src": "ribbon-road/rabbit.svg",
+          "loaded": true
+        },
+        {
+          "src": "ribbon-road/umbrella.svg",
+          "loaded": true
+        },
+        {
+          "src": "ribbon-road/ball.svg",
+          "loaded": true
+        }
+      ],
+      "sections": [
+        {
+          "name": "Letter Post",
+          "background": "rgb(250, 242, 223)",
+          "themeCount": 2
+        },
+        {
+          "name": "Moonboat",
+          "background": "rgb(25, 29, 57)",
+          "themeCount": 2
+        },
+        {
+          "name": "Ribbon Road",
+          "background": "rgb(255, 210, 235)",
+          "themeCount": 2
+        }
+      ],
+      "externalResources": []
+    }
+  ]
+}

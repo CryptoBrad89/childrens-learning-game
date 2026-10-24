@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="title">
+<title id="title">Kite</title>
+<defs>
+<pattern id="grain" width="13" height="17" patternUnits="userSpaceOnUse"><path d="M1 3h2m5 8h1m2-9h1M3 15h2" stroke="#29466b" stroke-opacity=".12" stroke-width=".8"/></pattern>
+<pattern id="hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(32)"><path d="M0 0v7" stroke="#29466b" stroke-opacity=".23" stroke-width="2"/></pattern>
+<linearGradient id="red" x2=".8" y2="1"><stop stop-color="#ef8666"/><stop offset=".55" stop-color="#d34939"/><stop offset="1" stop-color="#a32f35"/></linearGradient>
+<linearGradient id="blue" x2=".7" y2="1"><stop stop-color="#d9edf0"/><stop offset="1" stop-color="#7fb3c9"/></linearGradient></defs>
+<path d="M62 31H258V289H62Z" fill="#fff8e5" stroke="#29466b" stroke-width="2" stroke-dasharray="2 9" stroke-linecap="round"/><path d="M76 45H244V275H76Z" fill="none" stroke="#29466b" stroke-opacity=".2"/>
+<path d="M160 186C207 205 110 226 157 249C173 257 186 254 184 268" fill="none" stroke="#29466b" stroke-width="3"/>
+<path d="M157 216l-20-8 1 18 19-10 18 10 2-17Z" fill="#d34939" stroke="#29466b" stroke-width="2"/>
+<path d="M152 247l-17-8-2 15 19-7 16 10 4-15Z" fill="#7fb3c9" stroke="#29466b" stroke-width="2"/>
+<path d="M158 58L224 120L160 198L91 124Z" fill="url(#blue)" stroke="#29466b" stroke-width="4" stroke-linejoin="round"/>
+<path d="M158 58L160 123L91 124Z" fill="url(#red)"/>
+<path d="M160 123L224 120L160 198Z" fill="#d34939"/>
+<path d="M158 58L160 198M91 124L224 120" stroke="#29466b" stroke-width="3"/>
+<path d="M158 58L160 123L91 124Z" fill="url(#hatch)"/>
+<path d="M104 123L158 72L211 119L160 182Z" fill="none" stroke="#fff8e5" stroke-width="2" stroke-dasharray="3 5"/>
+<path d="M63 32H257V288H63Z" fill="url(#grain)" pointer-events="none"/>
+</svg>

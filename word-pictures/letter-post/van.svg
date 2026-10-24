@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="title">
+<title id="title">Van</title>
+<defs>
+<pattern id="grain" width="13" height="17" patternUnits="userSpaceOnUse"><path d="M1 3h2m5 8h1m2-9h1M3 15h2" stroke="#29466b" stroke-opacity=".12" stroke-width=".8"/></pattern>
+<pattern id="hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(32)"><path d="M0 0v7" stroke="#29466b" stroke-opacity=".23" stroke-width="2"/></pattern>
+<linearGradient id="red" x2=".8" y2="1"><stop stop-color="#ef8666"/><stop offset=".55" stop-color="#d34939"/><stop offset="1" stop-color="#a32f35"/></linearGradient>
+<linearGradient id="blue" x2=".7" y2="1"><stop stop-color="#d9edf0"/><stop offset="1" stop-color="#7fb3c9"/></linearGradient></defs>
+<path d="M62 31H258V289H62Z" fill="#fff8e5" stroke="#29466b" stroke-width="2" stroke-dasharray="2 9" stroke-linecap="round"/><path d="M76 45H244V275H76Z" fill="none" stroke="#29466b" stroke-opacity=".2"/>
+<ellipse cx="160" cy="244" rx="88" ry="9" fill="#29466b" opacity=".13"/>
+<path d="M79 124Q79 111 92 111H191Q201 111 208 122L240 168V222H79Z" fill="url(#red)" stroke="#29466b" stroke-width="4" stroke-linejoin="round"/>
+<path d="M88 120H173V180H88Z" fill="#fff8e5" stroke="#29466b" stroke-width="3"/>
+<path d="M90 122l81 56m0-56-81 56" stroke="#7fb3c9" stroke-width="8"/>
+<path d="M189 123H201L226 162H189Z" fill="url(#blue)" stroke="#29466b" stroke-width="3"/>
+<path d="M191 130l23 28" stroke="#fff8e5" stroke-width="5"/>
+<path d="M181 119V214M190 179h12" stroke="#29466b" stroke-width="3"/>
+<path d="M81 199H238V220H81Z" fill="url(#hatch)"/>
+<rect x="73" y="213" width="173" height="13" rx="4" fill="#b9dce6" stroke="#29466b" stroke-width="3"/>
+<path d="M231 182h10v14h-10" fill="#fff2ce" stroke="#29466b" stroke-width="2"/>
+<g fill="#29466b" stroke="#fff8e5" stroke-width="3"><circle cx="111" cy="225" r="21"/><circle cx="209" cy="225" r="21"/></g>
+<g fill="#b9dce6"><circle cx="111" cy="225" r="9"/><circle cx="209" cy="225" r="9"/></g>
+<path d="M63 32H257V288H63Z" fill="url(#grain)" pointer-events="none"/>
+</svg>
