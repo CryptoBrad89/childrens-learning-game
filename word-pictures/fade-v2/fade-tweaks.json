@@ -1,0 +1,210 @@
+{
+ "moonboat/apple": [
+  0.0,
+  1.0
+ ],
+ "moonboat/ball": [
+  0.0,
+  1.0
+ ],
+ "moonboat/cat": [
+  0.0,
+  0.995
+ ],
+ "moonboat/duck": [
+  0.0,
+  1.0
+ ],
+ "moonboat/egg": [
+  0.0,
+  1.0
+ ],
+ "moonboat/fish": [
+  0.0,
+  1.0
+ ],
+ "moonboat/goat": [
+  0.14,
+  0.871
+ ],
+ "moonboat/hat": [
+  0.0,
+  1.0
+ ],
+ "moonboat/insect": [
+  0.0,
+  1.0
+ ],
+ "moonboat/jellyfish": [
+  0.0,
+  1.0
+ ],
+ "moonboat/kite": [
+  0.06,
+  0.872
+ ],
+ "moonboat/leaf": [
+  0.0,
+  1.0
+ ],
+ "moonboat/moon": [
+  0.0,
+  1.0
+ ],
+ "moonboat/nest": [
+  0.0,
+  1.0
+ ],
+ "moonboat/octopus": [
+  0.0,
+  1.0
+ ],
+ "moonboat/pig": [
+  0.0,
+  1.0
+ ],
+ "moonboat/quilt": [
+  0.0,
+  1.0
+ ],
+ "moonboat/rabbit": [
+  0.0,
+  0.977
+ ],
+ "moonboat/sun": [
+  0.0,
+  1.0
+ ],
+ "moonboat/tiger": [
+  0.04,
+  0.867
+ ],
+ "moonboat/umbrella": [
+  0.0,
+  0.963
+ ],
+ "moonboat/van": [
+  0.0,
+  1.0
+ ],
+ "moonboat/web": [
+  0.0,
+  1.0
+ ],
+ "moonboat/fox": [
+  0.14,
+  0.867
+ ],
+ "moonboat/yak": [
+  0.09,
+  0.886
+ ],
+ "moonboat/zebra": [
+  0.2,
+  0.909
+ ],
+ "ribbon-road/apple": [
+  0.0,
+  1.0
+ ],
+ "ribbon-road/ball": [
+  0.0,
+  1.0
+ ],
+ "ribbon-road/cat": [
+  0.0,
+  0.969
+ ],
+ "ribbon-road/duck": [
+  0.0,
+  1.0
+ ],
+ "ribbon-road/egg": [
+  0.0,
+  1.0
+ ],
+ "ribbon-road/fish": [
+  0.0,
+  1.0
+ ],
+ "ribbon-road/goat": [
+  0.0,
+  0.867
+ ],
+ "ribbon-road/hat": [
+  0.0,
+  1.0
+ ],
+ "ribbon-road/insect": [
+  0.0,
+  1.0
+ ],
+ "ribbon-road/jellyfish": [
+  0.0,
+  1.0
+ ],
+ "ribbon-road/kite": [
+  0.0,
+  1.0
+ ],
+ "ribbon-road/leaf": [
+  0.0,
+  1.0
+ ],
+ "ribbon-road/moon": [
+  0.0,
+  1.0
+ ],
+ "ribbon-road/nest": [
+  0.0,
+  1.0
+ ],
+ "ribbon-road/octopus": [
+  0.0,
+  1.0
+ ],
+ "ribbon-road/pig": [
+  0.0,
+  1.0
+ ],
+ "ribbon-road/quilt": [
+  0.0,
+  1.0
+ ],
+ "ribbon-road/rabbit": [
+  0.0,
+  0.898
+ ],
+ "ribbon-road/sun": [
+  0.0,
+  1.0
+ ],
+ "ribbon-road/tiger": [
+  0.0,
+  1.0
+ ],
+ "ribbon-road/umbrella": [
+  0.17,
+  0.097
+ ],
+ "ribbon-road/van": [
+  0.0,
+  1.0
+ ],
+ "ribbon-road/web": [
+  0.05,
+  0.864
+ ],
+ "ribbon-road/fox": [
+  0.0,
+  0.926
+ ],
+ "ribbon-road/yak": [
+  0.0,
+  1.0
+ ],
+ "ribbon-road/zebra": [
+  0.0,
+  0.984
+ ]
+}
