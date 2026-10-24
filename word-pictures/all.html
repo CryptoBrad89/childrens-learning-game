@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Letters with Lucy: all word pictures</title>
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #f4f4f2; color: #222; font: 16px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  header { padding: 20px 24px 4px; }
+  h1 { margin: 0 0 4px; font-size: 1.5rem; }
+  header p { margin: 0; color: #555; }
+  nav { display: flex; gap: 8px; flex-wrap: wrap; padding: 12px 24px; position: sticky; top: 0; background: #f4f4f2ee; z-index: 2; border-bottom: 1px solid #ddd; }
+  nav a { padding: 10px 16px; border-radius: 999px; background: #fff; border: 1px solid #ccc; color: #222; text-decoration: none; font-weight: 600; min-height: 44px; display: inline-flex; align-items: center; }
+  section { padding: 8px 24px 28px; }
+  h2 { font-size: 1.3rem; margin: 18px 0 12px; }
+  h2 small { font-weight: 400; color: #666; font-size: .9rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; }
+  figure { margin: 0; background: #fff; border: 1px solid #ddd; border-radius: 12px; overflow: hidden; }
+  button.pic { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
+  button.pic img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
+  figcaption { padding: 8px 10px; font-size: 1rem; }
+  figcaption b { display: inline-block; min-width: 1.4em; font-size: 1.15rem; }
+  dialog { border: 0; padding: 0; background: transparent; max-width: 96vw; max-height: 96vh; }
+  dialog::backdrop { background: rgba(0,0,0,.82); }
+  .big { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .big img { max-width: min(92vw, 86vh); max-height: 86vh; width: auto; height: auto; border-radius: 14px; background: #fff; }
+  .big .cap { color: #fff; font-size: 1.3rem; font-weight: 600; text-align: center; }
+  .bar { display: flex; gap: 10px; }
+  .bar button { min-width: 64px; min-height: 48px; font-size: 1.1rem; border-radius: 999px; border: 0; background: #fff; color: #222; cursor: pointer; padding: 0 18px; }
+  @media (min-width: 1600px) { .grid { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Letters with Lucy: all word pictures</h1>
+  <p>78 pictures made with ElevenLabs Seedream 5 Lite, 26 for each game in its own style. Tap a picture to see it big.</p>
+</header>
+<nav>
+  <a href="#letter-post">Letter Post</a>
+  <a href="#moonboat">Moonboat</a>
+  <a href="#ribbon-road">Ribbon Road</a>
+</nav>
+<main id="main"></main>
+<dialog id="viewer" aria-label="Picture viewer">
+  <div class="big">
+    <img id="bigImg" alt="">
+    <div class="cap" id="bigCap"></div>
+    <div class="bar">
+      <button type="button" id="prev" aria-label="Previous">&larr;</button>
+      <button type="button" id="close">Close</button>
+      <button type="button" id="next" aria-label="Next">&rarr;</button>
+    </div>
+  </div>
+</dialog>
+<script>
+(function () {
+  var WORDS = ["apple","ball","cat","duck","egg","fish","goat","hat","insect","jellyfish","kite","leaf","moon","nest","octopus","pig","quilt","rabbit","sun","tiger","umbrella","van","web","fox","yak","zebra"];
+  var GAMES = [
+    { id: "letter-post", name: "Letter Post", note: "postage sticker style" },
+    { id: "moonboat", name: "Moonboat", note: "night voyage storybook style" },
+    { id: "ribbon-road", name: "Ribbon Road", note: "glossy candy toy style" }
+  ];
+  var main = document.getElementById("main");
+  var all = [];
+  GAMES.forEach(function (g) {
+    var sec = document.createElement("section");
+    sec.id = g.id;
+    var h = document.createElement("h2");
+    h.innerHTML = g.name + " <small>(" + g.note + ")</small>";
+    sec.appendChild(h);
+    var grid = document.createElement("div");
+    grid.className = "grid";
+    WORDS.forEach(function (w, i) {
+      var letter = String.fromCharCode(65 + i);
+      var src = "images/full/" + g.id + "/" + w + ".png";
+      var idx = all.length;
+      all.push({ src: src, cap: g.name + ": " + letter + " is for " + w });
+      var fig = document.createElement("figure");
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "pic";
+      b.setAttribute("aria-label", "See " + w + " big");
+      var img = document.createElement("img");
+      img.src = src; img.alt = w; img.loading = "lazy"; img.width = 512; img.height = 512;
+      b.appendChild(img);
+      b.addEventListener("click", function () { open(idx); });
+      var cap = document.createElement("figcaption");
+      cap.innerHTML = "<b>" + letter + "</b> " + w;
+      fig.appendChild(b); fig.appendChild(cap);
+      grid.appendChild(fig);
+    });
+    sec.appendChild(grid);
+    main.appendChild(sec);
+  });
+  var dlg = document.getElementById("viewer"), bigImg = document.getElementById("bigImg"), bigCap = document.getElementById("bigCap"), cur = 0;
+  function show(i) { cur = (i + all.length) % all.length; bigImg.src = all[cur].src; bigImg.alt = all[cur].cap; bigCap.textContent = all[cur].cap; }
+  function open(i) { show(i); if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", ""); }
+  function close() { if (dlg.close) dlg.close(); else dlg.removeAttribute("open"); }
+  document.getElementById("close").addEventListener("click", close);
+  document.getElementById("prev").addEventListener("click", function () { show(cur - 1); });
+  document.getElementById("next").addEventListener("click", function () { show(cur + 1); });
+  dlg.addEventListener("click", function (e) { if (e.target === dlg) close(); });
+  bigImg.addEventListener("click", close);
+  document.addEventListener("keydown", function (e) {
+    if (!dlg.open) return;
+    if (e.key === "ArrowLeft") show(cur - 1);
+    if (e.key === "ArrowRight") show(cur + 1);
+  });
+})();
+</script>
+</body>
+</html>
