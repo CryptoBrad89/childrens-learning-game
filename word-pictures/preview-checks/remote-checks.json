@@ -1,0 +1,68 @@
+[
+  {
+    "path": "index.html",
+    "http_status": 200,
+    "matches_committed_file": true,
+    "sha256": "2a0c1c38609aa909052d72b0290a9eb24b5e7916e70d6f2fe772ca5de398e45c"
+  },
+  {
+    "path": "preview.css",
+    "http_status": 200,
+    "matches_committed_file": true,
+    "sha256": "c278b72db732e9fc780d2b0fb627eae2616d2434b3edfa7d7c4e8e590d6c2fe2"
+  },
+  {
+    "path": "letter-post/apple.svg",
+    "http_status": 200,
+    "matches_committed_file": true,
+    "sha256": "e2be24f7226c0aa3fcce826c47c58141cb36bbc61e0800c9e809d31bfd78d2b6"
+  },
+  {
+    "path": "letter-post/kite.svg",
+    "http_status": 200,
+    "matches_committed_file": true,
+    "sha256": "dad9f09f4c46baa15f583a6a9c83db9f0efb5ab64ce7b2e368c9171d763105f0"
+  },
+  {
+    "path": "letter-post/van.svg",
+    "http_status": 200,
+    "matches_committed_file": true,
+    "sha256": "007dd7255174d057df356b1b54cf26cf40940975fd1309ae81870bb649024eaf"
+  },
+  {
+    "path": "moonboat/fox.svg",
+    "http_status": 200,
+    "matches_committed_file": true,
+    "sha256": "ed8317bd0ee56389e4276b9998997b745e627a8bcd533e8bfca34010c266d90b"
+  },
+  {
+    "path": "moonboat/moon.svg",
+    "http_status": 200,
+    "matches_committed_file": true,
+    "sha256": "97b379c324075569f26bca1be4867f369098d37efe6bc1390b683b0b742605d0"
+  },
+  {
+    "path": "moonboat/octopus.svg",
+    "http_status": 200,
+    "matches_committed_file": true,
+    "sha256": "967ea7d9aaffc8f330d67180daf798b6d8173d1996d7df02b740b3b505771cd9"
+  },
+  {
+    "path": "ribbon-road/ball.svg",
+    "http_status": 200,
+    "matches_committed_file": true,
+    "sha256": "2a2a65b86f3d6efc25b1651b2c19a345792435945c8164f6cb4c7ca3b8115bae"
+  },
+  {
+    "path": "ribbon-road/rabbit.svg",
+    "http_status": 200,
+    "matches_committed_file": true,
+    "sha256": "0e581032b92a5885a75c9587c2142bf141f9f392ad4438be49ec6180af25e852"
+  },
+  {
+    "path": "ribbon-road/umbrella.svg",
+    "http_status": 200,
+    "matches_committed_file": true,
+    "sha256": "3d8e5641755c1a9101dbad7c325a7dbcb6b269f74c8ccee98887af8c599b136b"
+  }
+]
