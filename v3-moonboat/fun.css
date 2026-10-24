@@ -167,6 +167,7 @@ body[data-screen="listen"] .lucy-portrait>img,body[data-screen="match"] .lucy-po
  .collection-sheet{display:none;position:fixed;z-index:30;left:50%;top:50%;width:min(900px,calc(100vw - 48px));max-height:calc(100vh - 48px);max-height:calc(100dvh - 48px);overflow:auto;padding:16px 20px 20px;transform:translate(-50%,-50%);background:var(--surface);color:var(--ink);border:3px solid var(--line);border-radius:24px;box-shadow:0 10px 0 var(--shadow),0 0 0 100vmax #00000059}
  .collection-sheet.open{display:block}
  .collection-sheet .sheet-close{display:flex;align-items:center;justify-content:center;float:right;min-width:96px;min-height:56px;margin:0 0 8px 16px;padding:0 20px;border:2px solid var(--line);border-radius:999px;background:var(--surface);color:var(--ink);font-weight:900;font-size:17px}
+ .collection-sheet .sheet-close{position:relative;z-index:1} /* Close sits above the collection, which would otherwise catch its taps. */
  .collection-sheet>.collection{margin:0!important;padding:4px 0 0;border:0;background:transparent;box-shadow:none}
  .collection-sheet .collection-heading{padding-right:8px;min-height:56px}
  .collection-sheet .collection-slots{grid-auto-flow:row;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));grid-auto-columns:auto;overflow:visible;padding:10px 8px 8px;margin:0;gap:14px 10px}

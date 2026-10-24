@@ -82,6 +82,7 @@ CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/accounts_flow.mjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/accounts_two_devices.mjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/home_flow.mjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/fit_check.mjs
+CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/close_button.mjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/catchup_flow.mjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/celebrate_timing.mjs
 CHROMIUM_EXECUTABLE=/usr/bin/google-chrome node tests/sw_update.mjs
@@ -106,6 +107,12 @@ To run the browser suites without writing any screenshots, add
   after a real round. Each word is whole on one line, inside its slot, at
   least 12px, clear of its done tick and at least 4px from the next word.
   `FIT_SHOTS=dir` saves screenshots.
+- `close_button.mjs` opens Letter Post and Moonboat's collection pop-up at
+  1024×576, 1366×768, 768×1024, 1920×1080 and 1440×900 in every theme, checks
+  nothing covers Close, and shuts it with a real mouse click on Close (and a
+  real touch tap at 768×1024). Focus must go back to the collection button.
+  Escape and a tap outside must still close it. Ribbon Road has no pop-up, and
+  that is checked too. `CLOSE_SHOTS=dir` saves screenshots.
 - `catchup_flow.mjs` (accounts backend) checks done letters from saved
   progress in every game, reloads, sign-out, account switching, guests and
   resets; one settle; the quiet match step and misses with real audio; the
