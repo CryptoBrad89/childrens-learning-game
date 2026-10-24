@@ -7,11 +7,11 @@
 
   function openFrom(card) {
     var word = card.getAttribute("data-word");
-    var src = card.getAttribute("data-src");
-    picture.src = src;
+    var row = card.closest(".theme-row");
+    picture.src = card.getAttribute("data-src");
     picture.alt = word;
     caption.textContent = word;
-    dialog.setAttribute("data-layout", card.getAttribute("data-layout"));
+    dialog.setAttribute("data-theme", row.getAttribute("data-theme"));
     lastFocus = card;
     dialog.showModal();
     closeButton.focus();
@@ -40,6 +40,7 @@
   dialog.addEventListener("close", function () {
     picture.removeAttribute("src");
     picture.alt = "";
+    dialog.removeAttribute("data-theme");
     if (lastFocus) lastFocus.focus();
   });
 })();
