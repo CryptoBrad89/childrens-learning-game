@@ -1,0 +1,470 @@
+[
+  {
+    "path": "v3-moonboat/pictures/apple.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v3-moonboat/pictures/ball.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v3-moonboat/pictures/cat.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v3-moonboat/pictures/duck.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v3-moonboat/pictures/egg.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v3-moonboat/pictures/fish.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v3-moonboat/pictures/fox.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v3-moonboat/pictures/goat.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v3-moonboat/pictures/hat.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v3-moonboat/pictures/insect.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v3-moonboat/pictures/jellyfish.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v3-moonboat/pictures/kite.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v3-moonboat/pictures/leaf.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v3-moonboat/pictures/moon.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v3-moonboat/pictures/nest.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v3-moonboat/pictures/octopus.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v3-moonboat/pictures/pig.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v3-moonboat/pictures/quilt.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v3-moonboat/pictures/rabbit.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v3-moonboat/pictures/sun.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v3-moonboat/pictures/tiger.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v3-moonboat/pictures/umbrella.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v3-moonboat/pictures/van.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v3-moonboat/pictures/web.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v3-moonboat/pictures/yak.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v3-moonboat/pictures/zebra.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v4-silk-thread/pictures/apple.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v4-silk-thread/pictures/ball.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v4-silk-thread/pictures/cat.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v4-silk-thread/pictures/duck.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v4-silk-thread/pictures/egg.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v4-silk-thread/pictures/fish.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v4-silk-thread/pictures/fox.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v4-silk-thread/pictures/goat.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v4-silk-thread/pictures/hat.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v4-silk-thread/pictures/insect.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v4-silk-thread/pictures/jellyfish.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v4-silk-thread/pictures/kite.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v4-silk-thread/pictures/leaf.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v4-silk-thread/pictures/moon.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v4-silk-thread/pictures/nest.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v4-silk-thread/pictures/octopus.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v4-silk-thread/pictures/pig.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v4-silk-thread/pictures/quilt.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v4-silk-thread/pictures/rabbit.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v4-silk-thread/pictures/sun.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v4-silk-thread/pictures/tiger.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v4-silk-thread/pictures/umbrella.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v4-silk-thread/pictures/van.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v4-silk-thread/pictures/web.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v4-silk-thread/pictures/yak.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  },
+  {
+    "path": "v4-silk-thread/pictures/zebra.webp",
+    "size": [
+      512,
+      512
+    ],
+    "sourceIdentical": true,
+    "edgeAlphaMax": 0
+  }
+]

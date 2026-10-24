@@ -1,0 +1,6 @@
+PASS grownup 1024x576: correct-only persistence, reload, sign-in, three games, account isolation and guests
+PASS child 1024x576: correct-only persistence, reload, sign-in, three games, account isolation and guests
+PASS grownup 768x1024: correct-only persistence, reload, sign-in, three games, account isolation and guests
+PASS child 768x1024: correct-only persistence, reload, sign-in, three games, account isolation and guests
+PASS grownup 1920x1080: correct-only persistence, reload, sign-in, three games, account isolation and guests
+PASS child 1920x1080: correct-only persistence, reload, sign-in, three games, account isolation and guests

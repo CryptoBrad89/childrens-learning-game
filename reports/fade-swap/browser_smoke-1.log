@@ -1,0 +1,7 @@
+PASS v1-letter-post-768-theme0: B/J/X/Z flow, no hints, replay, collection, wrap, keyboard and layout
+page.waitForFunction: Timeout 30000ms exceeded.
+    at screen (/workspace/clg-codex/tests/browser_smoke.cjs:40:40)
+    at run (/workspace/clg-codex/tests/browser_smoke.cjs:105:19) {
+  log: [],
+  name: 'TimeoutError'
+}

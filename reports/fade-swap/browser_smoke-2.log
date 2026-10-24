@@ -1,0 +1,31 @@
+PASS v1-letter-post-1440-theme0: B/J/X/Z flow, no hints, replay, collection, wrap, keyboard and layout
+locator.click: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator('.choice:not([data-answer="B"])').first()
+    - locator resolved to <button class="choice" data-answer="N" aria-label="nest">…</button>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not stable
+    - retrying click action
+    - waiting 20ms
+    - waiting for element to be visible, enabled and stable
+    - element is not stable
+  - retrying click action
+    - waiting 100ms
+
+    at run (/workspace/clg-codex/tests/browser_smoke.cjs:96:37) {
+  log: [
+    `  - waiting for locator('.choice:not([data-answer="B"])').first()`,
+    '    - locator resolved to <button class="choice" data-answer="N" aria-label="nest">…</button>',
+    '  - attempting click action',
+    '    2 × waiting for element to be visible, enabled and stable',
+    '      - element is not stable',
+    '    - retrying click action',
+    '    - waiting 20ms',
+    '    - waiting for element to be visible, enabled and stable',
+    '    - element is not stable',
+    '  - retrying click action',
+    '    - waiting 100ms'
+  ],
+  name: 'TimeoutError'
+}

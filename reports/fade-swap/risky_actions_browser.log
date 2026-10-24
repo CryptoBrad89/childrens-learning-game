@@ -1,0 +1,3 @@
+PASS risky portal 390: 1251 paged kids, 151 grown-ups, select all, password only, wrong/right retry, same job resumed after lost final reply/reload, partial failure, settings selection key, master hidden, no overflow/errors
+PASS risky portal 768: 1251 paged kids, 151 grown-ups, select all, password only, wrong/right retry, same job resumed after lost final reply/reload, partial failure, settings selection key, master hidden, no overflow/errors
+PASS risky portal 1440: 1251 paged kids, 151 grown-ups, select all, password only, wrong/right retry, same job resumed after lost final reply/reload, partial failure, settings selection key, master hidden, no overflow/errors

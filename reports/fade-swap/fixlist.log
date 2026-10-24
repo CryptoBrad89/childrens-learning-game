@@ -1,0 +1,4 @@
+PASS 390: unified login, portal persistence/views, direct batch settings, no PIN, page-flow pickers/collections, compact profile and guest controls, consistent sign-out
+PASS 768: unified login, portal persistence/views, direct batch settings, no PIN, page-flow pickers/collections, compact profile and guest controls, consistent sign-out
+PASS 1440: unified login, portal persistence/views, direct batch settings, no PIN, page-flow pickers/collections, compact profile and guest controls, consistent sign-out
+PASS multi-select linking and direct batch settings for two children; stale cached master metadata recovers read-only

@@ -1,0 +1,36 @@
+Stalled playback {
+  screen: 'home',
+  effect: undefined,
+  talking: false,
+  hidden: false,
+  fun: {
+    effects: 0,
+    maxEffects: 1,
+    maxParticles: 30,
+    sfxStarted: 8,
+    sfxWhileMuted: 0,
+    sfxDuringVoice: 0,
+    particles: 0,
+    active: 0,
+    sources: 0,
+    muted: false,
+    speaking: false,
+    reduced: false
+  },
+  media: {
+    src: 'file:///workspace/clg-codex/audio/letters/k-sound-trim.mp3',
+    paused: true,
+    ended: true,
+    currentTime: 0.38,
+    duration: 0.38,
+    readyState: 4,
+    error: undefined
+  },
+  animations: []
+}
+page.waitForFunction: Timeout 30000ms exceeded.
+    at settle (/workspace/clg-codex/tests/browser_smoke.cjs:39:54)
+    at run (/workspace/clg-codex/tests/browser_smoke.cjs:116:98) {
+  log: [],
+  name: 'TimeoutError'
+}

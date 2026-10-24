@@ -1,0 +1,372 @@
+[
+  {
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "offline": false,
+    "wordDelay": 20.299999997019768,
+    "cheerGap": 8.700000002980232,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerWordThenCheer": true,
+    "errors": []
+  },
+  {
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "offline": false,
+    "wordDelay": 17.30000001192093,
+    "cheerGap": 7.4000000059604645,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerWordThenCheer": true,
+    "errors": []
+  },
+  {
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "offline": false,
+    "wordDelay": 11.799999997019768,
+    "cheerGap": 7.700000002980232,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerWordThenCheer": true,
+    "errors": []
+  },
+  {
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "offline": false,
+    "wordDelay": 17.799999997019768,
+    "cheerGap": 6.799999997019768,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerWordThenCheer": true,
+    "errors": []
+  },
+  {
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "offline": false,
+    "wordDelay": 8.5,
+    "cheerGap": 6.700000002980232,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerWordThenCheer": true,
+    "errors": []
+  },
+  {
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "offline": true,
+    "wordDelay": 10.5,
+    "cheerGap": 7.0999999940395355,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerWordThenCheer": true,
+    "errors": []
+  },
+  {
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "offline": true,
+    "wordDelay": 15.400000005960464,
+    "cheerGap": 6.0999999940395355,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerWordThenCheer": true,
+    "errors": []
+  },
+  {
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "offline": false,
+    "wordDelay": 15.700000002980232,
+    "cheerGap": 7.399999991059303,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerWordThenCheer": true,
+    "errors": []
+  },
+  {
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "offline": true,
+    "wordDelay": 17.399999991059303,
+    "cheerGap": 5.799999997019768,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerWordThenCheer": true,
+    "errors": []
+  },
+  {
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "externalRequestsBlocked": 7,
+    "liveRequestsSent": 0
+  },
+  {
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "offline": false,
+    "wordDelay": 16.100000008940697,
+    "cheerGap": 26.599999994039536,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerWordThenCheer": true,
+    "errors": []
+  },
+  {
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "offline": false,
+    "wordDelay": 15.700000002980232,
+    "cheerGap": 6.5,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerWordThenCheer": true,
+    "errors": []
+  },
+  {
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "offline": true,
+    "wordDelay": 7.5999999940395355,
+    "cheerGap": 7.799999997019768,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerWordThenCheer": true,
+    "errors": []
+  },
+  {
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "offline": false,
+    "wordDelay": 19.700000002980232,
+    "cheerGap": 9.5,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerWordThenCheer": true,
+    "errors": []
+  },
+  {
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "offline": true,
+    "wordDelay": 14.300000011920929,
+    "cheerGap": 6.199999988079071,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerWordThenCheer": true,
+    "errors": []
+  },
+  {
+    "dir": "v1-letter-post",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "offline": true,
+    "wordDelay": 13.699999988079071,
+    "cheerGap": 7.5,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerWordThenCheer": true,
+    "errors": []
+  },
+  {
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "offline": true,
+    "wordDelay": 12.799999997019768,
+    "cheerGap": 7.5,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerWordThenCheer": true,
+    "errors": []
+  },
+  {
+    "viewport": {
+      "width": 1920,
+      "height": 1080
+    },
+    "externalRequestsBlocked": 7,
+    "liveRequestsSent": 0
+  },
+  {
+    "dir": "v3-moonboat",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "offline": true,
+    "wordDelay": 9.899999991059303,
+    "cheerGap": 7,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerWordThenCheer": true,
+    "errors": []
+  },
+  {
+    "dir": "v4-silk-thread",
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "offline": true,
+    "wordDelay": 11.699999988079071,
+    "cheerGap": 8,
+    "nativeCheer": true,
+    "replay": true,
+    "cutoff": true,
+    "mute": true,
+    "letterEntryAutoplay": true,
+    "listenBackAutoplay": true,
+    "silentMatch": true,
+    "correctAnswerWordThenCheer": true,
+    "errors": []
+  },
+  {
+    "viewport": {
+      "width": 1024,
+      "height": 576
+    },
+    "externalRequestsBlocked": 7,
+    "liveRequestsSent": 0
+  },
+  {
+    "regularFixtureSavedProgress": true,
+    "masterAccountAccessed": false
+  }
+]

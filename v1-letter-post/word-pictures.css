@@ -6,3 +6,12 @@ body[class] .choice img.word-picture, body[class] .reward-art img.word-picture {
   padding: 0;
   background: none;
 }
+
+/* Faded art blends into Moonboat and Ribbon Road without an image frame or tilt. */
+body.space .choice img.word-picture, body.space .reward-art img.word-picture,
+body.silk .choice img.word-picture, body.silk .reward-art img.word-picture {
+  border: 0;
+  box-shadow: none;
+  transform: none;
+  rotate: none;
+}
