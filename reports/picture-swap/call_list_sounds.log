@@ -1,0 +1,9 @@
+PASS sounds grownup 390 v4-silk-thread: native MP3 playback, three varied clips, no overlap, mute, Escape cancellation
+PASS sounds grownup 390 v1-letter-post: native MP3 playback, three varied clips, no overlap, mute, Escape cancellation
+PASS sounds grownup 390 v3-moonboat: native MP3 playback, three varied clips, no overlap, mute, Escape cancellation
+PASS sounds child 768 v4-silk-thread: native MP3 playback, three varied clips, no overlap, mute, Escape cancellation
+PASS sounds child 768 v1-letter-post: native MP3 playback, three varied clips, no overlap, mute, Escape cancellation
+PASS sounds child 768 v3-moonboat: native MP3 playback, three varied clips, no overlap, mute, Escape cancellation
+PASS sounds guest 1440 v4-silk-thread: native MP3 playback, three varied clips, no overlap, mute, Escape cancellation
+PASS sounds guest 1440 v1-letter-post: native MP3 playback, three varied clips, no overlap, mute, Escape cancellation
+PASS sounds guest 1440 v3-moonboat: native MP3 playback, three varied clips, no overlap, mute, Escape cancellation

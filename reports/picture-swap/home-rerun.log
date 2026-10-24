@@ -1,0 +1,11 @@
+AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Letters with Lucy\s+Little Sounds Big Discovery/. Input:
+
+'Letters with Lucy'
+
+    at run (/workspace/clg-codex/tests/home_flow.cjs:51:16) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 'Letters with Lucy',
+  expected: /Letters with Lucy\s+Little Sounds Big Discovery/,
+  operator: 'match'
+}

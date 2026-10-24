@@ -1,0 +1,78 @@
+PASS before v4-silk-thread 1024 run 1: 6442.4 ms, native playing event
+PASS before v1-letter-post 1024 run 1: 6423.9 ms, native playing event
+PASS before v3-moonboat 1024 run 1: 6455.4 ms, native playing event
+PASS after v4-silk-thread 1024 run 1: 912.0 ms, native playing event
+PASS after v1-letter-post 1024 run 1: 923.4 ms, native playing event
+PASS after v3-moonboat 1024 run 1: 913.6 ms, native playing event
+PASS before v4-silk-thread 1024 run 2: 6421.3 ms, native playing event
+PASS before v3-moonboat 1024 run 2: 6404.8 ms, native playing event
+PASS before v1-letter-post 1024 run 2: 6450.4 ms, native playing event
+PASS after v4-silk-thread 1024 run 2: 930.7 ms, native playing event
+PASS after v3-moonboat 1024 run 2: 919.0 ms, native playing event
+PASS after v1-letter-post 1024 run 2: 973.7 ms, native playing event
+PASS before v4-silk-thread 1024 run 3: 6406.7 ms, native playing event
+PASS before v1-letter-post 1024 run 3: 6404.2 ms, native playing event
+PASS before v3-moonboat 1024 run 3: 6417.7 ms, native playing event
+PASS after v4-silk-thread 1024 run 3: 920.2 ms, native playing event
+PASS after v1-letter-post 1024 run 3: 921.2 ms, native playing event
+PASS after v3-moonboat 1024 run 3: 909.9 ms, native playing event
+PASS before v4-silk-thread 1024 run 4: 6400.7 ms, native playing event
+PASS before v1-letter-post 1024 run 4: 6387.4 ms, native playing event
+PASS before v3-moonboat 1024 run 4: 6418.3 ms, native playing event
+PASS after v4-silk-thread 1024 run 4: 935.9 ms, native playing event
+PASS after v1-letter-post 1024 run 4: 915.7 ms, native playing event
+PASS after v3-moonboat 1024 run 4: 938.7 ms, native playing event
+PASS before v1-letter-post 1024 run 5: 6402.2 ms, native playing event
+PASS before v4-silk-thread 1024 run 5: 6425.1 ms, native playing event
+PASS before v3-moonboat 1024 run 5: 6420.6 ms, native playing event
+PASS after v1-letter-post 1024 run 5: 926.5 ms, native playing event
+PASS after v4-silk-thread 1024 run 5: 917.5 ms, native playing event
+PASS after v3-moonboat 1024 run 5: 933.4 ms, native playing event
+PASS before v1-letter-post 768 run 1: 6407.4 ms, native playing event
+PASS before v3-moonboat 768 run 1: 6422.8 ms, native playing event
+PASS before v4-silk-thread 768 run 1: 6520.7 ms, native playing event
+PASS after v4-silk-thread 768 run 1: 927.2 ms, native playing event
+PASS after v1-letter-post 768 run 1: 933.6 ms, native playing event
+PASS after v3-moonboat 768 run 1: 907.3 ms, native playing event
+PASS before v4-silk-thread 768 run 2: 6425.1 ms, native playing event
+PASS before v1-letter-post 768 run 2: 6407.0 ms, native playing event
+PASS before v3-moonboat 768 run 2: 6422.4 ms, native playing event
+PASS after v4-silk-thread 768 run 2: 932.0 ms, native playing event
+PASS after v1-letter-post 768 run 2: 914.7 ms, native playing event
+PASS after v3-moonboat 768 run 2: 910.7 ms, native playing event
+PASS before v1-letter-post 768 run 3: 6452.1 ms, native playing event
+PASS before v4-silk-thread 768 run 3: 6511.5 ms, native playing event
+PASS before v3-moonboat 768 run 3: 6463.0 ms, native playing event
+PASS after v4-silk-thread 768 run 3: 920.8 ms, native playing event
+PASS after v3-moonboat 768 run 3: 929.9 ms, native playing event
+PASS after v1-letter-post 768 run 3: 931.2 ms, native playing event
+PASS before v3-moonboat 768 run 4: 6423.4 ms, native playing event
+PASS before v4-silk-thread 768 run 4: 6423.4 ms, native playing event
+PASS before v1-letter-post 768 run 4: 6421.1 ms, native playing event
+PASS after v3-moonboat 768 run 4: 926.8 ms, native playing event
+PASS after v1-letter-post 768 run 4: 925.5 ms, native playing event
+PASS after v4-silk-thread 768 run 4: 932.4 ms, native playing event
+PASS before v3-moonboat 768 run 5: 6420.5 ms, native playing event
+PASS before v4-silk-thread 768 run 5: 6416.9 ms, native playing event
+PASS before v1-letter-post 768 run 5: 6408.0 ms, native playing event
+PASS after v3-moonboat 768 run 5: 924.8 ms, native playing event
+PASS after v4-silk-thread 768 run 5: 924.9 ms, native playing event
+PASS after v1-letter-post 768 run 5: 944.5 ms, native playing event
+PASS before v1-letter-post 1920 run 1: 6415.1 ms, native playing event
+PASS before v4-silk-thread 1920 run 1: 6465.5 ms, native playing event
+PASS before v3-moonboat 1920 run 1: 6440.8 ms, native playing event
+PASS after v1-letter-post 1920 run 1: 921.8 ms, native playing event
+PASS after v4-silk-thread 1920 run 1: 923.5 ms, native playing event
+AssertionError [ERR_ASSERTION]: Cheer follows word promptly
+    at /workspace/clg-codex/tests/celebrate_delay.cjs:41:207
+    at runNextTicks (node:internal/process/task_queues:60:5)
+    at process.processImmediate (node:internal/timers:454:9)
+    at process.callbackTrampoline (node:internal/async_hooks:130:17)
+    at async Promise.all (index 1)
+    at async /workspace/clg-codex/tests/celebrate_delay.cjs:30:4 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '=='
+}

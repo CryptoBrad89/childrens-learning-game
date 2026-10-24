@@ -1,0 +1,38 @@
+PASS v1-letter-post-390-theme0: B/J/X/Z flow, no hints, replay, collection, wrap, keyboard and layout
+PASS v1-letter-post-390-theme1: B/J/X/Z flow, no hints, replay, collection, wrap, keyboard and layout
+Stalled playback {
+  screen: 'match',
+  effect: undefined,
+  talking: true,
+  hidden: false,
+  fun: {
+    effects: 0,
+    maxEffects: 1,
+    maxParticles: 24,
+    sfxStarted: 6,
+    sfxWhileMuted: 0,
+    sfxDuringVoice: 0,
+    particles: 0,
+    active: 0,
+    sources: 0,
+    muted: false,
+    speaking: true,
+    reduced: false
+  },
+  media: {
+    src: 'file:///workspace/clg-codex/audio/words/word-umbrella.mp3',
+    paused: false,
+    ended: false,
+    currentTime: 0.843359,
+    duration: 1.12,
+    readyState: 4,
+    error: undefined
+  },
+  animations: []
+}
+page.waitForFunction: Timeout 30000ms exceeded.
+    at settle (/workspace/clg-codex/tests/browser_smoke.cjs:39:54)
+    at run (/workspace/clg-codex/tests/browser_smoke.cjs:97:21) {
+  log: [],
+  name: 'TimeoutError'
+}

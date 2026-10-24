@@ -1,0 +1,46 @@
+[
+  {
+    "test": "accounts_sync",
+    "exit_code": 0
+  },
+  {
+    "test": "portal_flow",
+    "exit_code": 0
+  },
+  {
+    "test": "fixlist",
+    "exit_code": 1
+  },
+  {
+    "test": "portal_review_browser",
+    "exit_code": 0
+  },
+  {
+    "test": "call_list_browser",
+    "exit_code": 0
+  },
+  {
+    "test": "call_list_sounds",
+    "exit_code": 0
+  },
+  {
+    "test": "call_list_offline",
+    "exit_code": 0
+  },
+  {
+    "test": "tidy_1",
+    "exit_code": 0
+  },
+  {
+    "test": "tidy_1b",
+    "exit_code": 0
+  },
+  {
+    "test": "progress_sync",
+    "exit_code": 0
+  },
+  {
+    "test": "risky_actions_browser",
+    "exit_code": 0
+  }
+]

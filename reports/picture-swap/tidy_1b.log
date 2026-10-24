@@ -1,0 +1,19 @@
+PASS v1-letter-post grownup 1024x576: all themes match approved 42px/50px preview, aligned controls, no tag, menu works
+PASS v3-moonboat grownup 1024x576: all themes match approved 42px/50px preview, aligned controls, no tag, menu works
+PASS v4-silk-thread grownup 1024x576: all themes match approved 42px/50px preview, aligned controls, no tag, menu works
+PASS v1-letter-post child 1024x576: all themes match approved 42px/50px preview, aligned controls, no tag, menu works
+PASS v3-moonboat child 1024x576: all themes match approved 42px/50px preview, aligned controls, no tag, menu works
+PASS v4-silk-thread child 1024x576: all themes match approved 42px/50px preview, aligned controls, no tag, menu works
+PASS v1-letter-post grownup 768x1024: all themes match approved 42px/50px preview, aligned controls, no tag, menu works
+PASS v3-moonboat grownup 768x1024: all themes match approved 42px/50px preview, aligned controls, no tag, menu works
+PASS v4-silk-thread grownup 768x1024: all themes match approved 42px/50px preview, aligned controls, no tag, menu works
+PASS v1-letter-post child 768x1024: all themes match approved 42px/50px preview, aligned controls, no tag, menu works
+PASS v3-moonboat child 768x1024: all themes match approved 42px/50px preview, aligned controls, no tag, menu works
+PASS v4-silk-thread child 768x1024: all themes match approved 42px/50px preview, aligned controls, no tag, menu works
+PASS v1-letter-post grownup 1920x1080: all themes match approved 42px/50px preview, aligned controls, no tag, menu works
+PASS v3-moonboat grownup 1920x1080: all themes match approved 42px/50px preview, aligned controls, no tag, menu works
+PASS v4-silk-thread grownup 1920x1080: all themes match approved 42px/50px preview, aligned controls, no tag, menu works
+PASS v1-letter-post child 1920x1080: all themes match approved 42px/50px preview, aligned controls, no tag, menu works
+PASS v3-moonboat child 1920x1080: all themes match approved 42px/50px preview, aligned controls, no tag, menu works
+PASS v4-silk-thread child 1920x1080: all themes match approved 42px/50px preview, aligned controls, no tag, menu works
+PASS 54 live-game visual cases; all external account requests handled by local fixtures

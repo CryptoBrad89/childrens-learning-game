@@ -1,0 +1,146 @@
+[
+  {
+    "game": "v1-letter-post",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "offline": false,
+    "decoded": 26,
+    "wrongChoice": true,
+    "reward": true,
+    "ownFolderOnly": true
+  },
+  {
+    "game": "v3-moonboat",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "offline": false,
+    "decoded": 26,
+    "wrongChoice": true,
+    "reward": true,
+    "ownFolderOnly": true
+  },
+  {
+    "game": "v4-silk-thread",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "offline": false,
+    "decoded": 26,
+    "wrongChoice": true,
+    "reward": true,
+    "ownFolderOnly": true
+  },
+  {
+    "game": "v1-letter-post",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "offline": true,
+    "decoded": 26,
+    "wrongChoice": true,
+    "reward": true,
+    "ownFolderOnly": true
+  },
+  {
+    "game": "v3-moonboat",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "offline": true,
+    "decoded": 26,
+    "wrongChoice": true,
+    "reward": true,
+    "ownFolderOnly": true
+  },
+  {
+    "game": "v4-silk-thread",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "offline": true,
+    "decoded": 26,
+    "wrongChoice": true,
+    "reward": true,
+    "ownFolderOnly": true
+  },
+  {
+    "game": "v1-letter-post",
+    "viewport": {
+      "width": 1280,
+      "height": 800
+    },
+    "offline": false,
+    "decoded": 26,
+    "wrongChoice": true,
+    "reward": true,
+    "ownFolderOnly": true
+  },
+  {
+    "game": "v3-moonboat",
+    "viewport": {
+      "width": 1280,
+      "height": 800
+    },
+    "offline": false,
+    "decoded": 26,
+    "wrongChoice": true,
+    "reward": true,
+    "ownFolderOnly": true
+  },
+  {
+    "game": "v4-silk-thread",
+    "viewport": {
+      "width": 1280,
+      "height": 800
+    },
+    "offline": false,
+    "decoded": 26,
+    "wrongChoice": true,
+    "reward": true,
+    "ownFolderOnly": true
+  },
+  {
+    "game": "v1-letter-post",
+    "viewport": {
+      "width": 1280,
+      "height": 800
+    },
+    "offline": true,
+    "decoded": 26,
+    "wrongChoice": true,
+    "reward": true,
+    "ownFolderOnly": true
+  },
+  {
+    "game": "v3-moonboat",
+    "viewport": {
+      "width": 1280,
+      "height": 800
+    },
+    "offline": true,
+    "decoded": 26,
+    "wrongChoice": true,
+    "reward": true,
+    "ownFolderOnly": true
+  },
+  {
+    "game": "v4-silk-thread",
+    "viewport": {
+      "width": 1280,
+      "height": 800
+    },
+    "offline": true,
+    "decoded": 26,
+    "wrongChoice": true,
+    "reward": true,
+    "ownFolderOnly": true
+  }
+]

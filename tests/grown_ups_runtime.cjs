@@ -106,7 +106,7 @@ async function game(name, saved) {
   assert(html.includes('href="../grown-ups/in-game.css"'), `${name}: missing in-game grown-up styles`);
   const script = base => path.resolve(root, name, scripts.find(file => path.basename(file) === base));
   for (const file of ['config.js', 'settings.js', 'art.js']) vm.runInContext(fs.readFileSync(script(file), 'utf8'), context);
-  context.draw = window.draw; context.ico = window.ico;
+  context.draw = window.draw; context.ico = window.ico; context.wordPicture = window.wordPicture;
   vm.runInContext(fs.readFileSync(path.join(root, 'audio-map.js'), 'utf8'), context);
   const source = fs.readFileSync(script('app.js'), 'utf8');
   vm.runInContext(source.slice(0, -6) + `

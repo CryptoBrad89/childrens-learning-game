@@ -1,0 +1,7 @@
+page.evaluate: ReferenceError: ACCOUNTS is not defined
+    at eval (eval at evaluate (:311:30), <anonymous>:1:14)
+    at UtilityScript.evaluate (<anonymous>:313:16)
+    at UtilityScript.<anonymous> (<anonymous>:1:44)
+    at run (/workspace/clg-codex/tests/home_flow.cjs:27:31) {
+  log: []
+}

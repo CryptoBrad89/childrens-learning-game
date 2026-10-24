@@ -1,0 +1,12 @@
+PASS v1-letter-post 768 online: all 26 decode, choices, wrong tap and reward use own folder
+PASS v3-moonboat 768 online: all 26 decode, choices, wrong tap and reward use own folder
+PASS v4-silk-thread 768 online: all 26 decode, choices, wrong tap and reward use own folder
+PASS v1-letter-post 768 offline: all 26 decode, choices, wrong tap and reward use own folder
+PASS v3-moonboat 768 offline: all 26 decode, choices, wrong tap and reward use own folder
+PASS v4-silk-thread 768 offline: all 26 decode, choices, wrong tap and reward use own folder
+PASS v1-letter-post 1280 online: all 26 decode, choices, wrong tap and reward use own folder
+PASS v3-moonboat 1280 online: all 26 decode, choices, wrong tap and reward use own folder
+PASS v4-silk-thread 1280 online: all 26 decode, choices, wrong tap and reward use own folder
+PASS v1-letter-post 1280 offline: all 26 decode, choices, wrong tap and reward use own folder
+PASS v3-moonboat 1280 offline: all 26 decode, choices, wrong tap and reward use own folder
+PASS v4-silk-thread 1280 offline: all 26 decode, choices, wrong tap and reward use own folder

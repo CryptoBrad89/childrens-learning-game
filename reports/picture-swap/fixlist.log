@@ -1,0 +1,8 @@
+PASS 390: unified login, portal persistence/views, direct batch settings, no PIN, page-flow pickers/collections, compact profile and guest controls, consistent sign-out
+page.waitForFunction: Timeout 30000ms exceeded.
+    at settle (/workspace/clg-codex/tests/accounts_sync.cjs:143:14)
+    at round (/workspace/clg-codex/tests/accounts_sync.cjs:149:84)
+    at async /workspace/clg-codex/tests/fixlist.cjs:36:35 {
+  log: [],
+  name: 'TimeoutError'
+}

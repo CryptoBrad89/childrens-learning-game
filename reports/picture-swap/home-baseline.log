@@ -1,0 +1,11 @@
+AssertionError [ERR_ASSERTION]: The input did not match the regular expression /Letters with Lucy\s+Little Sounds Big Discovery/. Input:
+
+'Letters with Lucy'
+
+    at run (/tmp/picture-swap-baseline-atblj20g/tests/home_flow.cjs:51:16) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: 'Letters with Lucy',
+  expected: /Letters with Lucy\s+Little Sounds Big Discovery/,
+  operator: 'match'
+}

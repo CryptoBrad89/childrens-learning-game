@@ -1,4 +1,5 @@
 window.CONCEPT = {
+  wordPictureBase: 'pictures',
   kind: 'silk',
   title: 'Ribbon Road',
   themes: ['Pink', 'Purple', 'Yellow'],

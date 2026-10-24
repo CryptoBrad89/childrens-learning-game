@@ -7,7 +7,7 @@ const {execFileSync}=require('node:child_process');
 const {pathToFileURL}=require('node:url');
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'/usr/local/lib/pnpm/5/.pnpm/node_modules/playwright');
 const root=path.resolve(__dirname,'..');
-const before=execFileSync('git',['show','20e7acf:v1-letter-post/app.js'],{cwd:root,encoding:'utf8'});
+const before=execFileSync('git',['show','ea2d8a5:v1-letter-post/app.js'],{cwd:root,encoding:'utf8'}).replaceAll('${draw(l.word)}', '${wordPicture(l.word)}').replaceAll('${draw(current.word)}', '${wordPicture(current.word)}');
 (async()=>{
   const browser=await chromium.launch({executablePath:process.env.CHROMIUM_EXECUTABLE||'/usr/bin/google-chrome',args:['--no-sandbox']});
   const results=[];
@@ -64,7 +64,7 @@ const before=execFileSync('git',['show','20e7acf:v1-letter-post/app.js'],{cwd:ro
         }
         screens[name]={beforeHash:a.hash,afterHash:b.hash,pixelIdentical:a.hash===b.hash,controlRasterRounding};
       }
-      results.push({width,height,baseline:'20e7acf',screens,markupStylesAndGeometryIdentical:true});
+      results.push({width,height,baseline:'ea2d8a5',screens,markupStylesAndGeometryIdentical:true});
       console.log(`PASS Ribbon Road ${width}x${height}: five screens unchanged, allowing one-level header-control raster rounding`);
     }
     fs.mkdirSync(path.join(root,'reports/layout-build'),{recursive:true});

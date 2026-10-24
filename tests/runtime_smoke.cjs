@@ -61,7 +61,7 @@ async function smoke(game) {
   for (const file of ['config.js', 'art.js']) {
     vm.runInContext(fs.readFileSync(script(file), 'utf8'), context);
   }
-  context.draw = window.draw; context.ico = window.ico;
+  context.draw = window.draw; context.ico = window.ico; context.wordPicture = window.wordPicture;
   vm.runInContext(fs.readFileSync(path.join(root, 'audio-map.js'), 'utf8'), context);
   const source = fs.readFileSync(script('app.js'), 'utf8');
   assert(source.endsWith('})();\n'), 'Unrecognized app wrapper');

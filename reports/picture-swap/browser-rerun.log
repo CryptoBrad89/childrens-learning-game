@@ -1,0 +1,36 @@
+Stalled playback {
+  screen: 'celebrate',
+  effect: 'lucy-nod',
+  talking: false,
+  hidden: false,
+  fun: {
+    effects: 1,
+    maxEffects: 1,
+    maxParticles: 24,
+    sfxStarted: 2,
+    sfxWhileMuted: 0,
+    sfxDuringVoice: 0,
+    particles: 24,
+    active: 1,
+    sources: 0,
+    muted: false,
+    speaking: false,
+    reduced: false
+  },
+  media: {
+    src: 'file:///workspace/clg-codex/v1-letter-post/assets/lucy-cheer-2.mp3',
+    paused: true,
+    ended: true,
+    currentTime: 1.04,
+    duration: 1.04,
+    readyState: 4,
+    error: undefined
+  },
+  animations: []
+}
+page.waitForFunction: Timeout 30000ms exceeded.
+    at settle (/workspace/clg-codex/tests/browser_smoke.cjs:39:54)
+    at run (/workspace/clg-codex/tests/browser_smoke.cjs:105:46) {
+  log: [],
+  name: 'TimeoutError'
+}

@@ -39,3 +39,7 @@ window.ico = function(name) {
  const paths={sound:'<path d="M4 10v4h4l5 4V6L8 10z"/><path d="M16 8q6 4 0 8m3-11q9 7 0 14" fill="none"/>',mute:'<path d="M4 10v4h4l5 4V6L8 10z"/><path d="m17 9 5 6m0-6-5 6" fill="none"/>',home:'<path d="m3 11 9-8 9 8M6 9v12h12V9M10 21v-7h4v7" fill="none"/>',arrow:'<path d="M4 12h15m-6-6 6 6-6 6" fill="none"/>',paw:'<ellipse cx="12" cy="16" rx="6" ry="5"/><ellipse cx="4" cy="10" rx="2.5" ry="3"/><ellipse cx="9" cy="5" rx="2.5" ry="3"/><ellipse cx="16" cy="5" rx="2.5" ry="3"/><ellipse cx="21" cy="10" rx="2.5" ry="3"/>',star:'<path d="m12 2 3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1z"/>',check:'<path d="m5 12 5 5L20 6" fill="none"/>',back:'<path d="M20 12H4m6-6-6 6 6 6" fill="none"/>',palette:'<circle cx="12" cy="12" r="9" fill="none"/><circle cx="9" cy="8" r="1"/><circle cx="15" cy="8" r="1"/><circle cx="7" cy="13" r="1"/><path d="M15 13q-6 2-2 7" fill="none"/>'};
  return `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${paths[name]||paths.star}</svg>`;
 };
+
+window.wordPicture = function(word) {
+ return `<img class="art word-picture" src="${window.CONCEPT.wordPictureBase}/${word}.webp" alt="${word}" width="512" height="512">`;
+};

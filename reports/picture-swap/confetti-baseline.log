@@ -1,0 +1,11 @@
+AssertionError [ERR_ASSERTION]: v1-letter-post-390-theme0: replay preserves the rain
+
+0 !== 24
+
+    at /tmp/picture-swap-baseline-atblj20g/tests/confetti_smoke.cjs:98:20 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 0,
+  expected: 24,
+  operator: 'strictEqual'
+}

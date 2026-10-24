@@ -1,0 +1,478 @@
+{
+  "format": "lossy WebP",
+  "quality": 85,
+  "width": 512,
+  "height": 512,
+  "resize": "Pillow LANCZOS, full square",
+  "encoder_method": 6,
+  "files": [
+    {
+      "file": "v1-letter-post/pictures/apple.webp",
+      "bytes": 23646,
+      "sha256": "629396da531c200ea7f30f1e74173dfb1f96b7c08dac2cc437ff8a6f10f21111",
+      "original_sha256": "07099826ca09fc8efc94f12c96ff0aa73d18be0f410522c3cefde131779193ec"
+    },
+    {
+      "file": "v1-letter-post/pictures/ball.webp",
+      "bytes": 22670,
+      "sha256": "7854a8584f4727833143fc1ac5cb3c7d11e6c3c4537e2cccfefd14eab3e4a224",
+      "original_sha256": "b01ee882813c61e6c077e6e9d3368f1c93af5f30c0a0bad8ef113e4244983a15"
+    },
+    {
+      "file": "v1-letter-post/pictures/cat.webp",
+      "bytes": 22606,
+      "sha256": "4ee1e44755f231c6f2f8519d777c53f4769244d770ec2a42fcc4a0851abe4679",
+      "original_sha256": "7589101361bfb763f0ec44adc119afb944f05b3669f3b412b71d7664f20d838c"
+    },
+    {
+      "file": "v1-letter-post/pictures/duck.webp",
+      "bytes": 23008,
+      "sha256": "68a0281a2627d74b30ca9c0e5f8400733cba4e20c6b7d10c2ca9baaaa9509d8d",
+      "original_sha256": "4f18115eac210a48e058774374044a7a227f26c34b882188b99ddbc8afdec24b"
+    },
+    {
+      "file": "v1-letter-post/pictures/egg.webp",
+      "bytes": 18142,
+      "sha256": "c0ab90dae6987b6a1a59b3cbc4e700598bbeabae0df9dc73f2e9ca276c30d464",
+      "original_sha256": "129174fb1712fbc4bd5b46e206948c6a5dfbeca3432571985de92b1e5ce240ff"
+    },
+    {
+      "file": "v1-letter-post/pictures/fish.webp",
+      "bytes": 23712,
+      "sha256": "2999a61231d9f762dd8bb15a3508042e7ee449b4f124b559cad1dc649aed6d28",
+      "original_sha256": "9e80bcd12c7aeadcc1ca1d1512fd968f25e607d36a82d380c23fd6cdcdedd027"
+    },
+    {
+      "file": "v1-letter-post/pictures/fox.webp",
+      "bytes": 21234,
+      "sha256": "0c03300219f0e845e5cbdba8b8a892abc05cdd39d8de0469d1c705e2dadbdb90",
+      "original_sha256": "7c322eb5d4d12f121dad737f6eb0cc9c99c473bd94ff863190050342b4f09893"
+    },
+    {
+      "file": "v1-letter-post/pictures/goat.webp",
+      "bytes": 23828,
+      "sha256": "a03c66f73320077fa15ec2bf7f6cd3fa19d71b18e1b4ae6b72335a4bae9c1f41",
+      "original_sha256": "1b9528372f06ccf83af66f42b83d9bb8e01eb1dda3a3d560c272fc3f015092ab"
+    },
+    {
+      "file": "v1-letter-post/pictures/hat.webp",
+      "bytes": 20804,
+      "sha256": "977a81ece1a116498b73af183c2eca779bbcdd460088eae1f7a7dea18780ae7a",
+      "original_sha256": "32f2d98c3c3e6b67df97f2c13af43d2265dfb4ff1175c002664d69484cd5c1e7"
+    },
+    {
+      "file": "v1-letter-post/pictures/insect.webp",
+      "bytes": 21364,
+      "sha256": "210ee9f45fe0a4f89fab929fbcae28cd3b28cb3cd41b7dac0476e75e97d32fcb",
+      "original_sha256": "0c4e5d6a04eb2a0231a8c45dd1cbe708329fa26cab6abd6458e213309d7ec75c"
+    },
+    {
+      "file": "v1-letter-post/pictures/jellyfish.webp",
+      "bytes": 26280,
+      "sha256": "656361d9eb51e40b61e50e67c0376ca87d7da5015bbe43795fc11261241cff38",
+      "original_sha256": "64cf229008ebcd0396874b1ce7d990848016ca0821641a83a91e38ac855178d7"
+    },
+    {
+      "file": "v1-letter-post/pictures/kite.webp",
+      "bytes": 21862,
+      "sha256": "b28f48d7c474e54dba91ba8b292b877e4c005d85fe35cb0daa32095901b3b072",
+      "original_sha256": "a424bc9ff8e31e33b0f3d9f677f27716bef3b0f23d0825857aff49925e736475"
+    },
+    {
+      "file": "v1-letter-post/pictures/leaf.webp",
+      "bytes": 23986,
+      "sha256": "2a13b1d5cca32a9ccad7cf172f8cf8b46bd9f49a9a6439d3345089a1ef50c988",
+      "original_sha256": "bc8fc6be6a7d0b2257977887c42a98b553e8579a2f467eadf0fb2a3a5ec72f80"
+    },
+    {
+      "file": "v1-letter-post/pictures/moon.webp",
+      "bytes": 23652,
+      "sha256": "c917c6ad041cbbe232bce3a49b95f80316694ad9e49216c3ef7027557550e852",
+      "original_sha256": "98e52f1669e1286d45f99ead875af8838e6286575388a87dfc8714cdc00c0aa2"
+    },
+    {
+      "file": "v1-letter-post/pictures/nest.webp",
+      "bytes": 22816,
+      "sha256": "828884537cda4481b46b87a3be11d357977deb7c150791be182e8451cacce8e1",
+      "original_sha256": "a88f1ae883356606cad1f2804d8db79f9646295488f99c393bd9d5d65719bf3f"
+    },
+    {
+      "file": "v1-letter-post/pictures/octopus.webp",
+      "bytes": 27678,
+      "sha256": "ac7dc55f883cff2214306043de978bb04cbfa6882ab41bee267c3b4d3a2df004",
+      "original_sha256": "43387f29b1d0241ac4d45dceb53a438f9131f267e5d0f19fd00e6b650a2b2617"
+    },
+    {
+      "file": "v1-letter-post/pictures/pig.webp",
+      "bytes": 17638,
+      "sha256": "db7b1b9fc875515956565548349185220e900055ea77567aaccf615a78fc1bb6",
+      "original_sha256": "94c5057f3620d1e967d248a8d27702ba99166b9b22176bebd60a67279d564d5d"
+    },
+    {
+      "file": "v1-letter-post/pictures/quilt.webp",
+      "bytes": 23806,
+      "sha256": "d1a5f8c740bbb0c75e332ff251b6d4cf0a5162cd48fd335aba2dacbced87c291",
+      "original_sha256": "1967fe9428380adef18adce856135f00ec9c53d7d856d33d89ec636ce961493a"
+    },
+    {
+      "file": "v1-letter-post/pictures/rabbit.webp",
+      "bytes": 25944,
+      "sha256": "3e9207a95f80e902163aae9925daa35451b6a02c7ea31826861bc7b31d31f86f",
+      "original_sha256": "68efe462fdc52408f69b544355d0548017d9760644099176d8f468484529ec51"
+    },
+    {
+      "file": "v1-letter-post/pictures/sun.webp",
+      "bytes": 29352,
+      "sha256": "da7fac7cc15100023c7a5d8ac508d5cb4806868d58456a82805134a6a5d75d6c",
+      "original_sha256": "457dc9460bd2614fe92b9e436ec0ef45ca87a0a0de769b4ddf8dffd5b9a614b6"
+    },
+    {
+      "file": "v1-letter-post/pictures/tiger.webp",
+      "bytes": 29280,
+      "sha256": "2b24f19d22e2054a069a3cc39e9fff88c64a9e1037e65845c306f594131a9122",
+      "original_sha256": "686ac2e675785577842c38d946e97ea8c1b3e1b00a59f6d2a784609656fccb26"
+    },
+    {
+      "file": "v1-letter-post/pictures/umbrella.webp",
+      "bytes": 20356,
+      "sha256": "5bcbbd83ec1d50b9e4340bfba3801cc1af9447204b894f3eafdd7b657303ec84",
+      "original_sha256": "fb6c12e523ad87e81b9dfdba5017b2abda4f816525cd55566309502bdcc153c3"
+    },
+    {
+      "file": "v1-letter-post/pictures/van.webp",
+      "bytes": 21728,
+      "sha256": "58a42a3497eee890a454cff3ab0a873fb5550e303ab9553d3cda6f1b48caa9ba",
+      "original_sha256": "64feccec12b37f2e2f40607ef4f4903bb204ab9d7eed11a43db2a5d94274ae3f"
+    },
+    {
+      "file": "v1-letter-post/pictures/web.webp",
+      "bytes": 36740,
+      "sha256": "3b476beb2c33c0a3497fc15e66e855f2ec5cdea842f199805265c6fdb97c4eb8",
+      "original_sha256": "35fc6c43ac3788f9dac47ada0c72293f7896d14bc1dd9f5414e08f4d319819e5"
+    },
+    {
+      "file": "v1-letter-post/pictures/yak.webp",
+      "bytes": 31154,
+      "sha256": "b8d321eaa7aa278e1ac605b47c4d2814a19db7cafcfd9b8a2eab4b8f863940af",
+      "original_sha256": "684f12dc24b9668d2beb4607248cf141a29878e7ab0e8b19e7ef61ce55bc2095"
+    },
+    {
+      "file": "v1-letter-post/pictures/zebra.webp",
+      "bytes": 31416,
+      "sha256": "2c642471412ef4e76346a5662a822d64d1b079674a3bba9b17af85858225313a",
+      "original_sha256": "a110df5b78863df978266be01acd539456581ea2475be402abdb28030e41e92c"
+    },
+    {
+      "file": "v3-moonboat/pictures/apple.webp",
+      "bytes": 10380,
+      "sha256": "cee2faf34aa3ff2bed1db354c323170f0e10b00831a1348249aafbfbd0ea27d7",
+      "original_sha256": "d1a16cd823da81aa54d4b3e2779b5ca1c541bb5311cbf3c8c2d78f76843f03c1"
+    },
+    {
+      "file": "v3-moonboat/pictures/ball.webp",
+      "bytes": 8948,
+      "sha256": "d755e9077b22a2f371cff35c2c927e7538bd5a0729d95391c2b018a7a38e9189",
+      "original_sha256": "de5858f406f92df6ecafe4d4b89ea4810c6fd17e197e3672401672868304f1a8"
+    },
+    {
+      "file": "v3-moonboat/pictures/cat.webp",
+      "bytes": 14750,
+      "sha256": "ef3ae103a6d62178b5f34b488a171e4b609a334957784f2466d000578f83530c",
+      "original_sha256": "13e3206072facf7c101c5992d036f536c0e79f4b5d839a5e6195bbb95729e9fc"
+    },
+    {
+      "file": "v3-moonboat/pictures/duck.webp",
+      "bytes": 10522,
+      "sha256": "30571430f1444ff0e63077b0b83ef1ebb4165902e9c9d43177d76b5976824aa4",
+      "original_sha256": "5793ad2643208445e536f97daf38da25f74968d2d7c74dba857bc2b48b86bb75"
+    },
+    {
+      "file": "v3-moonboat/pictures/egg.webp",
+      "bytes": 8762,
+      "sha256": "4294bdc78d6ba46e6d6ecb66e4b6ea1eecbe2ba3dcd5bb0efd535442a8c70931",
+      "original_sha256": "8119c33ebe6c4bbb8e3aebaa8078acaf60e151598c7ae01faf72641ec9b20a74"
+    },
+    {
+      "file": "v3-moonboat/pictures/fish.webp",
+      "bytes": 11562,
+      "sha256": "48b4dd95d0fddfdc7ef86d0d52ffdcb58bf18b9bf67666b6917a13b41dcab6ee",
+      "original_sha256": "24bf30af07cdd1e30a59c6d25207b1d8db7b183f11bd8ab4ce0647dc0c759ef0"
+    },
+    {
+      "file": "v3-moonboat/pictures/fox.webp",
+      "bytes": 16158,
+      "sha256": "99fdcf9690b8e4000f48c2587f0083814455bece51f571c2312568f78a9b993d",
+      "original_sha256": "39252851d9b1489af41106354f31e6df2b6a696177e78df7edc32066d41474fb"
+    },
+    {
+      "file": "v3-moonboat/pictures/goat.webp",
+      "bytes": 16574,
+      "sha256": "50b34a12c92e942a486f1bbfc98313ebc6f2d011637ebe227fef8bf9eefcb58f",
+      "original_sha256": "0138e8fe7bc70a4b12f18ef28236ecd382d800905dafac703efa6b28adc511da"
+    },
+    {
+      "file": "v3-moonboat/pictures/hat.webp",
+      "bytes": 8848,
+      "sha256": "b7a6654dd30a987d8aa9ee1deb10cd4a35a15a4cada26d653ace7a4bd7b18504",
+      "original_sha256": "889d3bc3ad7765657a244c5f9c9e91e0cc0658284c4220567bd4968205ecc316"
+    },
+    {
+      "file": "v3-moonboat/pictures/insect.webp",
+      "bytes": 17640,
+      "sha256": "d75b03453707d246c866ed1a63e1c508983cf818f98d1ab98fab0f72a2381aa7",
+      "original_sha256": "c01a974533cb9076dc7ee54d60285a130587596768947dcfa8668918e24560c4"
+    },
+    {
+      "file": "v3-moonboat/pictures/jellyfish.webp",
+      "bytes": 11934,
+      "sha256": "d51e727887d1a72f42b3adcc4283ff74b97b91a95709b1701a5814b8f958b5e4",
+      "original_sha256": "2bc0d16ea40db15e971967e4eb055e9441a2b0199a2bb7780855440e5b92c48f"
+    },
+    {
+      "file": "v3-moonboat/pictures/kite.webp",
+      "bytes": 9152,
+      "sha256": "54c508d332719fd800e9a751a72beff038c8914c08d770523f86d22ceb8a32ad",
+      "original_sha256": "bc42407bf17b423e7344b57efcd8a8cd2a1f54cfdae47309ed2ad66b5499c719"
+    },
+    {
+      "file": "v3-moonboat/pictures/leaf.webp",
+      "bytes": 6010,
+      "sha256": "05f553be4b833f0c14283574b99730b225f2b0ea97d1b9689286ca40d4a9fce4",
+      "original_sha256": "4c74e749a28c9b462c02c0776d41ea656bb887cb483c7dd01ce28bf7b2fdb50a"
+    },
+    {
+      "file": "v3-moonboat/pictures/moon.webp",
+      "bytes": 5508,
+      "sha256": "29539bf968cef19a13f590993d306eeb8ce3046bc3830a5c6be3c52732af82a9",
+      "original_sha256": "63e2978d5402a07a6f92659d54004a83aaa35f6a4476b5643ace9605988e15f5"
+    },
+    {
+      "file": "v3-moonboat/pictures/nest.webp",
+      "bytes": 19136,
+      "sha256": "10be36c0ec619b84db3513f1bc672440e8201b031e6b94438ee5232b4deb67eb",
+      "original_sha256": "23010c4dca4c78dbf89616a411892355d833ad56348b9f58822e3001aac87a57"
+    },
+    {
+      "file": "v3-moonboat/pictures/octopus.webp",
+      "bytes": 14280,
+      "sha256": "3595d07c40f7ef00a040486e2c41d0230cafa34994da9fa976ee448bf0cea3d9",
+      "original_sha256": "fa6394cfc2dde74470483672cef9b549910cbb6df5a744fd4b97f0dabafac8ba"
+    },
+    {
+      "file": "v3-moonboat/pictures/pig.webp",
+      "bytes": 9622,
+      "sha256": "afbd4f08ff6c056cc81cd7c86725e9a3a390ecb7d77b64d7851cbef7595ce26e",
+      "original_sha256": "8846cf5e916340ced81d52da9239a45982725a374e22bec4547d997bc0732933"
+    },
+    {
+      "file": "v3-moonboat/pictures/quilt.webp",
+      "bytes": 13840,
+      "sha256": "c440120f279674d38b6245822bd285c9c8cc78df316075ec84d62f611d37f50b",
+      "original_sha256": "75dcadacb2a897ac1f0c4130a1a35b748d975d188e66bd39acf8a5d34b2b4d82"
+    },
+    {
+      "file": "v3-moonboat/pictures/rabbit.webp",
+      "bytes": 12480,
+      "sha256": "993a69b6ded03d8670d1df4ca1f1e22a2faad8871e973c3ef439844e2fec8c14",
+      "original_sha256": "8b60c1a8360bbef2ddedbfed732e623f30960a75d9a799a9144a302852323ad6"
+    },
+    {
+      "file": "v3-moonboat/pictures/sun.webp",
+      "bytes": 8002,
+      "sha256": "d3507988d66cd90a578e2300273051e7233560ad741091127e17f5e4c3197090",
+      "original_sha256": "eff705aeb6aa15166f2377ca7785b2dd0b1bbecb987c44d51aac0fcda8fa0e71"
+    },
+    {
+      "file": "v3-moonboat/pictures/tiger.webp",
+      "bytes": 20296,
+      "sha256": "2d33fadb2587d897314632a5f3485a389a345576cac0fa134f0b41b06fd820f4",
+      "original_sha256": "fa9518b49808003c0e6f9298a392694cb470f58916c966ef74e1ab154a9be4d4"
+    },
+    {
+      "file": "v3-moonboat/pictures/umbrella.webp",
+      "bytes": 15828,
+      "sha256": "32f98875a14c7dffb4054402c89e5f565ba7a254799eef39478bd444d07c3452",
+      "original_sha256": "43d7dbecef07b5eda26882cf1f53501a5515607761c67c9baec0f3cd3bb624e4"
+    },
+    {
+      "file": "v3-moonboat/pictures/van.webp",
+      "bytes": 9038,
+      "sha256": "9c19d92d5dcab674cac09e11a71a064bc98ce19528c21e8d37a3c4de000f4873",
+      "original_sha256": "76e21db0e832d6d64329cb2ebd6d97e3e293c80a5f51c108bb935d286c89f659"
+    },
+    {
+      "file": "v3-moonboat/pictures/web.webp",
+      "bytes": 28696,
+      "sha256": "6d7f08a52fc6ff9cee24409afa8f627389e7db9e866d2becfa738b7796679b64",
+      "original_sha256": "9f8fa2c8bf2f8db0fd5e84374260f3a29ca90284eff901bbbd35c4e16b1bbba4"
+    },
+    {
+      "file": "v3-moonboat/pictures/yak.webp",
+      "bytes": 19488,
+      "sha256": "33e8163361f6a4c3a4145fa10a4164278513e5ffd3ed015e1412c912adf2f293",
+      "original_sha256": "8d0a2f4896a5ce82f3cb36b0bd1c91ea7a5974ca099080d63a8e61232bd9f4af"
+    },
+    {
+      "file": "v3-moonboat/pictures/zebra.webp",
+      "bytes": 22968,
+      "sha256": "bc99d574a02533b357cd837fa7f13cba72dfa5dc3e65ea4e3124fd497a4422d6",
+      "original_sha256": "0fb8998ce76cb526ede727fab7407cae4942a29bb69da92fa52194ed8cf7fc86"
+    },
+    {
+      "file": "v4-silk-thread/pictures/apple.webp",
+      "bytes": 10406,
+      "sha256": "e05a7c8eb37f1ad413df039228382830fd677eb36e45bc5b5ca8b11d32cdcfc0",
+      "original_sha256": "6cc3d0905bc583c0ce29b692a32838b75ae378344f84a0b6a198a1b4769157dd"
+    },
+    {
+      "file": "v4-silk-thread/pictures/ball.webp",
+      "bytes": 8906,
+      "sha256": "1f159b4e689eeb4f108a9b99c2bd64ae6b596fb89c06206c18859f5b9af96fa5",
+      "original_sha256": "2b004e4b568fbf2fc4b1da0270ec7268cccc48271141e93791b7bb6c148cfafb"
+    },
+    {
+      "file": "v4-silk-thread/pictures/cat.webp",
+      "bytes": 18806,
+      "sha256": "bfd009e2148979051b70d69bf23f0923f8dd0d5d0b0801688fc0c3f33f8f0aff",
+      "original_sha256": "eb26ef246b1ad50161876734eb2c3a3e4c8566e092fcb3737001f10dd16beee7"
+    },
+    {
+      "file": "v4-silk-thread/pictures/duck.webp",
+      "bytes": 12976,
+      "sha256": "36707757975a4a352cf7c10f10a7e38f22a29c9bf0b3d13f90b6af5afb55b68f",
+      "original_sha256": "9a92a49fe4c428582619e0a1909fff022f8cbbc9f31d2d69acfe8bbd4a43e6df"
+    },
+    {
+      "file": "v4-silk-thread/pictures/egg.webp",
+      "bytes": 8128,
+      "sha256": "ee4d3e30841d2b672c6c9db760ac105a94f11365d8fb1502154f91334dfc8949",
+      "original_sha256": "d92c0485b9788bb617c7b71c47c5f3263f1a510fcd1cbf25335e21110e21db53"
+    },
+    {
+      "file": "v4-silk-thread/pictures/fish.webp",
+      "bytes": 16612,
+      "sha256": "afc4c49d0c309e45784c9bab2bce2f398ba639ae72fd522867a1c7b20a1b7d6b",
+      "original_sha256": "feeebd7cf8518317d5c13cc6dab8767ab77bd5d79c2fce21d1e7c6099f73f664"
+    },
+    {
+      "file": "v4-silk-thread/pictures/fox.webp",
+      "bytes": 22866,
+      "sha256": "7a42198a048aa4e281c7aed4327d48e55e50ad5b09491e86891aa4f34740e2e2",
+      "original_sha256": "2845bf27d10d5c58b2177131fc17e0ce2f185921c6904129326fdc98214279fc"
+    },
+    {
+      "file": "v4-silk-thread/pictures/goat.webp",
+      "bytes": 17184,
+      "sha256": "0e7614b29aaa2a1fe5e8ace86e9cacd938b7d2d5f6cbc7851a0dc2fc4c9bbae9",
+      "original_sha256": "1f11cc18852b37f061d168fc72df7deea4944d6a27aa9e9fe48661c45f5cc47c"
+    },
+    {
+      "file": "v4-silk-thread/pictures/hat.webp",
+      "bytes": 14402,
+      "sha256": "872906aa94ec6505aa37d269456b5d29347068978c49132a9bdd0e64b493c44a",
+      "original_sha256": "0423616c36da8f0a21ec1b1aa095259f027fd1906ae3e45f6fc0a14eb6bc9789"
+    },
+    {
+      "file": "v4-silk-thread/pictures/insect.webp",
+      "bytes": 8118,
+      "sha256": "ec73a14efee83d035846cfbf4520c9fd1e727c67a9b767e0e1cfd4e6c5e9745f",
+      "original_sha256": "3e131ec00c8bf736517edfa4d2a45463c94685e40d2c79cf94938d79249fb577"
+    },
+    {
+      "file": "v4-silk-thread/pictures/jellyfish.webp",
+      "bytes": 17368,
+      "sha256": "3bcd8c83f2a1b184814123e2467277281592dc3fe6795246cac8cd5c23d0b2fa",
+      "original_sha256": "1298626e04d6d0d4177eb19d06d6bbd10eb8aa8235fe7bb6d629c7f3554509a7"
+    },
+    {
+      "file": "v4-silk-thread/pictures/kite.webp",
+      "bytes": 12452,
+      "sha256": "c84b823fff61a62eff87cbb396ce97557f77ea06f05086fef6dbdb87a4636fa3",
+      "original_sha256": "747bea0a1f59da14af45780e8e142e1b9579ddeb2268735434b609d70871ee8d"
+    },
+    {
+      "file": "v4-silk-thread/pictures/leaf.webp",
+      "bytes": 8962,
+      "sha256": "8df5fee249417e5cf5ffcd0af290325425aaa1dac5646fe7715dd1bbe703e84a",
+      "original_sha256": "9cca0eb25885043b1b1288d47ae1d4cc2312673ad8cedeae19ded23afbf2796d"
+    },
+    {
+      "file": "v4-silk-thread/pictures/moon.webp",
+      "bytes": 10132,
+      "sha256": "3531b1ffff03ecfc83a934828a6e127d664b8e383ea396345aa58fb07c33eeee",
+      "original_sha256": "da345bdeb2744470526685a6e15b4100ff0a61ec8d89bc2c56ab43b56215eb1f"
+    },
+    {
+      "file": "v4-silk-thread/pictures/nest.webp",
+      "bytes": 19158,
+      "sha256": "02c8d72958395e0c57c0cd4b28220bfc31d8538b9828827ded6087f0d717abd6",
+      "original_sha256": "95ec41318efc599d7c217ae81bbcfbe121289f5b99cb012b3d21b9a4f4a80fea"
+    },
+    {
+      "file": "v4-silk-thread/pictures/octopus.webp",
+      "bytes": 18324,
+      "sha256": "98b99fa168087bf2e936e853464ceb121d4981e73ff7961bb1dba86391d7fdd5",
+      "original_sha256": "a1abd734e32833ce461593f747c16012f3046255abdcb3565a1cb43563ae3922"
+    },
+    {
+      "file": "v4-silk-thread/pictures/pig.webp",
+      "bytes": 13408,
+      "sha256": "82cf87fc41de357242de8b13de45ca3ed58597fbb48e22bc9565a47621cec3d1",
+      "original_sha256": "83fbe8e130d4d63fc95ad0975a317f73a81bdef88c419d7c7b6e641ae69a2343"
+    },
+    {
+      "file": "v4-silk-thread/pictures/quilt.webp",
+      "bytes": 21504,
+      "sha256": "e8f7f91f91e74a5a74ca151d1b25a92a6b6e377abb19a88235a0708591e21d73",
+      "original_sha256": "443eb9412daf8bf8c83944e882e3adf8335c3e850f902d29e004dada72e34aff"
+    },
+    {
+      "file": "v4-silk-thread/pictures/rabbit.webp",
+      "bytes": 14752,
+      "sha256": "e0fa92920566e9083392508809eab4814a1707bcbfa6484eca4d66ce9767c891",
+      "original_sha256": "2c49f72a785c444c9e07658c089961a43db980a763e1acf3719f1b94e7000e31"
+    },
+    {
+      "file": "v4-silk-thread/pictures/sun.webp",
+      "bytes": 12986,
+      "sha256": "2e24c7e57f9f5d125ab712fa8542af9cb3525e92f28f21eda04b2577685839c5",
+      "original_sha256": "a5b81d591213de6da9b42384cbc0e5e1b5c6ba6302ac71767c79297e5bf1a64b"
+    },
+    {
+      "file": "v4-silk-thread/pictures/tiger.webp",
+      "bytes": 26076,
+      "sha256": "10c05f3ac2bdc96f89767bb63ff8a88363f1542c5bbc88c4b400ab66a6b7d7e8",
+      "original_sha256": "fc93f020292abe044e4e527a80986cc7e831d62d41938ac8779d990b269252a2"
+    },
+    {
+      "file": "v4-silk-thread/pictures/umbrella.webp",
+      "bytes": 13626,
+      "sha256": "5dbc805bedefc190f42a591d60390cc85e46f0bc8114f231ef12733eaebecebd",
+      "original_sha256": "6f4e6645120a3d53973bbd3e9494c08643ef427c855c9fadb89b8de45bd82e82"
+    },
+    {
+      "file": "v4-silk-thread/pictures/van.webp",
+      "bytes": 13794,
+      "sha256": "8bae70fa2a818306d80451796d3b447e7a179e085445988f87e8ee8bfa48f8f3",
+      "original_sha256": "d2b7b294868860eb8a91f32ea9551c1e76dff825bdc98fa3f0daae2ee190c9ab"
+    },
+    {
+      "file": "v4-silk-thread/pictures/web.webp",
+      "bytes": 31264,
+      "sha256": "417b0c3625d685f167b34d0cc94a18a0783ff8d89237fbe399c4f5b5bfc2547e",
+      "original_sha256": "e03ee771ab9bf0beb7e1335b4daf7faa8496be4db3628a680eed367c52d77837"
+    },
+    {
+      "file": "v4-silk-thread/pictures/yak.webp",
+      "bytes": 22158,
+      "sha256": "0c69e2c12a88086cb01160515653810772ffe2bceed18986c77186a603d3f1c1",
+      "original_sha256": "3038afb22c37099746c9c8fcea7a0c941a5eb0f0b8a29a99604f040db4d0aacc"
+    },
+    {
+      "file": "v4-silk-thread/pictures/zebra.webp",
+      "bytes": 24664,
+      "sha256": "98e11f2d9c3102ef8b0687dd42240f702f03f57e879f8ba6ed7a30de5fb76a5c",
+      "original_sha256": "501636601d1e7f9a6b4a3bd80030f8697036c7acadaf974caa357db13be56182"
+    }
+  ]
+}

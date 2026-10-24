@@ -1,0 +1,8 @@
+/* Preserve the complete square word pictures inside the existing art boxes. */
+body[class] .choice img.word-picture, body[class] .reward-art img.word-picture {
+  object-fit: contain;
+  aspect-ratio: 1;
+  border-radius: 0;
+  padding: 0;
+  background: none;
+}

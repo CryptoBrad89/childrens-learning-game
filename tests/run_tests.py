@@ -6,7 +6,6 @@ import json
 import re
 import string
 import sys
-import xml.etree.ElementTree as ET
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -201,10 +200,6 @@ def alphabet():
         rows = game_letters(game)
         require([row[0] for row in rows] == list(string.ascii_uppercase),
                 f'{game}: must list all 26 letters once, in A-Z order')
-        art = (ROOT / game / 'art.js').read_text()
-        face = re.search(r"const face='([^']+)';", art)
-        require(face is not None, f'{game}: missing SVG face vocabulary')
-        shapes = dict(re.findall(r'^\s*([a-z]+):([^\n]+)', art, re.M))
         for letter, word, sound in rows:
             require(word == WORDS[letter], f'{game}: {letter} must use {WORDS[letter]}')
             require(isinstance(sound, str) and re.fullmatch(r'/[^/\s]+/', sound),
@@ -220,20 +215,13 @@ def alphabet():
                     f'{game}: {word} clip has mismatched text')
             if letter not in 'SATPIM':
                 require(name == f'audio/words/word-{word}.mp3', f'{game}: must reuse supplied {word} clip')
-            require(word in shapes, f'{game}: missing explicit SVG for {word} (fallback does not count)')
-            literal = re.match(r"([`'\"])(.*?)\1", shapes[word])
-            require(literal is not None, f'{game}: invalid SVG literal for {word}')
-            markup = literal[2].replace('${face}', face[1])
-            require('${' not in markup, f'{game}: unresolved SVG template for {word}')
-            try:
-                svg = ET.fromstring(f'<svg xmlns="http://www.w3.org/2000/svg">{markup}</svg>')
-            except ET.ParseError as exc:
-                raise AssertionError(f'{game}: malformed {word} SVG: {exc}') from exc
-            require(len(svg) > 0 and any(node.tag.rsplit('}', 1)[-1] in {'path', 'circle', 'ellipse', 'rect'}
-                                        for node in svg.iter()), f'{game}: empty SVG for {word}')
+            picture = ROOT / game / 'pictures' / f'{word}.webp'
+            require(picture.is_file(), f'{game}: missing word picture: {word}')
+            require(picture.read_bytes()[:4] == b'RIFF' and picture.read_bytes()[8:12] == b'WEBP',
+                    f'{game}: invalid WebP: {word}')
         require(dict((letter, sound) for letter, _, sound in rows)['X'] == '/ks/', f'{game}: X must use /ks/')
     require(game_letters(GAMES[0]) == game_letters(GAMES[1]), 'Games must teach the same A-Z vocabulary')
-    return 'both games: 26 ordered letters, supplied words, Lucy/eleven_v4 clips and valid explicit SVGs'
+    return 'both games: 26 ordered letters, supplied words, Lucy/eleven_v4 clips and explicit WebP pictures'
 
 
 def themes():
