@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#faf2df">
+<title>Word pictures preview</title>
+<link rel="stylesheet" href="preview.css">
+</head>
+<body>
+<header class="review-bar">
+  <div class="review-inner">
+    <p class="eyebrow">Art review</p>
+    <h1>Word pictures</h1>
+    <p>Nine pictures, three layouts. Click a card to see it big. This page does not change the game.</p>
+  </div>
+</header>
+
+<main>
+  <section class="band band-post" id="letter-post" aria-labelledby="letter-post-title">
+    <div class="band-inner">
+      <header class="band-head">
+        <p class="eyebrow">v1</p>
+        <h2 id="letter-post-title">Letter Post</h2>
+      </header>
+      <div class="cards">
+        <button class="card" type="button" data-word="apple" data-layout="post" data-src="images/letter-post-apple.png" aria-label="apple, view larger">
+          <img src="images/letter-post-apple.png" alt="" width="1024" height="1024">
+          <span class="word">apple</span>
+        </button>
+        <button class="card" type="button" data-word="kite" data-layout="post" data-src="images/letter-post-kite.png" aria-label="kite, view larger">
+          <img src="images/letter-post-kite.png" alt="" width="1024" height="1024">
+          <span class="word">kite</span>
+        </button>
+        <button class="card" type="button" data-word="van" data-layout="post" data-src="images/letter-post-van.png" aria-label="van, view larger">
+          <img src="images/letter-post-van.png" alt="" width="1024" height="1024">
+          <span class="word">van</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-space" id="moonboat" aria-labelledby="moonboat-title">
+    <div class="band-inner">
+      <header class="band-head">
+        <p class="eyebrow">v3</p>
+        <h2 id="moonboat-title">Moonboat</h2>
+      </header>
+      <div class="cards">
+        <button class="card" type="button" data-word="moon" data-layout="space" data-src="images/moonboat-moon.png" aria-label="moon, view larger">
+          <img src="images/moonboat-moon.png" alt="" width="1024" height="1024">
+          <span class="word">moon</span>
+        </button>
+        <button class="card" type="button" data-word="octopus" data-layout="space" data-src="images/moonboat-octopus.png" aria-label="octopus, view larger">
+          <img src="images/moonboat-octopus.png" alt="" width="1024" height="1024">
+          <span class="word">octopus</span>
+        </button>
+        <button class="card" type="button" data-word="fox" data-layout="space" data-src="images/moonboat-fox.png" aria-label="fox, view larger">
+          <img src="images/moonboat-fox.png" alt="" width="1024" height="1024">
+          <span class="word">fox</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-silk" id="ribbon-road" aria-labelledby="ribbon-road-title">
+    <div class="band-inner">
+      <header class="band-head">
+        <p class="eyebrow">v4</p>
+        <h2 id="ribbon-road-title">Ribbon Road</h2>
+      </header>
+      <div class="cards">
+        <button class="card" type="button" data-word="rabbit" data-layout="silk" data-src="images/ribbon-road-rabbit.png" aria-label="rabbit, view larger">
+          <img src="images/ribbon-road-rabbit.png" alt="" width="1024" height="1024">
+          <span class="word">rabbit</span>
+        </button>
+        <button class="card" type="button" data-word="umbrella" data-layout="silk" data-src="images/ribbon-road-umbrella.png" aria-label="umbrella, view larger">
+          <img src="images/ribbon-road-umbrella.png" alt="" width="1024" height="1024">
+          <span class="word">umbrella</span>
+        </button>
+        <button class="card" type="button" data-word="ball" data-layout="silk" data-src="images/ribbon-road-ball.png" aria-label="ball, view larger">
+          <img src="images/ribbon-road-ball.png" alt="" width="1024" height="1024">
+          <span class="word">ball</span>
+        </button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<dialog class="viewer" id="viewer" aria-labelledby="viewer-word">
+  <div class="viewer-sheet">
+    <button class="viewer-close" type="button" data-close>Close</button>
+    <img class="viewer-picture" alt="" width="1024" height="1024">
+    <p class="viewer-word" id="viewer-word"></p>
+  </div>
+</dialog>
+<script src="preview.js"></script>
+</body>
+</html>
