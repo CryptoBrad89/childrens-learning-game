@@ -1,0 +1,162 @@
+[
+ {
+  "game": "moonboat",
+  "word": "web",
+  "label": "blend-moonboat-web",
+  "reference_generation_id": "vjzIpIBesQThKE1GHsrO",
+  "reference_file": "/workspace/lwl-pictures/elevenlabs/full/moonboat/web.png",
+  "model_id": "bytedance-seedream-5-lite",
+  "model_parameters": {
+   "aspect_ratio": "1:1",
+   "resolution": "2K"
+  },
+  "prompt": "Rework this exact picture for a preschool phonics game. Keep the same subject (a single clear round spider web with straight spokes and spiral threads, no spider, centered, soft dreamy storybook illustration for a preschool bedtime picture book), the same soft dreamy storybook style, the same colors and the same pose, large and centered. In the game this picture is shown inside a ROUND slot (a circle) that sits on light pastel cards (lavender #ece9f5, cream #f3e3d8, pale blue #daeaeb) and also on a periwinkle #9ca6d9 circle. Right now its square night-navy background ends in a hard square edge, so it looks like a photo pasted on top of the page. Keep some of the cute night-sky background, soft glow and tiny stars close around the subject, but make it melt softly and evenly into a circle that blends naturally with a light card, so there is no hard square edge, no visible corners and nothing that looks pasted on. You decide the best way to make it blend in. No text, no letters, no numbers, no frame, no border, no people.",
+  "generation_id": "EnSV3bkG80gPuHe3URHj",
+  "flow_id": "Kk70qrUS5JgwKC20KEEi",
+  "credits": 212.1
+ },
+ {
+  "game": "moonboat",
+  "word": "insect",
+  "label": "blend-moonboat-insect",
+  "reference_generation_id": "btnLuLyUUN3NifmyKPce",
+  "reference_file": "/workspace/lwl-pictures/elevenlabs/full/moonboat/insect.png",
+  "model_id": "bytedance-seedream-5-lite",
+  "model_parameters": {
+   "aspect_ratio": "1:1",
+   "resolution": "2K"
+  },
+  "prompt": "Rework this exact picture for a preschool phonics game. Keep the same subject (a single friendly round ladybug seen from above, clearly an insect, with six short legs and two little antennae, centered, soft dreamy storybook illustration for a preschool bedtime picture book), the same soft dreamy storybook style, the same colors and the same pose, large and centered. In the game this picture is shown inside a ROUND slot (a circle) that sits on light pastel cards (lavender #ece9f5, cream #f3e3d8, pale blue #daeaeb) and also on a periwinkle #9ca6d9 circle. Right now its square night-navy background ends in a hard square edge, so it looks like a photo pasted on top of the page. Keep some of the cute night-sky background, soft glow and tiny stars close around the subject, but make it melt softly and evenly into a circle that blends naturally with a light card, so there is no hard square edge, no visible corners and nothing that looks pasted on. You decide the best way to make it blend in. No text, no letters, no numbers, no frame, no border, no people.",
+  "generation_id": "H11J3rQShtC4fR7iqxHc",
+  "flow_id": "Kk70qrUS5JgwKC20KEEi",
+  "credits": 212.1
+ },
+ {
+  "game": "moonboat",
+  "word": "duck",
+  "label": "blend-moonboat-duck",
+  "reference_generation_id": "IaK4vLEMjvZZOieU2NHb",
+  "reference_file": "/workspace/lwl-pictures/elevenlabs/full/moonboat/duck.png",
+  "model_id": "bytedance-seedream-5-lite",
+  "model_parameters": {
+   "aspect_ratio": "1:1",
+   "resolution": "2K"
+  },
+  "prompt": "Rework this exact picture for a preschool phonics game. Keep the same subject (a single cute little duckling floating gently, seen from the side, centered, soft dreamy storybook illustration for a preschool bedtime picture book), the same soft dreamy storybook style, the same colors and the same pose, large and centered. In the game this picture is shown inside a ROUND slot (a circle) that sits on light pastel cards (lavender #ece9f5, cream #f3e3d8, pale blue #daeaeb) and also on a periwinkle #9ca6d9 circle. Right now its square night-navy background ends in a hard square edge, so it looks like a photo pasted on top of the page. Keep some of the cute night-sky background, soft glow and tiny stars close around the subject, but make it melt softly and evenly into a circle that blends naturally with a light card, so there is no hard square edge, no visible corners and nothing that looks pasted on. You decide the best way to make it blend in. No text, no letters, no numbers, no frame, no border, no people.",
+  "generation_id": "IS6u4X9bVCcoWkrA4A6S",
+  "flow_id": "Kk70qrUS5JgwKC20KEEi",
+  "credits": 212.1
+ },
+ {
+  "game": "moonboat",
+  "word": "nest",
+  "label": "blend-moonboat-nest",
+  "reference_generation_id": "iKwqntVxByFQbo22kSRB",
+  "reference_file": "/workspace/lwl-pictures/elevenlabs/full/moonboat/nest.png",
+  "model_id": "bytedance-seedream-5-lite",
+  "model_parameters": {
+   "aspect_ratio": "1:1",
+   "resolution": "2K"
+  },
+  "prompt": "Rework this exact picture for a preschool phonics game. Keep the same subject (a single round twig bird's nest holding three small eggs, no bird, centered, soft dreamy storybook illustration for a preschool bedtime picture book), the same soft dreamy storybook style, the same colors and the same pose, large and centered. In the game this picture is shown inside a ROUND slot (a circle) that sits on light pastel cards (lavender #ece9f5, cream #f3e3d8, pale blue #daeaeb) and also on a periwinkle #9ca6d9 circle. Right now its square night-navy background ends in a hard square edge, so it looks like a photo pasted on top of the page. Keep some of the cute night-sky background, soft glow and tiny stars close around the subject, but make it melt softly and evenly into a circle that blends naturally with a light card, so there is no hard square edge, no visible corners and nothing that looks pasted on. You decide the best way to make it blend in. No text, no letters, no numbers, no frame, no border, no people.",
+  "generation_id": "cHCp8ABJnfaxLFhrSK1U",
+  "flow_id": "Kk70qrUS5JgwKC20KEEi",
+  "credits": 212.1
+ },
+ {
+  "game": "moonboat",
+  "word": "ball",
+  "label": "blend-moonboat-ball",
+  "reference_generation_id": "KhKNrOl8ovMjwT6YZqh3",
+  "reference_file": "/workspace/lwl-pictures/elevenlabs/full/moonboat/ball.png",
+  "model_id": "bytedance-seedream-5-lite",
+  "model_parameters": {
+   "aspect_ratio": "1:1",
+   "resolution": "2K"
+  },
+  "prompt": "Rework this exact picture for a preschool phonics game. Keep the same subject (a single round bouncy play ball, centered, soft dreamy storybook illustration for a preschool bedtime picture book), the same soft dreamy storybook style, the same colors and the same pose, large and centered. In the game this picture is shown inside a ROUND slot (a circle) that sits on light pastel cards (lavender #ece9f5, cream #f3e3d8, pale blue #daeaeb) and also on a periwinkle #9ca6d9 circle. Right now its square night-navy background ends in a hard square edge, so it looks like a photo pasted on top of the page. Keep some of the cute night-sky background, soft glow and tiny stars close around the subject, but make it melt softly and evenly into a circle that blends naturally with a light card, so there is no hard square edge, no visible corners and nothing that looks pasted on. You decide the best way to make it blend in. No text, no letters, no numbers, no frame, no border, no people.",
+  "generation_id": "cUW8oqIGsA0ObbHDKtvz",
+  "flow_id": "Kk70qrUS5JgwKC20KEEi",
+  "credits": 212.1
+ },
+ {
+  "game": "ribbon-road",
+  "word": "web",
+  "label": "blend-ribbon-road-web",
+  "reference_generation_id": "Kk8TUYjR2UeHARz9XCVV",
+  "reference_file": "/workspace/lwl-pictures/elevenlabs/full/ribbon-road/web.png",
+  "model_id": "bytedance-seedream-5-lite",
+  "model_parameters": {
+   "aspect_ratio": "1:1",
+   "resolution": "2K"
+  },
+  "prompt": "Rework this exact picture for a preschool phonics game. Keep the same subject (a single clear round spider web with straight spokes and spiral threads, no spider, centered), the same glossy chunky toy-like 3D style, the same colors and the same pose, large and centered. In the game this picture is shown on a rounded-square card colored very pale pink #fff4fa (the game also has a very pale purple #faf6ff theme and a very pale yellow #fffdf4 theme). Right now its square candy pink background ends in a hard square edge, so it looks like a photo pasted on top of the card. Keep some of the cute pink ribbon-swirl background around the subject, but let it soften gently and evenly into the pale card color toward the edges, following a rounded-square shape, so no square edge shows and it sits naturally on the card. You decide the best way to make it blend in. No text, no letters, no numbers, no frame, no border, no people.",
+  "generation_id": "0sjxsuJrj8Cy63CYd4Vc",
+  "flow_id": "Kk70qrUS5JgwKC20KEEi",
+  "credits": 212.1
+ },
+ {
+  "game": "ribbon-road",
+  "word": "egg",
+  "label": "blend-ribbon-road-egg",
+  "reference_generation_id": "8qE9m7gWpklQhf0PzYAl",
+  "reference_file": "/workspace/lwl-pictures/elevenlabs/full/ribbon-road/egg.png",
+  "model_id": "bytedance-seedream-5-lite",
+  "model_parameters": {
+   "aspect_ratio": "1:1",
+   "resolution": "2K"
+  },
+  "prompt": "Rework this exact picture for a preschool phonics game. Keep the same subject (a single whole smooth egg standing upright, a plain unbroken oval shell, centered), the same glossy chunky toy-like 3D style, the same colors and the same pose, large and centered. In the game this picture is shown on a rounded-square card colored very pale pink #fff4fa (the game also has a very pale purple #faf6ff theme and a very pale yellow #fffdf4 theme). Right now its square candy pink background ends in a hard square edge, so it looks like a photo pasted on top of the card. Keep some of the cute pink ribbon-swirl background around the subject, but let it soften gently and evenly into the pale card color toward the edges, following a rounded-square shape, so no square edge shows and it sits naturally on the card. You decide the best way to make it blend in. No text, no letters, no numbers, no frame, no border, no people.",
+  "generation_id": "jOO7IqTO1hW9zHtWiqEm",
+  "flow_id": "Kk70qrUS5JgwKC20KEEi",
+  "credits": 212.1
+ },
+ {
+  "game": "ribbon-road",
+  "word": "cat",
+  "label": "blend-ribbon-road-cat",
+  "reference_generation_id": "YQMVA1LxbmwYqWBLtJOp",
+  "reference_file": "/workspace/lwl-pictures/elevenlabs/full/ribbon-road/cat.png",
+  "model_id": "bytedance-seedream-5-lite",
+  "model_parameters": {
+   "aspect_ratio": "1:1",
+   "resolution": "2K"
+  },
+  "prompt": "Rework this exact picture for a preschool phonics game. Keep the same subject (a single cute chubby cat sitting, full body, with a small magenta satin ribbon bow on one ear, centered), the same glossy chunky toy-like 3D style, the same colors and the same pose, large and centered. In the game this picture is shown on a rounded-square card colored very pale pink #fff4fa (the game also has a very pale purple #faf6ff theme and a very pale yellow #fffdf4 theme). Right now its square candy pink background ends in a hard square edge, so it looks like a photo pasted on top of the card. Keep some of the cute pink ribbon-swirl background around the subject, but let it soften gently and evenly into the pale card color toward the edges, following a rounded-square shape, so no square edge shows and it sits naturally on the card. You decide the best way to make it blend in. No text, no letters, no numbers, no frame, no border, no people.",
+  "generation_id": "nPoeIzpPw1j5zuDudLKU",
+  "flow_id": "Kk70qrUS5JgwKC20KEEi",
+  "credits": 212.1
+ },
+ {
+  "game": "ribbon-road",
+  "word": "fox",
+  "label": "blend-ribbon-road-fox",
+  "reference_generation_id": "dKiUNUwIK5JlIWneGCYp",
+  "reference_file": "/workspace/lwl-pictures/elevenlabs/full/ribbon-road/fox.png",
+  "model_id": "bytedance-seedream-5-lite",
+  "model_parameters": {
+   "aspect_ratio": "1:1",
+   "resolution": "2K"
+  },
+  "prompt": "Rework this exact picture for a preschool phonics game. Keep the same subject (a single cute chubby little fox sitting, full body, with a big fluffy tail and a small magenta ribbon bow on one ear, centered), the same glossy chunky toy-like 3D style, the same colors and the same pose, large and centered. In the game this picture is shown on a rounded-square card colored very pale pink #fff4fa (the game also has a very pale purple #faf6ff theme and a very pale yellow #fffdf4 theme). Right now its square candy pink background ends in a hard square edge, so it looks like a photo pasted on top of the card. Keep some of the cute pink ribbon-swirl background around the subject, but let it soften gently and evenly into the pale card color toward the edges, following a rounded-square shape, so no square edge shows and it sits naturally on the card. You decide the best way to make it blend in. No text, no letters, no numbers, no frame, no border, no people.",
+  "generation_id": "3LgwstDLnq03VuFjc0pT",
+  "flow_id": "Kk70qrUS5JgwKC20KEEi",
+  "credits": 212.1
+ },
+ {
+  "game": "ribbon-road",
+  "word": "umbrella",
+  "label": "blend-ribbon-road-umbrella",
+  "reference_generation_id": "Zjy2NmBTcAVdWvXCj1VF",
+  "reference_file": "/workspace/lwl-pictures/elevenlabs/full/ribbon-road/umbrella.png",
+  "model_id": "bytedance-seedream-5-lite",
+  "model_parameters": {
+   "aspect_ratio": "1:1",
+   "resolution": "2K"
+  },
+  "prompt": "Rework this exact picture for a preschool phonics game. Keep the same subject (a single open umbrella with a curved handle, centered, with a little ribbon bow tied on the handle), the same glossy chunky toy-like 3D style, the same colors and the same pose, large and centered. In the game this picture is shown on a rounded-square card colored very pale pink #fff4fa (the game also has a very pale purple #faf6ff theme and a very pale yellow #fffdf4 theme). Right now its square candy pink background ends in a hard square edge, so it looks like a photo pasted on top of the card. Keep some of the cute pink ribbon-swirl background around the subject, but let it soften gently and evenly into the pale card color toward the edges, following a rounded-square shape, so no square edge shows and it sits naturally on the card. You decide the best way to make it blend in. No text, no letters, no numbers, no frame, no border, no people.",
+  "generation_id": "47TdcLDovWwLN6SONT8C",
+  "flow_id": "Kk70qrUS5JgwKC20KEEi",
+  "credits": 212.1
+ }
+]
